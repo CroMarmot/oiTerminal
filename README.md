@@ -4,19 +4,24 @@ Coding
 
 # Plan
 
-- [ ] 不同的oj支持 [virtualJudge 支持 除去(分析样例和测试)的功能]
-
-- [ ] 对于有比赛的 能够分析比赛题目 分析比赛时间？ ...
-
+- [ ] 获取比赛
+    - [ ] 获取比赛基本信息
+    - [ ] 获取比赛的题目
+    - [ ] 获取比赛进行时间
+    
 - [ ] 获取题目
- - [ ] 获取内存限制 内存限制 运行时间限制
-
-- [ ] 分析并下载测试 cf已经完成
+    - [ ] 获取题目基本信息
+    - [ ] 获取内存限制 运行时间限制
+    - [ ] 获取测试样例
+    
+- [ ] 分析并下载测试
 
 - [ ] 多语言支持
     - [ ] 语言检测
     - [ ] 测试
     - [ ] 不同语言提交
+
+- [ ] 不同的oj支持 [virtualJudge 支持 除去(分析样例和测试)的功能]
 
 - [ ] 登录/提交
 
@@ -40,7 +45,7 @@ Coding
 
 |Platforms|fetch|test_case|submit|result|code ref|
 |---|---|---|---|---|---|
-|Codeforces| Yes|Yes| | |VirtualJudge|
+|Codeforces| Contest/Problem|Yes| | |VirtualJudge|
 |aizu| | | | |VirtualJudge|
 |hdu| | | | |VirtualJudge|
 |poj| | | | |VirtualJudge|
