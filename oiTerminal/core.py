@@ -38,11 +38,6 @@ class Core(object):
         self._remote_oj = oj_name
         self._oj: Base = OJBuilder.build_oj(oj_name, proxies=proxies, timeout=timeout)
 
-    @staticmethod
-    def strip_blank(data):
-        if data:
-            return str(data).strip(' \r\n')
-
     # 获取支持的OJ列表
     @staticmethod
     def get_supports():
@@ -69,7 +64,7 @@ class Core(object):
 
     # 获取比赛 以及所有比赛题面
     def get_contest(self, cid, account):
-        if not self._oj:
+        if not self._oj or not self.is_support_contest():
             return Contest(oj=self._remote_oj, cid=cid, status=Contest.Status.STATUS_ERROR)
         return self._oj.get_contest(cid=cid, account=account)
 
@@ -78,11 +73,7 @@ class Core(object):
         if not self._oj:
             return Problem(oj=self._remote_oj, pid=pid, status=Problem.Status.STATUS_ERROR)
         self._oj.set_cookies(account.cookies)
-        problem = self._oj.get_problem(pid=pid, account=account)
-        problem.title = Core.strip_blank(problem.title)
-        problem.time_limit = Core.strip_blank(problem.time_limit)
-        problem.memory_limit = Core.strip_blank(problem.memory_limit)
-        return problem
+        return self._oj.get_problem(pid=pid, account=account)
 
     # 提交代码
     def submit_code(self, account, pid, language, code):
@@ -115,8 +106,6 @@ class Core(object):
                 result.verdict = Result.Verdict.VERDICT_CE
             else:
                 result.verdict = Result.Verdict.VERDICT_WA
-            result.execute_time = Core.strip_blank(result.execute_time)
-            result.execute_memory = Core.strip_blank(result.execute_memory)
             return result
         return Result(Result.Status.STATUS_RESULT_ERROR)
 
@@ -138,8 +127,6 @@ class Core(object):
                 result.verdict = Result.Verdict.VERDICT_CE
             else:
                 result.verdict = Result.Verdict.VERDICT_WA
-            result.execute_time = Core.strip_blank(result.execute_time)
-            result.execute_memory = Core.strip_blank(result.execute_memory)
             return result
         return Result(Result.Status.STATUS_RESULT_ERROR)
 
@@ -179,3 +166,8 @@ class Core(object):
         if self._oj and account and self._oj.login_website(account=account):
             return True
         return False
+
+    def is_support_contest(self):
+        if not self._oj:
+            return None
+        return self._oj.support_contest()

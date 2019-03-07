@@ -62,6 +62,10 @@ class Base(object):
     def is_working(self):
         pass
 
+    @staticmethod
+    def support_contest():
+        pass
+
     #  判断结果是否正确
     @staticmethod
     def is_accepted(verdict):

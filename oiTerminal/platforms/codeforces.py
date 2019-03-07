@@ -86,11 +86,11 @@ MathJax.Hub.Config({
         problem.test_case = []
         if match_groups:
             test_case_inputs = match_groups.find_all(name='div', attrs={'class': 'input'})
-            test_case_outputs = match_groups.find_all(name='div', attrs={'class': 'input'})
+            test_case_outputs = match_groups.find_all(name='div', attrs={'class': 'output'})
             assert (len(test_case_inputs) == len(test_case_outputs))
             for i in range(len(test_case_inputs)):
-                t_in = test_case_inputs[i].find(name='pre').get_text().strip(" \r\n")
-                t_out = test_case_outputs[i].find(name='pre').get_text().strip(" \r\n")
+                t_in = test_case_inputs[i].find(name='pre').get_text("\n").strip(" \r\n")
+                t_out = test_case_outputs[i].find(name='pre').get_text("\n").strip(" \r\n")
                 problem.test_case.append(TestCase(t_in, t_out))
         return problem
 
@@ -203,23 +203,31 @@ class Codeforces(Base):
     def submit_code(self, account, pid, language, code):
         if not self.login_website(account):
             return Result(Result.Status.STATUS_SPIDER_ERROR)
-        res = self._req.get('http://codeforces.com/problemset/submit')
+        result = re.match('^(\d+)([A-Z]\d?)$', pid)
+        if result is None:
+            return Result(Result.Status.STATUS_RESULT_ERROR)
+
+        res = self._req.get('http://codeforces.com/contest/' + result.group(1) + '/submit')
         if res is None:
             return Result(Result.Status.STATUS_SPIDER_ERROR)
         soup = BeautifulSoup(res.text, 'lxml')
         csrf_token = soup.find(attrs={'name': 'X-Csrf-Token'}).get('content')
+        print("csrf_token:", csrf_token)
+        print("language:", language)
         post_data = {
             'csrf_token': csrf_token,
             'ftaa': '',
             'bfaa': '',
             'action': 'submitSolutionFormSubmitted',
-            'submittedProblemCode': pid,
+            'contestId': result.group(1),
+            'submittedProblemIndex': result.group(2),
             'programTypeId': language,
-            'source': code,
+            'source': open(code, 'rb').read(),
             'tabSize': 0,
             'sourceFile': '',
         }
-        res = self._req.post('http://codeforces.com/problemset/submit?csrf_token=' + csrf_token, data=post_data)
+        url = 'http://codeforces.com/contest/' + result.group(1) + '/submit?csrf_token=' + csrf_token
+        res = self._req.post(url, data=post_data)
         if res and res.status_code == 200:
             return Result(Result.Status.STATUS_SUBMIT_SUCCESS)
         return Result(Result.Status.STATUS_SUBMIT_ERROR)
@@ -269,6 +277,10 @@ class Codeforces(Base):
     # 检查源OJ是否运行正常
     def is_working(self):
         return self._req.get('http://codeforces.com').status_code == 200
+
+    @staticmethod
+    def support_contest():
+        return True
 
     #  判断结果是否正确
     @staticmethod

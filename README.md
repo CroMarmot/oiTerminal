@@ -73,6 +73,24 @@ utils: 网络工具 登录 cookie
 
 parser/submit/test 调用core
 
+# Usage
+
+依然是`config.json` 不加入 版本 ，只留一个模板`_config.json`
+
+- [x] 首先`cp _config.json config.json` 并编辑`config.json` TODO 增加config相关说明?
+
+- [x] 分析比赛举例 ./parser.py cf 1112` 1112为比赛id(url 上的不是 带井号的)
+
+- [x] 编写代码，例如`cd dist/Codeforces/1112-C++17/`
+
+- [x] 测试代码 例如`./test.py A`
+
+- [x] 提交测试代码 例如`./submit.py A`
+
+
+# Coding
+
+先只支持json配置,之后再增加配置优先级别。
 
 # 面向使用的思考
 

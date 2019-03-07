@@ -1,0 +1,14 @@
+{
+  "c++17": {
+    "TEMPLATE": "template/Main.cpp",
+    "TESTFILE": "testfile/testc++17.sh",
+  },
+  "c++11": {
+    "TEMPLATE": "template/Main.cpp",
+    "TESTFILE": "testfile/testc++11.py",
+  },
+  "Java8": {
+    "TEMPLATE": "template/Main.java",
+    "TESTFILE": "testfile/testjava.sh",
+  }
+}
