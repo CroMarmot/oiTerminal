@@ -111,8 +111,8 @@ MathJax.Hub.Config({
                 for item in children_tag[4].stripped_strings:
                     result.verdict_info += str(item) + ' '
                 result.verdict_info = result.verdict_info.strip(' ')
-                result.execute_time = children_tag[5].string
-                result.execute_memory = children_tag[6].string
+                result.execute_time = children_tag[5].string.strip(" \r\n")
+                result.execute_memory = children_tag[6].string.strip(" \r\n")
                 result.status = Result.Status.STATUS_RESULT_SUCCESS
                 return result
         return Result(Result.Status.STATUS_RESULT_ERROR)
@@ -203,6 +203,7 @@ class Codeforces(Base):
     def submit_code(self, account, pid, language, code):
         if not self.login_website(account):
             return Result(Result.Status.STATUS_SPIDER_ERROR)
+        print(account.username + " Login")
         result = re.match('^(\d+)([A-Z]\d?)$', pid)
         if result is None:
             return Result(Result.Status.STATUS_RESULT_ERROR)
@@ -212,8 +213,6 @@ class Codeforces(Base):
             return Result(Result.Status.STATUS_SPIDER_ERROR)
         soup = BeautifulSoup(res.text, 'lxml')
         csrf_token = soup.find(attrs={'name': 'X-Csrf-Token'}).get('content')
-        print("csrf_token:", csrf_token)
-        print("language:", language)
         post_data = {
             'csrf_token': csrf_token,
             'ftaa': '',

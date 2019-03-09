@@ -93,7 +93,7 @@ def create_contest_code_file(
         json.dump(contest_state, statejson)
         statejson.close()
 
-    # start_terminal(folder)
+    start_terminal(folder)
 
 
 def start_terminal(folder: str):

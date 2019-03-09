@@ -2,104 +2,80 @@
 
 Coding
 
+# State
+
+Workable for Codeforces contest now !
+
 # Plan
 
-- [ ] 获取比赛
-    - [ ] 获取比赛基本信息
-    - [ ] 获取比赛的题目
-    - [ ] 获取比赛进行时间
+- [ ] Get Contest
+    - [ ] basic info
+    - [x] problem's in contest
+    - [ ] running date
     
-- [ ] 获取题目
-    - [ ] 获取题目基本信息
-    - [ ] 获取内存限制 运行时间限制
-    - [ ] 获取测试样例
-    
-- [ ] 分析并下载测试
+- [ ] Fetch problem
+    - [x] basic info
+    - [ ] memory limit & time limit
+    - [x] test case
+       
+- [ ] programming language support
+    - [ ] language list fetch, check and show
+    - [x] test code in local with test case
+    - [x] submit for different language
 
-- [ ] 多语言支持
-    - [ ] 语言检测
-    - [ ] 测试
-    - [ ] 不同语言提交
+- [ ] different oj [virtualJudge 支持 除去(分析样例和测试)的功能]
 
-- [ ] 不同的oj支持 [virtualJudge 支持 除去(分析样例和测试)的功能]
+- [x] login
 
-- [ ] 登录/提交
+- [x] fetching submit result
 
-- [ ] 获取测试结果
+# Functions
 
-# Funcitions
-
-测试是本地的，所有通用不分平台，只分语言
+Test is in local, regardless of the platform , only language, `oiTerminal/utils.py :: LanguageUtil`
 
 |Local language|supported?|
 |:---:|:---:|
-|C++17|no|
-|C++14|no|
-|C++11|no|
+|C++|Yes|
+|C++11|Yes|
+|C++14|Yes|
+|C++17|Yes|
 |Java8|no|
 |Python3|no|
 |Python2|no|
 |Go1.9|no|
 
-和平台相关
+platform:
 
 |Platforms|fetch|test_case|submit|result|code ref|
 |---|---|---|---|---|---|
-|Codeforces| Contest/Problem|Yes| | |VirtualJudge|
+|Codeforces|Contest|Yes|Yes|Yes|VirtualJudge|
 |aizu| | | | |VirtualJudge|
 |hdu| | | | |VirtualJudge|
 |poj| | | | |VirtualJudge|
 |wust| | | | |VirtualJudge|
 |zoj| | | | |VirtualJudge|
 
-# 关于语言
-
- - [ ] 语言(和本地编写测试对应)
-
- - [ ] 提交语言(和oj的设置对应)
-   - [ ] virtualJudge 提供了远端语言列表获取
-   - [ ] 之后根据这个改一个 显示值列表的
-   
-
-# 思考
-
-职责划分
-
-Core: 载入oj ，和用户直接交流， 调用oj
-
-utils: 网络工具 登录 cookie
-
-具体Oj 例如CF
-
-parser/submit/test 调用core
-
 # Usage
 
-依然是`config.json` 不加入 版本 ，只留一个模板`_config.json`
+- [x] 1. `cp _config.json config.json` and modify `config.json` TODO 增加config相关说明? 比如up_lang
 
-- [x] 首先`cp _config.json config.json` 并编辑`config.json` TODO 增加config相关说明?
+- [x] 2. parse contest `./parser.py cf 1112` 1112 is contest id (which is in url instead of the number after `#`)
 
-- [x] 分析比赛举例 ./parser.py cf 1112` 1112为比赛id(url 上的不是 带井号的)
+- [ ] TODO 2.1 parse 1 problem `./parser.py cf 1112A`
 
-- [x] 编写代码，例如`cd dist/Codeforces/1112-C++17/`
+- [x] writing code any way you like，e.g.
 
-- [x] 测试代码 例如`./test.py A`
+- [x] test code e.g. `./test.py A`
 
-- [x] 提交测试代码 例如`./submit.py A`
-
-
-# Coding
-
-先只支持json配置,之后再增加配置优先级别。
-
-# 面向使用的思考
-
-- [ ] 方案1. 启动后等待接受命令行方式
-
-- [x] 方案2. parser test submit 分开 (+soft link)
+- [x] submit code e.g. `./submit.py A`
 
 
-# 参考/依赖
+# TODO
+
+more arg support in python 先只支持json配置,之后再增加配置优先级别。
+
+
+# ref / dependency
 
 [VirtualJudge/spider](https://github.com/VirtualJudge/spider)
 

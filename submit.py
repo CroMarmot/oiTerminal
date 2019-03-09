@@ -1,10 +1,16 @@
+#!/usr/bin/python3
+import argparse
+import json
 import time
 import os
 
 from oiTerminal.model import Account
 from oiTerminal.model import Problem, Result
 from oiTerminal.core import Core
-from oiTerminal.utils import OJUtil
+from oiTerminal.utils import OJUtil, LanguageUtil
+
+STATE_FILE = "state.json"
+CONFIG_FILE = "../../../config.json"
 
 
 def submit(
@@ -26,22 +32,53 @@ def submit(
                       Result.Status.STATUS_SYSTEM_ERROR]:
         return "SUBMIT FAILED"
     result = core.get_result(account=account, pid=pid)
-    tries = 5
-    while result.verdict == Result.Verdict.VERDICT_RUNNING and tries > 0:
+    print("Submitted .")
+    while result.verdict == Result.Verdict.VERDICT_RUNNING:
         time.sleep(2)
-        result = Core(oj).get_result_by_rid_and_pid(rid=result.unique_key, pid=pid)
-        tries -= 1
+        result = core.get_result_by_rid_and_pid(rid=result.unique_key, pid=pid)
+        print("Fetching result...")
 
-    if result.status == Result.Status.STATUS_RESULT_SUCCESS:
-        return str(result.__dict__)
-    return result.status.name
+    return result.__dict__
 
 
-def useful():  # TODO
-    # for softlink
-    print(os.getcwd())
-    os.chdir(os.path.dirname(os.path.realpath(__file__)))
-    print(os.getcwd())
+def submit_worker():
+    # get problem id
+    parser = argparse.ArgumentParser()
+    parser.add_argument('pid', help="Problem ID example: A")  # TODO all oj list tool # OJUtil
+    args = parser.parse_args()
+    pid = args.pid
+
+    # get lang config
+    if not os.path.isfile(STATE_FILE):
+        raise Exception(STATE_FILE + " NOT EXIST!")
+    with open(STATE_FILE) as f:
+        state_oj = json.load(f)
+        oj = state_oj["oj"]
+        contestId = state_oj["contestId"]
+        lang = state_oj["lang"]
+        up_lang = state_oj["up_lang"]
+
+    if not os.path.isfile(CONFIG_FILE):
+        raise Exception(CONFIG_FILE + " NOT EXIST!")
+    with open(CONFIG_FILE) as f:
+        oj_config = json.load(f)[oj]
+        username = oj_config["user"]
+        password = oj_config["pass"]
+
+    code_file = os.getcwd() + "/" + pid + LanguageUtil.lang2suffix(lang)
+    if not os.path.isfile(code_file):
+        raise Exception(code_file + " NOT EXIST!")
+
+    result = submit(
+        oj=oj,
+        pid=contestId + pid,
+        language=up_lang,  # "54",  means ""GNU G++17 7.3.0",
+        account=Account(username, password),  # Account('robot4test', 'robot4test'),
+        file_path=code_file,  # 'dist/Codeforces/1118-C++17/A.cpp',
+    )
+    print(result['verdict_info'])
+    print(result['execute_time'])
+    print(result['execute_memory'])
 
 
 # ----- TEST -----
@@ -55,8 +92,7 @@ def test_submit():
         file_path='dist/Codeforces/1118-C++17/A.cpp',
     )
     print(result)
-    print(result['verdict_info'])
 
 
 if __name__ == '__main__':
-    test_submit()
+    submit_worker()

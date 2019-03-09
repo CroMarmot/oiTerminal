@@ -163,7 +163,7 @@ class LanguageUtil(object):
     def lang2compile(lang, problem_id):
         return {
             "C++": "clang++ -o " + problem_id + " " + problem_id + LanguageUtil.lang2suffix(
-                lang) + " -std=gnu++17 -O2 -g -Wall -Wcomma",
+                lang) + " -O2 -g -Wall -Wcomma",
             "C++11": "clang++ -o " + problem_id + " " + problem_id + LanguageUtil.lang2suffix(
                 lang) + " -std=gnu++11 -O2 -g -Wall -Wcomma",
             "C++14": "clang++ -o " + problem_id + " " + problem_id + LanguageUtil.lang2suffix(
