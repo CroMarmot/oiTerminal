@@ -1,16 +1,23 @@
 #!/usr/bin/python3
 import argparse
+import errno
 import json
 import os
 import shutil
 
-from oiTerminal.model import Account, Problem, Contest, TestCase
+from const import *
 from oiTerminal.core import Core
+from oiTerminal.model import Account, Problem, Contest, TestCase
 from oiTerminal.utils import LanguageUtil, OJUtil
 
-DIST = "dist"
-CONFIG_FILE = "config.json"
-STATE_FILE = "state.json"
+
+def force_symlink(src: str, dst: str):
+    try:
+        os.symlink(src, dst)
+    except OSError as e:
+        if e.errno == errno.EEXIST:
+            os.remove(dst)
+            os.symlink(src, dst)
 
 
 def language(remote_oj):
@@ -78,10 +85,8 @@ def create_contest_code_file(
         shutil.copy(LanguageUtil.lang2template(lang), folder + problem_id + suffix)
 
     # soft link test.py && submit.py
-    TEST_PY: str = 'test.py'
-    SUBMIT_PY: str = 'submit.py'
-    os.symlink('../../../' + TEST_PY, folder + TEST_PY)
-    os.symlink('../../../' + SUBMIT_PY, folder + SUBMIT_PY)
+    force_symlink('../../../' + TEST_PY, folder + TEST_PY)
+    force_symlink('../../../' + SUBMIT_PY, folder + SUBMIT_PY)
 
     contest_state = {
         "oj": contest.oj,
@@ -158,7 +163,6 @@ def test_parser():
         account=Account(user, password))
     create_contest_files(_contest)
     create_contest_code_file(_contest, lang, up_lang)
-    print(vars(_contest))
 
 
 if __name__ == '__main__':

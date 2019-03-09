@@ -5,18 +5,8 @@ import json
 import os
 import shutil
 
+from const import *
 from oiTerminal.utils import LanguageUtil
-
-RED = "\e[31m"
-DEFAULT = "\e[39m"
-GREEN = "\e[32m"
-
-TEST_FOLDER = "TEST/"
-
-STATE_FILE = "state.json"
-
-IN_SUFFIX = ".in."
-OUT_SUFFIX = ".out."
 
 
 def do_test():
@@ -51,6 +41,7 @@ def do_test():
         start_time = datetime.datetime.now()
         os.system(LanguageUtil.lang2exe(lang, "Main", std_file + IN_SUFFIX + str(i), user_out_file))
         end_time = datetime.datetime.now()
+        print()
         print("time spend: " + str((end_time - start_time).total_seconds()) + "s")
 
         # cmp

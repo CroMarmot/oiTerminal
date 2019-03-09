@@ -4,13 +4,10 @@ import json
 import time
 import os
 
-from oiTerminal.model import Account
-from oiTerminal.model import Problem, Result
+from const import *
+from oiTerminal.model import Account, Result
 from oiTerminal.core import Core
 from oiTerminal.utils import OJUtil, LanguageUtil
-
-STATE_FILE = "state.json"
-CONFIG_FILE = "../../../config.json"
 
 
 def submit(
@@ -58,9 +55,10 @@ def submit_worker():
         lang = state_oj["lang"]
         up_lang = state_oj["up_lang"]
 
-    if not os.path.isfile(CONFIG_FILE):
-        raise Exception(CONFIG_FILE + " NOT EXIST!")
-    with open(CONFIG_FILE) as f:
+    config_file = "../../../" + CONFIG_FILE
+    if not os.path.isfile(config_file):
+        raise Exception(config_file + " NOT EXIST!")
+    with open(config_file) as f:
         oj_config = json.load(f)[oj]
         username = oj_config["user"]
         password = oj_config["pass"]
