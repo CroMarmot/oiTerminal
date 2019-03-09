@@ -1,10 +1,10 @@
 # Oi Terminal
 
-Coding
-
-# State
+Coding...
 
 Workable for Codeforces contest now !
+
+python3 only
 
 # Plan
 
@@ -57,13 +57,15 @@ platform:
 
 # Usage
 
-- [x] 1. `cp _config.json config.json` and modify `config.json` TODO 增加config相关说明? 比如up_lang
+- [x] `pip3 install -r requirements.txt`
 
-- [x] 2. parse contest `./parser.py cf 1112` 1112 is contest id (which is in url instead of the number after `#`)
+- [x] `cp _config.json config.json` and modify `config.json` TODO 增加config相关说明? 比如up_lang
+
+- [x] parse contest `./parser.py cf 1112` 1112 is contest id (which is in url instead of the number after `#`)
 
 - [ ] TODO 2.1 parse 1 problem `./parser.py cf 1112A`
 
-- [x] writing code any way you like，e.g.
+- [x] writing code any way you like，e.g. `vim A.cpp`
 
 - [x] test code e.g. `./test.py A`
 
