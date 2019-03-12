@@ -24,7 +24,7 @@ def do_test():
         lang = state_oj["lang"]
 
     # makefolder & mv code 2 folder
-    os.makedirs(TEST_FOLDER)
+    os.makedirs(TEST_FOLDER, exist_ok=True)
     shutil.copy(pid + LanguageUtil.lang2suffix(lang), TEST_FOLDER + "Main" + LanguageUtil.lang2suffix(lang))
 
     # compile

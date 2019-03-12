@@ -4,6 +4,9 @@ Coding...
 
 Workable for Codeforces contest now !
 
+- [x] Codeforces
+- [ ] Atcoder(working)
+
 python3 only
 
 # Plan
@@ -49,6 +52,7 @@ platform:
 |Platforms|fetch|test_case|submit|result|code ref|
 |---|---|---|---|---|---|
 |Codeforces|Contest|Yes|Yes|Yes|VirtualJudge|
+|AtCoder| | | | | |
 |aizu| | | | |VirtualJudge|
 |hdu| | | | |VirtualJudge|
 |poj| | | | |VirtualJudge|

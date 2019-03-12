@@ -49,10 +49,6 @@ class Base(object):
     def get_result_by_rid_and_pid(self, rid, pid):
         pass
 
-    # 根据源OJ的url获取结果
-    def get_result_by_url(self, url):
-        pass
-
     # 获取源OJ支持的语言类型
     def find_language(self, account):
         pass

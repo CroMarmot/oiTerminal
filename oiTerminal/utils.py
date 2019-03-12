@@ -187,4 +187,5 @@ class OJUtil(object):
     def short2full(short_name):
         return {
             "cf": "Codeforces",
+            "ac": "AtCoder",
         }[short_name]

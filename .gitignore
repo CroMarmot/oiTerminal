@@ -106,3 +106,4 @@ venv.bak/
 .idea
 
 config.json
+debug.py

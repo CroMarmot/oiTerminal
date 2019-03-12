@@ -8,9 +8,9 @@ from oiTerminal.platforms.base import Base, BaseParser
 from oiTerminal.utils import HtmlTag, HttpUtil, logger
 
 
-class CodeforcesParser(BaseParser):
+class AtCoderParser(BaseParser):
     def __init__(self):
-        self._static_prefix = 'https://codeforces.com/'
+        self._static_prefix = 'https://atcoder.jp/'
         self._script = """
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
@@ -33,11 +33,11 @@ MathJax.Hub.Config({
 """
 
     def contest_parse(self, response: str):
-        ret = []
+        ret = {}
         soup = BeautifulSoup(response, 'lxml')
-        match_groups = soup.find(name='table', attrs={'class': 'problems'})
+        match_groups = soup.find(name='tbody')
         if match_groups:
-            problems = match_groups.find_all(name='td', attrs={'class': 'id'})
+            problems = match_groups.find_all(name='tr')
             for each_problem in problems:
                 ret.append(each_problem.get_text().strip(" \r\n"))
         return ret
@@ -118,14 +118,14 @@ MathJax.Hub.Config({
         return Result(Result.Status.STATUS_RESULT_ERROR)
 
 
-class Codeforces(Base):
+class AtCoder(Base):
     def __init__(self, *args, **kwargs):
         self._req = HttpUtil(*args, **kwargs)
 
     # 主页链接
     @staticmethod
     def home_page_url():
-        return 'https://codeforces.com/'
+        return 'https://atcoder.jp/'
 
     def get_cookies(self):
         return self._req.cookies.get_dict()
@@ -139,28 +139,24 @@ class Codeforces(Base):
         if self.is_login():
             return True
         try:
-            res = self._req.get('https://codeforces.com/enter?back=%2F')
+            res = self._req.get('https://atcoder.jp/login')
 
             soup = BeautifulSoup(res.text, 'lxml')
-            csrf_token = soup.find(attrs={'name': 'X-Csrf-Token'}).get('content')
+            csrf_token = soup.find(attrs={'name': 'csrf_token'}).get('value')
             post_data = {
                 'csrf_token': csrf_token,
-                'action': 'enter',
-                'ftaa': '',
-                'bfaa': '',
-                'handleOrEmail': account.username,
+                'username': account.username,
                 'password': account.password,
-                'remember': []
             }
-            self._req.post(url='https://codeforces.com/enter', data=post_data)
+            self._req.post(url='https://atcoder.jp/login', data=post_data)
         except Exception as e:
             logger.exception(e)
         return self.is_login()
 
     # 检查登录状态
     def is_login(self):
-        res = self._req.get('https://codeforces.com')
-        if res and re.search(r'logout">Logout</a>', res.text):
+        res = self._req.get('https://atcoder.jp')
+        if res and re.search(r'Sign Out</a>', res.text):
             return True
         return False
 
@@ -169,16 +165,12 @@ class Codeforces(Base):
 
     # 获取比赛
     def get_contest(self, cid: str, account: Account = None):
-        result = re.match('^\d+$', cid)
-        if result is None:
-            return Contest(oj=Codeforces.__name__, cid=cid)
-
-        url = 'https://codeforces.com/contest/' + result.group()
+        url = 'https://atcoder.jp/contests/' + cid + "/tasks"
         response = self._req.get(url=url)
-        contest = Contest(oj=Codeforces.__name__, cid=cid)
+        contest = Contest(oj=AtCoder.__name__, cid=cid)
         if response is None or response.status_code != 200 or response.text is None:
             raise Exception("Fetch Contest Error")
-        problems = CodeforcesParser().contest_parse(response.text)
+        problems = AtCoderParser().contest_parse(response.text)
         if problems is not None:
             contest.problem_set = {}
         for problem in problems:
@@ -189,9 +181,9 @@ class Codeforces(Base):
     def get_problem(self, pid: str, account: Account = None):
         result = re.match('^(\d+)([A-Z]\d?)$', pid)
         if result is None:
-            return Problem(oj=Codeforces.__name__, pid=pid, status=Problem.Status.STATUS_ERROR)
+            return Problem(oj=AtCoder.__name__, pid=pid, status=Problem.Status.STATUS_ERROR)
 
-        url = 'https://codeforces.com/contest/' + result.group(1) + '/problem/' + result.group(2)
+        url = 'https://atcoder.jp/contest/' + result.group(1) + '/problem/' + result.group(2)
         response = self._req.get(url=url)
         problem = Problem(oj=Codeforces.__name__, pid=pid, url=url)
         if response is None or response.status_code != 200 or response.text is None:
@@ -208,7 +200,7 @@ class Codeforces(Base):
         if result is None:
             return Result(Result.Status.STATUS_RESULT_ERROR)
 
-        res = self._req.get('https://codeforces.com/contest/' + result.group(1) + '/submit')
+        res = self._req.get('https://atcoder.jp/contest/' + result.group(1) + '/submit')
         if res is None:
             return Result(Result.Status.STATUS_SPIDER_ERROR)
         soup = BeautifulSoup(res.text, 'lxml')
@@ -225,7 +217,7 @@ class Codeforces(Base):
             'tabSize': 0,
             'sourceFile': '',
         }
-        url = 'https://codeforces.com/contest/' + result.group(1) + '/submit?csrf_token=' + csrf_token
+        url = 'https://atcoder.jp/contest/' + result.group(1) + '/submit?csrf_token=' + csrf_token
         res = self._req.post(url, data=post_data)
         if res and res.status_code == 200:
             return Result(Result.Status.STATUS_SUBMIT_SUCCESS)
@@ -235,7 +227,7 @@ class Codeforces(Base):
     def get_result(self, account, pid):
         if self.login_website(account) is False:
             return Result(Result.Status.STATUS_RESULT_ERROR)
-        request_url = 'http://codeforces.com/problemset/status?friends=on'
+        request_url = 'https://atcoder.jp/problemset/status?friends=on'
         res = self._req.get(request_url)
         website_data = res.text
         if website_data:
@@ -246,12 +238,12 @@ class Codeforces(Base):
                 for tr in list_tr:
                     if isinstance(tr, element.Tag) and tr.get('data-submission-id'):
                         return self.get_result_by_url(
-                            'http://codeforces.com/contest/' + pid[:-1] + '/submission/' + tr.get('data-submission-id'))
+                            'https://atcoder.jp/contest/' + pid[:-1] + '/submission/' + tr.get('data-submission-id'))
         return Result(Result.Status.STATUS_RESULT_ERROR)
 
     # 根据源OJ的运行id获取结构
     def get_result_by_rid_and_pid(self, rid, pid):
-        return self.get_result_by_url('http://codeforces.com/contest/' + str(pid)[:-1] + '/submission/' + str(rid))
+        return self.get_result_by_url('https://atcoder.jp/contest/' + str(pid)[:-1] + '/submission/' + str(rid))
 
     # 根据源OJ的url获取结果
     def get_result_by_url(self, url):
@@ -262,7 +254,7 @@ class Codeforces(Base):
     def find_language(self, account):
         if self.login_website(account) is False:
             return {}
-        res = self._req.get('https://codeforces.com/problemset/submit')
+        res = self._req.get('https://atcoder.jp/problemset/submit')
         website_data = res.text
         languages = {}
         if website_data:
@@ -275,7 +267,7 @@ class Codeforces(Base):
 
     # 检查源OJ是否运行正常
     def is_working(self):
-        return self._req.get('https://codeforces.com').status_code == 200
+        return self._req.get('https://atcoder.jp').status_code == 200
 
     @staticmethod
     def support_contest():
@@ -294,4 +286,4 @@ class Codeforces(Base):
     # 判断是否运行中
     @staticmethod
     def is_running(verdict):
-        return str(verdict).startswith('Running on') or verdict == 'In queue'
+        return str(verdict).startswith('Running on test') or verdict == 'In queue'
