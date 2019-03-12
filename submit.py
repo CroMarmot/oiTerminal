@@ -17,23 +17,23 @@ def submit(
         account: Account,
         file_path: str,
 ):
-    ans = False
+    result: Result = None
     tries = 3
     core = Core(oj)
-    while not ans and tries > 0:
+    while result is None and tries > 0:
         tries -= 1
-        ans = core.submit_code(pid=pid, account=account, code=file_path, language=language)
+        print("Submitting...")
+        result = core.submit_code(pid=pid, account=account, code=file_path, language=language)
         account.set_cookies(core.get_cookies())
-    if ans.status in [Result.Status.STATUS_SUBMIT_ERROR,
-                      Result.Status.STATUS_SPIDER_ERROR,
-                      Result.Status.STATUS_SYSTEM_ERROR]:
+    if result.status in [Result.Status.STATUS_SUBMIT_ERROR,
+                         Result.Status.STATUS_SPIDER_ERROR,
+                         Result.Status.STATUS_SYSTEM_ERROR]:
         return "SUBMIT FAILED"
-    result = core.get_result(account=account, pid=pid)
-    print("Submitted .")
+    print("Submitted")
     while result.verdict == Result.Verdict.VERDICT_RUNNING:
-        time.sleep(2)
-        result = core.get_result_by_rid_and_pid(rid=result.unique_key, pid=pid)
         print("Fetching result...")
+        time.sleep(2)
+        result = core.get_result_by_rid_and_pid(account=account, pid=pid, unique_key=result.unique_key)
 
     return result.__dict__
 
@@ -75,8 +75,7 @@ def submit_worker():
         file_path=code_file,  # 'dist/Codeforces/1118-C++17/A.cpp',
     )
     print(result['verdict_info'])
-    print(result['execute_time'])
-    print(result['execute_memory'])
+    print(result['execute_time'] + " | " + result['execute_memory'])
 
 
 # ----- TEST -----

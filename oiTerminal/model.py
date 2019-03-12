@@ -96,13 +96,14 @@ class Result(object):
     """
 
     def __init__(self, status=None):
-        self.unique_key = None
-        self.verdict_info = None
+        self.unique_key: str = None
+        self.verdict_info: str = None
+        self.execute_time: str = None
+        self.execute_memory: str = None
+        self.compile_info: str = None
+
         self.verdict = None
-        self.execute_time = None
-        self.execute_memory = None
         self.status = status
-        self.compile_info = None
 
     class Status(Enum):
         """
@@ -131,6 +132,8 @@ class Result(object):
             AC: 通过
             CE: 编译错误
             WA: 代码错误，包含超时，结果出错，内存超出, 系统错误等。
+            TLE: time limit
+            MLE: memory limit
         verdict_info:
             服务器返回的具体内容，不同的平台显示的内容格式不一样
         """
@@ -138,3 +141,5 @@ class Result(object):
         VERDICT_AC = 'AC'
         VERDICT_CE = 'CE'
         VERDICT_WA = 'WA'
+        VERDICT_TLE = 'TLE'
+        VERDICT_MLE = 'MLE'

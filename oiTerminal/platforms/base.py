@@ -1,5 +1,5 @@
 class BaseParser(object):
-    def contest_parse(self, response, pid, url):
+    def contest_parse(self, response):
         pass
 
     def problem_parse(self, response, pid, url):
@@ -46,7 +46,7 @@ class Base(object):
         pass
 
     # 根据源OJ的运行id获取结构
-    def get_result_by_rid_and_pid(self, rid, pid):
+    def get_result_by_rid_and_pid(self, account, pid, unique_key):
         pass
 
     # 获取源OJ支持的语言类型

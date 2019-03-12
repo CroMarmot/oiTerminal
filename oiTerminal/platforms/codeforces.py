@@ -1,3 +1,4 @@
+import json
 import re
 
 from bs4 import BeautifulSoup
@@ -94,28 +95,48 @@ MathJax.Hub.Config({
                 problem.test_case.append(TestCase(t_in, t_out))
         return problem
 
+    # JSON Example:
+    # {"status": "OK", "result": [
+    #    {"id": 51191707,
+    #     "contestId": 1136,
+    #     "creationTimeSeconds": 1552327705,
+    #     "relativeTimeSeconds": 5605,
+    #     "problem": {"contestId": 1136,
+    #                 "index": "D",
+    #                 "name": "Nastya Is Buying Lunch",
+    #                 "type": "PROGRAMMING",
+    #                 "points": 2000.0,
+    #                 "rating": 1800,
+    #                 "tags": ["greedy"]},
+    #     "author": {"contestId": 1136,
+    #                "members": [{"handle": "Cro-Marmot"}],
+    #                "participantType": "CONTESTANT",
+    #                "ghost": false,
+    #                "room": 56,
+    #                "startTimeSeconds": 1552322100},
+    #     "programmingLanguage": "GNU C++17",
+    #     "verdict": "OK",
+    #     "testset": "TESTS",
+    #     "passedTestCount": 70,
+    #     "timeConsumedMillis": 390,
+    #     "memoryConsumedBytes": 15052800}]}
     def result_parse(self, response):
         if response is None or response.status_code != 200 or response.text is None:
             return Result(Result.Status.STATUS_RESULT_ERROR)
-        soup = BeautifulSoup(response.text, 'lxml')
-        table = soup.find('table')
-        tag = None
-        if table:
-            tag = table.find_all('tr')
-        if tag:
-            children_tag = tag[-1].find_all('td')
-            if len(children_tag) > 9:
-                result = Result()
-                result.unique_key = children_tag[0].string
-                result.verdict_info = ''
-                for item in children_tag[4].stripped_strings:
-                    result.verdict_info += str(item) + ' '
-                result.verdict_info = result.verdict_info.strip(' ')
-                result.execute_time = children_tag[5].string.strip(" \r\n")
-                result.execute_memory = children_tag[6].string.strip(" \r\n")
-                result.status = Result.Status.STATUS_RESULT_SUCCESS
-                return result
-        return Result(Result.Status.STATUS_RESULT_ERROR)
+        ret = response.json()
+        result = Result()
+        if 'status' not in ret or ret['status'] != 'OK':
+            raise ConnectionError('Cannot connect to Codeforces! ' + json.dumps(ret))
+        try:
+            _result = ret['result'][0]
+            result.unique_key = _result['id']
+            result.verdict_info = _result.get('verdict')
+            result.execute_time = str(_result['timeConsumedMillis']) + " MS"
+            result.execute_memory = str(_result['memoryConsumedBytes']) + " B"
+            result.status = Result.Status.STATUS_RESULT_SUCCESS
+        except Exception:
+            raise ConnectionError('Cannot get latest submission, error')
+        return result
 
 
 class Codeforces(Base):
@@ -232,29 +253,20 @@ class Codeforces(Base):
         return Result(Result.Status.STATUS_SUBMIT_ERROR)
 
     # 获取当然运行结果
-    def get_result(self, account, pid):
+    def get_result(self, account: str, pid: str):
         if self.login_website(account) is False:
             return Result(Result.Status.STATUS_RESULT_ERROR)
-        request_url = 'http://codeforces.com/problemset/status?friends=on'
-        res = self._req.get(request_url)
-        website_data = res.text
-        if website_data:
-            soup = BeautifulSoup(website_data, 'lxml')
-            tag = soup.find('table', attrs={'class': 'status-frame-datatable'})
-            if tag:
-                list_tr = tag.find_all('tr')
-                for tr in list_tr:
-                    if isinstance(tr, element.Tag) and tr.get('data-submission-id'):
-                        return self.get_result_by_url(
-                            'http://codeforces.com/contest/' + pid[:-1] + '/submission/' + tr.get('data-submission-id'))
-        return Result(Result.Status.STATUS_RESULT_ERROR)
+        return self.get_result_by_url('https://codeforces.com/api/user.status?handle=' + account.username + '&count=1')
 
     # 根据源OJ的运行id获取结构
-    def get_result_by_rid_and_pid(self, rid, pid):
-        return self.get_result_by_url('http://codeforces.com/contest/' + str(pid)[:-1] + '/submission/' + str(rid))
+    def get_result_by_rid_and_pid(self, account: Account, pid: str, unique_key: str):
+        ret = self.get_result_by_url('https://codeforces.com/api/user.status?handle=' + account.username + '&count=1')
+        if ret.status == Result.Status.STATUS_RESULT_SUCCESS and ret.unique_key != unique_key:
+            return Result(Result.Status.STATUS_RESULT_ERROR)
+        return ret
 
     # 根据源OJ的url获取结果
-    def get_result_by_url(self, url):
+    def get_result_by_url(self, url: str):
         res = self._req.get(url=url)
         return CodeforcesParser().result_parse(response=res)
 
@@ -294,4 +306,4 @@ class Codeforces(Base):
     # 判断是否运行中
     @staticmethod
     def is_running(verdict):
-        return str(verdict).startswith('Running on') or verdict == 'In queue'
+        return str(verdict).startswith('Running on') or verdict == 'TESTING' or verdict == 'In queue'

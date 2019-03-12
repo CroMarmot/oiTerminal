@@ -1,7 +1,7 @@
 import importlib
 import time
 
-from oiTerminal.model import Problem, Result, Contest
+from oiTerminal.model import Problem, Result, Contest, Account
 from oiTerminal.utils import logger
 from oiTerminal.platforms.base import Base
 
@@ -13,7 +13,7 @@ supports = [
     # 'WUST',
     # 'ZOJ',
     'Codeforces',
-    'AtCoder', # 题目url的设计上 需要对oi Terminal 进行更改
+    'AtCoder',  # 题目url的设计上 需要对oi Terminal 进行更改
 ]
 
 
@@ -88,15 +88,15 @@ class Core(object):
             return Result(Result.Status.STATUS_SUBMIT_ERROR)
 
     # 获取结果
-    def get_result(self, account, pid):
-
+    def get_result(self, account: Account, pid):
         if not self._oj:
             return Result(Result.Status.STATUS_SYSTEM_ERROR)
         self._oj.set_cookies(account.cookies)
         result = None
         try:
             result = self._oj.get_result(account=account, pid=pid)
-        except:
+        except Exception as e:
+            print(e)
             pass
         if result is not None:
             if self._oj.is_accepted(result.verdict_info):
@@ -111,12 +111,12 @@ class Core(object):
         return Result(Result.Status.STATUS_RESULT_ERROR)
 
     # 通过运行id获取结果
-    def get_result_by_rid_and_pid(self, rid, pid):
+    def get_result_by_rid_and_pid(self, account: Account, pid, unique_key):
         if not self._oj:
             return Result(Result.Status.STATUS_SYSTEM_ERROR)
         result = None
         try:
-            result = self._oj.get_result_by_rid_and_pid(rid, pid)
+            result = self._oj.get_result_by_rid_and_pid(account, pid, unique_key)
         except:
             pass
         if result is not None:
