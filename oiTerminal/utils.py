@@ -141,6 +141,15 @@ class HtmlTag(object):
 
 class LanguageUtil(object):
     @staticmethod
+    def local_lang():
+        return [
+            "C++",
+            "C++11",
+            "C++14",
+            "C++17",
+        ]
+
+    @staticmethod
     def lang2suffix(lang):
         return {
             "C++": ".cpp",
@@ -182,10 +191,24 @@ class LanguageUtil(object):
         }[lang]
 
 
+# TODO not important, cf,codeforces,Codeforces -> Codeforces
 class OJUtil(object):
     @staticmethod
     def short2full(short_name):
         return {
             "cf": "Codeforces",
             "ac": "AtCoder",
-        }[short_name]
+        }.get(short_name)
+
+    @staticmethod
+    def get_supports():
+        return [
+            # 'Aizu',
+            # 'HDU',
+            # 'FZU', FZU 体验太差老是访问不了，还是不要支持好了
+            # 'POJ',
+            # 'WUST',
+            # 'ZOJ',
+            'Codeforces',
+            'AtCoder',  # 题目url的设计上 需要对oi Terminal 进行更改
+        ]

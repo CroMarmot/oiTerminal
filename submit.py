@@ -41,7 +41,7 @@ def submit(
 def submit_worker():
     # get problem id
     parser = argparse.ArgumentParser()
-    parser.add_argument('pid', help="Problem ID example: A")  # TODO all oj list tool # OJUtil
+    parser.add_argument('pid', help="Problem ID example: A")
     args = parser.parse_args()
     pid = args.pid
 

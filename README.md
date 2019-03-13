@@ -32,9 +32,17 @@ python3 only
 
 - [x] fetching submit result
 
+- [x] Language tool
+    - [x] get supported local language
+    - [x] get remote oj language key-value pair
+
 # Functions
 
-Test is in local, regardless of the platform , only language, `oiTerminal/utils.py :: LanguageUtil`
+Test is in local, regardless of the platform , only language
+
+Local language:`./lang.py`
+
+Platform language (example: `./lang.py --oj cf`)
 
 |Local language|supported?|
 |:---:|:---:|
@@ -63,7 +71,7 @@ platform:
 
 - [x] `pip3 install -r requirements.txt`
 
-- [x] `cp _config.json config.json` and modify `config.json` TODO 增加config相关说明? 比如up_lang
+- [x] `cp _config.json config.json` and modify `config.json` About `up_lang` using `./lang.py --oj cf`
 
 - [x] parse contest `./parser.py cf 1112` 1112 is contest id (which is in url instead of the number after `#`)
 
@@ -78,8 +86,11 @@ platform:
 
 # TODO
 
-more arg support in python 先只支持json配置,之后再增加配置优先级别。
+- [ ] more arg support in python 先只支持json配置,之后再增加配置优先级别。
 
+- [ ] config.json checker
+
+- [ ] atcoder
 
 # ref / dependency
 

@@ -2,19 +2,8 @@ import importlib
 import time
 
 from oiTerminal.model import Problem, Result, Contest, Account
-from oiTerminal.utils import logger
+from oiTerminal.utils import logger, OJUtil
 from oiTerminal.platforms.base import Base
-
-supports = [
-    # 'Aizu',
-    # 'HDU',
-    # 'FZU', FZU 体验太差老是访问不了，还是不要支持好了
-    # 'POJ',
-    # 'WUST',
-    # 'ZOJ',
-    'Codeforces',
-    'AtCoder',  # 题目url的设计上 需要对oi Terminal 进行更改
-]
 
 
 class OJBuilder(object):
@@ -39,15 +28,10 @@ class Core(object):
         self._remote_oj = oj_name
         self._oj: Base = OJBuilder.build_oj(oj_name, proxies=proxies, timeout=timeout)
 
-    # 获取支持的OJ列表
-    @staticmethod
-    def get_supports():
-        return supports
-
     # 判断当前是否支持
     @staticmethod
     def is_support(oj_name):
-        return oj_name in supports
+        return oj_name in OJUtil.get_supports()
 
     def get_home_page_url(self):
         if not self._oj:
