@@ -47,6 +47,7 @@ def do_test():
         # cmp
         diff = os.system("diff --brief -B --ignore-trailing-space " + std_out_file + " " + user_out_file)
         if diff is not 0:
+            # TODO print input file
             os.system("diff -B --ignore-trailing-space -y " + std_out_file + " " + user_out_file)
 
         i += 1

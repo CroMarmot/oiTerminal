@@ -3,6 +3,7 @@ import argparse
 import shutil
 import errno
 import os
+import json
 
 from const import *
 from oiTerminal.core import Core
