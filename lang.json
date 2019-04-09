@@ -2,42 +2,49 @@
   "C++":{
     "support":true,
     "suffix":".cpp",
+    "template":"Main.cpp",
     "compile":"clang++ -o Main Main.cpp -O2 -g -Wall -Wcomma",
     "exe":"./Main"
   },
   "C++11":{
     "support":true,
     "suffix":".cpp",
+    "template":"Main.cpp",
     "compile":"clang++ -o Main Main.cpp -std=gnu++11 -O2 -g -Wall -Wcomma",
     "exe":"./Main"
   },
   "C++14":{
     "support":true,
     "suffix":".cpp",
+    "template":"Main.cpp",
     "compile":"clang++ -o Main Main.cpp -std=gnu++14 -O2 -g -Wall -Wcomma",
     "exe":"./Main"
   },
   "C++17":{
     "support":true,
     "suffix":".cpp",
+    "template":"Main.cpp",
     "compile":"clang++ -o Main Main.cpp -std=gnu++17 -O2 -g -Wall -Wcomma",
     "exe":"./Main"
   },
   "Python2":{
     "support":true,
     "suffix":".py",
+    "template":"Main2.py",
     "compile":"",
     "exe":"python2 Main.py"
   },
   "Python3":{
     "support":true,
     "suffix":".py",
+    "template":"Main3.py",
     "compile":"",
     "exe":"python3 Main.py"
   },
   "Java":{
     "support":true,
     "suffix":".java",
+    "template":"Main.java",
     "compile":"javac Main.java",
     "exe":"java Main"
   }

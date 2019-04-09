@@ -50,10 +50,12 @@ Platform language (example: `./lang.py --oj cf`)
 |C++11|Yes|
 |C++14|Yes|
 |C++17|Yes|
-|Java8|no|
-|Python3|no|
-|Python2|no|
+|Java8|Yes|
+|Python3|Yes|
+|Python2|Yes|
 |Go1.9|no|
+|JS|no|
+|Rust|no|
 
 platform:
 
@@ -73,6 +75,8 @@ platform:
 
 - [x] `cp _config.json config.json` and modify `config.json` About `up_lang` using `./lang.py --oj cf`
 
+- [x] write your templatecodefile under `template/`, the filename should be equal to the 'template' field in `lang.json`
+
 - [x] parse contest `./parser.py cf 1112` 1112 is contest id (which is in url instead of the number after `#`)
 
 - [ ] TODO 2.1 parse 1 problem `./parser.py cf 1112A`
@@ -86,7 +90,7 @@ platform:
 
 # TODO
 
-- [ ] more arg support in python 先只支持json配置,之后再增加配置优先级别。
+- [ ] more arg support in python 先只支持json配置 和简单的语言参数支持,之后再增加配置优先级别。
 
 - [ ] config.json checker
 

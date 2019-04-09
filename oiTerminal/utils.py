@@ -164,7 +164,7 @@ class LanguageUtil(object):
 
     @staticmethod
     def lang2template(lang) -> str:
-        return "template/Main" + LanguageUtil.init().get(lang).get('suffix')
+        return TEMPLATEFOLDER + LanguageUtil.init().get(lang).get('template')
 
     @staticmethod
     def lang2compile(lang) -> str:

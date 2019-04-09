@@ -9,8 +9,9 @@ GREEN = '\e[32m'
 # FOLDER
 DIST = 'dist/'
 TEST_FOLDER = 'TEST/'
-# FILE
 ROOT_PATH = os.path.dirname(os.path.realpath(__file__)) + '/'
+TEMPLATEFOLDER = 'template/'
+# FILE
 CONFIG_FILE = ROOT_PATH + 'config.json'
 STATE_FILE = 'state.json'
 TEST_PY = 'test.py'

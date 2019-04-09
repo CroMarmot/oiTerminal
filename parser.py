@@ -67,9 +67,11 @@ def create_contest_code_file(
 
     for problem_id in contest.problem_set.keys():
         # when code exist, DO NOT COVER IT !
-        if os.path.isfile(folder+problem_id+suffix):
+        dst_filename = folder+problem_id+suffix
+        if os.path.isfile(dst_filename):
+            print(folder)
             continue
-        shutil.copy(LanguageUtil.lang2template(lang), folder + problem_id + suffix)
+        shutil.copy(LanguageUtil.lang2template(lang), dst_filename)
 
     # soft link test.py && submit.py
     force_symlink('../../../' + TEST_PY, folder + TEST_PY)
@@ -124,6 +126,9 @@ def parser():
         lang = args.lang
     if args.remotelang is not None:
         up_lang = args.remotelang
+
+    # TODO CHECK template exist before parse
+
     return OJUtil.short2full(args.oj), args.contest, username, password, lang, up_lang
 
 
