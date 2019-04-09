@@ -2,7 +2,6 @@
 import argparse
 import shutil
 import errno
-import os
 import json
 
 from const import *
@@ -62,11 +61,14 @@ def create_contest_code_file(
         print("contest is None")
         return
     folder = DIST + "/" + contest.oj + "/" + contest.id + '-' + lang + "/"
-    os.makedirs(folder, exist_ok=True)  # TODO rm exist ok = true
+    os.makedirs(folder, exist_ok=True)
 
     suffix = LanguageUtil.lang2suffix(lang)
 
     for problem_id in contest.problem_set.keys():
+        # when code exist, DO NOT COVER IT !
+        if os.path.isfile(folder+problem_id+suffix):
+            continue
         shutil.copy(LanguageUtil.lang2template(lang), folder + problem_id + suffix)
 
     # soft link test.py && submit.py

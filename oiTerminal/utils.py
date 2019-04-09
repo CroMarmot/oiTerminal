@@ -1,11 +1,13 @@
 import logging
-import os
+import json
 from enum import Enum
 
+from const import *
 import requests
 from bs4 import element
 from requests import RequestException
 import traceback
+
 
 LOG_BASE = '/log' if os.getenv('VJ_ENV') == 'production' else 'log'
 LOG_LEVEL = logging.WARNING if os.getenv('VJ_ENV') == 'production' else logging.INFO
@@ -140,57 +142,37 @@ class HtmlTag(object):
 
 
 class LanguageUtil(object):
-    # TODO make this as a JSON
-    @staticmethod
-    def local_lang():
-        return [
-            "C++",
-            "C++11",
-            "C++14",
-            "C++17",
-            "Java",
-        ]
+    _lang_cfg = None
 
     @staticmethod
-    def lang2suffix(lang):
-        return {
-            "C++": ".cpp",
-            "C++11": ".cpp",
-            "C++14": ".cpp",
-            "C++17": ".cpp",
-            "Java": ".java",
-        }[lang]
+    def init() -> map:
+        if LanguageUtil._lang_cfg is not None:
+            return LanguageUtil._lang_cfg
+        if not os.path.isfile(LANG_COFIG_FILE):
+            raise Exception(LANG_COFIG_FILE + " NOT EXIST!")
+        with open(LANG_COFIG_FILE) as f:
+            LanguageUtil._lang_cfg = json.load(f)
+        return LanguageUtil._lang_cfg
 
     @staticmethod
-    def lang2template(lang):
-        folder = "template/"
-        return {
-            "C++": folder + "Main.cpp",
-            "C++11": folder + "Main.cpp",
-            "C++14": folder + "Main.cpp",
-            "C++17": folder + "Main.cpp",
-            "Java": folder + "Main.java",
-        }[lang]
+    def local_lang() -> list:
+        return list(LanguageUtil.init().keys())
 
     @staticmethod
-    def lang2compile(lang):
-        return {
-            "C++": "clang++ -o Main Main" + LanguageUtil.lang2suffix(lang) + " -O2 -g -Wall -Wcomma",
-            "C++11": "clang++ -o Main Main" + LanguageUtil.lang2suffix(lang) + " -std=gnu++11 -O2 -g -Wall -Wcomma",
-            "C++14": "clang++ -o Main Main" + LanguageUtil.lang2suffix(lang) + " -std=gnu++14 -O2 -g -Wall -Wcomma",
-            "C++17": "clang++ -o Main Main" + LanguageUtil.lang2suffix(lang) + " -std=gnu++17 -O2 -g -Wall -Wcomma",
-            "Java": "javac Main" + LanguageUtil.lang2suffix(lang),
-        }[lang]
+    def lang2suffix(lang) -> str:
+        return LanguageUtil.init().get(lang).get('suffix')
+
+    @staticmethod
+    def lang2template(lang) -> str:
+        return "template/Main" + LanguageUtil.init().get(lang).get('suffix')
+
+    @staticmethod
+    def lang2compile(lang) -> str:
+        return LanguageUtil.init().get(lang).get('compile')
 
     @staticmethod
     def lang2exe(lang, input_file, output_file):
-        return {
-            "C++": "./Main < " + input_file + " > " + output_file,
-            "C++11": "./Main < " + input_file + " > " + output_file,
-            "C++14": "./Main < " + input_file + " > " + output_file,
-            "C++17": "./Main < " + input_file + " > " + output_file,
-            "Java": "java Main < " + input_file + " > " + output_file
-        }[lang]
+        return LanguageUtil.init().get(lang).get('exe') + " < " + input_file + " > " + output_file
 
 
 # TODO not important, cf,codeforces,Codeforces -> Codeforces

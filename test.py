@@ -2,7 +2,6 @@
 import argparse
 import datetime
 import json
-import os
 import shutil
 
 from const import *
@@ -53,8 +52,9 @@ def do_test():
         i += 1
 
     os.chdir("../")
-    shutil.rmtree(TEST_FOLDER)
+    # shutil.rmtree(TEST_FOLDER)
 
 
 if __name__ == "__main__":
+    print("ROOT:"+ROOT_PATH)
     do_test()
