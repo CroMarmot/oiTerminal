@@ -117,6 +117,11 @@ def parser():
         up_lang = cfg_oj['up_lang']
         username = cfg_oj['user']
         password = cfg_oj['pass']
+    # args > cfg
+    if args.lang is not None:
+        lang = args.lang
+    if args.remotelang is not None:
+        up_lang = args.remotelang
     return OJUtil.short2full(args.oj), args.contest, username, password, lang, up_lang
 
 

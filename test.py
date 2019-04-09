@@ -29,7 +29,7 @@ def do_test():
 
     # compile
     os.chdir(TEST_FOLDER)
-    if os.system(LanguageUtil.lang2compile(lang, "Main")) is not 0:
+    if os.system(LanguageUtil.lang2compile(lang)) is not 0:
         return
 
     # run  "" not better than 'time' in bash but worse is better :-)
@@ -39,7 +39,7 @@ def do_test():
         std_out_file = std_file + OUT_SUFFIX + str(i)
         user_out_file = pid + OUT_SUFFIX + str(i)
         start_time = datetime.datetime.now()
-        os.system(LanguageUtil.lang2exe(lang, "Main", std_file + IN_SUFFIX + str(i), user_out_file))
+        os.system(LanguageUtil.lang2exe(lang, std_file + IN_SUFFIX + str(i), user_out_file))
         end_time = datetime.datetime.now()
         print()
         print("time spend: " + str((end_time - start_time).total_seconds()) + "s")

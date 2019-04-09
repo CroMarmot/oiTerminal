@@ -140,6 +140,7 @@ class HtmlTag(object):
 
 
 class LanguageUtil(object):
+    # TODO make this as a JSON
     @staticmethod
     def local_lang():
         return [
@@ -147,6 +148,7 @@ class LanguageUtil(object):
             "C++11",
             "C++14",
             "C++17",
+            "Java",
         ]
 
     @staticmethod
@@ -156,6 +158,7 @@ class LanguageUtil(object):
             "C++11": ".cpp",
             "C++14": ".cpp",
             "C++17": ".cpp",
+            "Java": ".java",
         }[lang]
 
     @staticmethod
@@ -166,28 +169,27 @@ class LanguageUtil(object):
             "C++11": folder + "Main.cpp",
             "C++14": folder + "Main.cpp",
             "C++17": folder + "Main.cpp",
+            "Java": folder + "Main.java",
         }[lang]
 
     @staticmethod
-    def lang2compile(lang, problem_id):
+    def lang2compile(lang):
         return {
-            "C++": "clang++ -o " + problem_id + " " + problem_id + LanguageUtil.lang2suffix(
-                lang) + " -O2 -g -Wall -Wcomma",
-            "C++11": "clang++ -o " + problem_id + " " + problem_id + LanguageUtil.lang2suffix(
-                lang) + " -std=gnu++11 -O2 -g -Wall -Wcomma",
-            "C++14": "clang++ -o " + problem_id + " " + problem_id + LanguageUtil.lang2suffix(
-                lang) + " -std=gnu++14 -O2 -g -Wall -Wcomma",
-            "C++17": "clang++ -o " + problem_id + " " + problem_id + LanguageUtil.lang2suffix(
-                lang) + " -std=gnu++17 -O2 -g -Wall -Wcomma",
+            "C++": "clang++ -o Main Main" + LanguageUtil.lang2suffix(lang) + " -O2 -g -Wall -Wcomma",
+            "C++11": "clang++ -o Main Main" + LanguageUtil.lang2suffix(lang) + " -std=gnu++11 -O2 -g -Wall -Wcomma",
+            "C++14": "clang++ -o Main Main" + LanguageUtil.lang2suffix(lang) + " -std=gnu++14 -O2 -g -Wall -Wcomma",
+            "C++17": "clang++ -o Main Main" + LanguageUtil.lang2suffix(lang) + " -std=gnu++17 -O2 -g -Wall -Wcomma",
+            "Java": "javac Main" + LanguageUtil.lang2suffix(lang),
         }[lang]
 
     @staticmethod
-    def lang2exe(lang, problem_id, input_file, output_file):
+    def lang2exe(lang, input_file, output_file):
         return {
-            "C++": "./" + problem_id + " < " + input_file + " > " + output_file,
-            "C++11": "./" + problem_id + " < " + input_file + " > " + output_file,
-            "C++14": "./" + problem_id + " < " + input_file + " > " + output_file,
-            "C++17": "./" + problem_id + " < " + input_file + " > " + output_file,
+            "C++": "./Main < " + input_file + " > " + output_file,
+            "C++11": "./Main < " + input_file + " > " + output_file,
+            "C++14": "./Main < " + input_file + " > " + output_file,
+            "C++17": "./Main < " + input_file + " > " + output_file,
+            "Java": "java Main < " + input_file + " > " + output_file
         }[lang]
 
 

@@ -92,6 +92,16 @@ platform:
 
 - [ ] atcoder
 
+# flow
+
+testflow:
+
+0. read problemId from arg (exp.'A')
+1. read state from `state.json` (exp. lang = C++)
+2. copy file (exp. A.cpp) to TESTFOLDER/Main.<suffix> (exp cpp)
+3. compile
+4. exe
+
 # ref / dependency
 
 [VirtualJudge/spider](https://github.com/VirtualJudge/spider)
