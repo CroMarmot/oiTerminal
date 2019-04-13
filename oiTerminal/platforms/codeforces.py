@@ -306,4 +306,4 @@ class Codeforces(Base):
     # 判断是否运行中
     @staticmethod
     def is_running(verdict):
-        return str(verdict).startswith('Running on') or verdict == 'TESTING' or verdict == 'In queue'
+        return verdict is None or str(verdict).startswith('Running on') or verdict == 'TESTING' or verdict == 'In queue'
