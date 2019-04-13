@@ -55,7 +55,7 @@ def submit_worker():
         lang = state_oj["lang"]
         up_lang = state_oj["up_lang"]
 
-    config_file = "../../../" + CONFIG_FILE
+    config_file = CONFIG_FILE
     if not os.path.isfile(config_file):
         raise Exception(config_file + " NOT EXIST!")
     with open(config_file) as f:
