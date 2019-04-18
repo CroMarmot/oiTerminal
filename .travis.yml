@@ -7,6 +7,8 @@ python:
   - "3.6"
   - "3.6-dev"
 
+env: TOXENV=py
+
 install:
   - pip install tox
 
