@@ -1,6 +1,6 @@
 # Oi Terminal
 
-[![Build Status](https://travis-ci.org/CroMarmot/oiTerminal.svg?branch=master)](https://travis-ci.org/CroMarmot/oiTerminal)
+[![Build Status](https://travis-ci.org/CroMarmot/oiTerminal.svg?branch=dev)](https://travis-ci.org/CroMarmot/oiTerminal)
 
 Coding...
 
