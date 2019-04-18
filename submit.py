@@ -32,6 +32,8 @@ def submit(
     print("Submitted")
     while result.verdict == Result.Verdict.VERDICT_RUNNING:
         print("Fetching result...")
+        # TODO add percent/cnt
+        #      add waiting
         time.sleep(2)
         result = core.get_result_by_rid_and_pid(account=account, pid=pid, unique_key=result.unique_key)
 

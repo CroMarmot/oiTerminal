@@ -96,6 +96,111 @@ platform:
 
 - [ ] atcoder
 
+
+1. 父类/公用 model逻辑设计
+
+util:
+
+网络访问
+
+文件访问
+
+配置读取
+
+语言
+
+lang:
+
+get_language(account)
+
+core: 直接调用oj的方法
+
+oj:模拟请求，访问，分析页面，返回键值对表 -> Object LangKVList
+
+core: 分析结果打印展示
+
+---
+
+parser:
+
+parser_contest(contestId,account):
+
+parser_problem(problemId,account)
+
+
+core:
+
+读取 题目、比赛，语言，用户名密码， 调用oj.parser_context()，
+
+oj:
+
+根据 题目、比赛，用户,进行网络请求（util），分析页面结果，返回给core，Object_CONTEST 或 Object_PROBLEM
+
+core:
+
+对结果进行 生成文件，拷贝模板，跳转目录
+
+---
+
+test:
+
+core: 分析参数 state.json,直接本地测试，和oj无关
+
+---
+
+submit
+
+submit(problemID,account,filepath)
+
+getresult(problemID,account)
+
+core: 分析参数，调用oj的submit,
+
+oj: 模拟请求，返回 `提交`结果，不包括测试结果, OBJECT_SUBMIT_STAT
+
+core: 分析结果，进行展示，如果成功提交，开始调用oj获取结果
+
+oj: 模拟请求，具体实现，api或其它,返回，返回OBJECT_RESULT
+
+core:展示 成果错误，或者等待状态再请求。
+
+
+2. 增加测试
+
+3. pytest mypy
+
+mypy可以检查方法，但是如果是网络请求回来的数据不一定满足，如果用assert感觉太丑，求好的办法
+
+用于测试
+
+4. tox
+
+用于建立孤立环境，安装依赖，指定py版本，调用其它测试
+
+5. travis CI
+
+在线自动测试
+
+---
+
+公用 错误设计
+
+1. 必须的文件,未找到
+2. 
+
+
+编写
+
+
+
+
+
+
+
+
+
+
+
 # flow
 
 testflow:

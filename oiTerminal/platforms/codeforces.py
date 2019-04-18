@@ -145,7 +145,7 @@ class Codeforces(Base):
 
     # 主页链接
     @staticmethod
-    def home_page_url():
+    def home_page_url() -> str:
         return 'https://codeforces.com/'
 
     def get_cookies(self):
