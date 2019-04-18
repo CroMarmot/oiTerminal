@@ -2,10 +2,9 @@ os: linux
 language: python
 
 python:
-  - "3.4"
-  - "3.5"
   - "3.6"
   - "3.6-dev"
+  - "pypy"
 
 env: TOXENV=py
 

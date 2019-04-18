@@ -7,7 +7,7 @@ Workable for Codeforces contest now !
 - [x] Codeforces
 - [ ] Atcoder(working)
 
-python3 only
+python3.6+ only, https://www.python.org/dev/peps/pep-0526/
 
 # Plan
 
