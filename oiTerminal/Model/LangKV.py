@@ -3,10 +3,8 @@ from typing import Dict
 
 
 class LangKV:
-    _data: Dict[str, str]
-
     def __init__(self):
-        self._data = {}
+        self._data: Dict[str, str] = {}
 
     def set(self, k: str, v: str):
         assert (isinstance(k, str))
@@ -20,4 +18,3 @@ class LangKV:
     @property
     def data(self):
         return self._data
-

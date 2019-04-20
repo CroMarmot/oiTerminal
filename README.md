@@ -117,7 +117,7 @@ get_language(account)
 
 core: 直接调用oj的方法
 
-oj:模拟请求，访问，分析页面，返回键值对表 -> Object LangKVList
+oj:模拟请求，访问，分析页面，返回键值对表 -> Object LangKV
 
 core: 分析结果打印展示
 
@@ -184,6 +184,10 @@ mypy可以检查方法，但是如果是网络请求回来的数据不一定满�
 在线自动测试
 
 ---
+
+测试样例
+
+
 
 公用 错误设计
 
