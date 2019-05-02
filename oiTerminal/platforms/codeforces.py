@@ -1,5 +1,6 @@
 import json
 import re
+import threading
 
 from bs4 import BeautifulSoup
 from bs4 import element
@@ -248,11 +249,14 @@ class Codeforces(Base):
             raise Exception("Fetch Contest Error")
         print("get contest:" + cid)
         CodeforcesParser().contest_parse(contest=ret, response=response.text)
-        # TODO thread fetch ?
+        threads = []
         for pid in ret.problems.keys():
-            # TODO which is better
-            # ret.problems[pid] = self.get_problem(pid=cid + pid)
-            self.get_problem(pid=cid + pid, problem=ret.problems[pid])
+            # self.get_problem(pid=cid + pid, problem=ret.problems[pid])
+            t = threading.Thread(target=self.get_problem, args=(cid + pid, ret.problems[pid]))
+            threads.append(t)
+            t.start()
+        for t in threads:
+            t.join()
         return ret
 
     def get_problem(self, pid: str, problem: Problem = None) -> Problem:
@@ -299,7 +303,6 @@ class Codeforces(Base):
             return True
         return False
 
-    # TODO 可能换成 题目页面右侧 获取?
     def get_result(self, pid: str) -> Result:
         return self._get_result_by_url(
             'https://codeforces.com/api/user.status?handle=' + self._account.username + '&count=1')
@@ -324,7 +327,7 @@ class Codeforces(Base):
             tags = soup.find('select', attrs={'name': 'programTypeId'})
             if tags:
                 for child in tags.find_all('option'):
-                    ret.set(child.get('value'), child.string)
+                    ret[child.get('value')] = child.string
         return ret
 
     def _assert_working(self):

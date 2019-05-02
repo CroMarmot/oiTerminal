@@ -21,7 +21,7 @@ def lang_main():
 
     if oj_full_name is not None:
         lang_kv_pair = Core(oj_full_name).set_account(Account('robot4test', 'robot4test')).get_language()
-        for (k, v) in lang_kv_pair.data.items():
+        for (k, v) in lang_kv_pair.items():
             print(k + "\t" + v)
     else:
         print("oj name error! Supported oj:", OJUtil.get_supports())

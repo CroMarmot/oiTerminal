@@ -22,7 +22,6 @@ class Result:
     cur_status: Status
     quick_key: str = ''
 
-    # TODO add percent/cnt
     state_note: str = '0'
     time_note: str = '0/0'
     mem_note: str = '0/0'
