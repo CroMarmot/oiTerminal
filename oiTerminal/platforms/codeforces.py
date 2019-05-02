@@ -232,11 +232,8 @@ class Codeforces(Base):
             raise Exception('problem id[' + pid + '] ERROR')
         url = 'https://codeforces.com/contest/' + result.group(1) + '/problem/' + result.group(2)
         if problem is None:
-            print('from none')
             problem = Problem(oj=Codeforces.__name__, pid=pid, url=url)
         else:
-            print('from arg')
-            problem = Problem(oj=Codeforces.__name__, pid=pid, url=url)
             problem.url = url
         response = self._req.get(url=url)
         print("get problem:" + pid)
