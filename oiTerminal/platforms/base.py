@@ -6,36 +6,27 @@ from oiTerminal.Model.Result import Result
 
 
 class BaseParser(object):
-    def contest_parse(self, response):
+    def contest_parse(self, contest: Contest, response: str):
         pass
 
-    def problem_parse(self, response, pid, url):
+    def problem_parse(self, problem: Problem, response: str):
         pass
 
-    def result_parse(self, response):
+    def result_parse(self, result: Result, response: str):
         pass
 
 
 class Base(object):
-    # return login effective time in second
+    # return login cookie effective time in second
     def login_website(self, account: Account) -> int:
-        print('Base login_website')
-        return -1
+        pass
 
-    # 检查登录状态
-    def is_login(self) -> bool:
-        print('Base is_login')
-        return False
-
-    # 获取题目
     def get_contest(self, cid: str) -> Contest:
         pass
 
-    # 获取题目
     def get_problem(self, pid: str) -> Problem:
         pass
 
-    # 提交代码
     def submit_code(self, pid: str, language: str, code: str) -> bool:
         pass
 
@@ -46,10 +37,6 @@ class Base(object):
         pass
 
     def get_language(self) -> LangKV:
-        print('Base get_language')
-        pass
-
-    def is_working(self) -> bool:
         pass
 
     # require account for view problem/contest/fetch result
@@ -59,20 +46,4 @@ class Base(object):
 
     @staticmethod
     def support_contest():
-        pass
-
-    # TODO 把这个判断内置到 结果的struct中而不是oj的
-    #  判断结果是否正确
-    @staticmethod
-    def is_accepted(verdict):
-        pass
-
-    # 判断是否编译错误
-    @staticmethod
-    def is_compile_error(verdict):
-        pass
-
-    # 判断是否运行中
-    @staticmethod
-    def is_running(verdict):
         pass

@@ -43,7 +43,7 @@ def create_contest_files_and_code_files(
         with open(folder + problem_id + '.html', "w") as problem_html:
             problem_html.write(problem.html)
             problem_html.close()
-        for i, tc in range(len(problem.test_cases)):
+        for i, tc in enumerate(problem.test_cases):
             with open(folder + problem_id + '.in.' + str(i), "w") as tc_in:
                 tc_in.write(tc.in_data)
                 tc_in.close()
@@ -67,8 +67,8 @@ def create_contest_files_and_code_files(
             touch(dst_filename)
 
     # symlink test.py submit.py
-    force_symlink('../../../' + TEST_PY, folder + TEST_PY)
-    force_symlink('../../../' + SUBMIT_PY, folder + SUBMIT_PY)
+    force_symlink('../../../scripts/' + TEST_PY, folder + TEST_PY)
+    force_symlink('../../../scripts/' + SUBMIT_PY, folder + SUBMIT_PY)
 
     # generate state.json
     folder_state = FolderState(

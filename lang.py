@@ -1,9 +1,8 @@
 #!/usr/bin/python3
 import argparse
 
-from oiTerminal.Model.LangKV import LangKV
 from oiTerminal.core import Core
-from oiTerminal.model import Account
+from oiTerminal.Model.Account import Account
 from oiTerminal.utils import LanguageUtil, OJUtil
 
 

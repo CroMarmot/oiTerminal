@@ -1,13 +1,22 @@
 from oiTerminal.Model.TestCase import TestCase
 from typing import List
+from enum import Enum
 
 
 class Problem:
+    class Status(Enum):
+        AC = 'AC'
+        FAILED = 'FAILED'
+        NOTVIS = 'NOTVIS'
+
+    title: str
+    status: Status
+
     def __init__(self,
                  pid: str,
                  oj: str,
                  description: str = '',
-                 test_cases: List[TestCase] = None,
+                 test_cases: List[TestCase] = [],
                  time_limit: str = '',
                  mem_limit: str = '',
                  url: str = '',

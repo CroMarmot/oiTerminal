@@ -3,11 +3,11 @@ from oiTerminal.Model.Problem import Problem
 
 
 class Contest:
-    def __init__(self, cid: str):
+    def __init__(self, oj: str, cid: str):
+        self._oj: str = oj
         self._id = cid
         self._url: str = ''
         self._name: str = ''
-        self._oj: str = ''
         self.problems: Dict[str, Problem] = {}
 
     @property

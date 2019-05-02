@@ -33,7 +33,7 @@ class Core(object):
         if oj_name not in OJUtil.get_supports():
             raise Exception("oj name error or not supported")
         self._oj: Base = OJBuilder.build_oj(oj_name, proxies=proxies, timeout=timeout)
-        self._out_date: int = time.time() - 1
+        self._out_date: float = time.time() - 1
 
     def set_account(self, account: Account) -> 'Core':
         self._account = account
@@ -70,7 +70,7 @@ class Core(object):
         return self._oj.get_result(pid=pid)
 
     # 通过运行id获取结果
-    def get_result_by_rid_and_pid(self, quick_id: str) -> Result:
+    def get_result_by_quick_id(self, quick_id: str) -> Result:
         if not self._oj:
             raise Exception('get_result_by_quick_id: ERROR')
         assert (self._is_login())
@@ -84,6 +84,7 @@ class Core(object):
         return self._oj.get_language()
 
     def _login(self):
+        print('login ing')
         if not self._is_login():
             self._out_date = time.time() + self._oj.login_website(self._account)
 

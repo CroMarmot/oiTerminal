@@ -1,5 +1,6 @@
 import json
 import re
+from typing import List
 
 from bs4 import BeautifulSoup
 from bs4 import element
@@ -39,17 +40,18 @@ MathJax.Hub.Config({
 <script src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS_HTML-full" async></script>
 """
 
-    def contest_parse(self, response: str):
-        ret = []
+    # fill problems field
+    def contest_parse(self, contest: Contest, response: str):
+        contest.problems.clear()
         soup = BeautifulSoup(response, 'lxml')
         match_groups = soup.find(name='table', attrs={'class': 'problems'})
         if match_groups:
             problems = match_groups.find_all(name='td', attrs={'class': 'id'})
             for each_problem in problems:
-                ret.append(each_problem.get_text().strip(" \r\n"))
-        return ret
+                pid = each_problem.get_text().strip(" \r\n")
+                contest.problems[pid] = Problem(oj=contest.oj, pid=contest.id + pid)
 
-    def problem_parse(self, response: str, problem: Problem):
+    def problem_parse(self, problem: Problem, response: str):
         soup = BeautifulSoup(response, 'lxml')
 
         match_groups = soup.find('div', attrs={'class': 'title'})
@@ -87,10 +89,10 @@ MathJax.Hub.Config({
                 else:
                     problem.html += str(HtmlTag.update_tag(child, self._static_prefix))
         problem.html = '<html>' + problem.html + self._script + '</html>'
-        problem.status = Problem.Status.STATUS_SUCCESS
+        problem.status = Problem.Status.NOTVIS  # TODO for show progress
 
         match_groups = soup.find(name='div', attrs={'class': 'sample-test'})
-        problem.test_case = []
+        problem.test_cases.clear()
         if match_groups:
             test_case_inputs = match_groups.find_all(name='div', attrs={'class': 'input'})
             test_case_outputs = match_groups.find_all(name='div', attrs={'class': 'output'})
@@ -98,8 +100,7 @@ MathJax.Hub.Config({
             for i in range(len(test_case_inputs)):
                 t_in = test_case_inputs[i].find(name='pre').get_text("\n").strip(" \r\n")
                 t_out = test_case_outputs[i].find(name='pre').get_text("\n").strip(" \r\n")
-                problem.test_case.append(TestCase(t_in, t_out))
-        return problem
+                problem.test_cases.append(TestCase(t_in, t_out))
 
     # JSON Example:
     # {"status": "OK", "result": [
@@ -126,8 +127,8 @@ MathJax.Hub.Config({
     #     "passedTestCount": 70,
     #     "timeConsumedMillis": 390,
     #     "memoryConsumedBytes": 15052800}]}
-    def result_parse(self, response):
-        if response is None or response.status_code != 200 or response.text is None:
+    def result_parse(self, result: Result, response: str):
+        if response is None:
             return Result(Result.Status.STATUS_RESULT_ERROR)
         ret = response.json()
         result = Result()
@@ -144,23 +145,36 @@ MathJax.Hub.Config({
             raise ConnectionError('Cannot get latest submission, error')
         return result
 
+    #  判断结果是否正确
+    @staticmethod
+    def is_accepted(verdict):
+        return verdict in ['Accepted', 'Happy New Year!']
+
+    # 判断是否编译错误
+    @staticmethod
+    def is_compile_error(verdict):
+        return verdict == 'Compilation error'
+
+    # 判断是否运行中
+    @staticmethod
+    def is_running(verdict):
+        return verdict is None or str(verdict).startswith('Running on') or verdict == 'TESTING' or verdict == 'In queue'
+
 
 class Codeforces(Base):
     _cookies: dict
+    _account: Account
 
     def __init__(self, *args, **kwargs):
         self._req = HttpUtil(*args, **kwargs)
 
-    # TODO add method cookie login and save cookies in db/json
-    def _get_cookies(self):
-        return self._req.cookies.get_dict()
-
-    def _set_cookies(self, cookies):
-        if isinstance(cookies, dict):
-            self._req.cookies.update(cookies)
-
-    # 登录页面
     def login_website(self, account: Account) -> int:
+        # TODO add method cookie login and save cookies in db/json
+        # enable cookies login with db/json saved cookies
+        #
+        # return self._req.cookies.get_dict()
+        # if isinstance(cookies, dict):
+        #     self._req.cookies.update(cookies)
         try:
             res = self._req.get('https://codeforces.com/enter?back=%2F')
 
@@ -178,10 +192,14 @@ class Codeforces(Base):
             self._req.post(url='https://codeforces.com/enter', data=post_data)
         except Exception as e:
             logger.exception(e)
-        return self.is_login()
+        if self._is_login():
+            account.cookie = self._req.cookies.get_dict()  # outer can get and save cookie from user
+            self._account = account
+            return 60 * 20
+        else:
+            return -60
 
-    # 检查登录状态
-    def is_login(self) -> bool:
+    def _is_login(self) -> bool:
         res = self._req.get('https://codeforces.com')
         if res and re.search(r'logout">Logout</a>', res.text):
             return True
@@ -191,42 +209,40 @@ class Codeforces(Base):
     def account_required() -> bool:
         return False
 
-    # 获取比赛
     def get_contest(self, cid: str) -> Contest:
-        result = re.match('^\d+$', cid)
-        if result is None:
-            return Contest(oj=Codeforces.__name__, cid=cid)
+        if re.match('^\d+$', cid) is None:
+            raise Exception('contest id [' + cid + '] ERROR')
 
-        url = 'https://codeforces.com/contest/' + result.group()
-        response = self._req.get(url=url)
-        contest = Contest(oj=Codeforces.__name__, cid=cid)
+        response = self._req.get(url='https://codeforces.com/contest/' + cid)
+        ret = Contest(oj=Codeforces.__name__, cid=cid)
         if response is None or response.status_code != 200 or response.text is None:
             raise Exception("Fetch Contest Error")
-        problems = CodeforcesParser().contest_parse(response.text)
-        if problems is not None:
-            contest.problem_set = {}
-        for problem in problems:
-            contest.problem_set[problem] = self.get_problem(cid + problem)
-        return contest
+        print("get contest:" + cid)
+        CodeforcesParser().contest_parse(contest=ret, response=response.text)
+        # TODO thread fetch ?
+        for pid in ret.problems.keys():
+            # TODO which is better
+            # ret.problems[pid] = self.get_problem(pid=cid + pid)
+            self.get_problem(pid=cid + pid, problem=ret.problems[pid])
+        return ret
 
-    # 获取题目
-    def get_problem(self, pid: str, account: Account = None) -> Problem:
+    def get_problem(self, pid: str, problem: Problem = None) -> Problem:
         result = re.match('^(\d+)([A-Z]\d?)$', pid)
         if result is None:
-            return Problem(oj=Codeforces.__name__, pid=pid, status=Problem.Status.STATUS_ERROR)
-
+            raise Exception('problem id[' + pid + '] ERROR')
         url = 'https://codeforces.com/contest/' + result.group(1) + '/problem/' + result.group(2)
+        if problem is None:
+            problem = Problem(oj=Codeforces.__name__, pid=pid, url=url)
+        else:
+            problem.url = url
         response = self._req.get(url=url)
-        problem = Problem(oj=Codeforces.__name__, pid=pid, url=url)
+        print("get problem:" + pid)
         if response is None or response.status_code != 200 or response.text is None:
-            problem.status = Problem.Status.STATUS_RETRYABLE
-            return problem
-        return CodeforcesParser().problem_parse(response.text, problem)
+            raise Exception("Fetch Problem Error")
+        CodeforcesParser().problem_parse(problem=problem, response=response.text)
+        return problem
 
-    # 提交代码
-    def submit_code(self, account, pid, language, code) -> bool:
-        if not self.login_website(account):
-            return Result(Result.Status.STATUS_SPIDER_ERROR)
+    def submit_code(self, pid, language, code) -> bool:
         print(account.username + " Login")
         result = re.match('^(\d+)([A-Z]\d?)$', pid)
         if result is None:
@@ -255,25 +271,22 @@ class Codeforces(Base):
             return Result(Result.Status.STATUS_SUBMIT_SUCCESS)
         return Result(Result.Status.STATUS_SUBMIT_ERROR)
 
-    # 获取当然运行结果
-    def get_result(self, account: str, pid: str) -> Result:
-        if self.login_website(account) is False:
-            return Result(Result.Status.STATUS_RESULT_ERROR)
-        return self.get_result_by_url('https://codeforces.com/api/user.status?handle=' + account.username + '&count=1')
+    # TODO 可能换成 题目页面右侧 获取?
+    def get_result(self, pid: str) -> Result:
+        return self._get_result_by_url(
+            'https://codeforces.com/api/user.status?handle=' + self._account.username + '&count=1')
 
-    # 根据源OJ的运行id获取结构
     def get_result_by_quick_id(self, quick_id: str) -> Result:
-        ret = self.get_result_by_url('https://codeforces.com/api/user.status?handle=' + account.username + '&count=1')
+        ret = self._get_result_by_url(
+            'https://codeforces.com/api/user.status?handle=' + self._account.username + '&count=1')
         if ret.status == Result.Status.STATUS_RESULT_SUCCESS and ret.unique_key != unique_key:
             return Result(Result.Status.STATUS_RESULT_ERROR)
         return ret
 
-    # 根据源OJ的url获取结果
-    def get_result_by_url(self, url: str):
+    def _get_result_by_url(self, url: str) -> Result:
         res = self._req.get(url=url)
         return CodeforcesParser().result_parse(response=res)
 
-    # 获取源OJ支持的语言类型
     def get_language(self) -> LangKV:
         res = self._req.get('https://codeforces.com/problemset/submit')
         website_data: str = res.text
@@ -286,25 +299,10 @@ class Codeforces(Base):
                     ret.set(child.get('value'), child.string)
         return ret
 
-    # 检查源OJ是否运行正常
-    def is_working(self):
-        return self._req.get('https://codeforces.com').status_code == 200
+    def _assert_working(self):
+        if self._req.get('https://codeforces.com').status_code != 200:
+            raise Exception('https://codeforces.com not working')
 
     @staticmethod
     def support_contest():
         return True
-
-    #  判断结果是否正确
-    @staticmethod
-    def is_accepted(verdict):
-        return verdict in ['Accepted', 'Happy New Year!']
-
-    # 判断是否编译错误
-    @staticmethod
-    def is_compile_error(verdict):
-        return verdict == 'Compilation error'
-
-    # 判断是否运行中
-    @staticmethod
-    def is_running(verdict):
-        return verdict is None or str(verdict).startswith('Running on') or verdict == 'TESTING' or verdict == 'In queue'

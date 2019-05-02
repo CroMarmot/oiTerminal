@@ -3,15 +3,18 @@ from enum import Enum
 
 class Result:
     class Status(Enum):
-        VERDICT_PENDING = 'Pending'
-        VERDICT_RUNNING = 'Running'
-        VERDICT_AC = 'AC'
-        VERDICT_CE = 'CE'
-        VERDICT_WA = 'WA'
-        VERDICT_TLE = 'TLE'
-        VERDICT_MLE = 'MLE'
+        PENDING = 'Pending'
+        RUNNING = 'Running'
+        AC = 'AC'
+        CE = 'CE'
+        WA = 'WA'
+        TLE = 'TLE'
+        MLE = 'MLE'
 
-    _cur_status: Status
+    cur_status: Status
+    quick_key: str = ''
+    passed: str = '0'
+    total: str = '0'
 
-    def __init__(self):
-        pass
+    def __init__(self, cur_status: Status):
+        self.cur_status = cur_status
