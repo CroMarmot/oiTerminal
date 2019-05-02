@@ -22,6 +22,7 @@ def submit(
     while result is None and tries > 0:
         tries -= 1
         print("Submitting...")
+        # TODO in submit cookies should be set into account
         result = core.submit_code(pid=pid, account=account, code=file_path, language=language)
         account.set_cookies(core.get_cookies())
     if result.status in [Result.Status.STATUS_SUBMIT_ERROR,

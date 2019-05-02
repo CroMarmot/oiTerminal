@@ -4,9 +4,15 @@ import re
 from bs4 import BeautifulSoup
 from bs4 import element
 
-from oiTerminal.model import Problem, Result, Account, TestCase, Contest
+from oiTerminal.Model.LangKV import LangKV
 from oiTerminal.platforms.base import Base, BaseParser
 from oiTerminal.utils import HtmlTag, HttpUtil, logger
+
+from oiTerminal.Model.Account import Account
+from oiTerminal.Model.Problem import Problem
+from oiTerminal.Model.TestCase import TestCase
+from oiTerminal.Model.Contest import Contest
+from oiTerminal.Model.Result import Result
 
 
 class CodeforcesParser(BaseParser):
@@ -140,25 +146,21 @@ MathJax.Hub.Config({
 
 
 class Codeforces(Base):
+    _cookies: dict
+
     def __init__(self, *args, **kwargs):
         self._req = HttpUtil(*args, **kwargs)
 
-    # 主页链接
-    @staticmethod
-    def home_page_url() -> str:
-        return 'https://codeforces.com/'
-
-    def get_cookies(self):
+    # TODO add method cookie login and save cookies in db/json
+    def _get_cookies(self):
         return self._req.cookies.get_dict()
 
-    def set_cookies(self, cookies):
+    def _set_cookies(self, cookies):
         if isinstance(cookies, dict):
             self._req.cookies.update(cookies)
 
     # 登录页面
-    def login_website(self, account):
-        if self.is_login():
-            return True
+    def login_website(self, account: Account) -> int:
         try:
             res = self._req.get('https://codeforces.com/enter?back=%2F')
 
@@ -179,17 +181,18 @@ class Codeforces(Base):
         return self.is_login()
 
     # 检查登录状态
-    def is_login(self):
+    def is_login(self) -> bool:
         res = self._req.get('https://codeforces.com')
         if res and re.search(r'logout">Logout</a>', res.text):
             return True
         return False
 
-    def account_required(self):
+    @staticmethod
+    def account_required() -> bool:
         return False
 
     # 获取比赛
-    def get_contest(self, cid: str, account: Account = None):
+    def get_contest(self, cid: str) -> Contest:
         result = re.match('^\d+$', cid)
         if result is None:
             return Contest(oj=Codeforces.__name__, cid=cid)
@@ -203,11 +206,11 @@ class Codeforces(Base):
         if problems is not None:
             contest.problem_set = {}
         for problem in problems:
-            contest.problem_set[problem] = self.get_problem(cid + problem, account)
+            contest.problem_set[problem] = self.get_problem(cid + problem)
         return contest
 
     # 获取题目
-    def get_problem(self, pid: str, account: Account = None):
+    def get_problem(self, pid: str, account: Account = None) -> Problem:
         result = re.match('^(\d+)([A-Z]\d?)$', pid)
         if result is None:
             return Problem(oj=Codeforces.__name__, pid=pid, status=Problem.Status.STATUS_ERROR)
@@ -221,7 +224,7 @@ class Codeforces(Base):
         return CodeforcesParser().problem_parse(response.text, problem)
 
     # 提交代码
-    def submit_code(self, account, pid, language, code):
+    def submit_code(self, account, pid, language, code) -> bool:
         if not self.login_website(account):
             return Result(Result.Status.STATUS_SPIDER_ERROR)
         print(account.username + " Login")
@@ -253,13 +256,13 @@ class Codeforces(Base):
         return Result(Result.Status.STATUS_SUBMIT_ERROR)
 
     # 获取当然运行结果
-    def get_result(self, account: str, pid: str):
+    def get_result(self, account: str, pid: str) -> Result:
         if self.login_website(account) is False:
             return Result(Result.Status.STATUS_RESULT_ERROR)
         return self.get_result_by_url('https://codeforces.com/api/user.status?handle=' + account.username + '&count=1')
 
     # 根据源OJ的运行id获取结构
-    def get_result_by_rid_and_pid(self, account: Account, pid: str, unique_key: str):
+    def get_result_by_quick_id(self, quick_id: str) -> Result:
         ret = self.get_result_by_url('https://codeforces.com/api/user.status?handle=' + account.username + '&count=1')
         if ret.status == Result.Status.STATUS_RESULT_SUCCESS and ret.unique_key != unique_key:
             return Result(Result.Status.STATUS_RESULT_ERROR)
@@ -271,19 +274,17 @@ class Codeforces(Base):
         return CodeforcesParser().result_parse(response=res)
 
     # 获取源OJ支持的语言类型
-    def find_language(self, account):
-        if self.login_website(account) is False:
-            return {}
+    def get_language(self) -> LangKV:
         res = self._req.get('https://codeforces.com/problemset/submit')
-        website_data = res.text
-        languages = {}
+        website_data: str = res.text
+        ret: LangKV = LangKV()
         if website_data:
             soup = BeautifulSoup(website_data, 'lxml')
             tags = soup.find('select', attrs={'name': 'programTypeId'})
             if tags:
                 for child in tags.find_all('option'):
-                    languages[child.get('value')] = child.string
-        return languages
+                    ret.set(child.get('value'), child.string)
+        return ret
 
     # 检查源OJ是否运行正常
     def is_working(self):

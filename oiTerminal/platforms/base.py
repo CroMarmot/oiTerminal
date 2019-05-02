@@ -1,3 +1,10 @@
+from oiTerminal.Model.Account import Account
+from oiTerminal.Model.Contest import Contest
+from oiTerminal.Model.LangKV import LangKV
+from oiTerminal.Model.Problem import Problem
+from oiTerminal.Model.Result import Result
+
+
 class BaseParser(object):
     def contest_parse(self, response):
         pass
@@ -10,52 +17,44 @@ class BaseParser(object):
 
 
 class Base(object):
-    # 主页链接
-    @staticmethod
-    def home_page_url() -> str:
-        pass
-
-    def get_cookies(self):
-        pass
-
-    def set_cookies(self, cookies):
-        pass
-
-    # 登录页面
-    def login_website(self, account):
-        pass
+    # return login effective time in second
+    def login_website(self, account: Account) -> int:
+        print('Base login_website')
+        return -1
 
     # 检查登录状态
-    def is_login(self):
+    def is_login(self) -> bool:
+        print('Base is_login')
+        return False
+
+    # 获取题目
+    def get_contest(self, cid: str) -> Contest:
         pass
 
     # 获取题目
-    def get_problem(self, pid, account):
+    def get_problem(self, pid: str) -> Problem:
         pass
 
     # 提交代码
-    def submit_code(self, account, pid, language, code):
+    def submit_code(self, pid: str, language: str, code: str) -> bool:
         pass
 
-    # 抓取题目是否需要登录账号
-    def account_required(self):
+    def get_result(self, pid) -> Result:
         pass
 
-    # 获取当然运行结果
-    def get_result(self, account, pid):
+    def get_result_by_quick_id(self, quick_id: str) -> Result:
         pass
 
-    # 根据源OJ的运行id获取结构
-    def get_result_by_rid_and_pid(self, account, pid, unique_key):
+    def get_language(self) -> LangKV:
+        print('Base get_language')
         pass
 
-    # 获取源OJ支持的语言类型
-    def find_language(self, account):
+    def is_working(self) -> bool:
         pass
 
-    # 检查源OJ是否运行正常
-
-    def is_working(self):
+    # require account for view problem/contest/fetch result
+    @staticmethod
+    def account_required() -> bool:
         pass
 
     @staticmethod

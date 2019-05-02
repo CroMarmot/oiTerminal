@@ -10,7 +10,6 @@ from oiTerminal.utils import LanguageUtil, OJUtil
 
 from oiTerminal.Model.Contest import Contest
 from oiTerminal.Model.Account import Account
-from oiTerminal.Model.Problem import Problem
 from oiTerminal.Model.FolderState import FolderState
 
 
@@ -28,24 +27,18 @@ def touch(path):
         os.utime(path, None)
 
 
-def get_problem(oj: str, pid: str, account: Account) -> Problem:
-    _problem = Core(oj).get_problem(pid=pid, account=account)
-    return _problem
-
-
-def get_contest(oj: str, cid: str, account: Account) -> Contest:
-    _oj = Core(oj)
-    if not _oj.is_support_contest():
-        raise Exception(oj + ' is not support contest!')
-    return _oj.get_contest(cid, account=account)
-
-
-def create_contest_files(contest: Contest = None):
+# create folder & testcase
+def create_contest_files_and_code_files(
+        contest: Contest = None,
+        lang: str = '',
+        up_lang: str = ''
+):
     if contest is None:
         raise Exception('contest is None')
+
+    # generate html & in & out
     folder: str = DIST + "/" + contest.oj + "/" + contest.id + "/"
     os.makedirs(folder, exist_ok=True)
-    # generate html & in & out
     for problem_id, problem in contest.problems.items():
         with open(folder + problem_id + '.html', "w") as problem_html:
             problem_html.write(problem.html)
@@ -58,15 +51,8 @@ def create_contest_files(contest: Contest = None):
                 tc_out.write(tc.out_data)
                 tc_out.close()
 
-
-def create_contest_code_file(
-        contest: Contest,  # contest
-        lang: str,  # language
-        up_lang: str  # submit lang
-):
-    if contest is None:
-        raise Exception('contest is None')
-    folder = DIST + "/" + contest.oj + "/" + contest.id + '-' + lang + "/"
+    # generate code file by copy template file
+    folder: str = DIST + "/" + contest.oj + "/" + contest.id + '-' + lang + "/"
     os.makedirs(folder, exist_ok=True)
     suffix = LanguageUtil.lang2suffix(lang)
     template_file = LanguageUtil.lang2template(lang)
@@ -80,9 +66,11 @@ def create_contest_code_file(
         else:  # create new file
             touch(dst_filename)
 
+    # symlink test.py submit.py
     force_symlink('../../../' + TEST_PY, folder + TEST_PY)
     force_symlink('../../../' + SUBMIT_PY, folder + SUBMIT_PY)
 
+    # generate state.json
     folder_state = FolderState(
         oj=contest.oj,
         sid=contest.id,
@@ -130,13 +118,15 @@ def contest_parser():
         up_lang = args.remotelang
 
     # check if template file exist?
-    template_file = TEMPLATEFOLDER + LanguageUtil.lang2template(lang)
+    template_file = LanguageUtil.lang2template(lang)
     if not os.path.isfile(template_file):
-        userinput = input("Template file (" + template_file + ") not find ! Keep going? (Y/N) :")
-        if userinput == 'Y' or userinput == 'y' or userinput == '':
+        user_input = input("Template file (" + template_file + ") not find ! Keep going? (Y/N) :")
+        if user_input == 'Y' or user_input == 'y' or user_input == '':
             pass
         else:
             exit(0)
+    else:
+        print('Template file found:' + template_file)
 
     return OJUtil.short2full(args.oj), args.contest, username, password, lang, up_lang
 
@@ -144,12 +134,8 @@ def contest_parser():
 def contest_main():
     oj, cid, username, password, lang, up_lang = contest_parser()
 
-    _contest = get_contest(
-        oj=oj,
-        cid=cid,
-        account=Account(username, password))
-    create_contest_files(_contest)
-    create_contest_code_file(_contest, lang, up_lang)
+    _contest: Contest = Core(oj).set_account(Account(username, password)).get_contest(cid)
+    create_contest_files_and_code_files(_contest, lang, up_lang)
 
 
 if __name__ == '__main__':
