@@ -11,12 +11,13 @@ class Problem:
 
     title: str
     status: Status
+    _test_cases: List[TestCase]
 
     def __init__(self,
                  pid: str,
                  oj: str,
                  description: str = '',
-                 test_cases: List[TestCase] = [],
+                 test_cases: List[TestCase] = None,
                  time_limit: str = '',
                  mem_limit: str = '',
                  url: str = '',
@@ -24,7 +25,10 @@ class Problem:
         self._id: str = pid
         self._oj: str = oj
         self._description: str = description
-        self._test_cases: List[TestCase] = test_cases
+        if test_cases is None:
+            self._test_cases = []
+        else:
+            self._test_cases = test_cases
         self._time_limit: str = time_limit
         self._mem_limit: str = mem_limit
         self._url: str = url

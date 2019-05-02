@@ -3,12 +3,12 @@
 # COLOR
 import os
 
-RED = '\e[31m'
-DEFAULT = '\e[39m'
-GREEN = '\e[32m'
+RED = "\x1b[31m"
+DEFAULT = "\x1b[39m"
+GREEN = "\x1b[32m"
 # FOLDER
 ROOT_PATH = os.path.dirname(os.path.realpath(__file__)) + '/'
-DIST = 'dist/'
+DIST = 'dist'
 TEST_FOLDER = 'TEST/'
 TEMPLATEFOLDER = 'template/'
 # FILE

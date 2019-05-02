@@ -1,9 +1,14 @@
 class FolderState:
-    def __init__(self, oj: str, sid: str, lang: str, up_lang: str):
-        self._oj: str = oj
-        self._id: str = sid
-        self._lang: str = lang
-        self._up_lang: str = up_lang
+    _oj: str
+    _id: str
+    _lang: str
+    _up_lang: str
+
+    def __init__(self, oj: str = '', sid: str = '', lang: str = '', up_lang: str = ''):
+        self._oj = oj
+        self._id = sid
+        self._lang = lang
+        self._up_lang = up_lang
 
     @property
     def oj(self):

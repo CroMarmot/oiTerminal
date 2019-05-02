@@ -67,8 +67,8 @@ def create_contest_files_and_code_files(
             touch(dst_filename)
 
     # symlink test.py submit.py
-    force_symlink('../../../scripts/' + TEST_PY, folder + TEST_PY)
-    force_symlink('../../../scripts/' + SUBMIT_PY, folder + SUBMIT_PY)
+    force_symlink('../../../' + TEST_PY, folder + TEST_PY)
+    force_symlink('../../../' + SUBMIT_PY, folder + SUBMIT_PY)
 
     # generate state.json
     folder_state = FolderState(
@@ -139,4 +139,7 @@ def contest_main():
 
 
 if __name__ == '__main__':
-    contest_main()
+    try:
+        contest_main()
+    except KeyboardInterrupt:
+        print("Interrupt by user")
