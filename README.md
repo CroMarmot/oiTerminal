@@ -222,3 +222,5 @@ testflow:
 [VirtualJudge/spider](https://github.com/VirtualJudge/spider)
 
 [Beautiful 4](https://www.crummy.com/software/BeautifulSoup/bs4/doc/)
+
+[colors](https://misc.flogisoft.com/bash/tip_colors_and_formatting)

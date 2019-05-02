@@ -1,5 +1,6 @@
 import importlib
 import time
+from const import *
 
 from oiTerminal.Model.LangKV import LangKV
 from oiTerminal.utils import logger, OJUtil
@@ -29,7 +30,8 @@ class OJBuilder(object):
 class Core(object):
     _account: Account
 
-    def __init__(self, oj_name: str, proxies=None, timeout=5, account: Account = None):
+    # 15s for bad internet
+    def __init__(self, oj_name: str, proxies=None, timeout=15, account: Account = None):
         if oj_name not in OJUtil.get_supports():
             raise Exception("oj name error or not supported")
         self._oj: Base = OJBuilder.build_oj(oj_name, proxies=proxies, timeout=timeout)
@@ -60,7 +62,15 @@ class Core(object):
         if not self._oj:
             raise Exception('submit_code: ERROR')
         self._login()
-        return self._oj.submit_code(pid=pid, language=language, code=code)
+        print("Submitting...")
+        for i in range(3):
+            try:
+                ret = self._oj.submit_code(pid=pid, language=language, code=code)
+                return ret
+            except Exception as e:
+                logger.log(e)
+                pass
+        return False
 
     # 获取结果
     def get_result(self, pid: str) -> Result:
@@ -84,9 +94,13 @@ class Core(object):
         return self._oj.get_language()
 
     def _login(self):
-        print('login ing')
         if not self._is_login():
-            self._out_date = time.time() + self._oj.login_website(self._account)
+            print(self._account.username + ' login...')
+            ret = self._oj.login_website(self._account)
+            if ret < 0:
+                raise Exception('Login Failed')
+            print(GREEN + self._account.username + " login √" + DEFAULT)
+            self._out_date = time.time() + ret
 
     def _is_login(self) -> bool:
         return time.time() < self._out_date

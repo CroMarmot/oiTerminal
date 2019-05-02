@@ -102,6 +102,7 @@ def contest_parser():
     args = parser.parse_args()
 
     # config arg
+    # TODO all 2 class
     if not os.path.isfile(CONFIG_FILE):
         raise Exception(CONFIG_FILE + " NOT EXIST!")
     with open(CONFIG_FILE) as f:

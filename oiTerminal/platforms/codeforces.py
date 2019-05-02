@@ -1,6 +1,5 @@
 import json
 import re
-from typing import List
 
 from bs4 import BeautifulSoup
 from bs4 import element
@@ -102,47 +101,77 @@ MathJax.Hub.Config({
                 t_out = test_case_outputs[i].find(name='pre').get_text("\n").strip(" \r\n")
                 problem.test_cases.append(TestCase(t_in, t_out))
 
+    # TODO codeforces's api won't change during a problem is testing, so i can't fetch zhe progress of testing
+    # something like wss://pubsub.codeforces.com/ws/s_f496dfbd41a0b1ae37775f3f3bbaf806deb23ff4?_=1556834462081&tag=&time=&eventid=
+    # https://github.com/xalanq/cf-tool/blob/d172e3f1c0c7ac6263fc09043071c3ccb5d0b1ff/client/watch.go
+    #
     # JSON Example:
-    # {"status": "OK", "result": [
-    #    {"id": 51191707,
-    #     "contestId": 1136,
-    #     "creationTimeSeconds": 1552327705,
-    #     "relativeTimeSeconds": 5605,
-    #     "problem": {"contestId": 1136,
-    #                 "index": "D",
-    #                 "name": "Nastya Is Buying Lunch",
-    #                 "type": "PROGRAMMING",
-    #                 "points": 2000.0,
-    #                 "rating": 1800,
-    #                 "tags": ["greedy"]},
-    #     "author": {"contestId": 1136,
-    #                "members": [{"handle": "Cro-Marmot"}],
-    #                "participantType": "CONTESTANT",
-    #                "ghost": false,
-    #                "room": 56,
-    #                "startTimeSeconds": 1552322100},
-    #     "programmingLanguage": "GNU C++17",
-    #     "verdict": "OK",
-    #     "testset": "TESTS",
-    #     "passedTestCount": 70,
-    #     "timeConsumedMillis": 390,
-    #     "memoryConsumedBytes": 15052800}]}
-    def result_parse(self, result: Result, response: str):
-        if response is None:
-            return Result(Result.Status.STATUS_RESULT_ERROR)
-        ret = response.json()
-        result = Result()
+    # {
+    #   "status": "OK",
+    #   "result": [
+    #     {
+    #       "id": 53644184,
+    #       "contestId": 1156,
+    #       "creationTimeSeconds": 1556733400,
+    #       "relativeTimeSeconds": 2147483647,
+    #       "problem": {
+    #         "contestId": 1156,
+    #         "index": "D",
+    #         "name": "0-1-Tree",
+    #         "type": "PROGRAMMING",
+    #         "tags": [
+    #           "dfs and similar",
+    #           "divide and conquer",
+    #           "dp",
+    #           "dsu"
+    #         ]
+    #       },
+    #       "author": {
+    #         "contestId": 1156,
+    #         "members": [
+    #           {
+    #             "handle": "Cro-Marmot"
+    #           }
+    #         ],
+    #         "participantType": "PRACTICE",
+    #         "ghost": false,
+    #         "startTimeSeconds": 1556721300
+    #       },
+    #       "programmingLanguage": "GNU C++17",
+    #       "verdict": "OK",
+    #       "testset": "TESTS",
+    #       "passedTestCount": 73,
+    #       "timeConsumedMillis": 234,
+    #       "memoryConsumedBytes": 36864000
+    #     }
+    #   ]
+    # }
+    def result_parse(self, response: str) -> Result:
+        ret = json.loads(response)
+        result = Result(Result.Status.PENDING)
         if 'status' not in ret or ret['status'] != 'OK':
             raise ConnectionError('Cannot connect to Codeforces! ' + json.dumps(ret))
         try:
             _result = ret['result'][0]
-            result.unique_key = _result['id']
-            result.verdict_info = _result.get('verdict')
-            result.execute_time = str(_result['timeConsumedMillis']) + " MS"
-            result.execute_memory = str(_result['memoryConsumedBytes']) + " B"
-            result.status = Result.Status.STATUS_RESULT_SUCCESS
-        except Exception:
-            raise ConnectionError('Cannot get latest submission, error')
+            result.id = _result['id']
+            result.state_note = str(_result['passedTestCount'])
+            result.time_note = str(_result['timeConsumedMillis']) + " MS"
+            result.mem_note = str(_result['memoryConsumedBytes']) + " B"
+            _verdict = _result.get('verdict')
+            if _verdict in ['OK', 'Happy New Year!']:
+                result.cur_status = Result.Status.AC
+            elif _verdict in ['TESTING']:
+                result.cur_status = Result.Status.RUNNING
+            elif _verdict in ['WRONG_ANSWER']:
+                result.cur_status = Result.Status.WA
+            elif _verdict in ['RUNTIME_ERROR']:
+                result.cur_status = Result.Status.RE
+            else:
+                print("UNKNOWN with " + _verdict)
+                result.cur_status = Result.Status.PENDING
+        except Exception as e:
+            logger.log(e)
+            raise ConnectionError('Cannot get latest submission, error:' + str(e))
         return result
 
     #  判断结果是否正确
@@ -242,15 +271,14 @@ class Codeforces(Base):
         CodeforcesParser().problem_parse(problem=problem, response=response.text)
         return problem
 
-    def submit_code(self, pid, language, code) -> bool:
-        print(account.username + " Login")
+    def submit_code(self, pid: str, language: str, code: str) -> bool:
         result = re.match('^(\d+)([A-Z]\d?)$', pid)
         if result is None:
-            return Result(Result.Status.STATUS_RESULT_ERROR)
+            raise Exception("submit_code: WRONG pid[" + pid + "]")
 
         res = self._req.get('https://codeforces.com/contest/' + result.group(1) + '/submit')
         if res is None:
-            return Result(Result.Status.STATUS_SPIDER_ERROR)
+            raise Exception("submit_code: cannot open problem")
         soup = BeautifulSoup(res.text, 'lxml')
         csrf_token = soup.find(attrs={'name': 'X-Csrf-Token'}).get('content')
         post_data = {
@@ -268,8 +296,8 @@ class Codeforces(Base):
         url = 'https://codeforces.com/contest/' + result.group(1) + '/submit?csrf_token=' + csrf_token
         res = self._req.post(url, data=post_data)
         if res and res.status_code == 200:
-            return Result(Result.Status.STATUS_SUBMIT_SUCCESS)
-        return Result(Result.Status.STATUS_SUBMIT_ERROR)
+            return True
+        return False
 
     # TODO 可能换成 题目页面右侧 获取?
     def get_result(self, pid: str) -> Result:
@@ -277,15 +305,15 @@ class Codeforces(Base):
             'https://codeforces.com/api/user.status?handle=' + self._account.username + '&count=1')
 
     def get_result_by_quick_id(self, quick_id: str) -> Result:
-        ret = self._get_result_by_url(
-            'https://codeforces.com/api/user.status?handle=' + self._account.username + '&count=1')
-        if ret.status == Result.Status.STATUS_RESULT_SUCCESS and ret.unique_key != unique_key:
-            return Result(Result.Status.STATUS_RESULT_ERROR)
-        return ret
+        return self._get_result_by_url(quick_id)
 
     def _get_result_by_url(self, url: str) -> Result:
-        res = self._req.get(url=url)
-        return CodeforcesParser().result_parse(response=res)
+        response = self._req.get(url=url)
+        if response is None or response.status_code is not 200 or response.text is None:
+            raise Exception('get result Failed')
+        ret = CodeforcesParser().result_parse(response=response.text)
+        ret.quick_key = url
+        return ret
 
     def get_language(self) -> LangKV:
         res = self._req.get('https://codeforces.com/problemset/submit')

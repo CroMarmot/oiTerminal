@@ -8,36 +8,8 @@ default_headers = {
                   ' (KHTML, like Gecko) Chrome/64.0.3282.186 Safari/537.36'
 }
 
-
-class Account:
-    def __init__(self, username, password, cookies=None):
-        self._username = username
-        self._password = password
-        self._cookies = cookies
-
-    @property
-    def username(self):
-        return self._username
-
-    @property
-    def password(self):
-        return self._password
-
-    @property
-    def cookies(self):
-        return self._cookies
-
-    def set_cookies(self, cookies):
-        if type(cookies) != dict:
-            raise TypeError(f'set_cookies() required {type(dict)} type, but we got {type(cookies)}')
-        self._cookies = cookies
-
-
 class Contest(object):
     class Status(Enum):
-        """
-        STATUS_ERROR:没有成功抓取到题目
-        """
         STATUS_ERROR = 'Error'
 
     def __init__(self, oj=None, cid=None, status=None):
@@ -54,9 +26,6 @@ class TestCase(object):
 
 
 class Problem(object):
-    """
-    从原网站抓取的题目对象
-    """
 
     class Status(Enum):
         """

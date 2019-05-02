@@ -12,7 +12,7 @@ class BaseParser(object):
     def problem_parse(self, problem: Problem, response: str):
         pass
 
-    def result_parse(self, result: Result, response: str):
+    def result_parse(self, response: str) -> Result:
         pass
 
 

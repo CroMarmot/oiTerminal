@@ -46,9 +46,10 @@ def do_test():
         os.system(LanguageUtil.lang2exe(lang, std_in_file, user_out_file))
         end_time = datetime.datetime.now()
         print()
-        print("time spend: " + str((end_time - start_time).total_seconds()) + "s")
+        # TODO COMPARE TIME
+        print("Time spend: " + GREEN + str((end_time - start_time).total_seconds()) + "s" + DEFAULT)
 
-        # cmp
+        # cmp output
         diff = os.system("diff --brief -B --ignore-trailing-space " + std_out_file + " " + user_out_file)
         if diff is not 0:
             print(RED)
