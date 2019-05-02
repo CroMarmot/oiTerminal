@@ -15,5 +15,3 @@ class TestTestCase():
         assert (ttc.in_data == "1 \n 2 3")
         assert (ttc.out_data == "6")
 
-
-class TestTestCase():

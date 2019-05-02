@@ -19,6 +19,8 @@ class TestCase:
 
 
 class TestCases:
+    testpaths = ./tests
+python_files = test_*.py
     def __init__(self):
         self._tc: List[TestCase] = []
 

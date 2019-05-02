@@ -24,13 +24,13 @@ class TestProblem():
     def test_rw_test_cases(self):
         pass
 
-    def test_rw_time_limit:
+    def test_rw_time_limit(self):
         p = Problem("zz", "qwed")
         assert (p.time_limit == '')
         p.time_limit = "1111s"
         assert (p.time_limit == "1111s")
 
-    def test_rw_mem_limit:
+    def test_rw_mem_limit(self):
         p = Problem("zqwez", "hed")
         assert (p.mem_limit == '')
         p.mem_limit = "1234MB"

@@ -8,13 +8,15 @@ class Problem:
                  description: str = '',
                  test_cases: TestCases = None,
                  time_limit: str = '',
-                 mem_limit: str = ''):
+                 mem_limit: str = '',
+                 url: str = ''):
         self._id: str = pid
         self._oj: str = oj
         self._description: str = description
         self._test_cases: TestCases = test_cases
         self._time_limit: str = time_limit
         self._mem_limit: str = mem_limit
+        self._url: str = url
 
     @property
     def id(self) -> str:
@@ -55,3 +57,11 @@ class Problem:
     @mem_limit.setter
     def mem_limit(self, value: str):
         self._mem_limit = value
+
+    @property
+    def url(self) -> str:
+        return self._url
+
+    @url.setter
+    def url(self, value: str):
+        self._url = value
