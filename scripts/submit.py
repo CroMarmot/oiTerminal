@@ -2,7 +2,6 @@
 import argparse
 import json
 import time
-import os
 
 from const import *
 from oiTerminal.model import Account, Result

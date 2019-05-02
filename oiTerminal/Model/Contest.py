@@ -5,14 +5,35 @@ from oiTerminal.Model.Problem import Problem
 class Contest:
     def __init__(self, cid: str):
         self._id = cid
-        self._problems: Dict[str, Problem] = {}
-        self._name: str = ''
         self._url: str = ''
+        self._name: str = ''
+        self._oj: str = ''
+        self.problems: Dict[str, Problem] = {}
 
     @property
     def id(self):
         return self._id
 
-    def addProblem(self, p:Problem):
-        self._problems[p.id] = p
+    @property
+    def name(self):
+        return self._name
 
+    @name.setter
+    def name(self, value):
+        self._name = value
+
+    @property
+    def url(self):
+        return self._url
+
+    @url.setter
+    def url(self, value):
+        self._url = value
+
+    @property
+    def oj(self):
+        return self._oj
+
+    @oj.setter
+    def oj(self, value):
+        self._oj = value

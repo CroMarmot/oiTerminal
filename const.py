@@ -7,9 +7,9 @@ RED = '\e[31m'
 DEFAULT = '\e[39m'
 GREEN = '\e[32m'
 # FOLDER
+ROOT_PATH = os.path.dirname(os.path.realpath(__file__)) + '/'
 DIST = 'dist/'
 TEST_FOLDER = 'TEST/'
-ROOT_PATH = os.path.dirname(os.path.realpath(__file__)) + '/'
 TEMPLATEFOLDER = 'template/'
 # FILE
 CONFIG_FILE = ROOT_PATH + 'config.json'

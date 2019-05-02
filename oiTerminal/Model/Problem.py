@@ -1,4 +1,5 @@
-from oiTerminal.Model.TestCases import TestCases
+from oiTerminal.Model.TestCase import TestCase
+from typing import List
 
 
 class Problem:
@@ -6,17 +7,19 @@ class Problem:
                  pid: str,
                  oj: str,
                  description: str = '',
-                 test_cases: TestCases = None,
+                 test_cases: List[TestCase] = None,
                  time_limit: str = '',
                  mem_limit: str = '',
-                 url: str = ''):
+                 url: str = '',
+                 html: str = ''):
         self._id: str = pid
         self._oj: str = oj
         self._description: str = description
-        self._test_cases: TestCases = test_cases
+        self._test_cases: List[TestCase] = test_cases
         self._time_limit: str = time_limit
         self._mem_limit: str = mem_limit
         self._url: str = url
+        self._html: str = html
 
     @property
     def id(self) -> str:
@@ -35,11 +38,11 @@ class Problem:
         self._description = value
 
     @property
-    def test_cases(self) -> TestCases:
+    def test_cases(self) -> List[TestCase]:
         return self._test_cases
 
     @test_cases.setter
-    def test_cases(self, value: TestCases):
+    def test_cases(self, value: List[TestCase]):
         self._test_cases = value
 
     @property
@@ -65,3 +68,11 @@ class Problem:
     @url.setter
     def url(self, value: str):
         self._url = value
+
+    @property
+    def html(self) -> str:
+        return self._html
+
+    @html.setter
+    def html(self, value: str):
+        self._html = value
