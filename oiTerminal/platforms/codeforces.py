@@ -5,10 +5,10 @@ import threading
 from bs4 import BeautifulSoup
 from bs4 import element
 
-from oiTerminal.Model.LangKV import LangKV
 from oiTerminal.platforms.base import Base, BaseParser
 from oiTerminal.utils import HtmlTag, HttpUtil, logger
 
+from oiTerminal.Model.LangKV import LangKV
 from oiTerminal.Model.Account import Account
 from oiTerminal.Model.Problem import Problem
 from oiTerminal.Model.TestCase import TestCase
@@ -192,7 +192,6 @@ MathJax.Hub.Config({
 
 
 class Codeforces(Base):
-    _cookies: dict
     _account: Account
 
     def __init__(self, *args, **kwargs):
@@ -205,6 +204,13 @@ class Codeforces(Base):
         # return self._req.cookies.get_dict()
         # if isinstance(cookies, dict):
         #     self._req.cookies.update(cookies)
+        #
+        # if account.cookie is not '':
+        #     self._req.cookies.update(account.cookie)
+        #     if self._is_login():
+        #         return 20*60
+        #     else:
+        #         self._req.cookies.update()
         try:
             res = self._req.get('https://codeforces.com/enter?back=%2F')
 
@@ -233,10 +239,6 @@ class Codeforces(Base):
         res = self._req.get('https://codeforces.com')
         if res and re.search(r'logout">Logout</a>', res.text):
             return True
-        return False
-
-    @staticmethod
-    def account_required() -> bool:
         return False
 
     def get_contest(self, cid: str) -> Contest:
@@ -320,10 +322,9 @@ class Codeforces(Base):
 
     def get_language(self) -> LangKV:
         res = self._req.get('https://codeforces.com/problemset/submit')
-        website_data: str = res.text
         ret: LangKV = LangKV()
-        if website_data:
-            soup = BeautifulSoup(website_data, 'lxml')
+        if res.text:
+            soup = BeautifulSoup(res.text, 'lxml')
             tags = soup.find('select', attrs={'name': 'programTypeId'})
             if tags:
                 for child in tags.find_all('option'):
@@ -335,5 +336,9 @@ class Codeforces(Base):
             raise Exception('https://codeforces.com not working')
 
     @staticmethod
-    def support_contest():
+    def account_required() -> bool:
+        return False
+
+    @staticmethod
+    def support_contest() -> bool:
         return True

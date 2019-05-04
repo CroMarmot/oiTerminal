@@ -8,25 +8,8 @@ default_headers = {
                   ' (KHTML, like Gecko) Chrome/64.0.3282.186 Safari/537.36'
 }
 
-class Contest(object):
-    class Status(Enum):
-        STATUS_ERROR = 'Error'
 
-    def __init__(self, oj=None, cid=None, status=None):
-        self.oj = oj
-        self.id = cid
-        self.status = status
-        self.problem_set = {}  # { "problemid": Problem ,}
-
-
-class TestCase(object):
-    def __init__(self, sample_in=None, sample_out=None):
-        self.sample_in = sample_in
-        self.sample_out = sample_out
-
-
-class Problem(object):
-
+class OLDProblem(object):
     class Status(Enum):
         """
         STATUS_PENDING:加入队列
@@ -59,7 +42,7 @@ class Problem(object):
         self.template = None
 
 
-class Result(object):
+class OLDResult(object):
     """
     提交代码到源网站和从原网站抓取结果的返回对象
     """

@@ -1,13 +1,12 @@
-import json
 import re
 
 from bs4 import BeautifulSoup
 from bs4 import element
 
-from oiTerminal.Model.LangKV import LangKV
 from oiTerminal.platforms.base import Base, BaseParser
 from oiTerminal.utils import HtmlTag, HttpUtil, logger
 
+from oiTerminal.Model.LangKV import LangKV
 from oiTerminal.Model.Account import Account
 from oiTerminal.Model.Problem import Problem
 from oiTerminal.Model.TestCase import TestCase
@@ -39,17 +38,18 @@ MathJax.Hub.Config({
 <script src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS_HTML-full" async></script>
 """
 
-    # fill problems field
+    # TODO
     def contest_parse(self, contest: Contest, response: str):
-        contest.problems.clear()
+        ret = {}
         soup = BeautifulSoup(response, 'lxml')
-        match_groups = soup.find(name='table', attrs={'class': 'problems'})
+        match_groups = soup.find(name='tbody')
         if match_groups:
-            problems = match_groups.find_all(name='td', attrs={'class': 'id'})
+            problems = match_groups.find_all(name='tr')
             for each_problem in problems:
-                pid = each_problem.get_text().strip(" \r\n")
-                contest.problems[pid] = Problem(oj=contest.oj, pid=contest.id + pid)
+                ret.append(each_problem.get_text().strip(" \r\n"))
+        return ret
 
+    # TODO
     def problem_parse(self, problem: Problem, response: str):
         soup = BeautifulSoup(response, 'lxml')
 
@@ -88,10 +88,10 @@ MathJax.Hub.Config({
                 else:
                     problem.html += str(HtmlTag.update_tag(child, self._static_prefix))
         problem.html = '<html>' + problem.html + self._script + '</html>'
-        problem.status = Problem.Status.NOTVIS  # TODO for show progress
+        problem.status = Problem.Status.STATUS_SUCCESS
 
         match_groups = soup.find(name='div', attrs={'class': 'sample-test'})
-        problem.test_cases.clear()
+        problem.test_case = []
         if match_groups:
             test_case_inputs = match_groups.find_all(name='div', attrs={'class': 'input'})
             test_case_outputs = match_groups.find_all(name='div', attrs={'class': 'output'})
@@ -99,99 +99,35 @@ MathJax.Hub.Config({
             for i in range(len(test_case_inputs)):
                 t_in = test_case_inputs[i].find(name='pre').get_text("\n").strip(" \r\n")
                 t_out = test_case_outputs[i].find(name='pre').get_text("\n").strip(" \r\n")
-                problem.test_cases.append(TestCase(t_in, t_out))
+                problem.test_case.append(TestCase(t_in, t_out))
+        return problem
 
-    # TODO codeforces's api won't change during a problem is testing, so i can't fetch zhe progress of testing
-    # something like wss://pubsub.atcoder.jp/ws/s_f496dfbd41a0b1ae37775f3f3bbaf806deb23ff4?_=1556834462081&tag=&time=&eventid=
-    # https://github.com/xalanq/cf-tool/blob/d172e3f1c0c7ac6263fc09043071c3ccb5d0b1ff/client/watch.go
-    #
-    # JSON Example:
-    # {
-    #   "status": "OK",
-    #   "result": [
-    #     {
-    #       "id": 53644184,
-    #       "contestId": 1156,
-    #       "creationTimeSeconds": 1556733400,
-    #       "relativeTimeSeconds": 2147483647,
-    #       "problem": {
-    #         "contestId": 1156,
-    #         "index": "D",
-    #         "name": "0-1-Tree",
-    #         "type": "PROGRAMMING",
-    #         "tags": [
-    #           "dfs and similar",
-    #           "divide and conquer",
-    #           "dp",
-    #           "dsu"
-    #         ]
-    #       },
-    #       "author": {
-    #         "contestId": 1156,
-    #         "members": [
-    #           {
-    #             "handle": "Cro-Marmot"
-    #           }
-    #         ],
-    #         "participantType": "PRACTICE",
-    #         "ghost": false,
-    #         "startTimeSeconds": 1556721300
-    #       },
-    #       "programmingLanguage": "GNU C++17",
-    #       "verdict": "OK",
-    #       "testset": "TESTS",
-    #       "passedTestCount": 73,
-    #       "timeConsumedMillis": 234,
-    #       "memoryConsumedBytes": 36864000
-    #     }
-    #   ]
-    # }
+    # TODO
     def result_parse(self, response: str) -> Result:
-        ret = json.loads(response)
-        result = Result(Result.Status.PENDING)
-        if 'status' not in ret or ret['status'] != 'OK':
-            raise ConnectionError('Cannot connect to AtCoder! ' + json.dumps(ret))
-        try:
-            _result = ret['result'][0]
-            result.id = _result['id']
-            result.state_note = str(_result['passedTestCount'])
-            result.time_note = str(_result['timeConsumedMillis']) + " MS"
-            result.mem_note = str(_result['memoryConsumedBytes']) + " B"
-            _verdict = _result.get('verdict')
-            if _verdict in ['OK', 'Happy New Year!']:
-                result.cur_status = Result.Status.AC
-            elif _verdict in ['TESTING']:
-                result.cur_status = Result.Status.RUNNING
-            elif _verdict in ['WRONG_ANSWER']:
-                result.cur_status = Result.Status.WA
-            elif _verdict in ['RUNTIME_ERROR']:
-                result.cur_status = Result.Status.RE
-            else:
-                print("UNKNOWN with " + _verdict)
-                result.cur_status = Result.Status.PENDING
-        except Exception as e:
-            logger.log(e)
-            raise ConnectionError('Cannot get latest submission, error:' + str(e))
-        return result
-
-    #  判断结果是否正确
-    @staticmethod
-    def is_accepted(verdict):
-        return verdict in ['Accepted', 'Happy New Year!']
-
-    # 判断是否编译错误
-    @staticmethod
-    def is_compile_error(verdict):
-        return verdict == 'Compilation error'
-
-    # 判断是否运行中
-    @staticmethod
-    def is_running(verdict):
-        return verdict is None or str(verdict).startswith('Running on') or verdict == 'TESTING' or verdict == 'In queue'
+        if response is None or response.status_code != 200 or response.text is None:
+            return Result(Result.Status.STATUS_RESULT_ERROR)
+        soup = BeautifulSoup(response.text, 'lxml')
+        table = soup.find('table')
+        tag = None
+        if table:
+            tag = table.find_all('tr')
+        if tag:
+            children_tag = tag[-1].find_all('td')
+            if len(children_tag) > 9:
+                result = Result()
+                result.unique_key = children_tag[0].string
+                result.verdict_info = ''
+                for item in children_tag[4].stripped_strings:
+                    result.verdict_info += str(item) + ' '
+                result.verdict_info = result.verdict_info.strip(' ')
+                result.execute_time = children_tag[5].string.strip(" \r\n")
+                result.execute_memory = children_tag[6].string.strip(" \r\n")
+                result.status = Result.Status.STATUS_RESULT_SUCCESS
+                return result
+        return Result(Result.Status.STATUS_RESULT_ERROR)
 
 
 class AtCoder(Base):
-    _cookies: dict
     _account: Account
 
     def __init__(self, *args, **kwargs):
@@ -205,21 +141,18 @@ class AtCoder(Base):
         # if isinstance(cookies, dict):
         #     self._req.cookies.update(cookies)
         try:
-            res = self._req.get('https://atcoder.jp/enter?back=%2F')
+            res = self._req.get('https://atcoder.jp/login')
 
             soup = BeautifulSoup(res.text, 'lxml')
-            csrf_token = soup.find(attrs={'name': 'X-Csrf-Token'}).get('content')
+            csrf_token = soup.find(attrs={'name': 'csrf_token'}).get('value')
             post_data = {
                 'csrf_token': csrf_token,
-                'action': 'enter',
-                'ftaa': '',
-                'bfaa': '',
-                'handleOrEmail': account.username,
+                'username': account.username,
                 'password': account.password,
-                'remember': []
             }
-            self._req.post(url='https://atcoder.jp/enter', data=post_data)
+            self._req.post(url='https://atcoder.jp/login', data=post_data)
         except Exception as e:
+            print("login:" + str(e))
             logger.exception(e)
         if self._is_login():
             account.cookie = self._req.cookies.get_dict()  # outer can get and save cookie from user
@@ -228,53 +161,52 @@ class AtCoder(Base):
         else:
             return -60
 
-    def _is_login(self) -> bool:
+    def _is_login(self):
         res = self._req.get('https://atcoder.jp')
-        if res and re.search(r'logout">Logout</a>', res.text):
+        if res and re.search(r'Sign Out</a>', res.text):
             return True
         return False
 
+    # TODO
     def get_contest(self, cid: str) -> Contest:
-        if re.match('^\d+$', cid) is None:
-            raise Exception('contest id [' + cid + '] ERROR')
-
-        response = self._req.get(url='https://atcoder.jp/contest/' + cid)
-        ret = Contest(oj=AtCoder.__name__, cid=cid)
+        url = 'https://atcoder.jp/contests/' + cid + "/tasks"
+        response = self._req.get(url=url)
+        contest = Contest(oj=AtCoder.__name__, cid=cid)
         if response is None or response.status_code != 200 or response.text is None:
             raise Exception("Fetch Contest Error")
-        print("get contest:" + cid)
-        AtCoderParser().contest_parse(contest=ret, response=response.text)
-        # TODO thread fetch ?
-        for pid in ret.problems.keys():
-            # TODO which is better
-            # ret.problems[pid] = self.get_problem(pid=cid + pid)
-            self.get_problem(pid=cid + pid, problem=ret.problems[pid])
-        return ret
+        problems = AtCoderParser().contest_parse(response.text)
+        if problems is not None:
+            contest.problem_set = {}
+        for problem in problems:
+            contest.problem_set[problem] = self.get_problem(cid + problem, account)
+        return contest
 
-    def get_problem(self, pid: str, problem: Problem = None) -> Problem:
+    # TODO
+    def get_problem(self, pid: str, account: Account = None) -> Problem:
         result = re.match('^(\d+)([A-Z]\d?)$', pid)
         if result is None:
-            raise Exception('problem id[' + pid + '] ERROR')
+            return Problem(oj=AtCoder.__name__, pid=pid, status=Problem.Status.STATUS_ERROR)
+
         url = 'https://atcoder.jp/contest/' + result.group(1) + '/problem/' + result.group(2)
-        if problem is None:
-            problem = Problem(oj=AtCoder.__name__, pid=pid, url=url)
-        else:
-            problem.url = url
         response = self._req.get(url=url)
-        print("get problem:" + pid)
+        problem = Problem(oj=AtCoder.__name__, pid=pid, url=url)
         if response is None or response.status_code != 200 or response.text is None:
-            raise Exception("Fetch Problem Error")
-        AtCoderParser().problem_parse(problem=problem, response=response.text)
-        return problem
+            problem.status = Problem.Status.STATUS_RETRYABLE
+            return problem
+        return AtCoderParser().problem_parse(response.text, problem)
 
+    # TODO
     def submit_code(self, pid: str, language: str, code: str) -> bool:
+        if not self.login_website(account):
+            return Result(Result.Status.STATUS_SPIDER_ERROR)
+        print(account.username + " Login")
         result = re.match('^(\d+)([A-Z]\d?)$', pid)
         if result is None:
-            raise Exception("submit_code: WRONG pid[" + pid + "]")
+            return Result(Result.Status.STATUS_RESULT_ERROR)
 
         res = self._req.get('https://atcoder.jp/contest/' + result.group(1) + '/submit')
         if res is None:
-            raise Exception("submit_code: cannot open problem")
+            return Result(Result.Status.STATUS_SPIDER_ERROR)
         soup = BeautifulSoup(res.text, 'lxml')
         csrf_token = soup.find(attrs={'name': 'X-Csrf-Token'}).get('content')
         post_data = {
@@ -292,32 +224,37 @@ class AtCoder(Base):
         url = 'https://atcoder.jp/contest/' + result.group(1) + '/submit?csrf_token=' + csrf_token
         res = self._req.post(url, data=post_data)
         if res and res.status_code == 200:
-            return True
-        return False
+            return Result(Result.Status.STATUS_SUBMIT_SUCCESS)
+        return Result(Result.Status.STATUS_SUBMIT_ERROR)
 
-    # TODO 可能换成 题目页面右侧 获取?
-    def get_result(self, pid: str) -> Result:
-        return self._get_result_by_url(
-            'https://atcoder.jp/api/user.status?handle=' + self._account.username + '&count=1')
-
-    def get_result_by_quick_id(self, quick_id: str) -> Result:
-        return self._get_result_by_url(quick_id)
-
-    def _get_result_by_url(self, url: str) -> Result:
-        response = self._req.get(url=url)
-        if response is None or response.status_code is not 200 or response.text is None:
-            raise Exception('get result Failed')
-        ret = AtCoderParser().result_parse(response=response.text)
-        ret.quick_key = url
-        return ret
-
-    def get_language(self) -> LangKV:
-        res = self._req.get('https://atcoder.jp/problemset/submit')
-        website_data: str = res.text
-        ret: LangKV = LangKV()
+    # TODO
+    def get_result(self, pid) -> Result:
+        if self.login_website(account) is False:
+            return Result(Result.Status.STATUS_RESULT_ERROR)
+        request_url = 'https://atcoder.jp/problemset/status?friends=on'
+        res = self._req.get(request_url)
+        website_data = res.text
         if website_data:
             soup = BeautifulSoup(website_data, 'lxml')
-            tags = soup.find('select', attrs={'name': 'programTypeId'})
+            tag = soup.find('table', attrs={'class': 'status-frame-datatable'})
+            if tag:
+                list_tr = tag.find_all('tr')
+                for tr in list_tr:
+                    if isinstance(tr, element.Tag) and tr.get('data-submission-id'):
+                        return self.get_result_by_url(
+                            'https://atcoder.jp/contest/' + pid[:-1] + '/submission/' + tr.get('data-submission-id'))
+        return Result(Result.Status.STATUS_RESULT_ERROR)
+
+    # TODO
+    def get_result_by_quick_id(self, quick_id: str) -> Result:
+        pass
+
+    def get_language(self) -> LangKV:
+        res = self._req.get('https://atcoder.jp/contests/practice/submit')
+        ret: LangKV = LangKV()
+        if res.text:
+            soup = BeautifulSoup(res.text, 'lxml')
+            tags = soup.find('div', attrs={'id': 'select-lang-practice_1'}).find('select')
             if tags:
                 for child in tags.find_all('option'):
                     ret[child.get('value')] = child.string
@@ -328,9 +265,9 @@ class AtCoder(Base):
             raise Exception('https://atcoder.jp not working')
 
     @staticmethod
-    def account_required() -> bool:
-        return False
+    def support_contest() -> bool:
+        return True
 
     @staticmethod
-    def support_contest():
-        return True
+    def account_required() -> bool:
+        return False
