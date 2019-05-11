@@ -65,7 +65,7 @@ MathJax.Hub.Config({
 
         match_groups = soup.find(name='div', attrs={'class': 'memory-limit'})
         if match_groups:
-            problem.memory_limit = match_groups.contents[-1]
+            problem.mem_limit = match_groups.contents[-1]
 
         match_groups = soup.find(name='div', attrs={'class': 'problem-statement'})
         problem.html = ''

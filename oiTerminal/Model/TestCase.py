@@ -14,3 +14,8 @@ class TestCase:
     def __eq__(self, other: 'TestCase') -> bool:
         return self._in == other._in and self._out == other._out
 
+    def __repr__(self):
+        return TestCase.__name__ + str(self.__dict__)
+
+    def __str__(self):
+        return self.__repr__()

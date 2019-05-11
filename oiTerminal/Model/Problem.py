@@ -89,3 +89,9 @@ class Problem:
     @html.setter
     def html(self, value: str):
         self._html = value
+
+    def __repr__(self):
+        return Problem.__name__ + str(self.__dict__)
+
+    def __str__(self):
+        return self.__repr__()
