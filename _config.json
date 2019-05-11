@@ -1,13 +1,13 @@
 {
   "Codeforces":{
-    "user":"robot4test",
-    "pass":"robot4test",
+    "user":"",
+    "pass":"",
     "lang":"C++17",
     "up_lang":"54"
   },
   "AtCoder":{
-    "user":"robot4test",
-    "pass":"robot4test",
+    "user":"",
+    "pass":"",
     "lang":"Java",
     "up_lang":"3005"
   }

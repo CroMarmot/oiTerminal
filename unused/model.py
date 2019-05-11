@@ -9,55 +9,7 @@ default_headers = {
 }
 
 
-class Account:
-    def __init__(self, username, password, cookies=None):
-        self._username = username
-        self._password = password
-        self._cookies = cookies
-
-    @property
-    def username(self):
-        return self._username
-
-    @property
-    def password(self):
-        return self._password
-
-    @property
-    def cookies(self):
-        return self._cookies
-
-    def set_cookies(self, cookies):
-        if type(cookies) != dict:
-            raise TypeError(f'set_cookies() required {type(dict)} type, but we got {type(cookies)}')
-        self._cookies = cookies
-
-
-class Contest(object):
-    class Status(Enum):
-        """
-        STATUS_ERROR:没有成功抓取到题目
-        """
-        STATUS_ERROR = 'Error'
-
-    def __init__(self, oj=None, cid=None, status=None):
-        self.oj = oj
-        self.id = cid
-        self.status = status
-        self.problem_set = {}  # { "problemid": Problem ,}
-
-
-class TestCase(object):
-    def __init__(self, sample_in=None, sample_out=None):
-        self.sample_in = sample_in
-        self.sample_out = sample_out
-
-
-class Problem(object):
-    """
-    从原网站抓取的题目对象
-    """
-
+class OLDProblem(object):
     class Status(Enum):
         """
         STATUS_PENDING:加入队列
@@ -90,7 +42,7 @@ class Problem(object):
         self.template = None
 
 
-class Result(object):
+class OLDResult(object):
     """
     提交代码到源网站和从原网站抓取结果的返回对象
     """
