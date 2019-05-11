@@ -1,12 +1,27 @@
 #!/usr/bin/python3
 import argparse
 
+import os
+import json
+
+from const import *
 from oiTerminal.core import Core
-from oiTerminal.model import Account
+from oiTerminal.Model.Account import Account
 from oiTerminal.utils import LanguageUtil, OJUtil
 
 
-def parser():
+def getUserAndPwd(oj):
+    if not os.path.isfile(CONFIG_FILE):
+        raise Exception(CONFIG_FILE + ' NOT EXIST!')
+    with open(CONFIG_FILE) as f:
+        oj_config = json.load(f)[oj]
+        username = oj_config['user']
+        password = oj_config['pass']
+
+    return username, password
+
+
+def lang_main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--oj', help="example: cf , display key-value in remote server")
     args = parser.parse_args()
@@ -16,11 +31,13 @@ def parser():
         return
     elif OJUtil.short2full(args.oj) is not None:
         oj_full_name = OJUtil.short2full(args.oj)
-    elif Core.is_support(args.oj):
+    elif args.oj in OJUtil.get_supports():
         oj_full_name = args.oj
 
+    username, pwd = getUserAndPwd(OJUtil.short2full(args.oj))
+
     if oj_full_name is not None:
-        lang_kv_pair: dict = Core(oj_full_name).find_language(account=Account('robot4test', 'robot4test'))
+        lang_kv_pair = Core(oj_full_name).set_account(Account(username, pwd)).get_language()
         for (k, v) in lang_kv_pair.items():
             print(k + "\t" + v)
     else:
@@ -28,4 +45,4 @@ def parser():
 
 
 if __name__ == '__main__':
-    parser()
+    lang_main()

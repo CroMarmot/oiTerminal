@@ -194,5 +194,5 @@ class OJUtil(object):
             # 'WUST',
             # 'ZOJ',
             'Codeforces',
-            'AtCoder',  # 题目url的设计上 需要对oi Terminal 进行更改
+            'AtCoder',
         ]

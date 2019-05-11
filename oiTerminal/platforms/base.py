@@ -1,79 +1,49 @@
+from oiTerminal.Model.Account import Account
+from oiTerminal.Model.Contest import Contest
+from oiTerminal.Model.LangKV import LangKV
+from oiTerminal.Model.Problem import Problem
+from oiTerminal.Model.Result import Result
+
+
 class BaseParser(object):
-    def contest_parse(self, response):
+    def contest_parse(self, contest: Contest, response: str):
         pass
 
-    def problem_parse(self, response, pid, url):
+    def problem_parse(self, problem: Problem, response: str):
         pass
 
-    def result_parse(self, response):
+    def result_parse(self, response: str) -> Result:
         pass
 
 
 class Base(object):
-    # 主页链接
+    # return login cookie effective time in second
+    def login_website(self, account: Account) -> int:
+        pass
+
+    def get_contest(self, cid: str) -> Contest:
+        pass
+
+    def get_problem(self, pid: str) -> Problem:
+        pass
+
+    def submit_code(self, pid: str, language: str, code: str) -> bool:
+        pass
+
+    def get_result(self, pid) -> Result:
+        pass
+
+    def get_result_by_quick_id(self, quick_id: str) -> Result:
+        pass
+
+    def get_language(self) -> LangKV:
+        pass
+
+    # require account for view problem/contest/fetch result
     @staticmethod
-    def home_page_url() -> str:
-        pass
-
-    def get_cookies(self):
-        pass
-
-    def set_cookies(self, cookies):
-        pass
-
-    # 登录页面
-    def login_website(self, account):
-        pass
-
-    # 检查登录状态
-    def is_login(self):
-        pass
-
-    # 获取题目
-    def get_problem(self, pid, account):
-        pass
-
-    # 提交代码
-    def submit_code(self, account, pid, language, code):
-        pass
-
-    # 抓取题目是否需要登录账号
-    def account_required(self):
-        pass
-
-    # 获取当然运行结果
-    def get_result(self, account, pid):
-        pass
-
-    # 根据源OJ的运行id获取结构
-    def get_result_by_rid_and_pid(self, account, pid, unique_key):
-        pass
-
-    # 获取源OJ支持的语言类型
-    def find_language(self, account):
-        pass
-
-    # 检查源OJ是否运行正常
-
-    def is_working(self):
+    def account_required() -> bool:
         pass
 
     @staticmethod
     def support_contest():
-        pass
-
-    # TODO 把这个判断内置到 结果的struct中而不是oj的
-    #  判断结果是否正确
-    @staticmethod
-    def is_accepted(verdict):
-        pass
-
-    # 判断是否编译错误
-    @staticmethod
-    def is_compile_error(verdict):
-        pass
-
-    # 判断是否运行中
-    @staticmethod
-    def is_running(verdict):
         pass

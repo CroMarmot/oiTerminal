@@ -1,15 +1,62 @@
 # Oi Terminal
 
-[![Build Status](https://travis-ci.org/CroMarmot/oiTerminal.svg?branch=master)](https://travis-ci.org/CroMarmot/oiTerminal)
 
-Coding...
-
-Workable for Codeforces contest now !
-
-- [x] Codeforces
-- [ ] Atcoder(working)
+> Coding...
 
 python3.6+ only, https://www.python.org/dev/peps/pep-0526/
+
+## Supported platform:
+
+|Platforms|fetch|test_case|submit|result|code ref|short name'
+|---|---|---|---|---|---|---|
+|Codeforces|Contest|Yes|Yes|Yes|VirtualJudge|cf|
+|AtCoder|Contest|Yes|Yes|Yes|None |ac|
+|CometOJ(planing)|No|No|No|No|None |comet|
+|bzoj(planing)|No|No|No|No|None |bz|
+|aizu|No|No|No|No|VirtualJudge||
+|hdu|No|No|No|No|VirtualJudge||
+|poj|No|No|No|No|VirtualJudge||
+|wust|No|No|No|No|VirtualJudge||
+|zoj|No|No|No|No|VirtualJudge||
+
+# Usage
+
+- [x] `pip3 install -r requirements.txt`
+
+- [x] `cp _config.json config.json` and modify `config.json` About `up_lang` using `./lang.py --oj cf`
+
+- [x] write your templatecodefile under `template/`, the filename should be equal to the 'template' field in `lang.json`
+
+- [x] parse contest `./contest.py cf 1112` 1112 is contest id (which is in url instead of the number after `#`)
+
+- [ ] TODO 2.1 parse single problem `./problem.py cf 1112A`
+
+- [x] writing code any way you like，e.g. `vim A.cpp`
+
+- [x] test code e.g. `./test.py A`
+
+- [x] submit code e.g. `./submit.py A`
+
+# Functions
+
+Test is in local, regardless of the platform , only language
+
+Local language:`./lang.py`
+
+Platform language (example: `./lang.py --oj cf`)
+
+|Local language|supported?|
+|:---:|:---:|
+|C++|Yes|
+|C++11|Yes|
+|C++14|Yes|
+|C++17|Yes|
+|Java8|Yes|
+|Python3|Yes|
+|Python2|Yes|
+|Go1.9|no|
+|JS|no|
+|Rust|no|
 
 # Plan
 
@@ -38,58 +85,6 @@ python3.6+ only, https://www.python.org/dev/peps/pep-0526/
     - [x] get supported local language
     - [x] get remote oj language key-value pair
 
-# Functions
-
-Test is in local, regardless of the platform , only language
-
-Local language:`./lang.py`
-
-Platform language (example: `./lang.py --oj cf`)
-
-|Local language|supported?|
-|:---:|:---:|
-|C++|Yes|
-|C++11|Yes|
-|C++14|Yes|
-|C++17|Yes|
-|Java8|Yes|
-|Python3|Yes|
-|Python2|Yes|
-|Go1.9|no|
-|JS|no|
-|Rust|no|
-
-platform:
-
-|Platforms|fetch|test_case|submit|result|code ref|
-|---|---|---|---|---|---|
-|Codeforces|Contest|Yes|Yes|Yes|VirtualJudge|
-|AtCoder| | | | | |
-|aizu| | | | |VirtualJudge|
-|hdu| | | | |VirtualJudge|
-|poj| | | | |VirtualJudge|
-|wust| | | | |VirtualJudge|
-|zoj| | | | |VirtualJudge|
-
-# Usage
-
-- [x] `pip3 install -r requirements.txt`
-
-- [x] `cp _config.json config.json` and modify `config.json` About `up_lang` using `./lang.py --oj cf`
-
-- [x] write your templatecodefile under `template/`, the filename should be equal to the 'template' field in `lang.json`
-
-- [x] parse contest `./parser.py cf 1112` 1112 is contest id (which is in url instead of the number after `#`)
-
-- [ ] TODO 2.1 parse 1 problem `./parser.py cf 1112A`
-
-- [x] writing code any way you like，e.g. `vim A.cpp`
-
-- [x] test code e.g. `./test.py A`
-
-- [x] submit code e.g. `./submit.py A`
-
-
 # TODO
 
 - [ ] more arg support in python 先只支持json配置 和简单的语言参数支持,之后再增加配置优先级别。
@@ -117,7 +112,7 @@ get_language(account)
 
 core: 直接调用oj的方法
 
-oj:模拟请求，访问，分析页面，返回键值对表 -> Object LangKVList
+oj:模拟请求，访问，分析页面，返回键值对表 -> Object LangKV
 
 core: 分析结果打印展示
 
@@ -183,7 +178,13 @@ mypy可以检查方法，但是如果是网络请求回来的数据不一定满�
 
 在线自动测试
 
+[![Build Status](https://travis-ci.org/CroMarmot/oiTerminal.svg?branch=dev)](https://travis-ci.org/CroMarmot/oiTerminal)
+
 ---
+
+测试样例
+
+
 
 公用 错误设计
 
@@ -191,17 +192,13 @@ mypy可以检查方法，但是如果是网络请求回来的数据不一定满�
 2. 
 
 
-编写
+编写 文档
 
+TODO 增加 config.py 取代手工配置
 
+TODO 增加 安静模式 和全输出模式(-v/-debug), 增加更改log设计
 
-
-
-
-
-
-
-
+TODO 网络崩溃处理 例如agc033
 
 # flow
 
@@ -218,3 +215,5 @@ testflow:
 [VirtualJudge/spider](https://github.com/VirtualJudge/spider)
 
 [Beautiful 4](https://www.crummy.com/software/BeautifulSoup/bs4/doc/)
+
+[colors](https://misc.flogisoft.com/bash/tip_colors_and_formatting)

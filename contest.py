@@ -10,10 +10,7 @@ from oiTerminal.utils import LanguageUtil, OJUtil
 
 from oiTerminal.Model.Contest import Contest
 from oiTerminal.Model.Account import Account
-from oiTerminal.Model.Problem import Problem
 from oiTerminal.Model.FolderState import FolderState
-
-# TODO contest.py & problem.py merge function
 
 
 def force_symlink(src: str, dst: str):
@@ -30,37 +27,32 @@ def touch(path):
         os.utime(path, None)
 
 
-def get_problem(oj: str, pid: str, account: Account) -> Problem:
-    _problem = Core(oj).get_problem(pid=pid, account=account)
-    return _problem
-
-
-def create_problem_files(problem: Problem = None):
-    if problem is None:
-        raise Exception('contest is None')
-    folder: str = DIST + "/" + problem.oj + "/" + problem.id + "/"
-    os.makedirs(folder, exist_ok=True)
-    # generate html & in & out
-    with open(folder + problem_id + '.html', "w") as problem_html:
-        problem_html.write(problem.html)
-        problem_html.close()
-    for i, tc in range(len(problem.test_cases)):
-        with open(folder + problem_id + '.in.' + str(i), "w") as tc_in:
-            tc_in.write(tc.in_data)
-            tc_in.close()
-        with open(folder + problem_id + '.out.' + str(i), "w") as tc_out:
-            tc_out.write(tc.out_data)
-            tc_out.close()
-
-
-def create_problem_code_file(
-        contest: Contest,  # contest
-        lang: str,  # language
-        up_lang: str  # submit lang
+# create folder & testcase
+def create_contest_files_and_code_files(
+        contest: Contest = None,
+        lang: str = '',
+        up_lang: str = ''
 ):
     if contest is None:
         raise Exception('contest is None')
-    folder = DIST + "/" + contest.oj + "/" + contest.id + '-' + lang + "/"
+
+    # generate html & in & out
+    folder: str = DIST + "/" + contest.oj + "/" + contest.id + "/"
+    os.makedirs(folder, exist_ok=True)
+    for problem_id, problem in contest.problems.items():
+        with open(folder + problem_id + '.html', "w") as problem_html:
+            problem_html.write(problem.html)
+            problem_html.close()
+        for i, tc in enumerate(problem.test_cases):
+            with open(folder + problem_id + '.in.' + str(i), "w") as tc_in:
+                tc_in.write(tc.in_data)
+                tc_in.close()
+            with open(folder + problem_id + '.out.' + str(i), "w") as tc_out:
+                tc_out.write(tc.out_data)
+                tc_out.close()
+
+    # generate code file by copy template file
+    folder: str = DIST + "/" + contest.oj + "/" + contest.id + '-' + lang + "/"
     os.makedirs(folder, exist_ok=True)
     suffix = LanguageUtil.lang2suffix(lang)
     template_file = LanguageUtil.lang2template(lang)
@@ -74,9 +66,11 @@ def create_problem_code_file(
         else:  # create new file
             touch(dst_filename)
 
+    # symlink test.py submit.py
     force_symlink('../../../' + TEST_PY, folder + TEST_PY)
     force_symlink('../../../' + SUBMIT_PY, folder + SUBMIT_PY)
 
+    # generate state.json
     folder_state = FolderState(
         oj=contest.oj,
         sid=contest.id,
@@ -96,11 +90,11 @@ def start_terminal(folder: str):
 
 
 # parse parameters
-def problem_parser():
+def contest_parser():
     # terminal arg
     parser = argparse.ArgumentParser()
     parser.add_argument('oj', help="example: cf")
-    parser.add_argument('problem', help="problem id. Example 1114A")
+    parser.add_argument('contest', help="contest id. Example 1114")
     parser.add_argument(
         '--lang', '-l', help="The programming language you want to use c++17 / c++11 / Java8")
     parser.add_argument(
@@ -108,6 +102,7 @@ def problem_parser():
     args = parser.parse_args()
 
     # config arg
+    # TODO all 2 class
     if not os.path.isfile(CONFIG_FILE):
         raise Exception(CONFIG_FILE + " NOT EXIST!")
     with open(CONFIG_FILE) as f:
@@ -134,19 +129,18 @@ def problem_parser():
     else:
         print('Template file found:' + template_file)
 
-    return OJUtil.short2full(args.oj), args.problem, username, password, lang, up_lang
+    return OJUtil.short2full(args.oj), args.contest, username, password, lang, up_lang
 
 
 def contest_main():
-    oj, pid, username, password, lang, up_lang = problem_parser()
+    oj, cid, username, password, lang, up_lang = contest_parser()
 
-    _problem = get_problem(
-        oj=oj,
-        pid=pid,
-        account=Account(username, password))
-    create_problem_files(_problem)
-    create_problem_code_file(_problem, lang, up_lang)
+    _contest: Contest = Core(oj).set_account(Account(username, password)).get_contest(cid)
+    create_contest_files_and_code_files(_contest, lang, up_lang)
 
 
 if __name__ == '__main__':
-    contest_main()
+    try:
+        contest_main()
+    except KeyboardInterrupt:
+        print("Interrupt by user")
