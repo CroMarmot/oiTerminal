@@ -7,17 +7,17 @@ python3.6+ only, https://www.python.org/dev/peps/pep-0526/
 
 ## Supported platform:
 
-|Platforms|fetch|test_case|submit|result|code ref|short name'
-|---|---|---|---|---|---|---|
-|Codeforces|Contest|Yes|Yes|Yes|VirtualJudge|cf|
-|AtCoder|Contest|Yes|Yes|Yes|None |ac|
-|CometOJ(planing)|No|No|No|No|None |comet|
-|bzoj(planing)|No|No|No|No|None |bz|
-|aizu|No|No|No|No|VirtualJudge||
-|hdu|No|No|No|No|VirtualJudge||
-|poj|No|No|No|No|VirtualJudge||
-|wust|No|No|No|No|VirtualJudge||
-|zoj|No|No|No|No|VirtualJudge||
+|Platforms|fetch|test_case|submit|result|code ref|short name|contest/problem example|
+|---|---|---|---|---|---|---|---|
+|Codeforces|Contest|Yes|Yes|Yes|VirtualJudge|cf|1112|
+|AtCoder|Contest|Yes|Yes|Yes|None |ac|abc101|
+|CometOJ(planing)|No|No|No|No|None |comet|2|
+|bzoj(planing)|No|No|No|No|None |bz||
+|aizu|No|No|No|No|VirtualJudge|||
+|hdu|No|No|No|No|VirtualJudge|||
+|poj|No|No|No|No|VirtualJudge|||
+|wust|No|No|No|No|VirtualJudge|||
+|zoj|No|No|No|No|VirtualJudge|||
 
 # Usage
 
@@ -199,6 +199,8 @@ TODO 增加 config.py 取代手工配置
 TODO 增加 安静模式 和全输出模式(-v/-debug), 增加更改log设计
 
 TODO 网络崩溃处理 例如agc033
+
+TODO 处理掉所有JSON文件，改为类
 
 # flow
 
