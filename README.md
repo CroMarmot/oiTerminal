@@ -58,6 +58,16 @@ Platform language (example: `./lang.py --oj cf`)
 |JS|no|
 |Rust|no|
 
+# Q&A
+
+> I'm using Windows, how can I using this tool?
+
+Windows has [WSL(Windows Subsystem Linux)](https://docs.microsoft.com/en-us/windows/wsl/install-win10) !
+
+and [Announcing WSL 2](https://devblogs.microsoft.com/commandline/announcing-wsl-2/)
+
+You can enjoy Ubuntu on Windows !
+
 # Plan
 
 - [ ] Get Contest
