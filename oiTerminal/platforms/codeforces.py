@@ -161,7 +161,7 @@ MathJax.Hub.Config({
             _verdict = _result.get('verdict')
             if _verdict in ['OK', 'Happy New Year!']:
                 result.cur_status = Result.Status.AC
-            elif _verdict in ['TESTING']:
+            elif _verdict in ['TESTING', None]:
                 result.cur_status = Result.Status.RUNNING
             elif _verdict in ['WRONG_ANSWER']:
                 result.cur_status = Result.Status.WA
