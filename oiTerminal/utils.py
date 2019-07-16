@@ -148,9 +148,9 @@ class LanguageUtil(object):
     def init() -> map:
         if LanguageUtil._lang_cfg is not None:
             return LanguageUtil._lang_cfg
-        if not os.path.isfile(LANG_COFIG_FILE):
-            raise Exception(LANG_COFIG_FILE + " NOT EXIST!")
-        with open(LANG_COFIG_FILE) as f:
+        if not os.path.isfile(LANG_CONFIG_FILE):
+            raise Exception(LANG_CONFIG_FILE + " NOT EXIST!")
+        with open(LANG_CONFIG_FILE) as f:
             LanguageUtil._lang_cfg = json.load(f)
         return LanguageUtil._lang_cfg
 

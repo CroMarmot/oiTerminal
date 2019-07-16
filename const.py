@@ -17,7 +17,7 @@ CONFIG_FILE = ROOT_PATH + 'config.json'
 STATE_FILE = 'state.json'
 TEST_PY = 'test.py'
 SUBMIT_PY = 'submit.py'
-LANG_COFIG_FILE = ROOT_PATH + 'lang.json'
+LANG_CONFIG_FILE = ROOT_PATH + 'lang.json'
 
 IN_SUFFIX = '.in.'
 OUT_SUFFIX = '.out.'
