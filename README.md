@@ -212,6 +212,8 @@ TODO 网络崩溃处理 例如agc033
 
 TODO 处理掉所有JSON文件，改为类
 
+TODO 把部分json配置改为sqlite配置
+
 # flow
 
 testflow:
