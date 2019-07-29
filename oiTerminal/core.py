@@ -31,7 +31,7 @@ class Core(object):
     _account: Account
 
     # 15s for bad internet
-    def __init__(self, oj_name: str, proxies=None, timeout=15, account: Account = None):
+    def __init__(self, oj_name: str, proxies=None, timeout=15):
         if oj_name not in OJUtil.get_supports():
             raise Exception("oj name error or not supported")
         self._oj: Base = OJBuilder.build_oj(oj_name, proxies=proxies, timeout=timeout)
@@ -40,6 +40,13 @@ class Core(object):
     def set_account(self, account: Account) -> 'Core':
         self._account = account
         return self
+
+    # reg a contest
+    def reg_contest(self, cid: str) -> bool:
+        if not self._oj or not self._oj.support_contest():
+            raise Exception('reg_contest: ERROR')
+        self._login()
+        return self._oj.reg_contest(cid=cid)
 
     # 获取比赛 以及所有比赛题面
     def get_contest(self, cid: str) -> Contest:

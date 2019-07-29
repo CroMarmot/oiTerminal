@@ -241,6 +241,47 @@ class Codeforces(Base):
             return True
         return False
 
+    def get_tta(self) -> str:
+        """
+        This calculates protection value (_tta)
+        Reversed from js
+        """
+        hstr = self._req.cookies.get('39ce7')
+        total = 0
+        for i, ch in enumerate(hstr):
+            total = (total + (i + 1) * (i + 2) * ord(ch)) % 1009
+            if i % 3 == 0:
+                total += 1
+            if i % 2 == 0:
+                total *= 2
+
+            if i > 0:
+                total -= ord(hstr[i // 2]) // 2 * (total % 5)
+            total = total % 1009
+        return total
+
+    def reg_contest(self, cid: str) -> bool:
+        if re.match('^\d+$', cid) is None:
+            raise Exception('contest id [' + cid + '] ERROR')
+        response = self._req.get(url='https://codeforces.com/contestRegistration/' + cid)
+        if response is None or response.status_code != 200 or response.text is None:
+            raise Exception("Reg Contest Error")
+        print("reg contest:" + cid)
+
+        soup = BeautifulSoup(response.text, 'lxml')
+
+        csrf_token = soup.find(attrs={'name': 'csrf_token'}).get('value')
+        _tta = self.get_tta();
+        post_data = {
+            'csrf_token': csrf_token,
+            'action': 'formSubmitted',
+            'backUrl': '',
+            'takePartAs': 'personal',
+            '_tta': _tta,
+        }
+        self._req.post(url='https://codeforces.com/contestRegistration/' + cid, data=post_data)
+        return True
+
     def get_contest(self, cid: str) -> Contest:
         if re.match('^\d+$', cid) is None:
             raise Exception('contest id [' + cid + '] ERROR')

@@ -21,6 +21,9 @@ class Base(object):
     def login_website(self, account: Account) -> int:
         pass
 
+    def reg_contest(self, cid: str) -> bool:
+        pass
+
     def get_contest(self, cid: str) -> Contest:
         pass
 
