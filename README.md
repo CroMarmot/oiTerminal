@@ -37,6 +37,14 @@ python3.6+ only, https://www.python.org/dev/peps/pep-0526/
 
 - [x] submit code e.g. `./submit.py A`
 
+# register contest
+  
+> codeforces
+
+`./reg.py cf <contestId>`
+
+example:`./reg.py cf 1198`
+
 # Functions
 
 Test is in local, regardless of the platform , only language
