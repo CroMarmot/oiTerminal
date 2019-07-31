@@ -167,6 +167,10 @@ MathJax.Hub.Config({
                 result.cur_status = Result.Status.WA
             elif _verdict in ['RUNTIME_ERROR']:
                 result.cur_status = Result.Status.RE
+            elif _verdict in ['MEMORY_LIMIT_EXCEEDED']:
+                result.cur_status = Result.Status.MLE
+            elif _verdict in ['TIME_LIMIT_EXCEEDED']:
+                result.cur_status = Result.Status.TLE
             else:
                 print("UNKNOWN with " + _verdict)
                 result.cur_status = Result.Status.PENDING
