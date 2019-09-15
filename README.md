@@ -37,6 +37,14 @@ python3.6+ only, https://www.python.org/dev/peps/pep-0526/
 
 - [x] submit code e.g. `./submit.py A`
 
+# register contest
+  
+> codeforces
+
+`./reg.py cf <contestId>`
+
+example:`./reg.py cf 1198`
+
 # Functions
 
 Test is in local, regardless of the platform , only language
@@ -211,6 +219,8 @@ TODO 增加 安静模式 和全输出模式(-v/-debug), 增加更改log设计
 TODO 网络崩溃处理 例如agc033
 
 TODO 处理掉所有JSON文件，改为类
+
+TODO 把部分json配置改为sqlite配置
 
 # flow
 

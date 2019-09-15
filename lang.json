@@ -47,5 +47,12 @@
     "template":"Main.java",
     "compile":"javac Main.java",
     "exe":"java Main"
+  },
+  "Rust":{
+    "support":true,
+    "suffix":".rs",
+    "template":"Main.rs",
+    "compile":"rustc Main.rs",
+    "exe":"./Main"
   }
 }

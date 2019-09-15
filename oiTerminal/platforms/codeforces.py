@@ -161,12 +161,16 @@ MathJax.Hub.Config({
             _verdict = _result.get('verdict')
             if _verdict in ['OK', 'Happy New Year!']:
                 result.cur_status = Result.Status.AC
-            elif _verdict in ['TESTING']:
+            elif _verdict in ['TESTING', None]:
                 result.cur_status = Result.Status.RUNNING
             elif _verdict in ['WRONG_ANSWER']:
                 result.cur_status = Result.Status.WA
             elif _verdict in ['RUNTIME_ERROR']:
                 result.cur_status = Result.Status.RE
+            elif _verdict in ['MEMORY_LIMIT_EXCEEDED']:
+                result.cur_status = Result.Status.MLE
+            elif _verdict in ['TIME_LIMIT_EXCEEDED']:
+                result.cur_status = Result.Status.TLE
             else:
                 print("UNKNOWN with " + _verdict)
                 result.cur_status = Result.Status.PENDING
@@ -240,6 +244,47 @@ class Codeforces(Base):
         if res and re.search(r'logout">Logout</a>', res.text):
             return True
         return False
+
+    def get_tta(self) -> str:
+        """
+        This calculates protection value (_tta)
+        Reversed from js
+        """
+        hstr = self._req.cookies.get('39ce7')
+        total = 0
+        for i, ch in enumerate(hstr):
+            total = (total + (i + 1) * (i + 2) * ord(ch)) % 1009
+            if i % 3 == 0:
+                total += 1
+            if i % 2 == 0:
+                total *= 2
+
+            if i > 0:
+                total -= ord(hstr[i // 2]) // 2 * (total % 5)
+            total = total % 1009
+        return total
+
+    def reg_contest(self, cid: str) -> bool:
+        if re.match('^\d+$', cid) is None:
+            raise Exception('contest id [' + cid + '] ERROR')
+        response = self._req.get(url='https://codeforces.com/contestRegistration/' + cid)
+        if response is None or response.status_code != 200 or response.text is None:
+            raise Exception("Reg Contest Error")
+        print("reg contest:" + cid)
+
+        soup = BeautifulSoup(response.text, 'lxml')
+
+        csrf_token = soup.find(attrs={'name': 'csrf_token'}).get('value')
+        _tta = self.get_tta();
+        post_data = {
+            'csrf_token': csrf_token,
+            'action': 'formSubmitted',
+            'backUrl': '',
+            'takePartAs': 'personal',
+            '_tta': _tta,
+        }
+        self._req.post(url='https://codeforces.com/contestRegistration/' + cid, data=post_data)
+        return True
 
     def get_contest(self, cid: str) -> Contest:
         if re.match('^\d+$', cid) is None:
