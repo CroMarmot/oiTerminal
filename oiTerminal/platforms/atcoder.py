@@ -230,8 +230,7 @@ class AtCoder(Base):
             raise Exception("submit_code: cannot open problem")
         soup = BeautifulSoup(res.text, 'lxml')
         csrf_token = soup.find('input', attrs={'name': 'csrf_token'})['value']
-
-        r = re.search('<option value="(.*?)">' + result.group(2), str(soup), re.DOTALL)
+        r = re.search('<option value="([^"]*?)">' + result.group(2), str(soup), re.DOTALL)
         post_data = {
             'csrf_token': csrf_token,
             'data.TaskScreenName': r.group(1),
@@ -256,8 +255,7 @@ class AtCoder(Base):
         if res is None:
             raise Exception("submit_code: cannot open problem")
         soup = BeautifulSoup(res.text, 'lxml')
-        r = re.search('<option value="(.*?)">' + result.group(2), str(soup), re.DOTALL)
-
+        r = re.search('<option value="([^"]*?)">' + result.group(2), str(soup), re.DOTALL)
         request_url = 'https://atcoder.jp/contests/' + result.group(1) + '/submissions/me?f.Task=' + r.group(1)
         res = self._req.get(request_url)
         if res is None:
@@ -302,4 +300,4 @@ class AtCoder(Base):
 
     @staticmethod
     def account_required() -> bool:
-        return False
+        return True  # 历史题目直接可看,比赛中题目报名后可看,需要 账号+报名
