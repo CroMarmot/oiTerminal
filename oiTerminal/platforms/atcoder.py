@@ -105,8 +105,7 @@ MathJax.Hub.Config({
         result = Result(Result.Status.PENDING)
         r = re.search('title=\\\\"(.*?)\\\\".*","Score":"(\d+)"', response)
         result.state_note = r.group(2) + ' score'
-        result.time_note = "-- MS"
-        result.mem_note = "-- B"
+
         _verdict = r.group(1)
         if _verdict in ['Accepted']:
             result.cur_status = Result.Status.AC
@@ -120,8 +119,19 @@ MathJax.Hub.Config({
             print("UNKNOWN with [" + _verdict + "]")
             print("UNKNOWN with [" + response + "]")
             result.cur_status = Result.Status.PENDING
-        return result
 
+        r = re.search('([0-9]+ ms)', response)
+        if r is not None :
+            result.time_note = r.group(1)
+        else:
+            result.time_note = "? MS"
+
+        r = re.search('([0-9]+ KB)', response)
+        if r is not None :
+            result.mem_note = r.group(1)
+        else:
+            result.mem_note = "? KB"
+        return result
 
 class AtCoder(Base):
     _account: Account
@@ -230,8 +240,7 @@ class AtCoder(Base):
             raise Exception("submit_code: cannot open problem")
         soup = BeautifulSoup(res.text, 'lxml')
         csrf_token = soup.find('input', attrs={'name': 'csrf_token'})['value']
-
-        r = re.search('<option value="(.*?)">' + result.group(2), str(soup), re.DOTALL)
+        r = re.search('<option value="([^"]*?)">' + result.group(2), str(soup), re.DOTALL)
         post_data = {
             'csrf_token': csrf_token,
             'data.TaskScreenName': r.group(1),
@@ -256,8 +265,7 @@ class AtCoder(Base):
         if res is None:
             raise Exception("submit_code: cannot open problem")
         soup = BeautifulSoup(res.text, 'lxml')
-        r = re.search('<option value="(.*?)">' + result.group(2), str(soup), re.DOTALL)
-
+        r = re.search('<option value="([^"]*?)">' + result.group(2), str(soup), re.DOTALL)
         request_url = 'https://atcoder.jp/contests/' + result.group(1) + '/submissions/me?f.Task=' + r.group(1)
         res = self._req.get(request_url)
         if res is None:
@@ -302,4 +310,4 @@ class AtCoder(Base):
 
     @staticmethod
     def account_required() -> bool:
-        return False
+        return True  # 历史题目直接可看,比赛中题目报名后可看,需要 账号+报名

@@ -178,7 +178,7 @@ class LanguageUtil(object):
 # TODO not important, cf,codeforces,Codeforces -> Codeforces
 class OJUtil(object):
     @staticmethod
-    def short2full(short_name):
+    def short2full(short_name) -> str:
         return {
             "cf": "Codeforces",
             "ac": "AtCoder",
