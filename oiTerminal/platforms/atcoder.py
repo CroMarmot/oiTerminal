@@ -105,8 +105,7 @@ MathJax.Hub.Config({
         result = Result(Result.Status.PENDING)
         r = re.search('title=\\\\"(.*?)\\\\".*","Score":"(\d+)"', response)
         result.state_note = r.group(2) + ' score'
-        result.time_note = "-- MS"
-        result.mem_note = "-- B"
+
         _verdict = r.group(1)
         if _verdict in ['Accepted']:
             result.cur_status = Result.Status.AC
@@ -120,8 +119,19 @@ MathJax.Hub.Config({
             print("UNKNOWN with [" + _verdict + "]")
             print("UNKNOWN with [" + response + "]")
             result.cur_status = Result.Status.PENDING
-        return result
 
+        r = re.search('([0-9]+ ms)', response)
+        if r is not None :
+            result.time_note = r.group(1)
+        else:
+            result.time_note = "? MS"
+
+        r = re.search('([0-9]+ KB)', response)
+        if r is not None :
+            result.mem_note = r.group(1)
+        else:
+            result.mem_note = "? KB"
+        return result
 
 class AtCoder(Base):
     _account: Account
