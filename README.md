@@ -232,6 +232,12 @@ testflow:
 3. compile
 4. exe
 
+# enviroment
+
+default is production
+
+OITERMINAL_ENV=dev
+
 # ref / dependency
 
 [VirtualJudge/spider](https://github.com/VirtualJudge/spider)

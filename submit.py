@@ -2,11 +2,12 @@
 import argparse
 import json
 import time
+import traceback
 
-from const import *
+from constant import *
 from oiTerminal.Model.FolderState import FolderState
 from oiTerminal.core import Core
-from oiTerminal.utils import OJUtil, LanguageUtil
+from oiTerminal.utils import OJUtil, LanguageUtil, logger
 
 from oiTerminal.Model.Account import Account
 from oiTerminal.Model.Result import Result
@@ -21,7 +22,7 @@ def submit(
 ) -> Result:
     core = Core(oj).set_account(account)
     if not core.submit_code(pid=pid, language=language, code=file_path):
-        raise Exception('submit failed')
+        raise Exception(f'submit failed,account={account.username}')
     print(GREEN + 'Submitted' + DEFAULT)
 
     result = Result(Result.Status.PENDING)
@@ -45,7 +46,7 @@ def submit_parser():
 
     # get lang config
     if not os.path.isfile(STATE_FILE):
-        raise Exception(STATE_FILE + ' NOT EXIST!')
+        raise Exception(f'STATE_FILE [{STATE_FILE}] NOT EXIST!')
     state_oj = FolderState()
     with open(STATE_FILE) as f:
         state_oj.__dict__ = json.load(f)
@@ -55,7 +56,7 @@ def submit_parser():
     up_lang = state_oj.up_lang
 
     if not os.path.isfile(CONFIG_FILE):
-        raise Exception(CONFIG_FILE + ' NOT EXIST!')
+        raise Exception(f'CONFIG_FILE [{CONFIG_FILE}] NOT EXIST!')
     with open(CONFIG_FILE) as f:
         oj_config = json.load(f)[oj]
         username = oj_config['user']
@@ -63,7 +64,7 @@ def submit_parser():
 
     code_file = os.getcwd() + '/' + pid + LanguageUtil.lang2suffix(lang)
     if not os.path.isfile(code_file):
-        raise Exception(code_file + ' NOT EXIST!')
+        raise Exception(f'code_file [{code_file}] NOT EXIST!')
 
     return oj, state_oj.id + pid, up_lang, username, password, code_file
 
@@ -95,4 +96,10 @@ def submit_main():
 
 
 if __name__ == '__main__':
-    submit_main()
+    try:
+        submit_main()
+    except KeyboardInterrupt:
+        print("Interrupt by user")
+    except Exception as e:
+        print(e)
+        logger.error(traceback.format_exc())

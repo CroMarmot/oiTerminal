@@ -172,10 +172,10 @@ MathJax.Hub.Config({
             elif _verdict in ['TIME_LIMIT_EXCEEDED']:
                 result.cur_status = Result.Status.TLE
             else:
-                print("UNKNOWN with " + _verdict)
+                logger.warn("UNKNOWN STATE with " + _verdict)
+                print("UNKNOWN STATE with " + _verdict)
                 result.cur_status = Result.Status.PENDING
         except Exception as e:
-            logger.log(e)
             raise ConnectionError('Cannot get latest submission, error:' + str(e))
         return result
 
@@ -269,7 +269,7 @@ class Codeforces(Base):
             raise Exception('contest id [' + cid + '] ERROR')
         response = self._req.get(url='https://codeforces.com/contestRegistration/' + cid)
         if response is None or response.status_code != 200 or response.text is None:
-            raise Exception("Reg Contest Error")
+            raise Exception(f"Reg Contest Error, cid={cid}")
         print("reg contest:" + cid)
 
         soup = BeautifulSoup(response.text, 'lxml')
@@ -284,16 +284,18 @@ class Codeforces(Base):
             '_tta': _tta,
         }
         self._req.post(url='https://codeforces.com/contestRegistration/' + cid, data=post_data)
+        # return True except network error
+        # TODO get more detail
         return True
 
     def get_contest(self, cid: str) -> Contest:
         if re.match('^\d+$', cid) is None:
-            raise Exception('contest id [' + cid + '] ERROR')
+            raise Exception(f'contest id "{cid}" ERROR')
 
         response = self._req.get(url='https://codeforces.com/contest/' + cid)
         ret = Contest(oj=Codeforces.__name__, cid=cid)
         if response is None or response.status_code != 200 or response.text is None:
-            raise Exception("Fetch Contest Error")
+            raise Exception(f"Fetch Contest Error,cid={cid}")
         print("get contest:" + cid)
         CodeforcesParser().contest_parse(contest=ret, response=response.text)
         threads = []
@@ -318,7 +320,7 @@ class Codeforces(Base):
         response = self._req.get(url=url)
         print("get problem:" + pid)
         if response is None or response.status_code != 200 or response.text is None:
-            raise Exception("Fetch Problem Error")
+            raise Exception(f"Fetch Problem Error, pid={pid}")
         CodeforcesParser().problem_parse(problem=problem, response=response.text)
         return problem
 
@@ -327,9 +329,9 @@ class Codeforces(Base):
         if result is None:
             raise Exception("submit_code: WRONG pid[" + pid + "]")
 
-        res = self._req.get('https://codeforces.com/contest/' + result.group(1) + '/submit')
+        res = self._req.get(f'https://codeforces.com/contest/{result.group(1)}/submit')
         if res is None:
-            raise Exception("submit_code: cannot open problem")
+            raise Exception(f"submit_code: cannot open problem,pid={pid},language={language}")
         soup = BeautifulSoup(res.text, 'lxml')
         csrf_token = soup.find(attrs={'name': 'X-Csrf-Token'}).get('content')
         post_data = {
@@ -360,7 +362,7 @@ class Codeforces(Base):
     def _get_result_by_url(self, url: str) -> Result:
         response = self._req.get(url=url)
         if response is None or response.status_code is not 200 or response.text is None:
-            raise Exception('get result Failed')
+            raise Exception(f'get result Failed,url={url}')
         ret = CodeforcesParser().result_parse(response=response.text)
         ret.quick_key = url
         return ret

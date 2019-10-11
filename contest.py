@@ -3,10 +3,11 @@ import argparse
 import shutil
 import errno
 import json
+import traceback
 
-from const import *
+from constant import *
 from oiTerminal.core import Core
-from oiTerminal.utils import LanguageUtil, OJUtil
+from oiTerminal.utils import LanguageUtil, OJUtil, logger
 
 from oiTerminal.Model.Contest import Contest
 from oiTerminal.Model.Account import Account
@@ -104,7 +105,8 @@ def contest_parser():
     # config arg
     # TODO all 2 class
     if not os.path.isfile(CONFIG_FILE):
-        raise Exception(CONFIG_FILE + " NOT EXIST!")
+        raise Exception(f'CONFIG_FILE [{CONFIG_FILE}] NOT EXIST!')
+
     with open(CONFIG_FILE) as f:
         cfg_oj = json.load(f)[OJUtil.short2full(args.oj)]  # OJUtil
         lang = cfg_oj['lang']
@@ -144,3 +146,6 @@ if __name__ == '__main__':
         contest_main()
     except KeyboardInterrupt:
         print("Interrupt by user")
+    except Exception as e:
+        print(e)
+        logger.error(traceback.format_exc())
