@@ -3,10 +3,11 @@ import argparse
 import shutil
 import errno
 import json
+import traceback
 
-from const import *
+from constant import *
 from oiTerminal.core import Core
-from oiTerminal.utils import LanguageUtil, OJUtil
+from oiTerminal.utils import LanguageUtil, OJUtil, logger
 
 from oiTerminal.Model.Contest import Contest
 from oiTerminal.Model.Account import Account
@@ -37,7 +38,7 @@ def get_problem(oj: str, pid: str, account: Account) -> Problem:
 
 def create_problem_files(problem: Problem = None):
     if problem is None:
-        raise Exception('contest is None')
+        raise Exception('problem is None')
     folder: str = DIST + "/" + problem.oj + "/" + problem.id + "/"
     os.makedirs(folder, exist_ok=True)
     # generate html & in & out
@@ -109,7 +110,7 @@ def problem_parser():
 
     # config arg
     if not os.path.isfile(CONFIG_FILE):
-        raise Exception(CONFIG_FILE + " NOT EXIST!")
+        raise Exception(f'CONFIG_FILE {CONFIG_FILE} NOT EXIST!')
     with open(CONFIG_FILE) as f:
         cfg_oj = json.load(f)[OJUtil.short2full(args.oj)]  # OJUtil
         lang = cfg_oj['lang']
@@ -132,12 +133,12 @@ def problem_parser():
         else:
             exit(0)
     else:
-        print('Template file found:' + template_file)
+        raise FileExistsError('Template file found:' + template_file)
 
     return OJUtil.short2full(args.oj), args.problem, username, password, lang, up_lang
 
 
-def contest_main():
+def problem_main():
     oj, pid, username, password, lang, up_lang = problem_parser()
 
     _problem = get_problem(
@@ -149,4 +150,10 @@ def contest_main():
 
 
 if __name__ == '__main__':
-    contest_main()
+    try:
+        problem_main()
+    except KeyboardInterrupt:
+        print("Interrupt by user")
+    except Exception as e:
+        print(e)
+        logger.error(traceback.format_exc())

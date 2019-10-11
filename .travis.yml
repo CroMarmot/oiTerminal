@@ -1,0 +1,32 @@
+os: linux
+dist: xenial
+language: python
+
+python:
+  - "3.6"
+  - "3.6-dev"
+  - pypy3.5-6.0
+  - nightly
+
+env: TOXENV=py
+
+matrix:
+  allow_failures:
+    - python: nightly
+    - python: pypy3.5-6.0
+  fast_finish: true
+
+install:
+  - pip install -r requirements.txt
+  - pip install tox
+
+script:
+  - tox
+
+branches:
+  only:
+    - master
+    - dev
+
+notifications:
+  email: false

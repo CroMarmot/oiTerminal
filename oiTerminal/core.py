@@ -1,6 +1,6 @@
 import importlib
 import time
-from const import *
+from constant import *
 
 from oiTerminal.Model.LangKV import LangKV
 from oiTerminal.utils import logger, OJUtil
@@ -19,7 +19,7 @@ class OJBuilder(object):
             try:
                 module_meta = importlib.import_module(f'oiTerminal.platforms.{str(name).lower()}')
                 class_meta = getattr(module_meta, name)
-                print('Load Class:' + str(class_meta))
+                logger.info('Load Class:' + str(class_meta))
                 oj = class_meta(*args, **kwargs)
                 return oj
             except ModuleNotFoundError as e:
@@ -33,7 +33,7 @@ class Core(object):
     # 15s for bad internet
     def __init__(self, oj_name: str, proxies=None, timeout=15):
         if oj_name not in OJUtil.get_supports():
-            raise Exception("oj name error or not supported")
+            raise Exception(f"Core init failed,oj name [{oj_name}] error or not supported")
         self._oj: Base = OJBuilder.build_oj(oj_name, proxies=proxies, timeout=timeout)
         self._out_date: float = time.time() - 1
 
@@ -44,14 +44,14 @@ class Core(object):
     # reg a contest
     def reg_contest(self, cid: str) -> bool:
         if not self._oj or not self._oj.support_contest():
-            raise Exception('reg_contest: ERROR')
+            raise Exception(f'reg_contest {cid}: ERROR')
         self._login()
         return self._oj.reg_contest(cid=cid)
 
     # 获取比赛 以及所有比赛题面
     def get_contest(self, cid: str) -> Contest:
         if not self._oj or not self._oj.support_contest():
-            raise Exception('get_contest: ERROR')
+            raise Exception(f'get_contest {cid}: ERROR')
         if self._oj.account_required():
             self._login()
         return self._oj.get_contest(cid=cid)
@@ -59,7 +59,7 @@ class Core(object):
     # 获取题面
     def get_problem(self, pid: str) -> Problem:
         if not self._oj:
-            raise Exception('get_problem: ERROR')
+            raise Exception(f'get_problem {pid}: ERROR')
         if self._oj.account_required():
             self._login()
         return self._oj.get_problem(pid=pid)
@@ -67,7 +67,7 @@ class Core(object):
     # 提交代码
     def submit_code(self, pid: str, language: str, code: str) -> bool:
         if not self._oj:
-            raise Exception('submit_code: ERROR')
+            raise Exception(f'submit_code ({pid},{language},{code}): ERROR')
         self._login()
         print("Submitting...")
         for i in range(3):
@@ -75,21 +75,20 @@ class Core(object):
                 ret = self._oj.submit_code(pid=pid, language=language, code=code)
                 return ret
             except Exception as e:
-                logger.log(e)
-                pass
+                logger.error(e)
         return False
 
     # 获取结果
     def get_result(self, pid: str) -> Result:
         if not self._oj:
-            raise Exception('get_result: ERROR')
+            raise Exception(f'get_result {pid}: ERROR')
         self._login()
         return self._oj.get_result(pid=pid)
 
     # 通过运行id获取结果
     def get_result_by_quick_id(self, quick_id: str) -> Result:
         if not self._oj:
-            raise Exception('get_result_by_quick_id: ERROR')
+            raise Exception(f'get_result_by_quick_id {quick_id}: ERROR')
         assert (self._is_login())
         return self._oj.get_result_by_quick_id(quick_id=quick_id)
 
@@ -105,7 +104,7 @@ class Core(object):
             print(self._account.username + ' login...')
             ret = self._oj.login_website(self._account)
             if ret < 0:
-                raise Exception('Login Failed')
+                raise Exception(f'Login Failed, username={self._account.username}')
             print(GREEN + self._account.username + " login √" + DEFAULT)
             self._out_date = time.time() + ret
 

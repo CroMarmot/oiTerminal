@@ -1,5 +1,5 @@
 from enum import Enum
-from const import *
+from constant import *
 
 
 class Result:

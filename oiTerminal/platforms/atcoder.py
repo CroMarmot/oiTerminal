@@ -121,17 +121,18 @@ MathJax.Hub.Config({
             result.cur_status = Result.Status.PENDING
 
         r = re.search('([0-9]+ ms)', response)
-        if r is not None :
+        if r is not None:
             result.time_note = r.group(1)
         else:
             result.time_note = "? MS"
 
         r = re.search('([0-9]+ KB)', response)
-        if r is not None :
+        if r is not None:
             result.mem_note = r.group(1)
         else:
             result.mem_note = "? KB"
         return result
+
 
 class AtCoder(Base):
     _account: Account
@@ -177,7 +178,7 @@ class AtCoder(Base):
         response = self._req.get(url='https://atcoder.jp/contests/' + cid + "/tasks")
         ret = Contest(oj=AtCoder.__name__, cid=cid)
         if response is None or response.status_code != 200 or response.text is None:
-            raise Exception("Fetch Contest Error")
+            raise Exception(f"Fetch Contest Error,cid={cid}")
         print("get contest:" + cid)
         AtCoderParser().contest_parse(contest=ret, response=response.text)
         threads = []
@@ -196,7 +197,7 @@ class AtCoder(Base):
     def get_problem(self, pid: str, problem: Problem = None) -> Problem:
         result = re.match('^(.+)([A-Z])$', pid)
         if result is None:
-            raise Exception('problem id[' + pid + '] ERROR')
+            raise Exception(f'problem id[{ pid }] ERROR')
 
         url = 'https://atcoder.jp/contests/' + result.group(1) + '/tasks'
         response = self._req.get(url=url)
@@ -237,7 +238,7 @@ class AtCoder(Base):
 
         res = self._req.get('https://atcoder.jp/contests/' + result.group(1) + '/submit')
         if res is None:
-            raise Exception("submit_code: cannot open problem")
+            raise Exception(f"submit_code: cannot open problem,pid={pid},language={language}")
         soup = BeautifulSoup(res.text, 'lxml')
         csrf_token = soup.find('input', attrs={'name': 'csrf_token'})['value']
         r = re.search('<option value="([^"]*?)">' + result.group(2), str(soup), re.DOTALL)
@@ -263,13 +264,13 @@ class AtCoder(Base):
 
         res = self._req.get('https://atcoder.jp/contests/' + result.group(1) + '/submit')
         if res is None:
-            raise Exception("submit_code: cannot open problem")
+            raise Exception(f"submit_code: cannot open problem,pid={pid}")
         soup = BeautifulSoup(res.text, 'lxml')
         r = re.search('<option value="([^"]*?)">' + result.group(2), str(soup), re.DOTALL)
         request_url = 'https://atcoder.jp/contests/' + result.group(1) + '/submissions/me?f.Task=' + r.group(1)
         res = self._req.get(request_url)
         if res is None:
-            raise Exception("submit_code: cannot open problem")
+            raise Exception(f"submit_code: cannot open problem,pid={pid}")
         soup = BeautifulSoup(res.text, 'lxml')
         # <a href='/contests/abc101/submissions/5371227'>Detail</a>
         r = re.search('<td class="text-center">.*?"/contests/(.*?)/submissions/(\d*?)\">Detail</a>', str(soup),
@@ -284,7 +285,7 @@ class AtCoder(Base):
     def _get_result_by_url(self, url: str) -> Result:
         response = self._req.get(url=url)
         if response is None or response.status_code is not 200 or response.text is None:
-            raise Exception('get result Failed')
+            raise Exception(f'get result Failed,url={url}')
         ret = AtCoderParser().result_parse(response=response.text)
         ret.quick_key = url
         return ret

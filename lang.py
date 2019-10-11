@@ -1,18 +1,18 @@
 #!/usr/bin/python3
 import argparse
 
-import os
 import json
+import traceback
 
-from const import *
+from constant import *
 from oiTerminal.core import Core
 from oiTerminal.Model.Account import Account
-from oiTerminal.utils import LanguageUtil, OJUtil
+from oiTerminal.utils import LanguageUtil, OJUtil, logger
 
 
 def getUserAndPwd(oj):
     if not os.path.isfile(CONFIG_FILE):
-        raise Exception(CONFIG_FILE + ' NOT EXIST!')
+        raise Exception(f'CONFIG_FILE [{CONFIG_FILE}] NOT EXIST!')
     with open(CONFIG_FILE) as f:
         oj_config = json.load(f)[oj]
         username = oj_config['user']
@@ -36,13 +36,18 @@ def lang_main():
 
     username, pwd = getUserAndPwd(OJUtil.short2full(args.oj))
 
-    if oj_full_name is not None:
-        lang_kv_pair = Core(oj_full_name).set_account(Account(username, pwd)).get_language()
-        for (k, v) in lang_kv_pair.items():
-            print(k + "\t" + v)
-    else:
-        print("oj name error! Supported oj:", OJUtil.get_supports())
+    if oj_full_name is None:
+        raise Exception("oj name error! Supported oj:", OJUtil.get_supports())
+    lang_kv_pair = Core(oj_full_name).set_account(Account(username, pwd)).get_language()
+    for (k, v) in lang_kv_pair.items():
+        print(k + "\t" + v)
 
 
 if __name__ == '__main__':
-    lang_main()
+    try:
+        lang_main()
+    except KeyboardInterrupt:
+        print("Interrupt by user")
+    except Exception as e:
+        print(e)
+        logger.error(traceback.format_exc())

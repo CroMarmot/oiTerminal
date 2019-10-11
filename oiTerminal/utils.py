@@ -1,29 +1,63 @@
 import logging
 import json
+from functools import wraps
 from enum import Enum
 
-from const import *
+from constant import *
 import requests
 from bs4 import element
 from requests import RequestException
 import traceback
 
+from . import platformsClassName
 
-LOG_BASE = '/log' if os.getenv('VJ_ENV') == 'production' else 'log'
-LOG_LEVEL = logging.WARNING if os.getenv('VJ_ENV') == 'production' else logging.INFO
-SPIDER_LOG_PATH = os.path.join(LOG_BASE, 'spider.log')
+
+def singleton(cls):
+    __instances = {}
+
+    @wraps(cls)
+    def get_instance(*args, **kwargs):
+        if cls not in __instances:
+            __instances[cls] = cls(*args, **kwargs)
+        return __instances[cls]
+
+    return get_instance
+
+
+# logger start -----------------------------
+
+@singleton
+class LogConfig:
+    def __init__(self):
+        self.env = os.getenv('OITERMINAL_ENV')
+        if self.env is None:
+            self.env = 'production'  # default
+
+    def is_production(self):
+        return self.env == 'production'
+
+    def is_dev(self):
+        return self.env == 'dev'
+
+
+LOG_BASE = 'log'  # just a tiny tool don't put log in /log
+LOG_LEVEL = logging.WARNING if LogConfig().is_production() else logging.INFO
+SPIDER_LOG_PATH = os.path.join(LOG_BASE, 'oiTerminal.log')
 try:
     os.makedirs(LOG_BASE)
 except FileExistsError:
     pass
-except:
+except Exception as e:
+    print(e)
     traceback.print_exc()
 logger = logging.getLogger(__name__)
-handler = logging.FileHandler(SPIDER_LOG_PATH) if os.getenv('VJ_ENV') == 'production' else logging.StreamHandler()
-formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
-handler.setFormatter(formatter)
+handler = logging.FileHandler(SPIDER_LOG_PATH) if LogConfig().is_production() else logging.StreamHandler()
+handler.setFormatter(logging.Formatter('%(asctime)s %(levelname)s %(message)s'))
 logger.addHandler(handler)
 logger.setLevel(logging.INFO)
+
+
+# logger end -----------------------------
 
 
 class HttpUtil(object):
@@ -149,7 +183,7 @@ class LanguageUtil(object):
         if LanguageUtil._lang_cfg is not None:
             return LanguageUtil._lang_cfg
         if not os.path.isfile(LANG_CONFIG_FILE):
-            raise Exception(LANG_CONFIG_FILE + " NOT EXIST!")
+            raise Exception(f'LANG_CONFIG_FILE [{LANG_CONFIG_FILE}] NOT EXIST!')
         with open(LANG_CONFIG_FILE) as f:
             LanguageUtil._lang_cfg = json.load(f)
         return LanguageUtil._lang_cfg
@@ -175,14 +209,17 @@ class LanguageUtil(object):
         return LanguageUtil.init().get(lang).get('exe') + " < " + input_file + " > " + output_file
 
 
-# TODO not important, cf,codeforces,Codeforces -> Codeforces
+# TODO not important support lowercase and more, cf,codeforces,Codeforces -> Codeforces
 class OJUtil(object):
     @staticmethod
     def short2full(short_name) -> str:
-        return {
-            "cf": "Codeforces",
-            "ac": "AtCoder",
+        ret = {
+            "cf": platformsClassName.Codeforces,
+            "ac": platformsClassName.AtCoder,
         }.get(short_name)
+        if ret is None:
+            raise Exception(f'not support oj short name "{short_name}"')
+        return ret
 
     @staticmethod
     def get_supports():
@@ -193,6 +230,6 @@ class OJUtil(object):
             # 'POJ',
             # 'WUST',
             # 'ZOJ',
-            'Codeforces',
-            'AtCoder',
+            platformsClassName.Codeforces,
+            platformsClassName.AtCoder,
         ]
