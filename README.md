@@ -1,5 +1,4 @@
-# Oi Terminal
-
+# Oi Terminal [![Build Status](https://travis-ci.org/CroMarmot/oiTerminal.svg?branch=dev)](https://travis-ci.org/CroMarmot/oiTerminal)
 
 > Coding...
 
@@ -194,9 +193,8 @@ mypy可以检查方法，但是如果是网络请求回来的数据不一定满�
 
 5. travis CI
 
-在线自动测试
+在线自动测试 增加测试内容
 
-[![Build Status](https://travis-ci.org/CroMarmot/oiTerminal.svg?branch=dev)](https://travis-ci.org/CroMarmot/oiTerminal)
 
 ---
 
