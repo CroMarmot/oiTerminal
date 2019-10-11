@@ -13,7 +13,7 @@ class TestLangKV():
     def test_set_12(self):
         lkv = LangKV()
         lkv.set("1", "2")
-        assert (lkv.data == {"1": "2"})
+        assert (lkv["1"] == "2")
 
     def test_set_rand(self):
         lkv = LangKV()

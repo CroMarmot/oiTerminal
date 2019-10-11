@@ -1,5 +1,5 @@
 import pytest
-from oiTerminal.Model.TestCases import TestCase, TestCases
+from oiTerminal.Model.TestCase import TestCase
 
 
 class TestTestCase():

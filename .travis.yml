@@ -17,6 +17,7 @@ matrix:
   fast_finish: true
 
 install:
+  - pip install -r requirements.txt
   - pip install tox
 
 script:
