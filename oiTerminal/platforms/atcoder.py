@@ -115,6 +115,8 @@ MathJax.Hub.Config({
             result.cur_status = Result.Status.CE
         elif _verdict in ['Waiting for Judging', 'Judging']:
             result.cur_status = Result.Status.RUNNING
+        elif _verdict in ['Runtime Error']:
+            result.cur_status = Result.Status.RE
         else:
             print("UNKNOWN with [" + _verdict + "]")
             print("UNKNOWN with [" + response + "]")
