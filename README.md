@@ -108,8 +108,7 @@ You can enjoy Ubuntu on Windows !
 
 - [ ] config.json checker
 
-- [ ] atcoder
-
+BUG: 大于小于号等会转义的html字符的处理
 
 1. 父类/公用 model逻辑设计
 
