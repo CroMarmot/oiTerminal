@@ -4,14 +4,18 @@ import datetime
 import json
 import shutil
 import traceback
+import os
 
-from constant import *
+from constant import ROOT_PATH,STATE_FILE,TEST_FOLDER,IN_SUFFIX,OUT_SUFFIX,GREEN,RED,DEFAULT
 from oiTerminal.Model.FolderState import FolderState
 from oiTerminal.utils import LanguageUtil, logger
 
+# mac os 的命令似乎不支持 --ignore-trailing-space
+diff_cmd="diff --brief -B --ignore-trailing-space" # 用于比较
+show_diff_cmd="diff -B --ignore-trailing-space -y" # 用于展示差异
 
 def do_test():
-    logger.info("[test] start root path:" + ROOT_PATH)
+    logger.info(f"[test] start root path:{ROOT_PATH}")
     # get problem id
     parser = argparse.ArgumentParser()
     parser.add_argument('pid', help="Problem ID example: A")
@@ -29,41 +33,41 @@ def do_test():
 
     # makefolder & mv code 2 folder
     os.makedirs(TEST_FOLDER, exist_ok=True)
-    source_file_name = pid + LanguageUtil.lang2suffix(lang)
-    logger.info("test source code:" + source_file_name)
+    source_file_name = f"{pid}{LanguageUtil.lang2suffix(lang)}"
+    logger.info(f"test source code:{source_file_name}")
     if not os.path.exists(source_file_name):
         raise FileNotFoundError(f"'{source_file_name}' not found!")
-    shutil.copy(source_file_name, TEST_FOLDER + "Main" + LanguageUtil.lang2suffix(lang))
+    shutil.copy(source_file_name, f"{TEST_FOLDER}Main{LanguageUtil.lang2suffix(lang)}")
 
     # compile
     os.chdir(TEST_FOLDER)
-    if os.system(LanguageUtil.lang2compile(lang)) is not 0:
+    if os.system(LanguageUtil.lang2compile(lang)) != 0:
         return
 
     # run  "" not better than 'time' in bash but worse is better :-)
     i = 0
-    std_file = "../../" + state_oj.id + "/" + pid
-    while os.path.isfile(std_file + IN_SUFFIX + str(i)):
-        std_in_file = std_file + IN_SUFFIX + str(i)
-        std_out_file = std_file + OUT_SUFFIX + str(i)
-        user_out_file = pid + OUT_SUFFIX + str(i)
+    std_file = f"../../{state_oj.id}/{pid}"
+    while os.path.isfile(f"{std_file}{IN_SUFFIX}{i}"):
+        std_in_file = f"{std_file}{IN_SUFFIX}{i}"
+        std_out_file = f"{std_file}{OUT_SUFFIX}{i}"
+        user_out_file = f"{pid}{OUT_SUFFIX}{i}"
         start_time = datetime.datetime.now()
         os.system(LanguageUtil.lang2exe(lang, std_in_file, user_out_file))
         end_time = datetime.datetime.now()
-        logger.info("test std in file:" + std_in_file)
-        logger.info("test std out file:" + std_out_file)
+        logger.info(f"test std in file:{std_in_file}")
+        logger.info(f"test std out file:{std_out_file}")
         print()
         # TODO COMPARE TIME
-        print("Time spend: " + GREEN + str((end_time - start_time).total_seconds()) + "s" + DEFAULT)
+        print(f"TestCase {i} Time spend: {GREEN}{(end_time - start_time).total_seconds()}s{DEFAULT}")
 
         # cmp output
-        diff = os.system("diff --brief -B --ignore-trailing-space " + std_out_file + " " + user_out_file)
-        if diff is not 0:
+        diff = os.system(f"{diff_cmd} {std_out_file} {user_out_file}")
+        if diff != 0:
             print(RED)
             print("==============================================================================")
-            os.system("cat " + std_in_file)
+            os.system(f"cat {std_in_file}")
             print("\n-  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  - -")
-            os.system("diff -B --ignore-trailing-space -y " + std_out_file + " " + user_out_file)
+            os.system(f"{show_diff_cmd} {std_out_file} {user_out_file}")
             print("\n==============================================================================")
             print(DEFAULT)
 
