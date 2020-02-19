@@ -3,8 +3,9 @@ import argparse
 import json
 import time
 import traceback
+import os
 
-from constant import *
+from constant import GREEN,FETCH_RESULT_INTERVAL,STATE_FILE,DEFAULT,CONFIG_FILE
 from oiTerminal.Model.FolderState import FolderState
 from oiTerminal.core import Core
 from oiTerminal.utils import OJUtil, LanguageUtil, logger
@@ -23,13 +24,13 @@ def submit(
     core = Core(oj).set_account(account)
     if not core.submit_code(pid=pid, language=language, code=file_path):
         raise Exception(f'submit failed,account={account.username}')
-    print(GREEN + 'Submitted' + DEFAULT)
+    print(f"{GREEN}Submitted{DEFAULT}")
 
     result = Result(Result.Status.PENDING)
     while result.cur_status in [Result.Status.RUNNING, Result.Status.PENDING]:
-        print('Fetching result...(' + result.state_note + ')')
+        print(f"Fetching result...({result.state_note})")
         time.sleep(FETCH_RESULT_INTERVAL)
-        if result.quick_key is not '':
+        if result.quick_key != '':
             result = core.get_result_by_quick_id(result.quick_key)
         else:
             result = core.get_result(pid)
@@ -62,11 +63,11 @@ def submit_parser():
         username = oj_config['user']
         password = oj_config['pass']
 
-    code_file = os.getcwd() + '/' + pid + LanguageUtil.lang2suffix(lang)
+    code_file = f"{os.getcwd()}/{pid}{LanguageUtil.lang2suffix(lang)}"
     if not os.path.isfile(code_file):
         raise Exception(f'code_file [{code_file}] NOT EXIST!')
 
-    return oj, state_oj.id + pid, up_lang, username, password, code_file
+    return oj, f"{state_oj.id}{pid}", up_lang, username, password, code_file
 
 
 # ----- TEST -----
@@ -91,8 +92,8 @@ def submit_main():
         account=Account(username, password),
         file_path=code_path,
     )
-    print('SUBMIT[' + str(_result.id) + ']:' + _result.status_string)
-    print(_result.time_note + ' | ' + _result.mem_note)
+    print(f"SUBMIT[{_result.id}]:{_result.status_string}")
+    print(f"{_result.time_note}|{_result.mem_note}")
 
 
 if __name__ == '__main__':

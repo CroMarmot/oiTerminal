@@ -4,8 +4,9 @@ import shutil
 import errno
 import json
 import traceback
+import os
 
-from constant import *
+from constant import DIST,TEST_PY,SUBMIT_PY,STATE_FILE,CONFIG_FILE
 from oiTerminal.core import Core
 from oiTerminal.utils import LanguageUtil, OJUtil, logger
 
@@ -38,29 +39,29 @@ def create_contest_files_and_code_files(
         raise Exception('contest is None')
 
     # generate html & in & out
-    folder: str = DIST + "/" + contest.oj + "/" + contest.id + "/"
+    folder: str = f"{DIST}/{contest.oj}/{contest.id}/"
     os.makedirs(folder, exist_ok=True)
     for problem_id, problem in contest.problems.items():
-        with open(folder + problem_id + '.html', "w") as problem_html:
+        with open(f"{folder}{problem_id}.html", "w") as problem_html:
             problem_html.write(problem.html)
             problem_html.close()
         for i, tc in enumerate(problem.test_cases):
-            with open(folder + problem_id + '.in.' + str(i), "w") as tc_in:
+            with open(f"{folder}{problem_id}.in.{i}", "w") as tc_in:
                 tc_in.write(tc.in_data)
                 tc_in.close()
-            with open(folder + problem_id + '.out.' + str(i), "w") as tc_out:
+            with open(f"{folder}{problem_id}.out.{i}", "w") as tc_out:
                 tc_out.write(tc.out_data)
                 tc_out.close()
 
     # generate code file by copy template file
-    folder: str = DIST + "/" + contest.oj + "/" + contest.id + '-' + lang + "/"
+    folder: str = f"{DIST}/{contest.oj}/{contest.id}-{lang}/"
     os.makedirs(folder, exist_ok=True)
     suffix = LanguageUtil.lang2suffix(lang)
     template_file = LanguageUtil.lang2template(lang)
     for problem_id in contest.problems.keys():
-        dst_filename = folder + problem_id + suffix
+        dst_filename = f"{folder}{problem_id}{suffix}"
         if os.path.isfile(dst_filename):
-            print(dst_filename + " Exist")  # DO NOT COVER EXIST CODE
+            print(f"{dst_filename} Exist")  # DO NOT COVER EXIST CODE
             continue
         if os.path.isfile(template_file):  # if template file exist copy it
             shutil.copy(LanguageUtil.lang2template(lang), dst_filename)
@@ -68,8 +69,8 @@ def create_contest_files_and_code_files(
             touch(dst_filename)
 
     # symlink test.py submit.py
-    force_symlink('../../../' + TEST_PY, folder + TEST_PY)
-    force_symlink('../../../' + SUBMIT_PY, folder + SUBMIT_PY)
+    force_symlink(f"../../../{TEST_PY}", f"{folder}{TEST_PY}")
+    force_symlink(f"../../../{SUBMIT_PY}", f"{folder}{SUBMIT_PY}")
 
     # generate state.json
     folder_state = FolderState(
@@ -78,7 +79,7 @@ def create_contest_files_and_code_files(
         lang=lang,
         up_lang=up_lang
     )
-    with open(folder + STATE_FILE, "w") as statejson:
+    with open(f"{folder}{STATE_FILE}", "w") as statejson:
         json.dump(folder_state.__dict__, statejson)
         statejson.close()
 
@@ -123,13 +124,13 @@ def contest_parser():
     # check if template file exist?
     template_file = LanguageUtil.lang2template(lang)
     if not os.path.isfile(template_file):
-        user_input = input("Template file (" + template_file + ") not find ! Keep going? (Y/N) :")
+        user_input = input(f"Template file ({template_file}) not find ! Keep going? (Y/N) :")
         if user_input == 'Y' or user_input == 'y' or user_input == '':
             pass
         else:
             exit(0)
     else:
-        print('Template file found:' + template_file)
+        print(f"Template file found:{template_file}")
 
     return OJUtil.short2full(args.oj), args.contest, username, password, lang, up_lang
 

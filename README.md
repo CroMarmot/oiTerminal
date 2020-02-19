@@ -24,7 +24,7 @@ python3.6+ only, https://www.python.org/dev/peps/pep-0526/
 
 - [x] `cp _config.json config.json` and modify `config.json` About `up_lang` using `./lang.py --oj cf`
 
-- [x] write your templatecodefile under `template/`, the filename should be equal to the 'template' field in `lang.json`
+- [x] write your templateCodeFile under `template/`, the filename should be equal to the 'template' field in `lang.json`
 
 - [x] parse contest `./contest.py cf 1112` 1112 is contest id (which is in url instead of the number after `#`)
 
@@ -37,7 +37,7 @@ python3.6+ only, https://www.python.org/dev/peps/pep-0526/
 - [x] submit code e.g. `./submit.py A`
 
 # register contest
-  
+
 > codeforces
 
 `./reg.py cf <contestId>`
@@ -48,22 +48,9 @@ example:`./reg.py cf 1198`
 
 Test is in local, regardless of the platform , only language
 
-Local language:`./lang.py`
+Local language supported:`./lang.py`, current supported:`C++`,`C++11`,`C++14`,`C++17`,`Java8`,`Python3`,`Python2`,`Rust`,`Go`
 
 Platform language (example: `./lang.py --oj cf`)
-
-|Local language|supported?|
-|:---:|:---:|
-|C++|Yes|
-|C++11|Yes|
-|C++14|Yes|
-|C++17|Yes|
-|Java8|Yes|
-|Python3|Yes|
-|Python2|Yes|
-|Go1.9|no|
-|JS|no|
-|Rust|no|
 
 # Q&A
 
@@ -75,7 +62,7 @@ and [Announcing WSL 2](https://devblogs.microsoft.com/commandline/announcing-wsl
 
 You can enjoy Ubuntu on Windows !
 
-# Plan
+# About
 
 - [ ] Get Contest
     - [ ] basic info
@@ -92,8 +79,6 @@ You can enjoy Ubuntu on Windows !
     - [x] test code in local with test case
     - [x] submit for different language
 
-- [ ] different oj [virtualJudge 支持 除去(分析样例和测试)的功能]
-
 - [x] login
 
 - [x] fetching submit result
@@ -104,136 +89,49 @@ You can enjoy Ubuntu on Windows !
 
 # TODO
 
+- [ ] 增加交互性配置过程，减少手动配置操作，合并配置文件 目测不兼容 计划到v2?
+
+- [ ] MacOS系统的diff命令参数不同，提取比较命令到配置文件
+
+- [ ] 增加 调用系统命令的test，比如 diff方法调用的
+
+- [ ] websocket 获取codeforces的当前测试节点个数，目前api在测试过程中始终返回0
+
+- [ ] 不是取最后一题，而是根据题目id等信息请求分析出提交id(可能性能会略低)
+
+- [ ] 打一半发现忘记注册了，增加是否注册的检测或者提醒？
+
 - [ ] more arg support in python 先只支持json配置 和简单的语言参数支持,之后再增加配置优先级别。
 
 - [ ] config.json checker
 
-BUG: 大于小于号等会转义的html字符的处理
+- [ ] BUG: 大于小于号等会转义的html字符的处理
 
-1. 父类/公用 model逻辑设计
+- [ ] pytest mypy, mypy可以检查方法，但是如果是网络请求回来的数据不一定满足，如果用assert感觉太丑，求好的办法
 
-util:
+- [ ] tox 用于建立孤立环境，安装依赖，指定py版本，调用其它测试
 
-网络访问
+- [ ] travis CI 在线自动测试 增加测试内容
 
-文件访问
+- [ ] 编写 文档? wiki?
 
-配置读取
+- [ ] 增加 config.py 取代手工配置 配合db.py(做成代理式)+sqlite??
 
-语言
+- [ ] 增加 安静模式 和全输出模式(-v/-debug), 增加更改log设计
 
-lang:
+- [ ] 网络崩溃处理 例如agc033
 
-get_language(account)
+- [ ] 处理掉所有JSON文件，改为类
 
-core: 直接调用oj的方法
+- [ ] 把部分json配置改为sqlite配置
 
-oj:模拟请求，访问，分析页面，返回键值对表 -> Object LangKV
+- [ ] 不合理的else清理
 
-core: 分析结果打印展示
+# envirnoment
 
----
+default environment is production
 
-parser:
-
-parser_contest(contestId,account):
-
-parser_problem(problemId,account)
-
-
-core:
-
-读取 题目、比赛，语言，用户名密码， 调用oj.parser_context()，
-
-oj:
-
-根据 题目、比赛，用户,进行网络请求（util），分析页面结果，返回给core，Object_CONTEST 或 Object_PROBLEM
-
-core:
-
-对结果进行 生成文件，拷贝模板，跳转目录
-
----
-
-test:
-
-core: 分析参数 state.json,直接本地测试，和oj无关
-
----
-
-submit
-
-submit(problemID,account,filepath)
-
-getresult(problemID,account)
-
-core: 分析参数，调用oj的submit,
-
-oj: 模拟请求，返回 `提交`结果，不包括测试结果, OBJECT_SUBMIT_STAT
-
-core: 分析结果，进行展示，如果成功提交，开始调用oj获取结果
-
-oj: 模拟请求，具体实现，api或其它,返回，返回OBJECT_RESULT
-
-core:展示 成果错误，或者等待状态再请求。
-
-
-2. 增加测试
-
-3. pytest mypy
-
-mypy可以检查方法，但是如果是网络请求回来的数据不一定满足，如果用assert感觉太丑，求好的办法
-
-用于测试
-
-4. tox
-
-用于建立孤立环境，安装依赖，指定py版本，调用其它测试
-
-5. travis CI
-
-在线自动测试 增加测试内容
-
-
----
-
-测试样例
-
-
-
-公用 错误设计
-
-1. 必须的文件,未找到
-2. 
-
-
-编写 文档
-
-TODO 增加 config.py 取代手工配置
-
-TODO 增加 安静模式 和全输出模式(-v/-debug), 增加更改log设计
-
-TODO 网络崩溃处理 例如agc033
-
-TODO 处理掉所有JSON文件，改为类
-
-TODO 把部分json配置改为sqlite配置
-
-# flow
-
-testflow:
-
-0. read problemId from arg (exp.'A')
-1. read state from `state.json` (exp. lang = C++)
-2. copy file (exp. A.cpp) to TESTFOLDER/Main.<suffix> (exp cpp)
-3. compile
-4. exe
-
-# enviroment
-
-default is production
-
-OITERMINAL_ENV=dev
+develop environment:`OITERMINAL_ENV=dev`
 
 # ref / dependency
 
