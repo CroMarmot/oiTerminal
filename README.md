@@ -62,6 +62,14 @@ and [Announcing WSL 2](https://devblogs.microsoft.com/commandline/announcing-wsl
 
 You can enjoy Ubuntu on Windows !
 
+> I'm using `g++/gcc` instead of `clang++` ,or I'm using `pypy` instead of `python3` where is setting?
+
+check the `lang.py` file
+
+> `--ignore-trailing-space` not support
+
+The program is using `diff` to compare the result. However this command has different arguments in different OS, you can change the `diff_cmd` and `show_diff_cmd` in `test.py`
+
 # About
 
 - [ ] Get Contest
@@ -89,7 +97,7 @@ You can enjoy Ubuntu on Windows !
 
 # TODO
 
-- [ ] 增加交互性配置过程，减少手动配置操作，合并配置文件 目测不兼容 计划到v2?
+- [ ] 增加交互性配置过程，减少手动配置操作，合并配置文件 目测不兼容 计划到v2
 
 - [ ] MacOS系统的diff命令参数不同，提取比较命令到配置文件
 
@@ -113,9 +121,9 @@ You can enjoy Ubuntu on Windows !
 
 - [ ] travis CI 在线自动测试 增加测试内容
 
-- [ ] 编写 文档? wiki?
+- [ ] 编写 文档 wiki
 
-- [ ] 增加 config.py 取代手工配置 配合db.py(做成代理式)+sqlite??
+- [ ] 增加 config.py 取代手工配置 配合db.py(做成代理式)+sqlite
 
 - [ ] 增加 安静模式 和全输出模式(-v/-debug), 增加更改log设计
 
@@ -137,6 +145,6 @@ develop environment:`OITERMINAL_ENV=dev`
 
 [VirtualJudge/spider](https://github.com/VirtualJudge/spider)
 
-[Beautiful 4](https://www.crummy.com/software/BeautifulSoup/bs4/doc/)
+[BeautifulSoup 4](https://www.crummy.com/software/BeautifulSoup/bs4/doc/)
 
 [colors](https://misc.flogisoft.com/bash/tip_colors_and_formatting)
