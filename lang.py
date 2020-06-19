@@ -40,6 +40,10 @@ def lang_main():
         raise Exception("oj name error! Supported oj:", OJUtil.get_supports())
     lang_kv_pair = Core(oj_full_name).set_account(Account(username, pwd)).get_language()
     for (k, v) in lang_kv_pair.items():
+        if k is None:
+            k = ''
+        if v is None:
+            v = ''
         print(k + "\t" + v)
 
 
