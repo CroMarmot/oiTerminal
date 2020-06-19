@@ -135,6 +135,10 @@ The program is using `diff` to compare the result. However this command has diff
 
 - [ ] 不合理的else清理
 
+- [ ] Codeforces:IDLENESS_LIMIT_EXCEEDED
+
+- [ ] add fetch state for bad network
+
 # envirnoment
 
 default environment is production
