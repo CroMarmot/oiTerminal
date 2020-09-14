@@ -2,7 +2,10 @@
 
 > Coding...
 
+
 python3.6+ only, https://www.python.org/dev/peps/pep-0526/
+
+[status of python branches]https://devguide.python.org/#status-of-python-branches
 
 ## Supported platform:
 
