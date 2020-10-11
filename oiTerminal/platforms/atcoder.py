@@ -1,6 +1,7 @@
 import json
 import re
 import threading
+import traceback
 
 from bs4 import BeautifulSoup
 from bs4 import element
@@ -59,9 +60,12 @@ MathJax.Hub.Config({
         match_groups = match_groups.find_next_sibling('p')
         # Time Limit: 2 sec / Memory Limit: 1024 MB
         if match_groups:
-            result = re.match('^Time Limit: (.*)\/ Memory Limit: (.*)$', match_groups.get_text().strip(' '))
-            problem.time_limit = result.group(1)
-            problem.mem_limit = result.group(2)
+            result = re.match('^Time Limit: (.*)\/ Memory Limit: (.*)$', match_groups.get_text().strip(' \n\t'))
+            try:
+                problem.time_limit = result.group(1)
+                problem.mem_limit = result.group(2)
+            except:
+                print(traceback.print_exc())
 
         # match_groups = soup.find(name='div', attrs={'id': 'task-statement'})
         match_groups = soup.find(name='span', attrs={'class': 'lang-en'})
