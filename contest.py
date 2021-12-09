@@ -22,6 +22,8 @@ def force_symlink(src: str, dst: str):
         if e.errno == errno.EEXIST:
             os.remove(dst)
             os.symlink(src, dst)
+        else:
+            throw e
 
 
 def touch(path):
