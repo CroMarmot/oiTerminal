@@ -121,6 +121,8 @@ MathJax.Hub.Config({
             result.cur_status = Result.Status.RUNNING
         elif _verdict in ['Runtime Error']:
             result.cur_status = Result.Status.RE
+        elif _verdict in ['Time Limit Exceeded']:
+            result.cur_status = Result.Status.TLE
         else:
             print("UNKNOWN with [" + _verdict + "]")
             print("UNKNOWN with [" + response + "]")

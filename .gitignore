@@ -107,3 +107,4 @@ venv.bak/
 
 config.json*
 debug.py
+.vscode
