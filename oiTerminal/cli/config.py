@@ -4,9 +4,10 @@ from oiTerminal.cli.analyze import analyze
 from oiTerminal.cli.template import template
 from oiTerminal.utils.configFolder import ConfigFolder
 from oiTerminal.utils.db import JsonFileDB
+import logging
 
 
-def main(folder: str):
+def main(folder: str, logger: logging):
     while True:
         print("1) Account")
         print("2) Template")
@@ -18,7 +19,8 @@ def main(folder: str):
             return
 
         config_folder = ConfigFolder(folder)
-        db = JsonFileDB(config_folder.get_config_file_path('_userConfig.json'))
+        db = JsonFileDB(config_folder.get_config_file_path(
+            '_userConfig.json'), logger)
 
         if index == 1:
             account(db)
@@ -31,4 +33,4 @@ def main(folder: str):
 
 
 if __name__ == '__main__':
-    main()
+    main(".oiTerminal", logging)

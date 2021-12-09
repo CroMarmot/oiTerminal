@@ -3,6 +3,8 @@ from typing import List
 from oiTerminal.model.Analyze import Analyze
 from oiTerminal.utils.analyze import AnalyzeManager
 
+# TODO 动态注册不同平台
+
 
 def analyze_list(tm: AnalyzeManager):
     analyze_list: List[Analyze] = tm.get_list()
@@ -12,7 +14,11 @@ def analyze_list(tm: AnalyzeManager):
         mark = ' '
         if analyze_list[i].default:
             mark = '*'
-        print(f'\t {mark} {analyze_list[i].template_alias} {analyze_list[i].submit_lang}')
+        print(
+            f'\t {mark} {analyze_list[i].template_alias} {analyze_list[i].submit_lang}')
+
+    if len(analyze_list) == 0:
+        print("Analyze list is empty.")
 
 
 def analyze_new(tm: AnalyzeManager):

@@ -3,7 +3,8 @@ import getpass
 from oiTerminal.utils.account import AccountManager
 from oiTerminal.utils.enc import AESCipher
 
-def account_list(am:AccountManager):
+
+def account_list(am: AccountManager):
     acc_list = am.get_list()
     for i in range(len(acc_list)):
         if i == 0 or acc_list[i].platform != acc_list[i-1].platform:
@@ -12,9 +13,11 @@ def account_list(am:AccountManager):
         if acc_list[i].default:
             mark = '*'
         print(f'\t {mark} {acc_list[i].account}')
+    if len(acc_list) == 0:
+        print("Account List is empty.")
 
 
-def account_new(am:AccountManager):
+def account_new(am: AccountManager):
     print("1) Codeforces")
     print("2) AtCoder")
     try:

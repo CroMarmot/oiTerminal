@@ -1,16 +1,19 @@
 import json
+import logging
 import os
+import traceback
+import sys
 
 
 # write through , read through
 class JsonFileDB:
     file_path: str
 
-    def __init__(self, file_path: str, logger):
+    def __init__(self, file_path: str, logger: logging):
         # check exist
         # if not exist create
-        self.file_path = file_path
-        self.logger = logger
+        self.file_path: str = file_path
+        self.logger: logging = logger
 
     # 不支持class 实例, 需要 调用者处理实例和dict之间转换 出入
     def save(self, col_name: str, obj: any) -> bool:
@@ -37,7 +40,7 @@ class JsonFileDB:
             try:
                 data = json.load(json_file)
             except Exception as e:
-                self.logger.exception(e)
+                # self.logger.exception(e)
                 data = {}
 
             return data.get(col_name)

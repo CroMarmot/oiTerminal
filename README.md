@@ -8,6 +8,10 @@
 
 `source env/bin/activate`
 
+# 安装依赖
+
+`pip3 install -r requirements.txt`
+
 # 测试
 
 `pytest`
