@@ -6,7 +6,7 @@ from oiTerminal.utils.Logger import getLogger
 
 
 def test_codeforces_parser():
-    test_doc: str = r"""<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+  test_doc: str = r"""<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <html lang="en">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
@@ -1085,11 +1085,12 @@ def test_codeforces_parser():
 </html>
 """
 
-    parser = CodeforcesParser(html_tag=HtmlTag(HttpUtil()), logger=getLogger('/tmp/oiTerminal/test.log'))
-    parse_problem_result = parser.problem_parse(test_doc)
-    assert parse_problem_result.status == ParseProblemResult.Status.NOTVIS
-    assert parse_problem_result.title == 'A+B (Trial Problem)'
-    assert parse_problem_result.test_cases[0].in_data == '4\n1 5\n314 15\n-99 99\n123 987'
-    assert parse_problem_result.test_cases[0].out_data == '6\n329\n0\n1110'
-    assert parse_problem_result.time_limit == '2.0 s'
-    assert parse_problem_result.mem_limit == '512 MB'
+  parser = CodeforcesParser(html_tag=HtmlTag(
+      HttpUtil()), logger=getLogger('/tmp/oiTerminal/test.log'))
+  parse_problem_result = parser.problem_parse(test_doc)
+  assert parse_problem_result.status == ParseProblemResult.Status.NOTVIS
+  assert parse_problem_result.title == 'A+B (Trial Problem)'
+  assert parse_problem_result.test_cases[0].in_data == '4\n1 5\n314 15\n-99 99\n123 987'
+  assert parse_problem_result.test_cases[0].out_data == '6\n329\n0\n1110'
+  assert parse_problem_result.time_limit == '2.0 s'
+  assert parse_problem_result.mem_limit == '512 MB'

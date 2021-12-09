@@ -1,5 +1,7 @@
 import os
 
+# recursive search folder_name in dirpath and it's parent path
+
 
 class ConfigFolder(object):
     def __init__(self, folder_name: str):
@@ -20,12 +22,12 @@ class ConfigFolder(object):
     def get_config_file_path(self, file_path: str):
         abs_folder = self.get_root_folder()
         if abs_folder is None:
-            raise Exception('folder not created, please ./oiTerminal.py init first')
+            raise Exception('folder not created, please ./ot.py init first')
         return os.path.join(abs_folder, self.folder_name, file_path)
 
     def get_file_path(self, file_path: str):
         abs_folder = self.get_root_folder()
         if abs_folder is None:
-            raise Exception('folder not created, please ./oiTerminal.py init first')
+            raise Exception('folder not created, please ./ot.py init first')
 
         return os.path.join(abs_folder, file_path)

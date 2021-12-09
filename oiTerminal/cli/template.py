@@ -13,6 +13,8 @@ def template_list(tm: TemplateManager):
         if temp_list[i].default:
             mark = '*'
         print(f'\t {mark} {temp_list[i].alias}')
+    if len(temp_list) == 0:
+        print("Template list is empty.")
 
 
 def template_new(tm: TemplateManager):
@@ -38,6 +40,7 @@ def template_new(tm: TemplateManager):
     clean = input('clean:')
 
     tm.add_template(platform, alias, path, compilation, execute, clean)
+
 
 def template_modify(tm: TemplateManager):
     temp_list = tm.get_list()
@@ -85,7 +88,7 @@ def template_modify(tm: TemplateManager):
     elif index == 4:
         tm.modify_clean(acc_index, input("Enter clean command"))
     elif index == 5:
-        tm.set_default (acc_index)
+        tm.set_default(acc_index)
     elif index == 6:
         tm.delete_template(acc_index)
 

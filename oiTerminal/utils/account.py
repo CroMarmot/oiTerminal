@@ -16,13 +16,12 @@ class AccountManager:
         self.cipher = cipher
 
     def _get_account_list(self) -> List[Account]:
-        acc_list: List[dict] = self.db.load(Ids.account)
-        if acc_list is None:
-            return []
+        acc_list: List[dict] = self.db.load(Ids.account) or []
         return list(map(lambda d: Account().dict_init(d), acc_list))
 
     def _set_account_list(self, acc_list: List[Account]):
-        acc_list.sort(key=lambda acc0: (acc0.platform, -acc0.default, acc0.account, acc0.password))
+        acc_list.sort(key=lambda acc0: (acc0.platform, -
+                      acc0.default, acc0.account, acc0.password))
         self.db.save(Ids.account, list(map(lambda d: d.__dict__, acc_list)))
 
     def get_list(self) -> List[Account]:
@@ -82,6 +81,7 @@ class AccountManager:
                 is_default = False
                 break
 
-        accs.append(Account().initial(platform, account, self.cipher.encrypt(password), default=is_default))
+        accs.append(Account().initial(platform, account,
+                    self.cipher.encrypt(password), default=is_default))
 
         self._set_account_list(accs)

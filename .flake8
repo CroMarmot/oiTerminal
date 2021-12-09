@@ -1,0 +1,4 @@
+[flake8]
+indent-size = 2
+max-line-length = 119
+exclude = old,venv,*migrations*
