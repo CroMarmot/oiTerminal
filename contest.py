@@ -23,7 +23,7 @@ def force_symlink(src: str, dst: str):
             os.remove(dst)
             os.symlink(src, dst)
         else:
-            throw e
+            raise e
 
 
 def touch(path):
