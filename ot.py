@@ -7,24 +7,27 @@ from oiTerminal.utils.configFolder import ConfigFolder
 from oiTerminal.utils.Logger import getLogger
 
 
-def main(folder, logger: logging):
+def main():
+  folder = OT_FOLDER
+  config_folder = ConfigFolder(folder)
   parser = argparse.ArgumentParser(description='oiTerminal cli')
   parser.add_argument('ops', metavar='ops', type=str, nargs=1,
                       help='operations (init, config, problem). Example: ./ot.py init')
   parser.add_argument('args', type=str, nargs='*',
                       help='args...')
-
   args = parser.parse_args()
   # default config folder
-  logger.debug(f"args: {args}")
+  logging.debug(f"args: {args}")
 
   ops = args.ops
   # demo ./ot.py problem Codeforces 1613A
   if ops[0] == 'problem':
     from oiTerminal.cli import problem
+    logger: logging = getLogger(config_folder.get_file_path(OT_LOG))
     problem.main(argv=args.args, logger=logger, folder=folder)
   elif ops[0] == 'config':
     from oiTerminal.cli import config
+    logger: logging = getLogger(config_folder.get_file_path(OT_LOG))
     config.main(folder=folder, logger=logger)
   elif ops[0] == 'init':
     from oiTerminal.cli import init
@@ -38,8 +41,7 @@ def main(folder, logger: logging):
 
 
 if __name__ == '__main__':
-  config_folder = ConfigFolder(OT_FOLDER)
-  main(folder=OT_FOLDER, logger=getLogger(config_folder.get_file_path(OT_LOG)))
+  main()
 
 # DEBUG
 # OITERMINAL_ENV=dev

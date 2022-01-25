@@ -5,6 +5,7 @@ import re
 import threading
 
 from bs4 import BeautifulSoup
+from oiTerminal.cli.constant import CIPHER_KEY, GREEN, DEFAULT
 
 from oiTerminal.custom.Codeforces.CodeforcesParser import CodeforcesParser
 from oiTerminal.model.BaseOj import BaseOj
@@ -14,6 +15,7 @@ from oiTerminal.model.Account import Account
 from oiTerminal.model.Problem import Problem
 from oiTerminal.model.Contest import Contest
 from oiTerminal.model.Result import Result
+from oiTerminal.utils.enc import AESCipher
 
 
 class Codeforces(BaseOj):
@@ -63,7 +65,7 @@ class Codeforces(BaseOj):
     problem.file_path = self.pid2file_path(problem_id)
     return problem
 
-  def login_website(self, account: Account) -> int:
+  def login_website(self) -> int:
     # TODO add method cookie login and save cookies in db/json
     # enable cookies login with db/json saved cookies
     #
@@ -79,7 +81,6 @@ class Codeforces(BaseOj):
     #         self.http_util.cookies.update()
     try:
       res = self.http_util.get(f'{self._base_url}enter?back=%2F')
-
       soup = BeautifulSoup(res.text, 'lxml')
       csrf_token = soup.find(
           attrs={'name': 'X-Csrf-Token'}).get('content')
@@ -88,17 +89,18 @@ class Codeforces(BaseOj):
           'action': 'enter',
           'ftaa': '',
           'bfaa': '',
-          'handleOrEmail': account.account,
-          'password': account.password,
+          'handleOrEmail': self.account.account,
+          'password': AESCipher(CIPHER_KEY).decrypt(self.account.password),
           'remember': []
       }
       self.http_util.post(url=f'{self._base_url}enter', data=post_data)
     except Exception as e:
       self.logger.exception(e)
     if self._is_login():
+      print(f"{GREEN}Logined{DEFAULT}")
       # outer can get and save cookie from user
-      account.cookie = self.http_util.cookies.get_dict()
-      self.account = account
+      # account.cookie = self.http_util.cookies.get_dict()
+      # self.account = account
       return 60 * 20
     else:
       return -60
@@ -163,7 +165,7 @@ class Codeforces(BaseOj):
     if response is None or response.status_code != 200 or response.text is None:
       raise Exception(f"Fetch Contest Error,cid={cid}")
     print("get contest:" + cid)
-    CodeforcesParser().contest_parse(contest=ret, response=response.text)
+    self.parser.contest_parse(contest=ret, response=response.text)
     threads = []
     for pid in ret.problems.keys():
       # self.get_problem(pid=cid + pid, problem=ret.problems[pid])
@@ -188,10 +190,15 @@ class Codeforces(BaseOj):
     print("get problem:" + pid)
     if response is None or response.status_code != 200 or response.text is None:
       raise Exception(f"Fetch Problem Error, pid={pid}")
-    CodeforcesParser().problem_parse(problem=problem, response=response.text)
+    self.parser.problem_parse(problem=problem, response=response.text)
     return problem
 
   def submit_code(self, pid: str, language: str, code: str) -> bool:
+    if not self._is_login():
+      print('Logining...')
+      if self.login_website() < 0:
+        raise Exception('Login Failed')
+
     result: Optional[Match[AnyStr]] = re.match('^(\d+)([A-Z]\d?)$', pid)
     if result is None:
       raise Exception("submit_code: WRONG pid[" + pid + "]")
@@ -222,8 +229,9 @@ class Codeforces(BaseOj):
     return False
 
   def get_result(self, pid: str) -> Result:
+    print(f'{self._base_url}api/user.status?handle=' + self.account.account + '&count=1')
     return self._get_result_by_url(
-        f'{self._base_url}api/user.status?handle=' + self.account.username + '&count=1')
+        f'{self._base_url}api/user.status?handle=' + self.account.account + '&count=1')
 
   def get_result_by_quick_id(self, quick_id: str) -> Result:
     return self._get_result_by_url(quick_id)
@@ -232,7 +240,7 @@ class Codeforces(BaseOj):
     response = self.http_util.get(url=url)
     if response is None or response.status_code != 200 or response.text is None:
       raise Exception(f'get result Failed,url={url}')
-    ret = CodeforcesParser().result_parse(response=response.text)
+    ret = self.parser.result_parse(response=response.text)
     ret.quick_key = url
     return ret
 

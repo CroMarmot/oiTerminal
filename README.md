@@ -6,7 +6,7 @@
 
 # 启用环境
 
-`source env/bin/activate`
+`. venv/bin/activate`
 
 # 安装依赖
 
@@ -25,9 +25,3 @@
 `coverage html`
 
 # 运行
-
-
-# refs
-
-https://docs.python.org/3/tutorial/modules.html#the-module-search-path
-

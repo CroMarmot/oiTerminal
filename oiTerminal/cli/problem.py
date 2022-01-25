@@ -11,7 +11,6 @@ from oiTerminal.model.BaseOj import BaseOj
 from oiTerminal.model.ParseProblemResult import ParseProblemResult
 from oiTerminal.model.TestCase import TestCase
 from oiTerminal.model.FolderState import FolderState
-from oiTerminal.utils import analyze
 
 from oiTerminal.utils.FileUtil import FileUtil
 from oiTerminal.utils.HtmlTag import HtmlTag
