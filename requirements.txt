@@ -3,3 +3,5 @@ lxml
 pycryptodome
 requests
 coverage
+websocket-client
+rich

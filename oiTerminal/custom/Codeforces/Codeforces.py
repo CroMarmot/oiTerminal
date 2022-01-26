@@ -20,13 +20,13 @@ from oiTerminal.utils.enc import AESCipher
 
 class Codeforces(BaseOj):
   def __init__(self, http_util: object = None, logger: object = None, template: object = None,
-               account: object = None, analyze: object = None, html_tag: object = None) -> object:
+               account: Account = None, analyze: object = None, html_tag: object = None) -> object:
     super().__init__()
     self._base_url = 'https://codeforces.com/'
     self.logger = logger
     self.html_tag = html_tag
     self.template = template
-    self.account = account
+    self.account: Account = account
     self.analyze = analyze
     # self.http_util = HttpUtil(*args, **kwargs)
     self.http_util = http_util

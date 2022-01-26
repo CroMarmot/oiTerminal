@@ -35,6 +35,7 @@ def main():
   # TODO
   #   contest
   #   reg
+  #   web
   #   submit
   else:
     parser.print_help()

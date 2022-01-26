@@ -20,7 +20,7 @@
 - [x]  加解密工具
 - [x]  日志工具
 - [x] 路径上模拟.git 的思路，使用最近.oiTerminal 所在的位置为 根目录
-- [ ]  本地jsondb/sqlite工具
+- [x]  本地jsondb/sqlite工具
 
 
 ## more modularization
