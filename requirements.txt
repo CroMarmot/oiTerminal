@@ -2,3 +2,4 @@ beautifulsoup4
 lxml
 pycryptodome
 requests
+coverage

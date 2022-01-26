@@ -4,7 +4,7 @@
 
 ### 初始化环境
 
-安装`python3`
+安装`apt install python3 python3-venv python3-pytest`
 
 `python3 -m venv venv`
 
@@ -115,7 +115,7 @@ test.py<软链测试脚本>
 
 `./submit.py`
 
-根据state.json的提交语言，编译运行并使用所有读入读出，产生对比报告。
+根据state.json的提交语言，平台提交代码,配置默认账户，登录并获取提交结果。
 
 ## 持续
 
