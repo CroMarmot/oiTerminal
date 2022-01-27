@@ -38,6 +38,9 @@ class BaseOj(object):
   def get_language(self) -> LangKV:
     pass
 
+  def print_contest_list(self) -> None:
+    pass
+
   # require account for view problem/contest/fetch result
   @staticmethod
   def account_required() -> bool:

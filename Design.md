@@ -83,6 +83,26 @@
    - 设置默认
    - 删除
 
+### 比赛列表
+
+`./ot.py contest Codeforces`
+
+输出开始和即将开始的比赛
+
+输出注册状态（不可注册，可注册，已注册)，开始时间，比赛时长，距今时间，比赛id
+
+### 比赛详情
+
+`./ot.py contestdetail Codeforces <contest id>`
+
+example
+
+`./ot.py contestdetail Codeforces 1621`
+
+输出比赛题目和提交状态
+
+输出题目状态（用户当前是否通过，通过人次)
+
 ### 题目获取
 
 `./ot.py problem <platform> <problemid>`

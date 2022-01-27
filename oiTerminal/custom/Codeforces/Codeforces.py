@@ -96,7 +96,7 @@ class Codeforces(BaseOj):
     except Exception as e:
       self.logger.exception(e)
     if self._is_login():
-      print(f"{GREEN}Logined{DEFAULT}")
+      print(f"{GREEN}{self.account.account} Logined {Codeforces.__name__}{DEFAULT}")
       # outer can get and save cookie from user
       # account.cookie = self.http_util.cookies.get_dict()
       # self.account = account
@@ -265,6 +265,22 @@ class Codeforces(BaseOj):
   @staticmethod
   def support_contest() -> bool:
     return True
+
+  def print_contest_list(self) -> None:
+    if self.account is not None:
+      if not self._is_login():
+        self.login_website()
+    from .contestList import printData
+    url = f'{self._base_url}contests'
+    printData(self.http_util.get(url).text)
+
+  def print_problems_in_contest(self, cid: str) -> None:
+    if self.account is not None:
+      if not self._is_login():
+        self.login_website()
+    from .problemList import printData
+    url = f'{self._base_url}contest/{cid}'
+    printData(self.http_util.get(url).text, title=f"Contest {url}")
 
   # wss://pubsub.codeforces.com/ws/s_44e079e878db3d6cd8130358e638715d84b9b7e2/s_0b4b2a8c82dc858a100c4b1bcb927492039a8efd?_=1639017481660&tag=&time=&eventid=
   #

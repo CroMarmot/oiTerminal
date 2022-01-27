@@ -3,7 +3,7 @@
 
 <head>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  <meta name="X-Csrf-Token" content="3a777f650d6764724e3d68059ce80546" />
+  <meta name="X-Csrf-Token" content="4c4ce668e8b34185750f3e3214159d39" />
   <meta id="viewport" name="viewport" content="width=device-width, initial-scale=0.01" />
 
 
@@ -32,7 +32,7 @@
   </script>
   <meta http-equiv="pragma" content="no-cache">
   <meta http-equiv="expires" content="-1">
-  <meta http-equiv="profileName" content="g2">
+  <meta http-equiv="profileName" content="j2">
   <meta name="google-site-verification" content="OTd2dN5x4nS4OPknPI9JFg36fKxjqY0i1PSfFPv_J90" />
   <meta property="fb:admins" content="100001352546622" />
   <meta property="og:image" content="//codeforces.org/s/0/images/codeforces-telegram-square.png" />
@@ -41,8 +41,8 @@
   <meta property="og:description" content="" />
 
   <meta property="og:site_name" content="Codeforces" />
-
-
+  <meta name="uc" content="82194294d2641570ea85f5a3498ec3ae3e528972" />
+  <meta name="usmc" content="2ff18920b286570f9e0ecf37a4458bb7606a6f21" />
 
 
 
@@ -55,8 +55,8 @@
     content="programming algorithm contest competition informatics olympiads c++ java graphs vkcup" />
   <meta name="robots" content="index, follow" />
 
-  <link rel="stylesheet" href="//codeforces.org/s/52602/css/font-awesome.min.css" type="text/css" charset="utf-8" />
-  <link rel="stylesheet" href="//codeforces.org/s/52602/css/line-awesome.min.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="//codeforces.org/s/47788/css/font-awesome.min.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="//codeforces.org/s/47788/css/line-awesome.min.css" type="text/css" charset="utf-8" />
 
   <link href='//fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700&subset=latin,cyrillic' rel='stylesheet'
     type='text/css'>
@@ -82,24 +82,25 @@
   <meta name="theme-color" content="#ffffff">
 
   <!--CombineResourcesFilter-->
-  <link rel="stylesheet" href="//codeforces.org/s/52602/css/prettify.css" type="text/css" charset="utf-8" />
-  <link rel="stylesheet" href="//codeforces.org/s/52602/css/clear.css" type="text/css" charset="utf-8" />
-  <link rel="stylesheet" href="//codeforces.org/s/52602/css/style.css" type="text/css" charset="utf-8" />
-  <link rel="stylesheet" href="//codeforces.org/s/52602/css/ttypography.css" type="text/css" charset="utf-8" />
-  <link rel="stylesheet" href="//codeforces.org/s/52602/css/problem-statement.css" type="text/css" charset="utf-8" />
-  <link rel="stylesheet" href="//codeforces.org/s/52602/css/second-level-menu.css" type="text/css" charset="utf-8" />
-  <link rel="stylesheet" href="//codeforces.org/s/52602/css/roundbox.css" type="text/css" charset="utf-8" />
-  <link rel="stylesheet" href="//codeforces.org/s/52602/css/datatable.css" type="text/css" charset="utf-8" />
-  <link rel="stylesheet" href="//codeforces.org/s/52602/css/table-form.css" type="text/css" charset="utf-8" />
-  <link rel="stylesheet" href="//codeforces.org/s/52602/css/topic.css" type="text/css" charset="utf-8" />
-  <link rel="stylesheet" href="//codeforces.org/s/52602/css/jquery.jgrowl.css" type="text/css" charset="utf-8" />
-  <link rel="stylesheet" href="//codeforces.org/s/52602/css/facebox.css" type="text/css" charset="utf-8" />
-  <link rel="stylesheet" href="//codeforces.org/s/52602/css/jquery.wysiwyg.css" type="text/css" charset="utf-8" />
-  <link rel="stylesheet" href="//codeforces.org/s/52602/css/jquery.autocomplete.css" type="text/css" charset="utf-8" />
-  <link rel="stylesheet" href="//codeforces.org/s/52602/css/codeforces.datepick.css" type="text/css" charset="utf-8" />
-  <link rel="stylesheet" href="//codeforces.org/s/52602/css/colorbox.css" type="text/css" charset="utf-8" />
-  <link rel="stylesheet" href="//codeforces.org/s/52602/css/jquery.drafts.css" type="text/css" charset="utf-8" />
-  <link rel="stylesheet" href="//codeforces.org/s/52602/css/community.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="//codeforces.org/s/47788/css/prettify.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="//codeforces.org/s/47788/css/clear.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="//codeforces.org/s/47788/css/style.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="//codeforces.org/s/47788/css/ttypography.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="//codeforces.org/s/47788/css/problem-statement.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="//codeforces.org/s/47788/css/second-level-menu.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="//codeforces.org/s/47788/css/roundbox.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="//codeforces.org/s/47788/css/datatable.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="//codeforces.org/s/47788/css/table-form.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="//codeforces.org/s/47788/css/topic.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="//codeforces.org/s/47788/css/jquery.jgrowl.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="//codeforces.org/s/47788/css/facebox.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="//codeforces.org/s/47788/css/jquery.wysiwyg.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="//codeforces.org/s/47788/css/jquery.autocomplete.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="//codeforces.org/s/47788/css/codeforces.datepick.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="//codeforces.org/s/47788/css/colorbox.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="//codeforces.org/s/47788/css/jquery.drafts.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="//codeforces.org/s/47788/css/community.css" type="text/css" charset="utf-8" />
+  <link rel="stylesheet" href="//codeforces.org/s/47788/css/jquery.timeentry.css" type="text/css" charset="utf-8" />
 
   <!-- MathJax -->
   <script type="text/x-mathjax-config">
@@ -114,44 +115,44 @@
   </script>
   <!-- /MathJax -->
 
-  <script type="text/javascript" src="//codeforces.org/s/52602/js/prettify/prettify.js"></script>
-  <script type="text/javascript" src="//codeforces.org/s/52602/js/moment-with-locales.min.js"></script>
-  <script type="text/javascript" src="//codeforces.org/s/52602/js/pushstream.js"></script>
-  <script type="text/javascript" src="//codeforces.org/s/52602/js/jquery.easing.min.js"></script>
-  <script type="text/javascript" src="//codeforces.org/s/52602/js/jquery.lavalamp.min.js"></script>
-  <script type="text/javascript" src="//codeforces.org/s/52602/js/jquery.jgrowl.js"></script>
-  <script type="text/javascript" src="//codeforces.org/s/52602/js/jquery.swipe.js"></script>
-  <script type="text/javascript" src="//codeforces.org/s/52602/js/jquery.hotkeys.js"></script>
-  <script type="text/javascript" src="//codeforces.org/s/52602/js/facebox.js"></script>
-  <script type="text/javascript" src="//codeforces.org/s/52602/js/jquery.wysiwyg.js"></script>
-  <script type="text/javascript" src="//codeforces.org/s/52602/js/controls/wysiwyg.colorpicker.js"></script>
-  <script type="text/javascript" src="//codeforces.org/s/52602/js/controls/wysiwyg.table.js"></script>
-  <script type="text/javascript" src="//codeforces.org/s/52602/js/controls/wysiwyg.image.js"></script>
-  <script type="text/javascript" src="//codeforces.org/s/52602/js/controls/wysiwyg.link.js"></script>
-  <script type="text/javascript" src="//codeforces.org/s/52602/js/jquery.autocomplete.js"></script>
-  <script type="text/javascript" src="//codeforces.org/s/52602/js/ua-parser.js"></script>
-  <script type="text/javascript" src="//codeforces.org/s/52602/js/jquery.datepick.js"></script>
-  <script type="text/javascript" src="//codeforces.org/s/52602/js/jquery.ie6blocker.js"></script>
-  <script type="text/javascript" src="//codeforces.org/s/52602/js/jquery.colorbox-min.js"></script>
-  <script type="text/javascript" src="//codeforces.org/s/52602/js/jquery.ba-bbq.js"></script>
-  <script type="text/javascript" src="//codeforces.org/s/52602/js/jquery.drafts.js"></script>
-  <script type="text/javascript" src="//codeforces.org/s/52602/js/clipboard.min.js"></script>
-  <script type="text/javascript" src="//codeforces.org/s/52602/js/autosize.min.js"></script>
-  <script type="text/javascript" src="//codeforces.org/s/52602/js/sjcl.js"></script>
-  <script type="text/javascript" src="/scripts/0760ed967cf6e4d764a2fc083fd2733c/en/codeforces-options.js"></script>
-  <script type="text/javascript" src="//codeforces.org/s/52602/js/codeforces.js?v=20160131"></script>
-  <script type="text/javascript" src="//codeforces.org/s/52602/js/EventCatcher.js?v=20160131"></script>
-  <script type="text/javascript" src="//codeforces.org/s/52602/js/preparedVerdictFormats-en.js"></script>
+  <script type="text/javascript" src="//codeforces.org/s/47788/js/prettify/prettify.js"></script>
+  <script type="text/javascript" src="//codeforces.org/s/47788/js/moment-with-locales.min.js"></script>
+  <script type="text/javascript" src="//codeforces.org/s/47788/js/pushstream.js"></script>
+  <script type="text/javascript" src="//codeforces.org/s/47788/js/jquery.easing.min.js"></script>
+  <script type="text/javascript" src="//codeforces.org/s/47788/js/jquery.lavalamp.min.js"></script>
+  <script type="text/javascript" src="//codeforces.org/s/47788/js/jquery.jgrowl.js"></script>
+  <script type="text/javascript" src="//codeforces.org/s/47788/js/jquery.swipe.js"></script>
+  <script type="text/javascript" src="//codeforces.org/s/47788/js/jquery.hotkeys.js"></script>
+  <script type="text/javascript" src="//codeforces.org/s/47788/js/facebox.js"></script>
+  <script type="text/javascript" src="//codeforces.org/s/47788/js/jquery.wysiwyg.js"></script>
+  <script type="text/javascript" src="//codeforces.org/s/47788/js/controls/wysiwyg.colorpicker.js"></script>
+  <script type="text/javascript" src="//codeforces.org/s/47788/js/controls/wysiwyg.table.js"></script>
+  <script type="text/javascript" src="//codeforces.org/s/47788/js/controls/wysiwyg.image.js"></script>
+  <script type="text/javascript" src="//codeforces.org/s/47788/js/controls/wysiwyg.link.js"></script>
+  <script type="text/javascript" src="//codeforces.org/s/47788/js/jquery.autocomplete.js"></script>
+  <script type="text/javascript" src="//codeforces.org/s/47788/js/ua-parser.js"></script>
+  <script type="text/javascript" src="//codeforces.org/s/47788/js/jquery.datepick.js"></script>
+  <script type="text/javascript" src="//codeforces.org/s/47788/js/jquery.ie6blocker.js"></script>
+  <script type="text/javascript" src="//codeforces.org/s/47788/js/jquery.colorbox-min.js"></script>
+  <script type="text/javascript" src="//codeforces.org/s/47788/js/jquery.ba-bbq.js"></script>
+  <script type="text/javascript" src="//codeforces.org/s/47788/js/jquery.drafts.js"></script>
+  <script type="text/javascript" src="//codeforces.org/s/47788/js/clipboard.min.js"></script>
+  <script type="text/javascript" src="//codeforces.org/s/47788/js/autosize.min.js"></script>
+  <script type="text/javascript" src="//codeforces.org/s/47788/js/sjcl.js"></script>
+  <script type="text/javascript" src="/scripts/ccd201313b5bfa0b39ab53d93000fb4c/en/codeforces-options.js"></script>
+  <script type="text/javascript" src="//codeforces.org/s/47788/js/codeforces.js?v=20160131"></script>
+  <script type="text/javascript" src="//codeforces.org/s/47788/js/EventCatcher.js?v=20160131"></script>
+  <script type="text/javascript" src="//codeforces.org/s/47788/js/preparedVerdictFormats-en.js"></script>
   <!--/CombineResourcesFilter-->
 
-  <link rel="stylesheet" href="//codeforces.org/s/52602/markitup/skins/markitup/style.css" type="text/css"
+  <link rel="stylesheet" href="//codeforces.org/s/47788/markitup/skins/markitup/style.css" type="text/css"
     charset="utf-8" />
-  <link rel="stylesheet" href="//codeforces.org/s/52602/markitup/sets/markdown/style.css" type="text/css"
+  <link rel="stylesheet" href="//codeforces.org/s/47788/markitup/sets/markdown/style.css" type="text/css"
     charset="utf-8" />
 
 
-  <script type="text/javascript" src="//codeforces.org/s/52602/markitup/jquery.markitup.js"></script>
-  <script type="text/javascript" src="//codeforces.org/s/52602/markitup/sets/markdown/set.js"></script>
+  <script type="text/javascript" src="//codeforces.org/s/47788/markitup/jquery.markitup.js"></script>
+  <script type="text/javascript" src="//codeforces.org/s/47788/markitup/sets/markdown/set.js"></script>
 
   <!--[if IE]>
     <style>
@@ -163,19 +164,20 @@
     <![endif]-->
 
 
+  <script id="nocomb.jquery.timeentry.js" src="//codeforces.org/s/47788/js/jquery.timeentry.js"
+    type="text/javascript"></script>
 
 
 </head>
 
 <body class=" "><span style='display:none;' class='csrf-token'
-    data-csrf='3a777f650d6764724e3d68059ce80546'>&nbsp;</span>
+    data-csrf='4c4ce668e8b34185750f3e3214159d39'>&nbsp;</span>
 
   <!-- .notificationTextCleaner used in Codeforces.showAnnouncements() -->
   <div class="notificationTextCleaner" style="font-size: 0"></div>
   <div class="button-up"
     style="display: none; opacity: 0.7; width: 50px; height:100%; position: fixed; left: 0; top: 0; cursor: pointer; text-align: center; line-height: 35px; color: #d3dbe4; font-weight: bold; font-size: 3.0rem;">
-    <i class="icon-circle-arrow-up"></i>
-  </div>
+    <i class="icon-circle-arrow-up"></i></div>
   <div class="verdictPrototypeDiv" style="display: none;"></div>
 
   <!-- Codeforces JavaScripts. -->
@@ -290,6 +292,38 @@
       Codeforces.countdown();
       $("a[rel='photobox']").colorbox();
 
+      var count = 0;
+
+      function getDelay() {
+        var delay = 0;
+        var last = Codeforces.getFromStorage("LastOnlineTimeUpdaterMillis", 0);
+        if (last && last != null) {
+          var period = count < 20 ? 360 * 1000 : 600 * 1000;
+          delay = period - (new Date().getTime() - last);
+          if (delay < 0)
+            delay = 0;
+        }
+        return delay;
+      }
+
+      window.setInterval(function () {
+        if (getDelay() <= 0 && count < 120) {
+          ++count;
+          Codeforces.ping("/data/update-online");
+        }
+      }, 5000);
+
+      var handle = "Cro-Marmot";
+      $("a.rated-user:contains(" + handle + "), span.participant:contains(" + handle + ")").each(function () {
+        if ($(this).text() == handle) {
+          var td = $(this).parent();
+          var tr = $(this).parent().parent();
+          if (td.is("td") && tr.is("tr") && !tr.hasClass("disable-highlight-self")) {
+            info(handle);
+            tr.addClass("highlighted-row");
+          }
+        }
+      });
 
       function showAnnouncements(json) {
         //info("j=" + JSON.stringify(json));
@@ -411,6 +445,36 @@
 
 
   <div id="body">
+    <script type="text/javascript">
+      $(function () {
+        window._ftaa = "57an8wl7xgv2vmeal2";
+      })
+    </script>
+
+    <script type="text/javascript">
+      $(function () {
+        window._bfaa = "6557b941d482c3997936e1d25f163c23";
+      });
+    </script>
+    <script type="application/javascript">
+      window.setTimeout(function () {
+        var url = location.href;
+        var hashCode32 = Math.abs(url.hashCode()).toString();
+        var hashCode = "p" + hashCode32 + Math.abs((hashCode32 + url).hashCode());
+        var pvs = Codeforces.getFromStorage("pvs" + hashCode);
+        if (!pvs) {
+          $.post("/data/apv", {
+            ftaa: window._ftaa,
+            bfaa: window._bfaa,
+            url: url
+          }, function (json) {
+            if (json["success"] === "true") {
+              Codeforces.putToStorage("pvs" + hashCode, true);
+            }
+          }, "json");
+        }
+      }, 5000);
+    </script>
 
 
     <div class="side-bell"
@@ -424,23 +488,509 @@
     </div>
 
 
+    <div class="header-bell" style="display: none;">
+      <div class="header-bell__img"><span class="header-bell__count"></span></div>
+
+      <div class="bell-details">
+        <div class="bell-details__proto-row-comment">
+          <a class="bell-details__thumbnail-a" href="#"><img src="" /></a>
+          <div class="bell-details__comment"></div>
+          <div class="bell-details__time"></div>
+        </div>
+        <div class="bell-details__proto-row-blog-entry">
+          <a class="bell-details__thumbnail-a" href="#"><img src="" /></a>
+          <div class="bell-details__blog-entry"></div>
+          <div class="bell-details__time"></div>
+        </div>
+        <div class="bell-details__proto-row-comment-reply">
+          <a class="bell-details__thumbnail-a" href="#"><img src="" /></a>
+          <div class="bell-details__comment-reply"></div>
+        </div>
+
+        <div class="bell-details__no-new">
+          There are no new notifications
+        </div>
+
+        <div class="bell-details__recent-link">
+          <a href="/notifications">History (at most 100 notifications)</a>
+        </div>
+      </div>
+    </div>
+
+    <style>
+      .header-bell {
+        display: inline-block;
+        position: relative;
+        cursor: pointer;
+      }
+
+      .header-bell__img {
+        opacity: 0.5;
+        background-image: url("//codeforces.org/s/44221/images/icons/bell_inactive-20x20.png");
+        position: relative;
+        bottom: 1px;
+        width: 20px;
+        height: 20px;
+      }
+
+      .header-bell__img-active {
+        opacity: 1 !important;
+        background-image: url("//codeforces.org/s/44221/images/icons/bell_active-20x20.png") !important;
+      }
+
+      .header-bell__count {
+        position: absolute;
+        top: 8px;
+        left: 18px;
+        font-weight: bold;
+        font-size: 10px;
+      }
+
+      .bell-details {
+        display: none;
+        z-index: 5;
+        border: 1px solid rgb(185, 185, 185);
+        width: 40rem;
+        max-height: 60rem;
+        padding: 0;
+        position: absolute;
+        top: 20px;
+        right: 0;
+        background-color: white;
+        overflow: scroll;
+        overflow-x: hidden;
+        overflow-y: auto;
+      }
+
+      .bell-details.sidebar-bell {
+        position: fixed;
+        right: 50px;
+      }
+
+      .bell-details__no-new {
+        font-size: 1.3rem;
+        display: block;
+        text-align: center;
+        color: #888 !important;
+        padding: 1em;
+      }
+
+      .bell-details__recent-link {
+        margin: 0;
+        padding: 0.5em;
+        text-align: center;
+        border-top: 1px solid rgb(185, 185, 185);
+      }
+
+      .bell-details__recent-link a {
+        font-size: 1.2rem;
+      }
+
+      .bell-details__proto-row-comment {
+        display: none;
+      }
+
+      .bell-details__proto-row-blog-entry {
+        display: none;
+      }
+
+      .bell-details__proto-row-comment-reply {
+        display: none;
+      }
+
+      .bell-details__row {
+        text-align: left;
+        margin: 0.5em;
+        padding: 0.25em 0.25em 0.75em 0.25em;
+        clear: both;
+      }
+
+      .bell-details__row:hover {
+        cursor: pointer;
+        background-color: #def;
+      }
+
+      .bell-details__row-active {
+        background-color: #def;
+      }
+
+      .bell-details__thumbnail-a {
+        text-decoration: none;
+      }
+
+      .bell-details__row img {
+        zoom: 50%;
+        margin-right: 2em;
+        float: left;
+      }
+
+      .bell-details__comment {
+        padding-left: 45px;
+        font-size: 1.3rem;
+      }
+
+      .bell-details__blog-entry {
+        padding-left: 45px;
+        font-size: 1.3rem;
+      }
+
+      .bell-details__comment-reply {
+        padding-left: 45px;
+        font-size: 1.3rem;
+      }
+
+      .bell-details__time {
+        padding-left: 45px;
+        margin-top: 0.2em;
+        font-size: 1.1rem;
+        color: #888 !important;
+      }
+    </style>
+
+    <script>
+      $(function () {
+        if ($(window).width() < 1600) {
+          $('.side-bell').css('width', '30px').css('line-height', '30px').css('font-size', '10px');
+        }
+
+        if ($(window).width() >= 1200) {
+          $(window).scroll(function () {
+            if ($(this).scrollTop() > 100) {
+              $(".bell-details").addClass("sidebar-bell");
+              $('.side-bell').fadeIn();
+            } else {
+              $(".bell-details").removeClass("sidebar-bell");
+              $('.side-bell').fadeOut();
+            }
+          });
+
+          $('.side-bell').hover(function () {
+            $(this).animate({
+              'opacity': '1'
+            }).css({ 'color': '#6a86a4' });
+          }, function () {
+            $(this).animate({
+              'opacity': '0.7'
+            }).css({ 'color': '#d3dbe4' });
+          });
+        }
+
+        $(".lang-chooser>div:first-child").prepend($("<span style='position: relative; bottom: 8px; padding: 0 0.5em;'>|</span>")).prepend($(".header-bell").show());
+        function Bell() {
+          var bell = this;
+          var notifications = JSON.parse("[]");
+
+          bell.notifications = {};
+
+          for (var i in notifications) {
+            if (notifications.hasOwnProperty(i)) {
+              bell.notifications[notifications[i].id] = notifications[i];
+            }
+          }
+
+          function onClick(notification) {
+            var notificationIds = [];
+            var reason = notification.data.reasonType + "#" + notification.reasonId;
+            for (id in bell.notifications) {
+              if (bell.notifications.hasOwnProperty(id)) {
+                var otherNotification = bell.notifications[id];
+                var otherReason = otherNotification.data.reasonType + "#" + otherNotification.reasonId;
+                if (otherReason == reason) {
+                  notificationIds.push(otherNotification.id);
+                }
+              }
+            }
+            $.post("/data/notification", { action: "markAsRead", notificationIds: notificationIds.join(",") }, function (result) {
+              Codeforces.redirect(notification.data.url);
+            }, "json");
+          }
+
+          var $bellDetails = $(".bell-details");
+          bell.newCommentRow = function (notification) {
+            var row = $(".bell-details__proto-row-comment").clone();
+            row.addClass("bell-details__row").attr("data-notificationId", notification.id);
+            row.find(".bell-details__thumbnail-a").attr("href", notification.data.reasonUserUrl);
+            row.find("img").attr("src", notification.data.reasonUserThumbnailUrl);
+            row.find(".bell-details__comment").html(
+              "ReasonUser mentioned you in a comment".replace("ReasonUser", notification.data.reasonUserHtml)
+            );
+            row.find(".bell-details__time").html(
+              "<span class='format-systemtimewithseconds'>"
+              + notification.creationTimeString
+              + "</span>"
+            );
+            row.removeClass("bell-details__proto-row-comment");
+            row.click(function () {
+              onClick(notification);
+              return false;
+            });
+            return row;
+          };
+          bell.newFriendCommentRow = function (notification) {
+            var row = $(".bell-details__proto-row-comment").clone();
+            row.addClass("bell-details__row").attr("data-notificationId", notification.id);
+            row.find(".bell-details__thumbnail-a").attr("href", notification.data.reasonUserUrl);
+            row.find("img").attr("src", notification.data.reasonUserThumbnailUrl);
+            row.find(".bell-details__comment").html(
+              "ReasonUser wrote a comment".replace("ReasonUser", notification.data.reasonUserHtml)
+            );
+            row.find(".bell-details__time").html(
+              "<span class='format-systemtimewithseconds'>"
+              + notification.creationTimeString
+              + "</span>"
+            );
+            row.removeClass("bell-details__proto-row-comment");
+            row.click(function () {
+              onClick(notification);
+              return false;
+            });
+            return row;
+          };
+          bell.newCommentReplyRow = function (notification) {
+            var row = $(".bell-details__proto-row-comment-reply").clone();
+            row.addClass("bell-details__row").attr("data-notificationId", notification.id);
+            row.find(".bell-details__thumbnail-a").attr("href", notification.data.reasonUserUrl);
+            row.find("img").attr("src", notification.data.reasonUserThumbnailUrl);
+            row.find(".bell-details__comment-reply").html(
+              "ReasonUser replied to your comment".replace("ReasonUser", notification.data.reasonUserHtml)
+            );
+            row.find(".bell-details__time").html(
+              "<span class='format-systemtimewithseconds'>"
+              + notification.creationTimeString
+              + "</span>"
+            );
+            row.removeClass("bell-details__proto-row-comment-reply");
+            row.click(function () {
+              onClick(notification);
+              return false;
+            });
+            return row;
+          };
+          bell.newBlogEntryRow = function (notification) {
+            var row = $(".bell-details__proto-row-blog-entry").clone();
+            row.addClass("bell-details__row").attr("data-notificationId", notification.id);
+            row.find(".bell-details__thumbnail-a").attr("href", notification.data.reasonUserUrl);
+            row.find("img").attr("src", notification.data.reasonUserThumbnailUrl);
+            row.find(".bell-details__blog-entry").html(
+              "ReasonUser mentioned you in a blog entry".replace("ReasonUser", notification.data.reasonUserHtml)
+            );
+            row.find(".bell-details__time").html(
+              "<span class='format-systemtimewithseconds'>"
+              + notification.creationTimeString
+              + "</span>"
+            );
+            row.removeClass("bell-details__proto-row-blog-entry");
+            row.click(function () {
+              onClick(notification);
+              return false;
+            });
+            return row;
+          };
+          bell.newFriendBlogEntryRow = function (notification) {
+            var row = $(".bell-details__proto-row-blog-entry").clone();
+            row.addClass("bell-details__row").attr("data-notificationId", notification.id);
+            row.find(".bell-details__thumbnail-a").attr("href", notification.data.reasonUserUrl);
+            row.find("img").attr("src", notification.data.reasonUserThumbnailUrl);
+            row.find(".bell-details__blog-entry").html(
+              "ReasonUser wrote a blog entry".replace("ReasonUser", notification.data.reasonUserHtml)
+            );
+            row.find(".bell-details__time").html(
+              "<span class='format-systemtimewithseconds'>"
+              + notification.creationTimeString
+              + "</span>"
+            );
+            row.removeClass("bell-details__proto-row-blog-entry");
+            row.click(function () {
+              onClick(notification);
+              return false;
+            });
+            return row;
+          };
+          bell.newProposalCommentRow = function (notification) {
+            var row = $(".bell-details__proto-row-comment-reply").clone();
+            row.addClass("bell-details__row").attr("data-notificationId", notification.id);
+            row.find(".bell-details__thumbnail-a").attr("href", notification.data.reasonUserUrl);
+            row.find("img").attr("src", notification.data.reasonUserThumbnailUrl);
+            row.find(".bell-details__comment-reply").html(
+              "ReasonUser commented on ProposalType Proposal".replace("ReasonUser", notification.data.reasonUserHtml)
+                .replace("ProposalType", "Contest" == notification.data.proposalType ? "contest proposal" : "problem proposal")
+                .replace("Proposal", $("<div/>").text(notification.data.proposalName).html())
+            );
+            row.find(".bell-details__time").html(
+              "<span class='format-systemtimewithseconds'>"
+              + notification.creationTimeString
+              + "</span>"
+            );
+            row.removeClass("bell-details__proto-row-comment-reply");
+            row.click(function () {
+              onClick(notification);
+              return false;
+            });
+            return row;
+          };
+
+          bell.renderRow = function (notification) {
+            var $row = $(".bell-details__row[data-notificationId='" + notification.id + "']");
+
+            if ($bellDetails.css("display") != "block" && notification.read) {
+              $row.hide();
+              return;
+            }
+
+            notification.data = JSON.parse(notification.dataJson);
+
+            var reason = notification.data.reasonType + "#" + notification.reasonId;
+
+            var has = false;
+            $row.each(function () {
+              has = true;
+            });
+            if ($(".bell-details__row[data-reason='" + reason + "']").length) {
+              has = true;
+            }
+
+            if (!has) {
+              $(".side-bell").css("visibility", "visible");
+              var newRow;
+              if (notification.type == "Comment") {
+                newRow = bell.newCommentRow(notification);
+              } else if (notification.type == "BlogEntry") {
+                newRow = bell.newBlogEntryRow(notification);
+              } else if (notification.type == "CommentReply") {
+                newRow = bell.newCommentReplyRow(notification);
+              } else if (notification.type == "FriendComment") {
+                newRow = bell.newFriendCommentRow(notification);
+              } else if (notification.type == "FriendBlogEntry") {
+                newRow = bell.newFriendBlogEntryRow(notification);
+              } else if (notification.type == "ProposalComment") {
+                newRow = bell.newProposalCommentRow(notification)
+              }
+              if (newRow) {
+                newRow.attr("data-reason", reason);
+                $(".bell-details").prepend(newRow);
+              }
+            }
+          };
+
+          var $count = $(".header-bell__count, .side-bell__count");
+          var $img = $(".header-bell__img");
+          var $noNew = $(".bell-details__no-new");
+
+          bell.renewCount = function () {
+            Codeforces.reformatTimes();
+            var count = 0;
+            var counted = {};
+            for (var id in bell.notifications)
+              if (bell.notifications.hasOwnProperty(id)) {
+                var notification = bell.notifications[id];
+                if (notification) {
+                  var reason = notification.data.reasonType + "#" + notification.reasonId;
+                  if (!notification.read && !counted[reason]) {
+                    count++;
+                    counted[reason] = true;
+                  }
+                }
+              }
+            if (count > 0) {
+              $count.text(count);
+              $img.addClass("header-bell__img-active");
+              $noNew.hide();
+            } else {
+              $count.text("");
+              $img.removeClass("header-bell__img-active");
+              if ($bellDetails.css("display") != "block") {
+                $noNew.show();
+              }
+            }
+          };
+
+          for (var id in bell.notifications)
+            if (bell.notifications.hasOwnProperty(id))
+              bell.renderRow(bell.notifications[id]);
+
+          if (window.eventCatcher) {
+            window.eventCatcher.subscribe(Codeforces.getUserChannel(), function (json) {
+              if (json.t === "n") {
+                for (var i in json.d)
+                  if (json.d.hasOwnProperty(i)) {
+                    var notification = json.d[i];
+                    notification.data = JSON.parse(notification.dataJson);
+                    bell.notifications[notification.id] = notification;
+                    bell.renderRow(notification);
+                    bell.renewCount();
+                  }
+              }
+            });
+          }
+
+
+          $(".header-bell, .side-bell").click(function () {
+            if ($bellDetails.css("display") == "none") {
+              for (var id in bell.notifications)
+                if (bell.notifications.hasOwnProperty(id))
+                  if (bell.notifications[id].read)
+                    bell.renderRow(bell.notifications[id]);
+              bell.renewCount();
+
+              $bellDetails.css("display", "block");
+
+              var notificationIds = [];
+              for (id in bell.notifications)
+                if (bell.notifications.hasOwnProperty(id))
+                  notificationIds.push(id);
+
+              setTimeout(function () {
+                if ($bellDetails.css("display") == "block") {
+                  $.post("/data/notification", { action: "markAsRead", notificationIds: notificationIds.join(",") }, function (result) {
+                    // No operations.
+                  }, "json");
+
+                  for (var i in notificationIds) {
+                    if (notificationIds.hasOwnProperty(i)) {
+                      bell.notifications[notificationIds[i]].read = true;
+                    }
+                  }
+                  bell.renewCount();
+                }
+              }, 2000);
+            } else {
+              var has = false;
+              for (var id in bell.notifications) {
+                if (bell.notifications.hasOwnProperty(id) && !bell.notifications[id].read) {
+                  has = true;
+                }
+              }
+              if (!has) {
+                $(".side-bell").css("visibility", "hidden");
+              }
+              $bellDetails.css("display", "none");
+              bell.renewCount();
+            }
+          });
+        }
+
+        bell = new Bell();
+        bell.renewCount();
+      })
+    </script>
+
     <div id="header" style="position: relative;">
       <div style="float:left; height: 60px;">
         <a href="/"><img alt="Codeforces" title="Codeforces"
-            src="//codeforces.org/s/67569/images/codeforces-logo-with-telegram.png" /></a>
+            src="//codeforces.org/s/44221/images/codeforces-logo-with-telegram.png" /></a>
       </div>
       <div class="lang-chooser">
         <div style="text-align: right;">
-          <a href="?locale=en"><img src="//codeforces.org/s/67569/images/flags/24/gb.png" title="In English"
+          <a href="?locale=en"><img src="//codeforces.org/s/44221/images/flags/24/gb.png" title="In English"
               alt="In English" /></a>
-          <a href="?locale=ru"><img src="//codeforces.org/s/67569/images/flags/24/ru.png" title="По-русски"
+          <a href="?locale=ru"><img src="//codeforces.org/s/44221/images/flags/24/ru.png" title="По-русски"
               alt="По-русски" /></a>
         </div>
 
         <div>
-          <a href="/enter?back=%2Fcontests">Enter</a>
+          <a href="/profile/Cro-Marmot">Cro-Marmot</a>
           |
-          <a href="/register">Register</a>
+          <a href="/fd36045adadb29cdaaa7b08b417fb3fa/logout">Logout</a>
 
         </div>
 
@@ -464,7 +1014,7 @@
           <li class="current"><a href="/contests">Contests</a></li>
           <li class=""><a href="/gyms">Gym</a></li>
           <li class=""><a href="/problemset">Problemset</a></li>
-          <li class=""><a href="/groups">Groups</a></li>
+          <li class=""><a href="/groups/my">Groups</a></li>
           <li class=""><a href="/ratings">Rating</a></li>
           <li class=""><a href="/edu/courses"><span class="edu-menu-item">Edu</span></a></li>
           <li class=""><a href="/apiHelp">API</a></li>
@@ -472,7 +1022,7 @@
           <li class=""><a href="/help">Help</a></li>
         </ul>
         <form method="post" action="/search"><input type='hidden' name='csrf_token'
-            value='3a777f650d6764724e3d68059ce80546' />
+            value='4c4ce668e8b34185750f3e3214159d39' />
           <input class="search" name="query" data-isPlaceholder="true" value="" />
         </form>
         <br style="clear: both;" />
@@ -505,22 +1055,15 @@
             <div
               style="text-align:center;border-bottom: 1px solid rgb(185, 185, 185);margin:0 -0.5em 0.5em -0.5em;padding: 0 1em 0.5em 1em;">
               <span class='contest-state-phase'>Before contest</span><br /><a href="/contests/1630,1631">Codeforces
-                Round #768 (Div. 1)</a><br /><span class='countdown' home='//codeforces.org/s/67569'
-                noRedirection='true' textBeforeRedirect=''>29:58:36</span><br /><a
-                href="/contestRegistration/1630">Register now »</a>
-              <div class="smaller notice">*has extra registration<i class="icon-question-sign clickable-title"
-                  title="If you are late to register in 5 minutes before the start, you can register later during the extra registration. Extra registration opens 10 minutes after the contest starts and lasts 20 minutes."></i>
-              </div>
+                Round #768 (Div. 1)</a><br /><span class='countdown' home='//codeforces.org/s/44221'
+                noRedirection='true'
+                textBeforeRedirect='Contest "Codeforces Round #768 (Div. 1)" has been started, you may click <a href="/contest/1630/problem/0">the link</a> to enter into the contest area'>11:49:50</span>
             </div>
             <div
               style="text-align:center;border-bottom: 1px solid rgb(185, 185, 185);margin:0 -0.5em 0.5em -0.5em;padding: 0 1em 0.5em 1em;">
               <span class='contest-state-phase'>Before contest</span><br /><a href="/contests/1630,1631">Codeforces
-                Round #768 (Div. 2)</a><br /><span class='countdown' home='//codeforces.org/s/67569'
-                noRedirection='true' textBeforeRedirect=''>29:58:36</span><br /><a
-                href="/contestRegistration/1631">Register now »</a>
-              <div class="smaller notice">*has extra registration<i class="icon-question-sign clickable-title"
-                  title="If you are late to register in 5 minutes before the start, you can register later during the extra registration. Extra registration opens 10 minutes after the contest starts and lasts 20 minutes."></i>
-              </div>
+                Round #768 (Div. 2)</a><br /><span class='countdown' home='//codeforces.org/s/44221'
+                noRedirection='true' textBeforeRedirect=''>11:49:51</span>
             </div>
             <div style="text-align:center;">
               <div class="socials" style="text-align: left;">
@@ -545,6 +1088,122 @@
             </div>
           </div>
         </div>
+
+        <div class="roundbox sidebox virtual-contests" style="">
+          <div class="roundbox-lt">&nbsp;</div>
+          <div class="roundbox-rt">&nbsp;</div>
+          <div class="caption titled">&rarr; Recent virt. contests
+            <div class="top-links">
+            </div>
+          </div>
+          <table class="rtable ">
+            <tbody>
+              <tr>
+                <th class="left">Contest</th>
+                <th class="">Time</th>
+                <th class="" style="width:1.5em;"></th>
+              </tr>
+              <tr>
+                <td class="left  dark">Good Bye 2016<br><a href="/contest/750" style="font-size:0.8em">Enter &raquo;</a>
+                </td>
+                <td class=" dark"><a class="change-virtual-contest-start-time" data-contest-id=750
+                    data-virtual-start-time="Jan/05/2017 19:45" redirectUrl="/contest/750" href="#"><span
+                      class="format-time" data-locale="en">Jan/05/2017 19:45</span></a></td>
+                <td class=" dark"><a class="delete-virtual-contest" data-contest-id=750 href="#"><img width="12px;"
+                      src="//codeforces.org/s/44221/images/delete.png" /></a></td>
+              </tr>
+              <tr>
+                <td class="left bottom">Codeforces Round #224 (Div. 2)<br><a href="/contest/382"
+                    style="font-size:0.8em">Enter &raquo;</a></td>
+                <td class="bottom"><a class="change-virtual-contest-start-time" data-contest-id=382
+                    data-virtual-start-time="Jan/20/2014 08:55" redirectUrl="/contest/382" href="#"><span
+                      class="format-time" data-locale="en">Jan/20/2014 08:55</span></a></td>
+                <td class="bottom"><a class="delete-virtual-contest" data-contest-id=382 href="#"><img width="12px;"
+                      src="//codeforces.org/s/44221/images/delete.png" /></a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <form class="delete-virtual-contest-form" action="" method="post"><input type='hidden' name='csrf_token'
+            value='4c4ce668e8b34185750f3e3214159d39' />
+          <input type="hidden" name="action" value="deleteVirtualContest" />
+          <input type="hidden" name="contestId" value="" />
+        </form>
+
+        <div class="change-virtual-contest-start-time-form" style="display: none; width: 30em;">
+          <div style="margin: 0 auto; text-align: center; padding: 1.5em 0 0.5em 0; font-size: 1.25em;">Change virtual
+            contest start time</div>
+          <form action="" method="post"><input type='hidden' name='csrf_token'
+              value='4c4ce668e8b34185750f3e3214159d39' />
+            <input type="hidden" name="action" value="changeVirtualContestStartTime" />
+            <input type="hidden" name="contestId" value="" />
+            <table class="table-form">
+              <tr>
+                <td colspan="2" align="center" style="padding-bottom: 3px;">
+                  <input type="hidden" name="initialDatetime" value="" />
+                  <input type="hidden" name="clientTimezoneOffset" value="" />
+                  <input style="width: 6.5em;" name="startDay" value="" />
+                  <input style="width: 5em;margin-left:2em;" name="startTime" value="" class="virtualStartTime" />
+                </td>
+              </tr>
+              <tr class="subscription-row ">
+                <td>&nbsp;</td>
+                <td>
+                  <div class="shiftUp"> <span class="notice for__startDay">Use datetime format like 03/07/2010
+                      11:00PM</span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2" style="text-align: center;">
+                  <input type="submit" value="Change" style="padding: 0 1em;" />
+                </td>
+              </tr>
+            </table>
+          </form>
+        </div>
+
+        <script type="text/javascript">
+          $(document).ready(function () {
+            $(".delete-virtual-contest").click(function () {
+              var contestId = $(this).attr("data-contest-id");
+              var form = $(".delete-virtual-contest-form");
+              var contestIdInput = $(form).find("input[name='contestId']");
+              $(contestIdInput).attr("value", contestId);
+              $(form).submit();
+              return false;
+            });
+
+            $(".change-virtual-contest-start-time").click(function () {
+              var contestId = $(this).attr("data-contest-id");
+              Codeforces.facebox(".change-virtual-contest-start-time-form", "//codeforces.org/s/44221");
+              $("#facebox input[name='contestId']").attr("value", contestId);
+
+              var content = $(this).attr("data-virtual-start-time");
+
+              $("#facebox input[name=initialDatetime]").val(content);
+
+              Codeforces.setupFormDatetimePicker(
+                $("#facebox input[name=initialDatetime]"),
+                $("#facebox input[name=startDay]"),
+                $("#facebox input[name=startTime]"),
+                $("#facebox input[name=clientTimezoneOffset]"));
+
+              $("#facebox input[name=startDay]").datepick({
+                yearRange: "-2:+2",
+                showOn: 'button',
+                buttonImageOnly: true,
+                buttonImage: '//codeforces.org/s/44221/images/icons/calendar.png'
+              });
+              $("#facebox input[name=startTime]").timeEntry({
+                spinnerImage: '//codeforces.org/s/44221/images/timeentry/spinnerDefault.png'
+              });
+
+              return false;
+            });
+          });
+        </script>
       </div>
       <div id="pageContent" class="content-with-sidebar">
 
@@ -571,10 +1230,10 @@
               <div style="position:absolute;right:0.25em;top:0.35em;">
                 <span style="padding:0;position:relative;bottom:2px;" class="rowCount"></span>
 
-                <img class="closed" src="//codeforces.org/s/52602/images/icons/control.png" />
+                <img class="closed" src="//codeforces.org/s/47788/images/icons/control.png" />
 
                 <span class="filter" style="display:none;">
-                  <img class="opened" src="//codeforces.org/s/52602/images/icons/control-270.png" />
+                  <img class="opened" src="//codeforces.org/s/47788/images/icons/control-270.png" />
                   <input
                     style="padding:0 0 0 20px;position:relative;bottom:2px;border:1px solid #aaa;height:17px;font-size:1.3rem;" />
                 </span>
@@ -614,19 +1273,15 @@
                     02:00
                   </td>
                   <td class="state">
-                    Before start <span home="//codeforces.org/s/67569" noRedirection="true"
-                      class="countdown">29:58:36</span>
+                    Before start <span home="//codeforces.org/s/44221" redirectUrl="/contest/1630/problem/0"
+                      textBeforeRedirect="The contest is started, would you like to enter into the contest area?"
+                      class="countdown">11:49:50</span>
                   </td>
                   <td style="font-size:0.8em;">
-
-                    <a href="/contestRegistration/1630" class="red-link">Register &raquo;</a>
+                    <span class="welldone">Registration completed</span>
                     <a class="contestParticipantCountLinkMargin" title="Registered" href="/contestRegistrants/1630"><img
                         style="vertical-align: middle;"
-                        src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x434</a>
-                    <div>Until closing <span class="countdown">29:53:36</span></div>
-                    <div class="notice">*has extra registration<i class="icon-question-sign clickable-title"
-                        title="If you are late to register in 5 minutes before the start, you can register later during the extra registration. Extra registration opens 10 minutes after the contest starts and lasts 20 minutes."></i>
-                    </div>
+                        src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x733</a>
 
                   </td>
 
@@ -653,16 +1308,16 @@
                     02:00
                   </td>
                   <td class="state">
-                    Before start <span home="//codeforces.org/s/67569" noRedirection="true"
-                      class="countdown">29:58:36</span>
+                    Before start <span home="//codeforces.org/s/44221" noRedirection="true"
+                      class="countdown">11:49:51</span>
                   </td>
                   <td style="font-size:0.8em;">
 
                     <a href="/contestRegistration/1631" class="red-link">Register &raquo;</a>
                     <a class="contestParticipantCountLinkMargin" title="Registered" href="/contestRegistrants/1631"><img
                         style="vertical-align: middle;"
-                        src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x7376</a>
-                    <div>Until closing <span class="countdown">29:53:36</span></div>
+                        src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x13487</a>
+                    <div>Until closing <span class="countdown">11:44:51</span></div>
                     <div class="notice">*has extra registration<i class="icon-question-sign clickable-title"
                         title="If you are late to register in 5 minutes before the start, you can register later during the extra registration. Extra registration opens 10 minutes after the contest starts and lasts 20 minutes."></i>
                     </div>
@@ -688,12 +1343,12 @@
                     02:00
                   </td>
                   <td class="state">
-                    Before start <span home="//codeforces.org/s/67569" noRedirection="true" class="countdown"><span
-                        title="101:58:36">4 days</span></span>
+                    Before start <span home="//codeforces.org/s/44221" noRedirection="true" class="countdown"><span
+                        title="83:49:50">4 days</span></span>
                   </td>
                   <td style="font-size:0.8em;">
                     Before registration
-                    <span class="countdown"><span title="70:58:36">3 days</span></span>
+                    <span class="countdown"><span title="52:49:50">2 days</span></span>
 
                   </td>
 
@@ -716,12 +1371,12 @@
                     02:00
                   </td>
                   <td class="state">
-                    Before start <span home="//codeforces.org/s/67569" noRedirection="true" class="countdown"><span
-                        title="125:58:36">5 days</span></span>
+                    Before start <span home="//codeforces.org/s/44221" noRedirection="true" class="countdown"><span
+                        title="107:49:50">5 days</span></span>
                   </td>
                   <td style="font-size:0.8em;">
                     Before registration
-                    <span class="countdown"><span title="60:23:36">3 days</span></span>
+                    <span class="countdown">42:14:50</span>
 
                   </td>
 
@@ -744,12 +1399,12 @@
                     02:00
                   </td>
                   <td class="state">
-                    Before start <span home="//codeforces.org/s/67569" noRedirection="true" class="countdown"><span
-                        title="269:58:36">11 days</span></span>
+                    Before start <span home="//codeforces.org/s/44221" noRedirection="true" class="countdown"><span
+                        title="251:49:50">11 days</span></span>
                   </td>
                   <td style="font-size:0.8em;">
                     Before registration
-                    <span class="countdown"><span title="238:58:36">10 days</span></span>
+                    <span class="countdown"><span title="220:49:50">9 days</span></span>
 
                   </td>
 
@@ -772,12 +1427,12 @@
                     02:00
                   </td>
                   <td class="state">
-                    Before start <span home="//codeforces.org/s/67569" noRedirection="true" class="countdown"><span
-                        title="605:58:36">4 weeks</span></span>
+                    Before start <span home="//codeforces.org/s/44221" noRedirection="true" class="countdown"><span
+                        title="587:49:50">4 weeks</span></span>
                   </td>
                   <td style="font-size:0.8em;">
                     Before registration
-                    <span class="countdown"><span title="574:58:36">3 weeks</span></span>
+                    <span class="countdown"><span title="556:49:50">3 weeks</span></span>
 
                   </td>
 
@@ -800,12 +1455,12 @@
                     02:15
                   </td>
                   <td class="state">
-                    Before start <span home="//codeforces.org/s/67569" noRedirection="true" class="countdown"><span
-                        title="773:58:36">5 weeks</span></span>
+                    Before start <span home="//codeforces.org/s/44221" noRedirection="true" class="countdown"><span
+                        title="755:49:50">5 weeks</span></span>
                   </td>
                   <td style="font-size:0.8em;">
                     Before registration
-                    <span class="countdown"><span title="725:58:36">4 weeks</span></span>
+                    <span class="countdown"><span title="707:49:50">4 weeks</span></span>
 
                   </td>
 
@@ -994,7 +1649,6 @@
 
 
 
-
           <div class="contests-table" style="margin-top:2em;">
             Contest history
 
@@ -1020,10 +1674,10 @@
                 <div style="position:absolute;right:0.25em;top:0.35em;">
                   <span style="padding:0;position:relative;bottom:2px;" class="rowCount"></span>
 
-                  <img class="closed" src="//codeforces.org/s/52602/images/icons/control.png" />
+                  <img class="closed" src="//codeforces.org/s/47788/images/icons/control.png" />
 
                   <span class="filter" style="display:none;">
-                    <img class="opened" src="//codeforces.org/s/52602/images/icons/control-270.png" />
+                    <img class="opened" src="//codeforces.org/s/47788/images/icons/control-270.png" />
                     <input
                       style="padding:0 0 0 20px;position:relative;bottom:2px;border:1px solid #aaa;height:17px;font-size:1.3rem;" />
                   </span>
@@ -1077,7 +1731,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1628"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x1392</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x1392</a>
 
                     </td>
 
@@ -1118,7 +1772,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1629"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x26548</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x26548</a>
 
                     </td>
 
@@ -1165,7 +1819,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1626"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x26013</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x26013</a>
 
                     </td>
 
@@ -1213,7 +1867,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1627"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x23434</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x23434</a>
 
                     </td>
 
@@ -1261,7 +1915,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1625"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x23602</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x23602</a>
 
                     </td>
 
@@ -1312,7 +1966,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1624"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x33958</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x33958</a>
 
                     </td>
 
@@ -1351,7 +2005,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1621"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x28661</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x28661</a>
 
                     </td>
 
@@ -1395,7 +2049,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1616"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x23698</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x23698</a>
 
                     </td>
 
@@ -1435,7 +2089,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1623"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x20990</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x20990</a>
 
                     </td>
 
@@ -1482,7 +2136,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1622"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x25327</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x25327</a>
 
                     </td>
 
@@ -1526,7 +2180,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1615"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x21508</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x21508</a>
 
                     </td>
 
@@ -1578,7 +2232,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1619"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x26516</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x26516</a>
 
                     </td>
 
@@ -1625,7 +2279,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1620"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x22151</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x22151</a>
 
                     </td>
 
@@ -1665,7 +2319,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1617"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x19435</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x19435</a>
 
                     </td>
 
@@ -1710,7 +2364,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1618"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x26224</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x26224</a>
 
                     </td>
 
@@ -1758,7 +2412,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1585"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x1912</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x1912</a>
 
                     </td>
 
@@ -1806,7 +2460,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1591"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x13738</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x13738</a>
 
                     </td>
 
@@ -1850,7 +2504,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1608"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x18713</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x18713</a>
 
                     </td>
 
@@ -1897,7 +2551,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1613"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x21436</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x21436</a>
 
                     </td>
 
@@ -1942,7 +2596,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1609"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x16355</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x16355</a>
 
                     </td>
 
@@ -1983,7 +2637,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1614"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x17295</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x17295</a>
 
                     </td>
 
@@ -2034,7 +2688,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1611"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x25104</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x25104</a>
 
                     </td>
 
@@ -2081,7 +2735,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1610"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x18073</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x18073</a>
 
                     </td>
 
@@ -2128,7 +2782,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1612"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x17422</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x17422</a>
 
                     </td>
 
@@ -2177,7 +2831,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1584"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x1707</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x1707</a>
 
                     </td>
 
@@ -2226,7 +2880,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1588"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x1000</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x1000</a>
 
                     </td>
 
@@ -2275,7 +2929,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1589"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x9916</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x9916</a>
 
                     </td>
 
@@ -2321,7 +2975,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1605"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x19573</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x19573</a>
 
                     </td>
 
@@ -2363,7 +3017,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1607"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x26624</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x26624</a>
 
                     </td>
 
@@ -2403,7 +3057,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1603"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x1387</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x1387</a>
 
                     </td>
 
@@ -2443,7 +3097,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1604"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x19100</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x19100</a>
 
                     </td>
 
@@ -2490,7 +3144,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1606"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x23761</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x23761</a>
 
                     </td>
 
@@ -2561,7 +3215,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1601"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x1073</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x1073</a>
 
                     </td>
 
@@ -2636,7 +3290,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1602"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x14535</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x14535</a>
 
                     </td>
 
@@ -2677,7 +3331,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1582"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x17575</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x17575</a>
 
                     </td>
 
@@ -2725,7 +3379,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1583"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x2721</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x2721</a>
 
                     </td>
 
@@ -2773,7 +3427,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1586"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x12993</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x12993</a>
 
                     </td>
 
@@ -2817,7 +3471,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1593"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x24205</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x24205</a>
 
                     </td>
 
@@ -2862,7 +3516,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1598"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x16291</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x16291</a>
 
                     </td>
 
@@ -2921,7 +3575,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1599"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x981</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x981</a>
 
                     </td>
 
@@ -2980,7 +3634,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1600"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x1949</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x1949</a>
 
                     </td>
 
@@ -3014,7 +3668,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1576"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x8713</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x8713</a>
 
                     </td>
 
@@ -3055,7 +3709,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1594"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x18594</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x18594</a>
 
                     </td>
 
@@ -3100,7 +3754,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1571"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x6330</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x6330</a>
 
                     </td>
 
@@ -3142,7 +3796,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1592"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x17138</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x17138</a>
 
                     </td>
 
@@ -3191,7 +3845,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1575"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x3000</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x3000</a>
 
                     </td>
 
@@ -3225,7 +3879,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1570"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x4884</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x4884</a>
 
                     </td>
 
@@ -3263,7 +3917,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1578"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x4836</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x4836</a>
 
                     </td>
 
@@ -3304,7 +3958,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1580"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x1250</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x1250</a>
 
                     </td>
 
@@ -3345,7 +3999,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1581"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x20079</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x20079</a>
 
                     </td>
 
@@ -3387,7 +4041,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1579"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x29692</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x29692</a>
 
                     </td>
 
@@ -3434,7 +4088,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1574"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x22655</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x22655</a>
 
                     </td>
 
@@ -3476,7 +4130,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1572"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x1236</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x1236</a>
 
                     </td>
 
@@ -3518,7 +4172,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1573"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x19174</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x19174</a>
 
                     </td>
 
@@ -3560,7 +4214,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1566"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x22137</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x22137</a>
 
                     </td>
 
@@ -3606,7 +4260,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1569"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x24739</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x24739</a>
 
                     </td>
 
@@ -3648,7 +4302,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1567"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x22125</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x22125</a>
 
                     </td>
 
@@ -3693,7 +4347,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1556"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x20702</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x20702</a>
 
                     </td>
 
@@ -3733,7 +4387,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1562"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x22031</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x22031</a>
 
                     </td>
 
@@ -3774,7 +4428,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1558"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x1450</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x1450</a>
 
                     </td>
 
@@ -3815,7 +4469,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1561"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x20981</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x20981</a>
 
                     </td>
 
@@ -3852,7 +4506,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1563"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x32</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x32</a>
 
                     </td>
 
@@ -3896,7 +4550,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1560"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x30000</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x30000</a>
 
                     </td>
 
@@ -3944,7 +4598,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1559"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x24615</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x24615</a>
 
                     </td>
 
@@ -3987,7 +4641,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1557"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x26247</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x26247</a>
 
                     </td>
 
@@ -4029,7 +4683,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1548"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x1520</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x1520</a>
 
                     </td>
 
@@ -4069,7 +4723,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1549"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x23386</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x23386</a>
 
                     </td>
 
@@ -4115,7 +4769,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1555"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x24695</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x24695</a>
 
                     </td>
 
@@ -4155,7 +4809,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1554"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x25933</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x25933</a>
 
                     </td>
 
@@ -4196,7 +4850,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1552"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x22506</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x22506</a>
 
                     </td>
 
@@ -4238,7 +4892,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1551"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x28443</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x28443</a>
 
                     </td>
 
@@ -4286,7 +4940,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1553"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x19921</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x19921</a>
 
                     </td>
 
@@ -4327,7 +4981,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1544"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x285</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x285</a>
 
                     </td>
 
@@ -4368,7 +5022,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1530"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x19151</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x19151</a>
 
                     </td>
 
@@ -4414,7 +5068,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1550"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x26003</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x26003</a>
 
                     </td>
 
@@ -4474,7 +5128,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1545"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x1456</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x1456</a>
 
                     </td>
 
@@ -4534,7 +5188,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1546"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x21057</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x21057</a>
 
                     </td>
 
@@ -4581,7 +5235,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1547"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x29237</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x29237</a>
 
                     </td>
 
@@ -4621,7 +5275,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1543"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x24018</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x24018</a>
 
                     </td>
 
@@ -4664,7 +5318,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1542"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x22722</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x22722</a>
 
                     </td>
 
@@ -4708,7 +5362,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1533"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x5444</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x5444</a>
 
                     </td>
 
@@ -4749,7 +5403,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1540"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x1231</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x1231</a>
 
                     </td>
 
@@ -4790,7 +5444,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1541"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x22878</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x22878</a>
 
                     </td>
 
@@ -4824,7 +5478,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1532"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x6140</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x6140</a>
 
                     </td>
 
@@ -4882,7 +5536,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1539"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x21088</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x21088</a>
 
                     </td>
 
@@ -4922,7 +5576,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1537"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x23780</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x23780</a>
 
                     </td>
 
@@ -4969,7 +5623,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1534"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x18501</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x18501</a>
 
                     </td>
 
@@ -5013,7 +5667,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1538"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x30453</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x30453</a>
 
                     </td>
 
@@ -5061,7 +5715,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1536"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x23423</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x23423</a>
 
                     </td>
 
@@ -5108,7 +5762,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1535"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x26434</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x26434</a>
 
                     </td>
 
@@ -5155,7 +5809,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1523"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x18653</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x18653</a>
 
                     </td>
 
@@ -5198,7 +5852,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1526"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x22722</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x22722</a>
 
                     </td>
 
@@ -5233,7 +5887,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1524"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x13882</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x13882</a>
 
                     </td>
 
@@ -5281,7 +5935,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1528"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x1470</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x1470</a>
 
                     </td>
 
@@ -5329,7 +5983,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1529"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x23991</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x23991</a>
 
                     </td>
 
@@ -5385,7 +6039,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1527"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x24750</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x24750</a>
 
                     </td>
 
@@ -5421,7 +6075,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1522"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x5020</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x5020</a>
 
                     </td>
 
@@ -5468,7 +6122,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1525"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x21455</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x21455</a>
 
                     </td>
 
@@ -5508,7 +6162,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1521"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x24491</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x24491</a>
 
                     </td>
 
@@ -5557,7 +6211,7 @@
                     <td style="font-size:0.8em;">
                       <a class="contestParticipantCountLinkMargin" title="Registered"
                         href="/contestRegistrants/1520"><img style="vertical-align: middle;"
-                          src="//codeforces.org/s/67569/images/icons/user.png" />&nbsp;x32231</a>
+                          src="//codeforces.org/s/44221/images/icons/user.png" />&nbsp;x32231</a>
 
                     </td>
 
@@ -5814,13 +6468,12 @@
             });
           </script>
 
-
         </div>
 
         <div class="contest-copy-popup" style="display: none">
           <h4>Create by example</h4>
           <form class="contest-copy-popup-form"><input type='hidden' name='csrf_token'
-              value='3a777f650d6764724e3d68059ce80546' />
+              value='4c4ce668e8b34185750f3e3214159d39' />
             <table class="table-form">
               <tbody>
                 <tr>
@@ -5891,7 +6544,7 @@
 
         <script>
           $(".show-contest-copy-popup").click(function () {
-            Codeforces.facebox(".contest-copy-popup", "//codeforces.org/s/67569");
+            Codeforces.facebox(".contest-copy-popup", "//codeforces.org/s/44221");
 
             var contestId = $(this).attr("data-contestId");
 
@@ -5942,7 +6595,7 @@
     <div id="footer">
       <div><a href="https://codeforces.com/">Codeforces</a> (c) Copyright 2010-2022 Mike Mirzayanov</div>
       <div>The only programming contests Web 2.0 platform</div>
-      <div>Server time: <span class="format-timewithseconds" data-locale="en">Jan/26/2022 11:36:24</span> (g2).</div>
+      <div>Server time: <span class="format-timewithseconds" data-locale="en">Jan/27/2022 05:45:10</span> (j2).</div>
       <div>Desktop version, switch to <a rel="nofollow" class="switchToMobile" href="?mobile=true">mobile version</a>.
       </div>
       <div class="smaller"><a href="/privacy">Privacy Policy</a></div>
@@ -5952,9 +6605,9 @@
       </div>
       <div style="margin-top: 8px; padding-bottom: 20px; position: relative; left: 10px;">
         <a href="https://telegram.org/"><img style="margin-right: 2em; width: 60px;"
-            src="//codeforces.org/s/52602/images/telegram-100x100.png" alt="Telegram" title="Telegram" /></a>
+            src="//codeforces.org/s/47788/images/telegram-100x100.png" alt="Telegram" title="Telegram" /></a>
         <a href="http://ifmo.ru/en/"><img style="width: 120px;"
-            src="//codeforces.org/s/52602/images/itmo_small_en-logo.png" alt="ИТМО" title="ИТМО" /></a>
+            src="//codeforces.org/s/47788/images/itmo_small_en-logo.png" alt="ИТМО" title="ИТМО" /></a>
       </div>
     </div>
     <script type="text/javascript">
@@ -6019,10 +6672,10 @@
             <div style="position:absolute;right:0.25em;top:0.35em;">
               <span style="padding:0;position:relative;bottom:2px;" class="rowCount"></span>
 
-              <img class="closed" src="//codeforces.org/s/52602/images/icons/control.png" />
+              <img class="closed" src="//codeforces.org/s/47788/images/icons/control.png" />
 
               <span class="filter" style="display:none;">
-                <img class="opened" src="//codeforces.org/s/52602/images/icons/control-270.png" />
+                <img class="opened" src="//codeforces.org/s/47788/images/icons/control-270.png" />
                 <input
                   style="padding:0 0 0 20px;position:relative;bottom:2px;border:1px solid #aaa;height:17px;font-size:1.3rem;" />
               </span>
@@ -6090,7 +6743,7 @@
       }
 
       if (supportedBrowser) {
-        navigator.serviceWorker.register('/service-worker-67569.js')
+        navigator.serviceWorker.register('/service-worker-44221.js')
           .then(function (registration) {
             console.log('Service worker registered');
           })

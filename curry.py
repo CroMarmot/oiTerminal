@@ -7,10 +7,14 @@ def main():
   if len(sys.argv) == 1:
     print(f"Usage: {sys.argv[0]} <scripts> [arg0[ arg1[ ... ]]]")
     return
-  # python3 curry.py oiTerminal.custom.Codeforces.contestList
   if sys.argv[1] == 'oiTerminal.custom.Codeforces.contestList':
+    # python3 curry.py oiTerminal.custom.Codeforces.contestList
     from oiTerminal.custom.Codeforces.contestList import main
     main()
+  elif sys.argv[1] == 'oiTerminal.custom.Codeforces.problemList':
+    # python3 curry.py oiTerminal.custom.Codeforces.problemList 1628
+    from oiTerminal.custom.Codeforces.problemList import main
+    main(sys.argv[2:])
   pass
 
 

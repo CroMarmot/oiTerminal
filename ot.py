@@ -21,19 +21,26 @@ def main():
 
   ops = args.ops
   # demo ./ot.py problem Codeforces 1613A
-  if ops[0] == 'problem':
-    from oiTerminal.cli import problem
-    logger: logging = getLogger(config_folder.get_file_path(OT_LOG))
-    problem.main(argv=args.args, logger=logger, folder=folder)
+  if ops[0] == 'init':
+    from oiTerminal.cli import init
+    init.main(folder=folder)
   elif ops[0] == 'config':
     from oiTerminal.cli import config
     logger: logging = getLogger(config_folder.get_file_path(OT_LOG))
     config.main(folder=folder, logger=logger)
-  elif ops[0] == 'init':
-    from oiTerminal.cli import init
-    init.main(folder=folder)
+  elif ops[0] == 'problem':
+    from oiTerminal.cli import problem
+    logger: logging = getLogger(config_folder.get_file_path(OT_LOG))
+    problem.main(argv=args.args, logger=logger, folder=folder)
+  elif ops[0] == 'contest':
+    from oiTerminal.cli import contest
+    logger: logging = getLogger(config_folder.get_file_path(OT_LOG))
+    contest.main(argv=args.args, logger=logger, folder=folder)
+  elif ops[0] == 'contestdetail':
+    from oiTerminal.cli import contestdetail
+    logger: logging = getLogger(config_folder.get_file_path(OT_LOG))
+    contestdetail.main(argv=args.args, logger=logger, folder=folder)
   # TODO
-  #   contest
   #   reg
   #   web
   #   submit

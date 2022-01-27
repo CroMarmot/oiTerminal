@@ -1,11 +1,11 @@
 from typing import List
-from urllib import request
 
 from bs4 import BeautifulSoup
 from oiTerminal.utils.HttpUtil import HttpUtil
 from oiTerminal.utils.MockHttpUtil import MockHttpUtil
 from rich.console import Console
 from rich.table import Table
+from rich.style import Style
 
 
 def html2json(html):
@@ -37,24 +37,25 @@ def html2json(html):
       if regText.endswith("*has extra registration"):
         regText = regText[:len(regText)-len("*has extra registration")]
       row["reg"] = regText
+    elif regText.startswith("Registration completed"):
+      row["reg"] = "Registered " + regText[len("Registration completed"):].strip()
     else:
       row["reg"] = regText
     ret.append(row)
   return ret
 
 
-def getData(http_util: HttpUtil, url: str):
-  res = http_util.get(url)
+def printData(html):
   # print(res.text)
-  ret = html2json(res.text)
+  ret = html2json(html)
   table = Table(title="Current or upcoming contests")
   table.add_column("Name",  style="cyan", no_wrap=False)
   # table.add_column("Writers", style="magenta")
-  table.add_column("Start", style="green")
-  table.add_column("Length", style="green")
-  table.add_column("Before Start", style="green")
-  table.add_column("Reg", style="green")
-  table.add_column("Cid", style="magenta")
+  table.add_column("Start")
+  table.add_column("Length")
+  table.add_column("Before Start")
+  table.add_column("Reg")
+  table.add_column("Id", style="magenta")
   for item in ret:
     table.add_row(
         item["name"],  # tds[0].get_text().strip(),
@@ -64,6 +65,8 @@ def getData(http_util: HttpUtil, url: str):
         item["beforestart"],  # tds[4].get_text().strip(),
         item["reg"],  # tds[5].get_text().strip(),
         item["cid"],  # tds[5].get_text().strip(),
+        style=Style(bgcolor=None if item["reg"].startswith("Before") else (
+            "dark_green" if item["reg"].startswith("Registered") else "grey30"))
     )
 
   console = Console()
@@ -71,8 +74,9 @@ def getData(http_util: HttpUtil, url: str):
 
 
 def main():
-  # TODO
-  getData(http_util=MockHttpUtil(), url='https://codeforces.com/contests')
+  http_util = MockHttpUtil()
+  url = 'https://codeforces.com/contests'
+  printData(http_util.get(url).text)
 
 
 if __name__ == '__main__':
