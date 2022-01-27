@@ -57,11 +57,11 @@ MathJax.Hub.Config({
 
     match_groups = soup.find(name='div', attrs={'class': 'time-limit'})
     if match_groups:
-      problem.time_limit = match_groups.contents[-1]
+      problem.time_limit = match_groups.contents[-1].strip()
 
     match_groups = soup.find(name='div', attrs={'class': 'memory-limit'})
     if match_groups:
-      problem.mem_limit = match_groups.contents[-1]
+      problem.mem_limit = match_groups.contents[-1].strip()
 
     match_groups = soup.find(
         name='div', attrs={'class': 'problem-statement'})

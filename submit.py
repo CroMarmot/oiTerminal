@@ -83,7 +83,7 @@ def submit_main(logger: logging, config_folder: ConfigFolder):
     try:
       from oiTerminal.custom.Codeforces.Codeforces import Codeforces
       oj: BaseOj = Codeforces(
-          http_util=HttpUtil(),
+          http_util=http_util,
           logger=logger,
           account=account,
           analyze=Analyze(),

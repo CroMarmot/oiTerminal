@@ -1,3 +1,4 @@
+from typing import List
 from urllib import request
 
 from bs4 import BeautifulSoup
@@ -7,21 +8,12 @@ from rich.console import Console
 from rich.table import Table
 
 
-def getData(http_util: HttpUtil):
-  res = http_util.get('https://codeforces.com/contests')
-  # print(res.text)
-  soup = BeautifulSoup(res.text, 'lxml')
+def html2json(html):
+  soup = BeautifulSoup(html, 'lxml')
   currentContestList = soup.find('div', class_='datatable')
   # print(currentContestList)
-  trs = currentContestList.find_all('tr')
+  trs: List[BeautifulSoup] = currentContestList.find_all('tr')
   ret = []
-  table = Table(title="Current or upcoming contests")
-  table.add_column("Name",  style="cyan", no_wrap=False)
-  table.add_column("Writers", style="magenta")
-  table.add_column("Start", style="green")
-  table.add_column("Length", style="green")
-  table.add_column("Before Start", style="green")
-  table.add_column("Reg", style="green")
   for i in range(1, len(trs)):
     tds = trs[i].find_all('td')
     row = {
@@ -31,6 +23,8 @@ def getData(http_util: HttpUtil):
         "length": tds[3].get_text().strip(),
         "beforestart": tds[4].get_text().strip(),
         "reg": "",
+        # data-contestId -> lowercase
+        "cid": trs[i].attrs['data-contestid']
     }
     if row["beforestart"].startswith("Before start"):
       row["beforestart"] = row["beforestart"][len("Before start"):].strip()
@@ -45,14 +39,31 @@ def getData(http_util: HttpUtil):
       row["reg"] = regText
     else:
       row["reg"] = regText
-    trs.append(row)
+    ret.append(row)
+  return ret
+
+
+def getData(http_util: HttpUtil, url: str):
+  res = http_util.get(url)
+  # print(res.text)
+  ret = html2json(res.text)
+  table = Table(title="Current or upcoming contests")
+  table.add_column("Name",  style="cyan", no_wrap=False)
+  # table.add_column("Writers", style="magenta")
+  table.add_column("Start", style="green")
+  table.add_column("Length", style="green")
+  table.add_column("Before Start", style="green")
+  table.add_column("Reg", style="green")
+  table.add_column("Cid", style="magenta")
+  for item in ret:
     table.add_row(
-        row["name"],  # tds[0].get_text().strip(),
-        row["writers"],  # tds[1].get_text().strip(),
-        row["start"],  # tds[2].get_text().strip(),
-        row["length"],  # tds[3].get_text().strip(),
-        row["beforestart"],  # tds[4].get_text().strip(),
-        row["reg"],  # tds[5].get_text().strip(),
+        item["name"],  # tds[0].get_text().strip(),
+        # item["writers"],  # tds[1].get_text().strip(),
+        item["start"],  # tds[2].get_text().strip(),
+        item["length"],  # tds[3].get_text().strip(),
+        item["beforestart"],  # tds[4].get_text().strip(),
+        item["reg"],  # tds[5].get_text().strip(),
+        item["cid"],  # tds[5].get_text().strip(),
     )
 
   console = Console()
@@ -61,8 +72,7 @@ def getData(http_util: HttpUtil):
 
 def main():
   # TODO
-  # getData(http_util=HttpUtil())
-  getData(http_util=MockHttpUtil())
+  getData(http_util=MockHttpUtil(), url='https://codeforces.com/contests')
 
 
 if __name__ == '__main__':

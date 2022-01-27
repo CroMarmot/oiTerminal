@@ -28,7 +28,6 @@ class Codeforces(BaseOj):
     self.template = template
     self.account: Account = account
     self.analyze = analyze
-    # self.http_util = HttpUtil(*args, **kwargs)
     self.http_util = http_util
     self.parser = CodeforcesParser(html_tag=html_tag, logger=logger)
 

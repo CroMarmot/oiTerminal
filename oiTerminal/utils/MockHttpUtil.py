@@ -1,8 +1,13 @@
 import os
+import re
 import requests
 from requests import RequestException, Response
 
-from oiTerminal.utils.HttpUtil import HttpUtil
+# 配置url regex 和 mock文件
+url2file = {
+    '^https://codeforces.com/contests$': "codeforces_contests",
+    '^https://codeforces.com/contest/\d*/problem/.*$': 'codeforces_problem'
+}
 
 
 class MockHttpUtil(object):
@@ -26,18 +31,15 @@ class MockHttpUtil(object):
       self._request.cookies.update(cookies)
 
   def get(self, url, **kwargs):
-    # 配置url 和 mock文件
-    url2file = {
-        'https://codeforces.com/contests': "codeforces_contests"
-    }
-    if url in url2file:
-      file = open(os.path.join(os.path.dirname(__file__), f'.mock/{url2file[url]}'), mode='r')
-      all_of_it = file.read()
-      file.close()
-      resp = Response()
-      resp._content = all_of_it.encode()
-      resp.status_code = 200
-      return resp
+    for key in url2file:
+      if re.match(key, url):
+        file = open(os.path.join(os.path.dirname(__file__), f'.mock/{url2file[key]}'), mode='r')
+        all_of_it = file.read()
+        file.close()
+        resp = Response()
+        resp._content = all_of_it.encode()
+        resp.status_code = 200
+        return resp
     else:
       return None
 
