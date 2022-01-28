@@ -1,12 +1,12 @@
 active: venv
-	source venv/bin/activate
+	. venv/bin/activate
 
 venv:
 	python3 -m venv venv
 	pip install -r requirements.txt
 
 test:
-	pytest
+	python3 -m pytest
 
 
 cov-html:

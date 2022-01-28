@@ -7,7 +7,8 @@ from requests import RequestException, Response
 url2file = {
     '^https://codeforces.com/contests$': "codeforces_contests",
     '^https://codeforces.com/contest/\d*/problem/.*$': 'codeforces_problem',
-    '^https://codeforces.com/contest/\d*$': 'codeforces_contest'
+    '^https://codeforces.com/contest/\d*$': 'codeforces_contest',
+    '^https://codeforces.com/contest/\d*/standings/friends/true$': 'codeforces_standing'
 }
 
 

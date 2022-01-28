@@ -268,3 +268,5 @@ https://github.com/xalanq/cf-tool
 一个目标 为了之后新写平台支持，少写代码，
 
 向 git 学习，用户的目录，需要 `.oiTerminal` 文件夹，内部是 配置类的, 所以向上找第一个包含 `.oiTerminal` 的文件夹
+
+# argcomplete ?

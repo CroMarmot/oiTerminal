@@ -40,6 +40,10 @@ def main():
     from oiTerminal.cli import contestdetail
     logger: logging = getLogger(config_folder.get_file_path(OT_LOG))
     contestdetail.main(argv=args.args, logger=logger, folder=folder)
+  elif ops[0] == 'standing':
+    from oiTerminal.cli import standing
+    logger: logging = getLogger(config_folder.get_file_path(OT_LOG))
+    standing.main(argv=args.args, logger=logger, folder=folder)
   # TODO
   #   reg
   #   web

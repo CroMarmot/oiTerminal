@@ -110,5 +110,5 @@ if __name__ == '__main__':
     submit_main(logger=logger, config_folder=config_folder)
   except KeyboardInterrupt:
     logger.info("Interrupt by user")
-  except Exception as e:
+  except Exception:
     logger.error(traceback.format_exc())

@@ -282,6 +282,14 @@ class Codeforces(BaseOj):
     url = f'{self._base_url}contest/{cid}'
     printData(self.http_util.get(url).text, title=f"Contest {url}")
 
+  def print_friends_standing(self, cid: str) -> None:
+    if self.account is not None:
+      if not self._is_login():
+        self.login_website()
+    from .standing import printData
+    url = f'{self._base_url}contest/{cid}/standings/friends/true'
+    printData(self.http_util.get(url).text, title=f"Friends standing {url}", handle=self.account.account)
+
   # wss://pubsub.codeforces.com/ws/s_44e079e878db3d6cd8130358e638715d84b9b7e2/s_0b4b2a8c82dc858a100c4b1bcb927492039a8efd?_=1639017481660&tag=&time=&eventid=
   #
   # channel: "s_0b4b2a8c82dc858a100c4b1bcb927492039a8efd"

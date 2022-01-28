@@ -93,15 +93,23 @@
 
 ### 比赛详情
 
-`./ot.py contestdetail Codeforces <contest id>`
+`./ot.py contestdetail codeforces <contest id>`
 
 example
 
-`./ot.py contestdetail Codeforces 1621`
+`./ot.py contestdetail codeforces 1621`
 
 输出比赛题目和提交状态
 
 输出题目状态（用户当前是否通过，通过人次)
+
+### 比赛排名
+
+`./ot.py standing codeforces <contest id>`
+
+example
+
+`./ot.py standing codeforces 1621`
 
 ### 题目获取
 

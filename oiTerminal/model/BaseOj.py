@@ -41,7 +41,14 @@ class BaseOj(object):
   def print_contest_list(self) -> None:
     pass
 
+  def print_problems_in_contest(self, cid: str) -> None:
+    pass
+
+  def print_friends_standing(self, cid: str) -> None:
+    pass
+
   # require account for view problem/contest/fetch result
+
   @staticmethod
   def account_required() -> bool:
     pass
