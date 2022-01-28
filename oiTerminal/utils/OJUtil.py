@@ -1,24 +1,21 @@
 # TODO not important support lowercase and more, cf,codeforces,Codeforces -> Codeforces
-class OJUtil(object):
-    @staticmethod
-    def short2full(short_name) -> str:
-        ret = {
-            "cf": platformsClassName.Codeforces,
-            "ac": platformsClassName.AtCoder,
-        }.get(short_name)
-        if ret is None:
-            raise Exception(f'not support oj short name "{short_name}"')
-        return ret
+import logging
+from oiTerminal.model.BaseOj import BaseOj
+from oiTerminal.utils.Singleton import Singleton
 
-    @staticmethod
-    def get_supports():
-        return [
-            # 'Aizu',
-            # 'HDU',
-            # 'FZU', FZU 体验太差老是访问不了，还是不要支持好了
-            # 'POJ',
-            # 'WUST',
-            # 'ZOJ',
-            platformsClassName.Codeforces,
-            platformsClassName.AtCoder,
-        ]
+
+@Singleton
+class OJUtil(object):
+  def __init__(self):
+    self.short2class = {}
+
+    from oiTerminal.custom.Codeforces.Codeforces import Codeforces
+    self.reg(Codeforces)
+    # TODO atcoder
+
+  def reg(self, oj_class: BaseOj):
+    for short_name in oj_class.short_name:
+      if short_name in self.short2class:
+        logging.error(f'{short_name} already registered')
+      else:
+        self.short2class[short_name] = oj_class

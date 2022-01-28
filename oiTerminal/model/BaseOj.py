@@ -7,6 +7,8 @@ from oiTerminal.model.Result import Result
 
 
 class BaseOj(object):
+  short_name = []
+
   def __init__(self):
     pass
 

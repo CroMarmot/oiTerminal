@@ -19,6 +19,8 @@ from oiTerminal.utils.enc import AESCipher
 
 
 class Codeforces(BaseOj):
+  short_name = ["cf", "Codeforces", "codeforces"]
+
   def __init__(self, http_util: object = None, logger: object = None, template: object = None,
                account: Account = None, analyze: object = None, html_tag: object = None) -> object:
     super().__init__()

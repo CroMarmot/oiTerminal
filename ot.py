@@ -47,7 +47,6 @@ def main():
   # TODO
   #   reg
   #   web
-  #   submit
   else:
     parser.print_help()
 
