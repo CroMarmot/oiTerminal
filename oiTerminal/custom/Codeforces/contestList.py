@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import List
 
 from bs4 import BeautifulSoup
@@ -6,6 +7,8 @@ from oiTerminal.utils.MockHttpUtil import MockHttpUtil
 from rich.console import Console
 from rich.table import Table
 from rich.style import Style
+
+from oiTerminal.utils.utc2local import moscow_to_utc, utc_to_local
 
 
 def html2json(html):
@@ -56,11 +59,16 @@ def printData(html):
   table.add_column("Before Start")
   table.add_column("Reg")
   table.add_column("Id", style="magenta")
+
+  timeFmt = "%b/%d/%Y %H:%M"
+
   for item in ret:
     table.add_row(
         item["name"],  # tds[0].get_text().strip(),
         # item["writers"],  # tds[1].get_text().strip(),
-        item["start"],  # tds[2].get_text().strip(),
+        # https://strftime.org/
+        # Jan/27/2022 17:35 tds[2].get_text().strip(),
+        utc_to_local(moscow_to_utc(datetime.strptime(item["start"], timeFmt))).strftime(timeFmt),
         item["length"],  # tds[3].get_text().strip(),
         item["beforestart"],  # tds[4].get_text().strip(),
         item["reg"],  # tds[5].get_text().strip(),
