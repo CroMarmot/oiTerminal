@@ -7,7 +7,8 @@ from rich.console import Console
 from rich.table import Table
 from rich.style import Style
 
-
+# TODO support different type table col
+# https://codeforces.com/contest/1633/standings
 def html2json(html):
   soup = BeautifulSoup(html, 'lxml')
   currentContestList = soup.find('div', class_='datatable')
@@ -17,7 +18,9 @@ def html2json(html):
   ths = trs[0].find_all('th')
   problems = []
   for i in range(4, len(ths)):
-    problems.append(ths[i].find('a').get_text().strip())
+    a = ths[i].find('a')
+    if a is not None:
+        problems.append(a.get_text().strip())
 
   for i in range(1, len(trs)-1):  # ignore last line
     tds = trs[i].find_all('td')
@@ -29,6 +32,8 @@ def html2json(html):
     }
     for i in range(4, len(tds)):
       passScore = tds[i].find_all('span', class_='cell-passed-system-test')
+      if i - 4 >= len(problems):
+          break;
       if passScore and len(passScore) > 0:
         row[problems[i - 4]] = passScore[0].get_text().strip()
         row["time_"+problems[i - 4]] = tds[i].find('span', class_="cell-time").get_text().strip()

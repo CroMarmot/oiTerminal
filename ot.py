@@ -12,7 +12,7 @@ def main():
   config_folder = ConfigFolder(folder)
   parser = argparse.ArgumentParser(description='oiTerminal cli')
   parser.add_argument('ops', metavar='ops', type=str, nargs=1,
-                      help='operations (init, config, problem). Example: ./ot.py init')
+                      help='operations (init, config, problem, contest, contestdetail, standing). Example: ./ot.py init')
   parser.add_argument('args', type=str, nargs='*',
                       help='args...')
   args = parser.parse_args()
