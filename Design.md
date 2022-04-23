@@ -123,7 +123,7 @@ example
 
 包含
 
-```
+```text
 <根据默认本地模板的代码文件>
 <根据题目分析出的 in/out 文件>
 state.json<记录题目状态包括 平台 problemid 本地模板alias 提交语言id>
@@ -153,8 +153,16 @@ test.py<软链测试脚本>
 
 ### 覆盖测试
 
-`coverage run -m pytest `
+`coverage run -m pytest`
 
 测试报告
 
 `coverage html`
+
+# 自动补全
+
+https://devmanual.gentoo.org/tasks-reference/completion/index.html
+
+https://www.gnu.org/software/bash/manual/html_node/Programmable-Completion-Builtins.html
+
+https://www.gnu.org/software/bash/manual/html_node/Programmable-Completion.html
