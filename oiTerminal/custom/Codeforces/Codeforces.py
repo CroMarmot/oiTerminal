@@ -1,4 +1,4 @@
-from typing import Optional, Match, AnyStr
+from typing import List, Optional, Match, AnyStr
 
 import os
 import re
@@ -283,6 +283,14 @@ class Codeforces(BaseOj):
     from .problemList import printData
     url = f'{self._base_url}contest/{cid}'
     printData(self.http_util.get(url).text, title=f"Contest {url}")
+
+  def get_problemids_in_contest(self, cid: str) -> List[str]:
+    if self.account is not None:
+      if not self._is_login():
+        self.login_website()
+    from .problemList import html2json
+    url = f'{self._base_url}contest/{cid}'
+    return html2json(self.http_util.get(url).text)
 
   def print_friends_standing(self, cid: str) -> None:
     if self.account is not None:

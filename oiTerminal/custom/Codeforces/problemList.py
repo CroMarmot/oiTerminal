@@ -1,14 +1,21 @@
 from typing import List
-
 from bs4 import BeautifulSoup
-from oiTerminal.utils.HttpUtil import HttpUtil
 from oiTerminal.utils.MockHttpUtil import MockHttpUtil
 from rich.console import Console
 from rich.table import Table
 from rich.style import Style
+from typing import TypedDict
 
 
-def html2json(html):
+class JsonResult(TypedDict):
+  id: str
+  name: str
+  limit: str
+  passed: str
+  status: str
+
+
+def html2json(html) -> List[JsonResult]:
   soup = BeautifulSoup(html, 'lxml')
   currentContestList = soup.find('div', class_='datatable')
   # print(currentContestList)
@@ -40,11 +47,9 @@ def html2json(html):
 
 
 def printData(html: str, title: str):
-  # print(res.text)
   ret = html2json(html)
   table = Table(title=title)
   table.add_column("ID",  style="cyan", no_wrap=False)
-  # table.add_column("Writers", style="magenta")
   table.add_column("Name")
   table.add_column("Limit")
   table.add_column("Passed")
@@ -69,6 +74,7 @@ def printData(html: str, title: str):
 def main(argv):
   http_util = MockHttpUtil()
   url = f'https://codeforces.com/contest/{argv[0]}'
+  print(html2json(http_util.get(url).text))
   printData(http_util.get(url).text, title=f"Contest {url}")
 
 

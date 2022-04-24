@@ -22,7 +22,7 @@ def main(argv: List[str], logger: logging, folder=OT_FOLDER):
   config_folder = ConfigFolder(folder)
   user_config_path = config_folder.get_config_file_path(USER_CONFIG_FILE)
 
-  http_util = HttpUtil()
+  http_util = HttpUtil(logger=logger)
   dbIns = JsonFileDB(file_path=user_config_path, logger=logger)
   account_manager = AccountManager(db=dbIns, cipher=AESCipher(CIPHER_KEY))
 

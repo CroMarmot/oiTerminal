@@ -12,9 +12,9 @@ class BaseOj(object):
   def __init__(self):
     pass
 
-  def problem(self, problem_id) -> ParseProblemResult:
+  def problem(self, problem_id: str) -> ParseProblemResult:
     pass
-
+ 
   # return login cookie effective time in second
   def login_website(self, account: Account) -> int:
     pass

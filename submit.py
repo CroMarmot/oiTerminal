@@ -78,7 +78,7 @@ def submit_main(logger: logging, config_folder: ConfigFolder):
       root_folder=os.path.dirname(os.path.abspath(__file__)),
       cipher=AESCipher(CIPHER_KEY)
   )
-  http_util = HttpUtil()
+  http_util = HttpUtil(logger=logger)
   if ojname == Platforms.codeforces:
     try:
       from oiTerminal.custom.Codeforces.Codeforces import Codeforces

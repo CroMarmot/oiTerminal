@@ -1,18 +1,12 @@
 #!/usr/bin/env python3
 import logging
-import os
 import sys
-import json
-from typing import List, Type
+from typing import List 
 from oiTerminal.cli.constant import CIPHER_KEY, OT_FOLDER, USER_CONFIG_FILE
 
 from oiTerminal.model.Analyze import Analyze
 from oiTerminal.model.BaseOj import BaseOj
-from oiTerminal.model.ParseProblemResult import ParseProblemResult
-from oiTerminal.model.TestCase import TestCase
-from oiTerminal.model.FolderState import FolderState
 
-from oiTerminal.utils.FileUtil import FileUtil
 from oiTerminal.utils.HtmlTag import HtmlTag
 from oiTerminal.utils.HttpUtil import HttpUtil
 from oiTerminal.utils.account import AccountManager
@@ -22,14 +16,13 @@ from oiTerminal.utils.db import JsonFileDB
 
 # file_util can be any thing , everything is file
 from oiTerminal.utils.enc import AESCipher
-from oiTerminal.utils.template import TemplateManager
 
 
 def main(argv: List[str], logger: logging, folder=OT_FOLDER):
   config_folder = ConfigFolder(folder)
   user_config_path = config_folder.get_config_file_path(USER_CONFIG_FILE)
 
-  http_util = HttpUtil()
+  http_util = HttpUtil(logger=logger)
   dbIns = JsonFileDB(file_path=user_config_path, logger=logger)
   account_manager = AccountManager(db=dbIns, cipher=AESCipher(CIPHER_KEY))
 
