@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import logging
 import sys
-from typing import List 
+from typing import List
 from oiTerminal.cli.constant import CIPHER_KEY, OT_FOLDER, USER_CONFIG_FILE
 
 from oiTerminal.model.Analyze import Analyze

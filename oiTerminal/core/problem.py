@@ -12,7 +12,7 @@ class problem:
     # file_util can be any thing , everything is file
     def parse(self, problem_id: str, file_util: FileUtil):
         result: ParseProblemResult = self.oj.parse(problem_id)
-        html: str = result.html
+        # html: str = result.html
         test_cases: List[TestCase] = result.test_cases
 
         # TODO switch directory

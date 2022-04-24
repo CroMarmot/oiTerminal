@@ -4,7 +4,6 @@ import logging
 import os
 import sys
 from typing import List, Type
-from oiTerminal.cli import contestlist
 from oiTerminal.cli.constant import CIPHER_KEY, OT_FOLDER, USER_CONFIG_FILE
 
 from oiTerminal.model.Analyze import Analyze

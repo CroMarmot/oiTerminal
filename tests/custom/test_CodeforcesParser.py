@@ -2,7 +2,6 @@ from oiTerminal.custom.Codeforces.CodeforcesParser import CodeforcesParser
 from oiTerminal.model.ParseProblemResult import ParseProblemResult
 from oiTerminal.utils.MockHttpUtil import MockHttpUtil
 from oiTerminal.utils.HtmlTag import HtmlTag
-from oiTerminal.utils.HttpUtil import HttpUtil
 from oiTerminal.utils.Logger import getLogger
 
 

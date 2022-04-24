@@ -1,6 +1,3 @@
-from oiTerminal.cli.template import template_list
-
-
 class FolderState:
   _oj: str
   _id: str

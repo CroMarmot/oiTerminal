@@ -5,10 +5,10 @@ from requests import RequestException, Response
 
 # 配置url regex 和 mock文件
 url2file = {
-    '^https://codeforces.com/contests$': "codeforces_contests",
-    '^https://codeforces.com/contest/\d*/problem/.*$': 'codeforces_problem',
-    '^https://codeforces.com/contest/\d*$': 'codeforces_contest',
-    '^https://codeforces.com/contest/\d*/standings/friends/true$': 'codeforces_standing'
+    '^https://codeforces.com/contests.*$': "codeforces_contests",
+    '^https://codeforces.com/contest/\\d*/problem/.*$': 'codeforces_problem',
+    '^https://codeforces.com/contest/\\d*$': 'codeforces_contest',
+    '^https://codeforces.com/contest/\\d*/standings/friends/true$': 'codeforces_standing'
 }
 
 

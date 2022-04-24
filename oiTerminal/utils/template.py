@@ -1,4 +1,3 @@
-from sys import platform
 from typing import List, Optional
 import logging
 
@@ -29,7 +28,10 @@ class TemplateManager:
   def get_list(self) -> List[Template]:
     return self._get_template_list()
 
-  def alias_exist(self, temps: List[Template], platform: str, alias: str):
+  def alias_exist(self,
+                  temps: List[Template],
+                  platform: str,
+                  alias: str):
     for item in temps:
       if item.platform == platform and item.alias == alias:
         return True

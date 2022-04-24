@@ -12,7 +12,6 @@ from oiTerminal.utils.HttpUtil import HttpUtil
 from oiTerminal.utils.OJUtil import OJUtil
 from oiTerminal.utils.account import AccountManager
 from oiTerminal.utils.configFolder import ConfigFolder
-from oiTerminal.utils.consts.platforms import Platforms
 from oiTerminal.utils.db import JsonFileDB
 
 # file_util can be any thing , everything is file

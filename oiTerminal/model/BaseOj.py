@@ -14,7 +14,7 @@ class BaseOj(object):
 
   def problem(self, problem_id: str) -> ParseProblemResult:
     pass
- 
+
   # return login cookie effective time in second
   def login_website(self, account: Account) -> int:
     pass

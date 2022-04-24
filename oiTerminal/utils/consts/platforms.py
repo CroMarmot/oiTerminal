@@ -1,4 +1,2 @@
 class Platforms:
-    codeforces = 'Codeforces'
-
-
+  codeforces = 'Codeforces'

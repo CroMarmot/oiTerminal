@@ -273,7 +273,8 @@ class Codeforces(BaseOj):
       if not self._is_login():
         self.login_website()
     from .contestList import printData
-    url = f'{self._base_url}contests'
+    # when in contest, without complete=true, will redirect to running contest page
+    url = f'{self._base_url}contests?complete=true'
     printData(self.http_util.get(url).text)
 
   def print_problems_in_contest(self, cid: str) -> None:
