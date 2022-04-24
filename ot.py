@@ -33,9 +33,13 @@ def main():
     logger: logging = getLogger(config_folder.get_file_path(OT_LOG))
     problem.main(argv=args.args, logger=logger, folder=folder)
   elif ops[0] == 'contest':
-    from oiTerminal.cli import contest
+    # from oiTerminal.cli import contest
     logger: logging = getLogger(config_folder.get_file_path(OT_LOG))
-    contest.main(argv=args.args, logger=logger, folder=folder)
+    # contest.main(argv=args.args, logger=logger, folder=folder)
+  elif ops[0] == 'contestlist':
+    from oiTerminal.cli import contestlist
+    logger: logging = getLogger(config_folder.get_file_path(OT_LOG))
+    contestlist.main(argv=args.args, logger=logger, folder=folder)
   elif ops[0] == 'contestdetail':
     from oiTerminal.cli import contestdetail
     logger: logging = getLogger(config_folder.get_file_path(OT_LOG))
