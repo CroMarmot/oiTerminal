@@ -28,4 +28,11 @@
 
 `coverage html`
 
+# 自动补全
+
+`./auto-completion/gen-ot-auto-completion.sh`
+
+`source /tmp/ot-auto-completion.sh`
+
 # 运行
+
