@@ -109,9 +109,12 @@ def contest_parser():
     # TODO all 2 class
     if not os.path.isfile(CONFIG_FILE):
         raise Exception(f'CONFIG_FILE [{CONFIG_FILE}] NOT EXIST!')
-
     with open(CONFIG_FILE) as f:
-        cfg_oj = json.load(f)[OJUtil.short2full(args.oj)]  # OJUtil
+        oj_full_name = OJUtil.short2full(args.oj)
+        cfg_data = json.load(f)
+        if oj_full_name not in cfg_data:
+            raise Exception(f"'{oj_full_name}' not found in `config.json`")
+        cfg_oj = cfg_data[oj_full_name]  # OJUtil
         lang = cfg_oj['lang']
         up_lang = cfg_oj['up_lang']
         username = cfg_oj['user']
