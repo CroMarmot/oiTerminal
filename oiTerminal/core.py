@@ -50,9 +50,11 @@ class Core(object):
 
     # 获取比赛 以及所有比赛题面
     def get_contest(self, cid: str) -> Contest:
+        logging.info('cid:'+cid)
         if not self._oj or not self._oj.support_contest():
-            raise Exception(f'get_contest {cid}: ERROR')
+            raise Exception(f'Not Support Contest.')
         if self._oj.account_required():
+            logging.info('_login')
             self._login()
         return self._oj.get_contest(cid=cid)
 

@@ -41,7 +41,7 @@ class LogConfig:
 
 
 LOG_BASE = 'log'  # just a tiny tool don't put log in /log
-LOG_LEVEL = logging.WARNING if LogConfig().is_production() else logging.INFO
+LOG_LEVEL = logging.WARNING if LogConfig().is_production() else logging.DEBUG
 SPIDER_LOG_PATH = os.path.join(LOG_BASE, 'oiTerminal.log')
 try:
     os.makedirs(LOG_BASE)
@@ -52,9 +52,9 @@ except Exception as e:
     traceback.print_exc()
 logger = logging.getLogger(__name__)
 handler = logging.FileHandler(SPIDER_LOG_PATH) if LogConfig().is_production() else logging.StreamHandler()
-handler.setFormatter(logging.Formatter('%(asctime)s %(levelname)s %(message)s'))
+handler.setFormatter(logging.Formatter('%(asctime)s %(levelname)s %(filename)s %(funcName)s %(message)s'))
 logger.addHandler(handler)
-logger.setLevel(logging.INFO)
+logger.setLevel(LOG_LEVEL)
 
 
 # logger end -----------------------------

@@ -1,6 +1,7 @@
 import json
 import re
 import threading
+import logging
 
 from bs4 import BeautifulSoup
 from bs4 import element
@@ -289,6 +290,7 @@ class Codeforces(Base):
         return True
 
     def get_contest(self, cid: str) -> Contest:
+        logging.debug('get_contest'+cid)
         if re.match('^\d+$', cid) is None:
             raise Exception(f'contest id "{cid}" ERROR')
 
