@@ -6,6 +6,7 @@ from oiTerminal.cli.constant import OT_FOLDER, OT_LOG
 from oiTerminal.utils.configFolder import ConfigFolder
 from oiTerminal.utils.Logger import getLogger
 
+logging.setLevel(logging.debug)
 
 def main():
   folder = OT_FOLDER

@@ -133,7 +133,7 @@ def printData(html):
 
 def main():
   http_util = MockHttpUtil()
-  url = 'https://codeforces.com/contests'
+  url = 'https://codeforces.com/contests?complete=true'
   printData(http_util.get(url).text)
 
 

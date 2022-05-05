@@ -29,7 +29,7 @@ def getLogger(logger_path):
         traceback.print_exc()
     logger = logging.getLogger(__name__)
     # production log to log/oiTerminal.log, develop log to stdout
-    formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
+    formatter = logging.Formatter('[%(asctime)s %(levelname)s %(filename)s %(funcName)s %(lineno)d]%(message)s')
 
     # 生产 输出到文件， stream 只输出问题
     if LogConfig().is_production():

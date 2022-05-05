@@ -4,6 +4,7 @@ import json
 
 from oiTerminal.abstract.HtmlTagAbstract import HtmlTagAbstract
 from oiTerminal.model.ParseProblemResult import ParseProblemResult
+from oiTerminal.model.Problem import Problem
 from oiTerminal.model.TestCase import TestCase
 from oiTerminal.model.Contest import Contest
 from oiTerminal.model.Result import Result

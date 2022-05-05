@@ -3,6 +3,7 @@ from typing import List, Optional, Match, AnyStr
 import os
 import re
 import threading
+import logging
 
 from bs4 import BeautifulSoup
 from oiTerminal.cli.constant import CIPHER_KEY, GREEN, DEFAULT
@@ -34,13 +35,13 @@ class Codeforces(BaseOj):
     self.parser = CodeforcesParser(html_tag=html_tag, logger=logger)
 
   def pid2url(self, problem_id: str):
-    result = re.match('^(\d+)([A-Z]\d?)$', problem_id)
+    result = re.match('^(\\d+)([A-Z]\\d?)$', problem_id)
     if result is None:
       raise Exception('problem id[' + problem_id + '] ERROR')
     return f'{self._base_url}contest/{result.group(1)}/problem/{result.group(2)}'
 
   def pid2file_path(self, problem_id: str):
-    result = re.match('^(\d+)([A-Z]\d?)$', problem_id)
+    result = re.match('^(\\d+)([A-Z]\\d?)$', problem_id)
     if result is None:
       raise Exception('problem id[' + problem_id + '] ERROR')
     return os.path.join(result.group(1), result.group(2))
@@ -81,6 +82,7 @@ class Codeforces(BaseOj):
     #     else:
     #         self.http_util.cookies.update()
     try:
+      logging.debug(f"get {self._base_url}enter?back=%2F")
       res = self.http_util.get(f'{self._base_url}enter?back=%2F')
       soup = BeautifulSoup(res.text, 'lxml')
       csrf_token = soup.find(
@@ -132,7 +134,7 @@ class Codeforces(BaseOj):
     return total
 
   def reg_contest(self, cid: str) -> bool:
-    if re.match('^\d+$', cid) is None:
+    if re.match('^\\d+$', cid) is None:
       raise Exception('contest id [' + cid + '] ERROR')
     response = self.http_util.get(
         url=f'{self._base_url}contestRegistration/' + cid)
@@ -158,7 +160,7 @@ class Codeforces(BaseOj):
     return True
 
   def get_contest(self, cid: str) -> Contest:
-    if re.match('^\d+$', cid) is None:
+    if re.match('^\\d+$', cid) is None:
       raise Exception(f'contest id "{cid}" ERROR')
 
     response = self.http_util.get(url=f'{self._base_url}contest/' + cid)
@@ -179,7 +181,7 @@ class Codeforces(BaseOj):
     return ret
 
   def get_problem(self, pid: str, problem: Problem = None) -> Problem:
-    result = re.match('^(\d+)([A-Z]\d?)$', pid)
+    result = re.match('^(\\d+)([A-Z]\\d?)$', pid)
     if result is None:
       raise Exception('problem id[' + pid + '] ERROR')
     url = f'{self._base_url}contest/{result.group(1)}/problem/{result.group(2)}'
@@ -200,7 +202,7 @@ class Codeforces(BaseOj):
       if self.login_website() < 0:
         raise Exception('Login Failed')
 
-    result: Optional[Match[AnyStr]] = re.match('^(\d+)([A-Z]\d?)$', pid)
+    result: Optional[Match[AnyStr]] = re.match('^(\\d+)([A-Z]\\d?)$', pid)
     if result is None:
       raise Exception("submit_code: WRONG pid[" + pid + "]")
 
