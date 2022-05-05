@@ -1,7 +1,6 @@
 import json
 import re
 import threading
-import logging
 
 from bs4 import BeautifulSoup
 from bs4 import element
@@ -217,6 +216,7 @@ class Codeforces(Base):
         #     else:
         #         self._req.cookies.update()
         try:
+            logger.debug("url:"+'https://codeforces.com/enter?back=%2F')
             res = self._req.get('https://codeforces.com/enter?back=%2F')
 
             soup = BeautifulSoup(res.text, 'lxml')
@@ -290,10 +290,11 @@ class Codeforces(Base):
         return True
 
     def get_contest(self, cid: str) -> Contest:
-        logging.debug('get_contest'+cid)
+        logger.debug('cid:'+cid)
         if re.match('^\d+$', cid) is None:
             raise Exception(f'contest id "{cid}" ERROR')
 
+        logger.debug('url:'+'https://codeforces.com/contest/' + cid)
         response = self._req.get(url='https://codeforces.com/contest/' + cid)
         ret = Contest(oj=Codeforces.__name__, cid=cid)
         if response is None or response.status_code != 200 or response.text is None:
@@ -363,8 +364,9 @@ class Codeforces(Base):
 
     def _get_result_by_url(self, url: str) -> Result:
         response = self._req.get(url=url)
-        if response is None or response.status_code is not 200 or response.text is None:
+        if response is None or response.status_code != 200 or response.text is None:
             raise Exception(f'get result Failed,url={url}')
+        logger.debug(response.text)
         ret = CodeforcesParser().result_parse(response=response.text)
         ret.quick_key = url
         return ret

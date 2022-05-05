@@ -146,7 +146,7 @@ The program is using `diff` to compare the result. However this command has diff
 
 default environment is production
 
-develop environment:`OITERMINAL_ENV=dev`
+develop environment:`export OITERMINAL_ENV=dev`
 
 # ref / dependency
 

@@ -52,7 +52,7 @@ except Exception as e:
     traceback.print_exc()
 logger = logging.getLogger(__name__)
 handler = logging.FileHandler(SPIDER_LOG_PATH) if LogConfig().is_production() else logging.StreamHandler()
-handler.setFormatter(logging.Formatter('%(asctime)s %(levelname)s %(filename)s %(funcName)s %(message)s'))
+handler.setFormatter(logging.Formatter('[%(asctime)s %(levelname)s %(pathname)s %(funcName)s %(lineno)d]%(message)s'))
 logger.addHandler(handler)
 logger.setLevel(LOG_LEVEL)
 
