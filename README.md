@@ -1,5 +1,8 @@
 # Oi Terminal [![Build Status](https://travis-ci.org/CroMarmot/oiTerminal.svg?branch=dev)](https://travis-ci.org/CroMarmot/oiTerminal)
 
+** 新版codeforces 在比赛时 新增了aes保护, 本工具暂时不能在比赛时使用**
+
+
 > Coding...
 
 
