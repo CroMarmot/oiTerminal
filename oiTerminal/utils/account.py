@@ -58,6 +58,12 @@ class AccountManager:
         accs[index].password = self.cipher.encrypt(password)
         self._set_account_list(accs)
 
+    def modify_cf_rcpc(self, index, cf_rcpc):
+        accs: List[Account] = self._get_account_list()
+        assert 0 <= index < len(accs)
+        accs[index].cf_rcpc = self.cipher.encrypt(cf_rcpc)
+        self._set_account_list(accs)
+
     def delete_account(self, index):
         accs: List[Account] = self._get_account_list()
         assert 0 <= index < len(accs)
@@ -73,7 +79,7 @@ class AccountManager:
         self._set_account_list(accs)
 
     # set default if no platform there
-    def add_account(self, platform, account, password):
+    def add_account(self, platform, account, password, cf_rcpc=None):
         accs: List[Account] = self._get_account_list()
         is_default = True
         for item in accs:
@@ -82,6 +88,6 @@ class AccountManager:
                 break
 
         accs.append(Account().initial(platform, account,
-                    self.cipher.encrypt(password), default=is_default))
+                                      self.cipher.encrypt(password), default=is_default, cf_rcpc=None if cf_rcpc is None else self.cipher.encrypt(cf_rcpc)))
 
         self._set_account_list(accs)

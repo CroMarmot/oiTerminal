@@ -36,3 +36,7 @@
 
 # 运行
 
+# docs
+
+`cd docs && make html`
+

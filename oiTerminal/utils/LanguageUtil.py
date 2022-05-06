@@ -18,6 +18,12 @@ class LanguageUtil(object):
 
   @staticmethod
   def local_lang() -> list:
+    """
+    Return a list of local support language.
+
+    :return: The local_lang list.
+    :rtype: list[str]
+    """
     return list(LanguageUtil.init().keys())
 
   @staticmethod

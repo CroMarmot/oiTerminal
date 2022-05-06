@@ -35,10 +35,14 @@ def account_new(am: AccountManager):
     print("input error")
     return
 
-  acc = input("account:")
-  password = getpass.getpass("password:")
+  acc = input("Account:")
+  password = getpass.getpass("Password:")
 
-  am.add_account(platform, acc, password)
+  cf_rcpc = None
+  if index == 1:
+    cf_rcpc = getpass.getpass("Codeforces rcpc:")
+
+  am.add_account(platform, acc, password, cf_rcpc)
 
 
 def account_modify(am: AccountManager) -> object:
@@ -63,8 +67,9 @@ def account_modify(am: AccountManager) -> object:
 
   print("1) Change Account Name")
   print("2) Change Account Password")
-  print("3) SetDefault")
+  print("3) Set Default")
   print("4) Delete")
+  print("5) Change Account cf_rcpc")
   try:
     index = int(input("> "))
   except(Exception):
@@ -80,6 +85,9 @@ def account_modify(am: AccountManager) -> object:
     am.set_default(acc_index)
   elif index == 4:
     am.delete_account(acc_index)
+  elif index == 5:
+    cf_rcpc = getpass.getpass("Enter User Codeforces RCPC:")
+    am.modify_cf_rcpc(acc_index, cf_rcpc)
 
 
 def account(db):

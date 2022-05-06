@@ -33,6 +33,8 @@ class Codeforces(BaseOj):
     self.analyze = analyze
     self.http_util = http_util
     self.parser = CodeforcesParser(html_tag=html_tag, logger=logger)
+    self.http_util.cookies.set("RCPC", AESCipher(CIPHER_KEY).decrypt(self.account.cf_rcpc), domain="codeforces.com")
+
 
   def pid2url(self, problem_id: str):
     result = re.match('^(\\d+)([A-Z]\\d?)$', problem_id)

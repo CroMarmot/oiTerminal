@@ -10,4 +10,3 @@ cov-html:
 
 cov:
 	coverage run -m pytest && coverage report
-

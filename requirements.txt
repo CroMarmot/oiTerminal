@@ -6,3 +6,4 @@ coverage==6.2
 pytest==7.1.2
 websocket-client==1.2.3
 rich==11.0.0
+sphinx
