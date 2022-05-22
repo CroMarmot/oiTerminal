@@ -2,7 +2,7 @@
 from sys import argv
 
 platformNames = ["Codeforces", "Atcoder"]
-basekey = ["init", "contest", "contestlist", "contestdetail", "config", "problem"]
+basekey = ["init", "contest", "contestlist", "contestdetail", "config", "problem", "standing"]
 
 
 def main():
@@ -16,7 +16,7 @@ def main():
   elif len(argv) == 3:
     with open("/tmp/out", "a") as f:
       f.write(" argv == 3 \n")
-    if argv[2] in ['contest', 'contestlist', 'contestdetail', 'problem']:
+    if argv[2] in ['contest', 'contestlist', 'contestdetail', 'problem', "standing"]:
       with open("/tmp/out", "a") as f:
         f.write("out platformNames\n")
       for v in platformNames:
