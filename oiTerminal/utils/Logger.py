@@ -28,6 +28,8 @@ def getLogger(logger_path):
         print(e)
         traceback.print_exc()
     logger = logging.getLogger(__name__)
+    # 基本的等级要低于渠道
+    logger.setLevel(logging.DEBUG)
     # production log to log/oiTerminal.log, develop log to stdout
     formatter = logging.Formatter('[%(asctime)s %(levelname)s %(filename)s %(funcName)s %(lineno)d]%(message)s')
 
@@ -38,12 +40,17 @@ def getLogger(logger_path):
         fh.setLevel(logging.DEBUG)
         logger.addHandler(fh)
 
+        # stream warning
         sh = logging.StreamHandler()
         sh.setFormatter(formatter)
         sh.setLevel(logging.WARNING)
         logger.addHandler(sh)
     else:
-        # dev stream only
+        fh = logging.FileHandler(logger_path)
+        fh.setFormatter(formatter)
+        fh.setLevel(logging.DEBUG)
+        logger.addHandler(fh)
+
         sh = logging.StreamHandler()
         sh.setFormatter(formatter)
         sh.setLevel(logging.DEBUG)

@@ -3,7 +3,6 @@ from typing import List, Optional, Match, AnyStr
 import os
 import re
 import threading
-import logging
 
 from bs4 import BeautifulSoup
 from oiTerminal.cli.constant import CIPHER_KEY, GREEN, DEFAULT
@@ -84,7 +83,7 @@ class Codeforces(BaseOj):
     #     else:
     #         self.http_util.cookies.update()
     try:
-      logging.debug(f"get {self._base_url}enter?back=%2F")
+      self.logger.debug(f"get {self._base_url}enter?back=%2F")
       res = self.http_util.get(f'{self._base_url}enter?back=%2F')
       soup = BeautifulSoup(res.text, 'lxml')
       csrf_token = soup.find(

@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 import json
-from logging import getLogger
 import logging
 import time
 import traceback
@@ -23,6 +22,7 @@ from oiTerminal.utils.consts.platforms import Platforms
 from oiTerminal.utils.db import JsonFileDB
 from oiTerminal.utils.enc import AESCipher
 from oiTerminal.utils.template import TemplateManager
+from oiTerminal.utils.Logger import getLogger
 
 
 def submit(

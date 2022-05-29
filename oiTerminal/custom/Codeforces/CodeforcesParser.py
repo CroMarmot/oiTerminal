@@ -180,6 +180,8 @@ MathJax.Hub.Config({
         result.cur_status = Result.Status.MLE
       elif _verdict in ['TIME_LIMIT_EXCEEDED']:
         result.cur_status = Result.Status.TLE
+      elif _verdict in ['COMPILATION_ERROR']:
+        result.cur_status = Result.Status.CE
       else:
         self._logger.warn("UNKNOWN STATE with " + _verdict)
         print("UNKNOWN STATE with " + _verdict)
