@@ -1,37 +1,26 @@
 #!/usr/bin/env python3
-from oiTerminal.cli.account import account
-from oiTerminal.cli.analyze import analyze
-from oiTerminal.cli.constant import OT_FOLDER, USER_CONFIG_FILE
-from oiTerminal.cli.template import template
+import argparse
+from oiTerminal.cli.constant import USER_CONFIG_FILE
 from oiTerminal.utils.configFolder import ConfigFolder
 from oiTerminal.utils.db import JsonFileDB
 import logging
 
 
-def main(folder: str, logger: logging):
-  while True:
-    print("1) Account")
-    print("2) Template")
-    print("3) Analyze")
-    try:
-      index = int(input("> "))
-    except Exception:
-      print("input error")
-      return
-
-    config_folder = ConfigFolder(folder)
-    db = JsonFileDB(config_folder.get_config_file_path(USER_CONFIG_FILE
-                                                       ), logger=logger)
-
-    if index == 1:
-      account(db)
-    elif index == 2:
-      template(db)
-    elif index == 3:
-      analyze(db)
-    else:
-      print("input error")
+def main(folder: str, logger: logging, args: argparse.Namespace):
+  func = args.func
+  print(func)
+  config_folder = ConfigFolder(folder)
+  db = JsonFileDB(config_folder.get_config_file_path(USER_CONFIG_FILE
+                                                     ), logger=logger)
+  if args.func.startswith('account'):
+    args.func = args.func[len('account.'):]
+    from oiTerminal.cli.account import account
+    account(db, args=args, logger=logger)
+  elif args.func.startswith('template'):
+    args.func = args.func[len('template.'):]
+    from oiTerminal.cli.template import template
+    template(db, args=args)
 
 
 if __name__ == '__main__':
-  main(OT_FOLDER, logging)
+  pass

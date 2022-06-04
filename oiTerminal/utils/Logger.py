@@ -27,33 +27,23 @@ def getLogger(logger_path):
     except Exception as e:
         print(e)
         traceback.print_exc()
+
     logger = logging.getLogger(__name__)
-    # 基本的等级要低于渠道
+    # basic level shoud not larger than handler
     logger.setLevel(logging.DEBUG)
-    # production log to log/oiTerminal.log, develop log to stdout
-    formatter = logging.Formatter('[%(asctime)s %(levelname)s %(filename)s %(funcName)s %(lineno)d]%(message)s')
-
-    # 生产 输出到文件， stream 只输出问题
-    if LogConfig().is_production():
-        fh = logging.FileHandler(logger_path)
-        fh.setFormatter(formatter)
-        fh.setLevel(logging.DEBUG)
-        logger.addHandler(fh)
-
-        # stream warning
-        sh = logging.StreamHandler()
-        sh.setFormatter(formatter)
-        sh.setLevel(logging.WARNING)
-        logger.addHandler(sh)
-    else:
-        fh = logging.FileHandler(logger_path)
-        fh.setFormatter(formatter)
-        fh.setLevel(logging.DEBUG)
-        logger.addHandler(fh)
-
-        sh = logging.StreamHandler()
-        sh.setFormatter(formatter)
-        sh.setLevel(logging.DEBUG)
-        logger.addHandler(sh)
+    # remove default handler
+    logging.getLogger().handlers.clear()
+    fileformatter = logging.Formatter('[%(asctime)s %(levelname)s %(filename)s %(funcName)s %(lineno)d]%(message)s')
+    streamformatter = logging.Formatter('%(process)s: %(filename)s %(lineno)d %(levelname)-8s %(message)s')
+    # file
+    fh = logging.FileHandler(logger_path)
+    fh.setFormatter(fileformatter)
+    fh.setLevel(logging.DEBUG)
+    logger.addHandler(fh)
+    # stream warning
+    sh = logging.StreamHandler()
+    sh.setFormatter(streamformatter)
+    sh.setLevel(logging.WARNING if LogConfig().is_production() else logging.DEBUG)
+    logger.addHandler(sh)
 
     return logger
