@@ -22,7 +22,6 @@ class JsonFileDB:
       try:
         data = json.load(json_file)
       except Exception as e:
-        self.logger.exception(e)
         data = {}
 
     with open(self.file_path, "w") as json_file:
@@ -38,7 +37,6 @@ class JsonFileDB:
       try:
         data = json.load(json_file)
       except Exception as e:
-        self.logger.exception(e)
         data = {}
 
       return data.get(col_name)
