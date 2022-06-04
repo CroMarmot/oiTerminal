@@ -19,7 +19,7 @@ def main(folder: str, logger: logging, args: argparse.Namespace):
   elif args.func.startswith('template'):
     args.func = args.func[len('template.'):]
     from oiTerminal.cli.template import template
-    template(db, args=args)
+    template(db, args=args, logger=logger)
 
 
 if __name__ == '__main__':

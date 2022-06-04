@@ -1,38 +1,12 @@
 #!/usr/bin/env python3
 import argparse
 import logging
+from oiTerminal.cli.account import add_parser_account
 
 from oiTerminal.cli.constant import OT_FOLDER, OT_LOG
+from oiTerminal.cli.template import add_parser_template
 from oiTerminal.utils.configFolder import ConfigFolder
 from oiTerminal.utils.Logger import getLogger
-
-
-def add_parser_account(parser_sub: argparse.ArgumentParser):
-  p_account = parser_sub.add_parser('account', help='account help')
-  p_account_sub = p_account.add_subparsers(help='sub-command help')
-
-  p_account_list = p_account_sub.add_parser('list', help='list help')
-  p_account_list.set_defaults(func='config.account.list')
-
-  p_account_new = p_account_sub.add_parser('new', help='new help')
-  p_account_new.add_argument('platform', type=str, help='platform')
-  p_account_new.add_argument('account', type=str, help='account')
-  p_account_new.add_argument('-d', '--default', action="store_true", help='platform')
-  p_account_new.set_defaults(func='config.account.new')
-
-  p_account_modify = p_account_sub.add_parser('modify', help='modify help')
-  p_account_modify.add_argument('platform', type=str, help='platform')
-  p_account_modify.add_argument('account', type=str, help='account')
-  p_account_modify.add_argument('-p', '--password', action="store_true", help='platform')
-  p_account_modify.add_argument('-d', '--default', action="store_true", help='platform')
-  p_account_modify.set_defaults(func='config.account.modify')
-
-  p_account_delete = p_account_sub.add_parser('delete', help='delete help')
-  p_account_delete.add_argument('platform', type=str, help='platform')
-  p_account_delete.add_argument('account', type=str, help='account')
-  p_account_delete.set_defaults(func='config.account.delete')
-
-  # logintest TODO
 
 
 def add_parser_config(parser_sub: argparse.ArgumentParser):
@@ -40,22 +14,17 @@ def add_parser_config(parser_sub: argparse.ArgumentParser):
   parser_config = parser_sub.add_parser('config', help='template help')
   parser_config_sub = parser_config.add_subparsers(help='sub-command help')
   # account
-  add_parser_account(parser_config_sub)
-  # template TODO
-  parser_config_template = parser_config_sub.add_parser('template', help='template help')
-  parser_config_template.set_defaults(func='config.template')
+  add_parser_account(parser_config_sub, func_prefix='config.')
+  # template
+  add_parser_template(parser_config_sub, func_prefix='config.')
 
 
 def main():
   folder = OT_FOLDER
   config_folder = ConfigFolder(folder)
   parser = argparse.ArgumentParser(
-    # prog='oi-cli',
-    description='oiTerminal cli')
-  # parser.add_argument('ops', metavar='ops', type=str, nargs=1,
-  #                     help='operations (init, config, problem, contest). Example: ./ot.py init')
-  # parser.add_argument('args', type=str, nargs='*',
-  #                     help='args...')
+      # prog='oi-cli',
+      description='oiTerminal cli')
   parser_sub = parser.add_subparsers(help='sub-command help')
 
   # init

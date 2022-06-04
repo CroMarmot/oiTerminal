@@ -26,8 +26,8 @@
 | - [ ] 更改用户|`./ot.py config account modify <platform> <account> [--pass] [--default]`|
 | - [ ] 删除用户|`./ot.py config account delete <platform> <account>`|
 | - [ ] 查看模板|`./ot.py config template list`|
-| - [ ] 新增模板|`./ot.py config template new <platform> <alias> <path> <compile command> <execute command> <submit lang id>`|
-| - [ ] 更新模板|`./ot.py config template modify <platform> <alias> [--path <path>] [--compile <compile command>] [--execute <execute command>] [--submitlangid <submit lang id>]`|
+| - [ ] 新增模板|`./ot.py config template new <platform> <alias> <path> <compile command> <execute command> <submit lang id> [--default]`|
+| - [ ] 更新模板|`./ot.py config template modify <platform> <alias> [--path <path>] [--compile <compile command>] [--execute <execute command>] [--submitlangid <submit lang id>] [--default]`|
 | - [ ] 删除模板|`./ot.py config template delete <platform> <alias>`|
 | - [ ] 比赛列表|`./ot.py contest list <platform>`|
 | - [ ] 比赛详情|`./ot.py contest detail <platform> <contest id>`|

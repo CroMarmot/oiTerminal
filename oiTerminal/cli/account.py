@@ -7,6 +7,34 @@ from oiTerminal.utils.account import AccountManager
 from oiTerminal.utils.enc import AESCipher
 
 
+def add_parser_account(parser_sub: argparse.ArgumentParser, func_prefix: str) -> None:
+  p_account = parser_sub.add_parser('account', help='account help')
+  p_account_sub = p_account.add_subparsers(help='sub-command help')
+
+  p_account_list = p_account_sub.add_parser('list', help='list help')
+  p_account_list.set_defaults(func=func_prefix+'account.list')
+
+  p_account_new = p_account_sub.add_parser('new', help='new help')
+  p_account_new.add_argument('platform', type=str, help='platform')
+  p_account_new.add_argument('account', type=str, help='account')
+  p_account_new.add_argument('-d', '--default', action="store_true", help='platform')
+  p_account_new.set_defaults(func=func_prefix+'account.new')
+
+  p_account_modify = p_account_sub.add_parser('modify', help='modify help')
+  p_account_modify.add_argument('platform', type=str, help='platform')
+  p_account_modify.add_argument('account', type=str, help='account')
+  p_account_modify.add_argument('-p', '--password', action="store_true", help='platform')
+  p_account_modify.add_argument('-d', '--default', action="store_true", help='platform')
+  p_account_modify.set_defaults(func=func_prefix+'account.modify')
+
+  p_account_delete = p_account_sub.add_parser('delete', help='delete help')
+  p_account_delete.add_argument('platform', type=str, help='platform')
+  p_account_delete.add_argument('account', type=str, help='account')
+  p_account_delete.set_defaults(func=func_prefix+'account.delete')
+
+  # logintest TODO
+
+
 def account_list(am: AccountManager):
   acc_list = am.get_list()
   for i in range(len(acc_list)):
