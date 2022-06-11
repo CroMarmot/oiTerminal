@@ -192,7 +192,7 @@ class AtCoder(Base):
         threads = []
         for pid in ret.problems.keys():
             # self.get_problem(pid=cid + pid, problem=ret.problems[pid])
-            t = threading.Thread(target=self.get_problem, args=(cid + pid, ret.problems[pid]))
+            t = threading.Thread(target=self.get_problem, args=(cid + '_' + pid, ret.problems[pid]))
             threads.append(t)
             t.start()
         for t in threads:
@@ -203,7 +203,8 @@ class AtCoder(Base):
     # it's unregular so go contests page first
     # example: tenkal-2019-beginner_A
     def get_problem(self, pid: str, problem: Problem = None) -> Problem:
-        result = re.match('^(.+)([A-Z])$', pid)
+        result = re.match('^(.*)_(.*)$', pid)
+        logger.warn(pid+str( result))
         if result is None:
             raise Exception(f'problem id[{ pid }] ERROR')
 
