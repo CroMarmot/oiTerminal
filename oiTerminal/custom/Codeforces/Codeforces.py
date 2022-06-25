@@ -5,7 +5,7 @@ import re
 import threading
 
 from bs4 import BeautifulSoup
-from oiTerminal.cli.constant import CIPHER_KEY, GREEN, DEFAULT
+from oiTerminal.cli.constant import CIPHER_KEY, GREEN, DEFAULT, OT_FOLDER
 
 from oiTerminal.custom.Codeforces.CodeforcesParser import CodeforcesParser
 from oiTerminal.model.BaseOj import BaseOj
@@ -15,6 +15,7 @@ from oiTerminal.model.Account import Account
 from oiTerminal.model.Problem import Problem
 from oiTerminal.model.Contest import Contest
 from oiTerminal.model.Result import Result
+from oiTerminal.utils.configFolder import ConfigFolder
 from oiTerminal.utils.enc import AESCipher
 
 
@@ -32,8 +33,11 @@ class Codeforces(BaseOj):
     self.analyze = analyze
     self.http_util = http_util
     self.parser = CodeforcesParser(html_tag=html_tag, logger=logger)
-    self.http_util.cookies.set("RCPC", AESCipher(CIPHER_KEY).decrypt(self.account.cf_rcpc), domain="codeforces.com")
-
+    config_folder = ConfigFolder(OT_FOLDER)
+    # write codeforces RCPC cookie in .oiTerminal/CF_RCPC 
+    with open(config_folder.get_config_file_path("CF_RCPC")) as f:
+      rcpc = f.read().strip()
+      self.http_util.cookies.set("RCPC", rcpc, domain="codeforces.com")
 
   def pid2url(self, problem_id: str):
     result = re.match('^(\\d+)([A-Z]\\d?)$', problem_id)
