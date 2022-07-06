@@ -12,10 +12,6 @@
 
 `pip3 install -r requirements.txt`
 
-# 安装依赖
-
-`pip3 install -r requirements.txt`
-
 # 测试
 
 `pytest`
@@ -34,9 +30,10 @@
 
 `source /tmp/ot-auto-completion.sh`
 
-# 运行
-
 # docs
 
 `cd docs && make html`
 
+# 设计
+
+[Design.md](./Design.md)

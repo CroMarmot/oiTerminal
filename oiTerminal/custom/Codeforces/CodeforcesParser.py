@@ -182,6 +182,8 @@ MathJax.Hub.Config({
         result.cur_status = Result.Status.TLE
       elif _verdict in ['COMPILATION_ERROR']:
         result.cur_status = Result.Status.CE
+      elif _verdict in ['IDLENESS_LIMIT_EXCEEDED']:
+        result.cur_status = Result.Status.IDLE
       else:
         self._logger.warn("UNKNOWN STATE with " + _verdict)
         print("UNKNOWN STATE with " + _verdict)
