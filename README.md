@@ -30,8 +30,6 @@
 
 `source /tmp/ot-auto-completion.sh`
 
-## 运行
-
 ## docs
 
 `cd docs && make html`
@@ -43,3 +41,8 @@ orphan from 4376a9dd05fd52ca923c9f79c26c964543409d09
 ## 开发环境 log
 
 development: `export OITERMINAL_ENV=dev`
+
+# 设计
+
+[Design.md](./Design.md)
+
