@@ -82,7 +82,7 @@ def createDir(
         sid=problem_id,
         template_alias=template.alias,
         lang='deperated',
-        up_lang=54)  # TODO get data from analyzer
+        up_lang=73)  # TODO get data from analyzer
     with open(config_folder.get_file_path(os.path.join(directory, STATE_FILE)), "w") as statejson:
       json.dump(folder_state.__dict__, statejson)
       statejson.close()
