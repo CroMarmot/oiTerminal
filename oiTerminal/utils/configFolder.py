@@ -22,12 +22,12 @@ class ConfigFolder(object):
     def get_config_file_path(self, file_path: str):
         abs_folder = self.get_root_folder()
         if abs_folder is None:
-            raise Exception('folder not created, please ./ot.py init first')
+            raise Exception('Not a oi folder, please run `oi init` first')
         return os.path.join(abs_folder, self.folder_name, file_path)
 
     def get_file_path(self, file_path: str):
         abs_folder = self.get_root_folder()
         if abs_folder is None:
-            raise Exception('folder not created, please ./ot.py init first')
+            raise Exception('Not a oi folder, please run `oi init` first')
 
         return os.path.join(abs_folder, file_path)

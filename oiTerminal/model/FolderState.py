@@ -51,3 +51,9 @@ class FolderState:
   @oj.setter
   def oj(self, value):
     self._oj = value
+
+  def __repr__(self):
+    return "<Folder State: %s >" % (str(self.__dict__))
+
+  def __str__(self):
+    return "<Folder State: %s >" % (str(self.__dict__))

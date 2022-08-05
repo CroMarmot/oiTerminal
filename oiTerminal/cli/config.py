@@ -1,26 +1,29 @@
 #!/usr/bin/env python3
-import argparse
-from oiTerminal.cli.constant import USER_CONFIG_FILE
+import click
+from oiTerminal.core.DI import DI_DB, DI_LOGGER
+from oiTerminal.cli.constant import OT_FOLDER, OT_LOG, USER_CONFIG_FILE
+from oiTerminal.cli.template import template
+from oiTerminal.cli.account import account
+from oiTerminal.utils.Logger import getLogger
 from oiTerminal.utils.configFolder import ConfigFolder
 from oiTerminal.utils.db import JsonFileDB
 import logging
 
 
-def main(folder: str, logger: logging, args: argparse.Namespace):
-  func = args.func
-  print(func)
-  config_folder = ConfigFolder(folder)
-  db = JsonFileDB(config_folder.get_config_file_path(USER_CONFIG_FILE
-                                                     ), logger=logger)
-  if args.func.startswith('account'):
-    args.func = args.func[len('account.'):]
-    from oiTerminal.cli.account import account
-    account(db, args=args, logger=logger)
-  elif args.func.startswith('template'):
-    args.func = args.func[len('template.'):]
-    from oiTerminal.cli.template import template
-    template(db, args=args, logger=logger)
+@click.group()
+@click.pass_context
+def config(ctx):
+  """Config environment """
+  # TODO make it provider?
+  config_folder = ConfigFolder(OT_FOLDER)
+  try:
+    logger: logging = getLogger(config_folder.get_file_path(OT_LOG))
+  except Exception as e:
+    print(str(e))
+    exit(1)
+  ctx.obj[DI_LOGGER] = logger
+  ctx.obj[DI_DB] = JsonFileDB(config_folder.get_config_file_path(USER_CONFIG_FILE), logger=logger)
 
 
-if __name__ == '__main__':
-  pass
+config.add_command(account)
+config.add_command(template)

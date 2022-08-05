@@ -7,6 +7,7 @@ class Template:
   execute: str
   clean: str
   default: bool
+  uplang: str
 
   def __init__(self):
     self.platform = ''
@@ -14,21 +15,24 @@ class Template:
     self.path = ''
     self.compilation = ''
     self.execute = ''
-    self.clean = ''
+    self.clean = '' # deperated
+    self.uplang = ''
     self.default = False
 
-  def initial(self, platform, alias, path, compilation, execute, clean, default=False):
+  # TODO 改成非 class 的 struct
+  def initial(self, platform, alias, path, compilation, execute, uplang, default=False):
     self.platform = platform
     self.alias = alias
     self.path = path
     self.compilation = compilation
     self.execute = execute
-    self.clean = clean
+    # self.clean = clean
+    self.uplang = uplang
     self.default = default
     return self
 
   def dict_init(self, d):
-    for key in ['platform', 'alias', 'path', 'compilation', 'execute', 'clean']:
+    for key in ['platform', 'alias', 'path', 'compilation', 'execute', 'uplang']:
       if key not in d:
         d[key] = ''
     self.__dict__ = d

@@ -1,0 +1,60 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "yxr-oi-cli"
+description = "Simple Online Judge Cli Tool"
+version = "0.0.1"
+authors = [
+  { name="YeXiaoRain", email="yexiaorain@gmail.com" }
+]
+dependencies = [
+  "requests >= 2",
+  "beautifulsoup4 >= 4",
+  "lxml >= 4",
+  "pycryptodome >= 3.13.0",
+  "click >= 8.1.3",
+  "rich >= 11.0.0",
+  "yxr-atcoder-core >= 0.0.1",
+]
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+]
+keywords = ["atcoder", "cli", "api", "yxr"]
+license = { file="LICENSE" }
+
+[project.urls]
+"Homepage" = "https://github.com/CroMarmot/oiTerminal"
+"Bug Tracker" = "https://github.com/CroMarmot/oiTerminal/issues"
+
+[project.scripts]
+oi = "ot:main"
+
+[project.optional-dependencies]
+tests = [
+  'build',
+  'coverage >= 6',
+  'pytest >= 7',
+]
+
+[tool.setuptools.packages.find]
+where = ["."] # default "."
+include = ["*"] # ["*"] by default
+exclude = ["TODO.md", "tests", "docs"] # empty by default
+namespaces = true # true by default
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q"
+testpaths = [
+  "tests",
+]
+
+[tool.yapf]
+based_on_style = "pep8"
+column_limit = 9999
+indent_width = 2

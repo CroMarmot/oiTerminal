@@ -8,4 +8,4 @@ _ot_completions()
   COMPREPLY=($(compgen -W "$keys" "${COMP_WORDS[$COMP_CWORD]}"))
 }
 
-complete -F _ot_completions ./ot.py
+complete -F _ot_completions oi

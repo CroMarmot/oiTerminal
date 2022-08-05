@@ -10,12 +10,11 @@ class Account:
         self.password = ''
         self.default = False
 
-    def initial(self, platform, account, password, default=False, cf_rcpc=None):
+    def initial(self, platform, account, password, default=False):
         self.platform = platform
         self.account = account
         self.password = password
         self.default = default
-        self.cf_rcpc = cf_rcpc
         return self
 
     def dict_init(self, d):

@@ -73,6 +73,7 @@ class Codeforces(BaseOj):
     return problem
 
   def login_website(self) -> int:
+    print(f"{GREEN}{self.account.account} Logining {Codeforces.__name__}{DEFAULT}")
     # TODO add method cookie login and save cookies in db/json
     # enable cookies login with db/json saved cookies
     #

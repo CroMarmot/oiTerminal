@@ -86,7 +86,7 @@ class AccountManager:
 
   def new(self, platform, account, password, default=False) -> bool:
     accs: List[Account] = self._get_account_list()
-    self.logger.debug("platform = %s, account = %s, password = %s, default = %s", platform, account, password, default)
+    self.logger.debug("platform = %s, account = %s, default = %s", platform, account, default)
     has_default = False
     for item in accs:
       if item.platform == platform and item.account == account:
