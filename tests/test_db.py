@@ -1,5 +1,5 @@
 import os
-from oiTerminal.utils.db import JsonFileDB
+from oi_cli2.utils.db import JsonFileDB
 from tests.mock.Logger import FakeLogger
 
 

@@ -25,16 +25,16 @@ cliAccept = {
     "config": {
         "account": {
             "list": {},
-            "new": {},
-            "modify": {},
-            "delete": {},
-            "test": {},  # TODO test login
+            "new": platformKey(),
+            "modify": platformKey(),
+            "delete": platformKey(),
+            "test": platformKey(),  # TODO test login
         },
         "template": {
             "list": {},
-            "new": {},
-            "modify": {},
-            "delete": {},
+            "new": platformKey(),
+            "modify": platformKey(),
+            "delete": platformKey(),
         }
     },
     "problem": {

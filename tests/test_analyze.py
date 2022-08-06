@@ -1,4 +1,4 @@
-from oiTerminal.utils.analyze import AnalyzeManager
+from oi_cli2.utils.analyze import AnalyzeManager
 from tests.mock.DB import FakeDB
 
 

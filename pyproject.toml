@@ -32,7 +32,7 @@ license = { file="LICENSE" }
 "Bug Tracker" = "https://github.com/CroMarmot/oiTerminal/issues"
 
 [project.scripts]
-oi = "ot:main"
+oi = "oi_cli2.cli.main:main"
 
 [project.optional-dependencies]
 tests = [
@@ -43,7 +43,7 @@ tests = [
 
 [tool.setuptools.packages.find]
 where = ["."] # default "."
-include = ["*"] # ["*"] by default
+include = ["oi_cli2"] # ["*"] by default
 exclude = ["TODO.md", "tests", "docs"] # empty by default
 namespaces = true # true by default
 

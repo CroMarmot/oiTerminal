@@ -1,4 +1,4 @@
-from oiTerminal.utils.account import AccountManager
+from oi_cli2.utils.account import AccountManager
 from tests.mock.Cipher import FakeCipher
 from tests.mock.DB import FakeDB
 

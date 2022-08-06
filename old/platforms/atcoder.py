@@ -6,15 +6,15 @@ import traceback
 from bs4 import BeautifulSoup
 from bs4 import element
 
-from oiTerminal.platforms.base import Base, BaseParser
-from oiTerminal.utils import HtmlTag, HttpUtil, logger
+from oi_cli2.platforms.base import Base, BaseParser
+from oi_cli2.utils import HtmlTag, HttpUtil, logger
 
-from oiTerminal.Model.LangKV import LangKV
-from oiTerminal.Model.Account import Account
-from oiTerminal.Model.Problem import Problem
-from oiTerminal.Model.TestCase import TestCase
-from oiTerminal.Model.Contest import Contest
-from oiTerminal.Model.Result import Result
+from oi_cli2.Model.LangKV import LangKV
+from oi_cli2.Model.Account import Account
+from oi_cli2.Model.Problem import Problem
+from oi_cli2.Model.TestCase import TestCase
+from oi_cli2.Model.Contest import Contest
+from oi_cli2.Model.Result import Result
 
 
 class AtCoderParser(BaseParser):

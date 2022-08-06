@@ -1,4 +1,4 @@
-from oiTerminal.utils.template import TemplateManager
+from oi_cli2.utils.template import TemplateManager
 from tests.mock.DB import FakeDB
 
 

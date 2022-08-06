@@ -1,4 +1,4 @@
-from oiTerminal.utils.enc import AESCipher
+from oi_cli2.utils.enc import AESCipher
 
 
 def test_enc():

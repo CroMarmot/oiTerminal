@@ -1,5 +1,11 @@
 
-
 # v0.2.1
 
-2022-08 replace cli library from `argparse` to `click`
+2022-08
+
+- replace cli library from `argparse` to `click`, rich for print, support codeforces cookie.rcpc
+- replace argparse with click, reconstruct command line design
+- replace some print with rich
+- use `pyproject.toml` and provide cli script tool
+
+
