@@ -44,21 +44,32 @@ def do_test():
     if os.system(LanguageUtil.lang2compile(lang)) != 0:
         return
 
+    std_folder = f"../../{state_oj.id}/"
+    files = os.listdir(std_folder)
+    test_in_out = []
+    for f_in in files:
+        if not os.path.isfile(os.path.join(std_folder, f_in)):
+            continue
+        if f_in.startswith(f"{pid}{IN_SUFFIX}"):
+            f_out = f"{pid}{OUT_SUFFIX}" + f_in[len(f"{pid}{IN_SUFFIX}"):]
+            if not os.path.isfile(os.path.join(std_folder, f_out)):
+                print(f"File out [ {f_out} ] Not Found")
+                continue
+            test_in_out.append((f_in, f_out))
     # run  "" not better than 'time' in bash but worse is better :-)
-    i = 0
-    std_file = f"../../{state_oj.id}/{pid}"
-    while os.path.isfile(f"{std_file}{IN_SUFFIX}{i}"):
-        std_in_file = f"{std_file}{IN_SUFFIX}{i}"
-        std_out_file = f"{std_file}{OUT_SUFFIX}{i}"
-        user_out_file = f"{pid}{OUT_SUFFIX}{i}"
+    for f_in, f_out in test_in_out:
+        std_in_file = os.path.join(std_folder, f_in)
+        std_out_file = os.path.join(std_folder, f_out)
+        user_out_file = os.path.join(f"user_{f_out}")  # 在当前文件夹输出
         start_time = datetime.datetime.now()
-        os.system(LanguageUtil.lang2exe(lang, std_in_file, user_out_file))
+        r = os.system(LanguageUtil.lang2exe(lang, std_in_file, user_out_file))
+        print("r:"+str(r))
         end_time = datetime.datetime.now()
         logger.info(f"test std in file:{std_in_file}")
         logger.info(f"test std out file:{std_out_file}")
         print()
         # TODO COMPARE TIME
-        print(f"TestCase {i} Time spend: {GREEN}{(end_time - start_time).total_seconds()}s{DEFAULT}")
+        print(f"TestCase {f_in} => {f_out} Time spend: {GREEN}{(end_time - start_time).total_seconds()}s{DEFAULT}")
 
         # cmp output
         diff = os.system(f"{diff_cmd} {std_out_file} {user_out_file}")
@@ -71,11 +82,9 @@ def do_test():
             print("\n==============================================================================")
             print(DEFAULT)
 
-        i += 1
-
     os.chdir("../")
     # shutil.rmtree(TEST_FOLDER)
-    logger.info('test finished')
+    logger.info('Test finished')
 
 
 if __name__ == "__main__":
