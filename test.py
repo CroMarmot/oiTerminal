@@ -62,8 +62,7 @@ def do_test():
         std_out_file = os.path.join(std_folder, f_out)
         user_out_file = os.path.join(f"user_{f_out}")  # 在当前文件夹输出
         start_time = datetime.datetime.now()
-        r = os.system(LanguageUtil.lang2exe(lang, std_in_file, user_out_file))
-        print("r:"+str(r))
+        os.system(LanguageUtil.lang2exe(lang, std_in_file, user_out_file))
         end_time = datetime.datetime.now()
         logger.info(f"test std in file:{std_in_file}")
         logger.info(f"test std out file:{std_out_file}")
