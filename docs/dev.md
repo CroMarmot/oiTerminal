@@ -59,3 +59,14 @@ cd <code folder>
 pip3 install -e <当前项目根的路径>
 ```
 
+## docs
+
+`cd docs && make html`
+
+## 历史代码
+
+orphan from 4376a9dd05fd52ca923c9f79c26c964543409d09
+
+## 开发环境 log
+
+development: `export OITERMINAL_ENV=dev`
