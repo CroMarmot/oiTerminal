@@ -2,24 +2,28 @@ import click
 import getpass
 import logging
 
-from oi_cli2.core.DI import DI_ACCMAN, DI_DB, DI_LOGGER
-from oi_cli2.cli.constant import CIPHER_KEY
+from oi_cli2.core.DI import DI_ACCMAN, DI_HTTP, DI_LOGGER, DI_PROVIDER
+from oi_cli2.model.Analyze import Analyze
+from oi_cli2.model.BaseOj import BaseOj
+from oi_cli2.utils.HtmlTag import HtmlTag
+from oi_cli2.utils.HttpUtil import HttpUtil
 from oi_cli2.utils.account import AccountManager
-from oi_cli2.utils.enc import AESCipher
 
 
 @click.group()
 @click.pass_context
 def account(ctx):
   """Manage accounts"""
-  ctx.obj[DI_ACCMAN] = AccountManager(db=ctx.obj[DI_DB], cipher=AESCipher(CIPHER_KEY), logger=ctx.obj[DI_LOGGER])
+  import oi_cli2.core.provider as provider
+  ctx.obj[DI_PROVIDER] = provider
 
 
 @account.command(name='list')
 @click.pass_context
 def list_command(ctx):
   """List all account"""
-  am: AccountManager = ctx.obj[DI_ACCMAN]
+  provider = ctx.obj[DI_PROVIDER]
+  am: AccountManager = provider.o.get(DI_ACCMAN)
   acc_list = am.get_list()
   for i in range(len(acc_list)):
     if i == 0 or acc_list[i].platform != acc_list[i - 1].platform:
@@ -45,8 +49,9 @@ def new(ctx, platform, account, default_):
 
   ACCOUNT     Account name
   """
-  am: AccountManager = ctx.obj[DI_ACCMAN]
-  logger: logging.Logger = ctx.obj[DI_LOGGER]
+  provider = ctx.obj[DI_PROVIDER]
+  logger: logging.Logger = provider.o.get(DI_LOGGER)
+  am: AccountManager = provider.o.get(DI_ACCMAN)
   password = getpass.getpass("Password:")
   if not am.new(platform=platform, account=account, password=password, default=default_):
     logger.error('New Account Failed.')
@@ -70,8 +75,9 @@ def modify(ctx, platform, account, changepassword: bool, default_):
 
   ACCOUNT     Account name
   """
-  am: AccountManager = ctx.obj[DI_ACCMAN]
-  logger: logging.Logger = ctx.obj[DI_LOGGER]
+  provider = ctx.obj[DI_PROVIDER]
+  logger: logging.Logger = provider.o.get(DI_LOGGER)
+  am: AccountManager = provider.o.get(DI_ACCMAN)
   if changepassword:
     password = getpass.getpass("Password:")
   else:
@@ -94,10 +100,44 @@ def delete(ctx, platform, account) -> bool:
 
   ACCOUNT     Account name
   """
-  am: AccountManager = ctx.obj[DI_ACCMAN]
-  logger: logging.Logger = ctx.obj[DI_LOGGER]
+  provider = ctx.obj[DI_PROVIDER]
+  logger: logging.Logger = provider.o.get(DI_LOGGER)
+  am: AccountManager = provider.o.get(DI_ACCMAN)
   if not am.delete(platform=platform, account=account):
     logger.error("Account not found")
     return False
   else:
     logger.info("Success Delete")
+
+
+@account.command(name="test")
+@click.argument("platform")
+@click.argument("account")
+@click.pass_context
+def valid_account(ctx, platform: str, account: str) -> bool:
+  """Test account login
+
+  PLATFORM    Platform Name, (AtCoder,Codeforces)
+
+  ACCOUNT     Account name
+  """
+  provider = ctx.obj[DI_PROVIDER]
+  logger: logging.Logger = provider.o.get(DI_LOGGER)
+  am: AccountManager = provider.o.get(DI_ACCMAN)
+  http_util: HttpUtil = provider.o.get(DI_HTTP)
+  acc = am.get_account(platform=platform, account=account)
+  if acc is None:
+    logger.error(f'Account [{account}] not found')
+    return False
+
+  from oi_cli2.utils.consts.platforms import Platforms
+  if platform == Platforms.codeforces:
+    try:
+      from oi_cli2.custom.Codeforces.Codeforces import Codeforces
+      oj: BaseOj = Codeforces(http_util=http_util, logger=logger, account=acc, analyze=Analyze(), html_tag=HtmlTag(http_util))
+    except Exception as e:
+      logger.exception(e)
+      raise e
+  else:
+    raise Exception('Unknown Platform')
+  oj.login_website()

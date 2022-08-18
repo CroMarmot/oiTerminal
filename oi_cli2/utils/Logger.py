@@ -33,13 +33,16 @@ def getLogger(logger_path):
     logger.setLevel(logging.DEBUG)
     # remove default handler
     logging.getLogger().handlers.clear()
+
     fileformatter = logging.Formatter('[%(asctime)s %(levelname)s %(filename)s %(funcName)s %(lineno)d]%(message)s')
     streamformatter = logging.Formatter('%(process)s: %(filename)s %(lineno)d %(levelname)-8s %(message)s')
+
     # file
     fh = logging.FileHandler(logger_path)
     fh.setFormatter(fileformatter)
     fh.setLevel(logging.DEBUG)
     logger.addHandler(fh)
+
     # stream warning
     sh = logging.StreamHandler()
     sh.setFormatter(streamformatter)

@@ -47,6 +47,14 @@ class AccountManager:
 
     return None
 
+  def get_account(self, platform: str, account: str) -> Optional[Account]:
+    accs: List[Account] = self._get_account_list()
+    for i in range(len(accs)):
+      if accs[i].platform == platform and accs[i].account == account:
+        return accs[i]
+
+    return None
+
   def modify(self, platform: str, account: str, password=None, default=None) -> False:
     modified = False
     accs: List[Account] = self._get_account_list()

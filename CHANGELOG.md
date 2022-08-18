@@ -3,6 +3,7 @@
 
 2022-08
 
+- support test account after config account
 - replace cli library from `argparse` to `click`, rich for print, support codeforces cookie.rcpc
 - replace argparse with click, reconstruct command line design
 - replace some print with rich
