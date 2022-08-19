@@ -1,43 +1,24 @@
 import requests
-from requests import RequestException
 
 
 class HttpUtil(object):
-  def __init__(self, headers=None, code_type=None, cookies=None, logger=None, *args, **kwargs):
-    self._headers = headers
+
+  def __init__(self, headers=None, logger=None):
+    self._headers = headers or {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36'}
     self._request = requests.session()
-    self._code_type = code_type
     self._timeout = (10, 30)  # connect timeout , read timeout
-    self._response = None
-    self._advanced = False
-    self._proxies = None
     self._logger = logger
-    if kwargs.get('proxies'):
-      self._proxies = {
-          'http': kwargs.get('proxies'),
-          'https': kwargs.get('proxies')
-      }
     if self._headers:
       self._request.headers.update(self._headers)
-    if cookies:
-      self._request.cookies.update(cookies)
-      
+
   def get(self, url, **kwargs):
-    try:
-      self._response = self._request.get(url, timeout=self._timeout, proxies=self._proxies, **kwargs)
-      if self._code_type and self._response:
-        self._response.encoding = self._code_type
-      return self._response
-    except Exception as e:
-      raise e
+    # TODO ? fix kwargs timeout 优先级大于内置_timeout ?
+    return self._request.get(url, timeout=self._timeout, **kwargs)
 
   def post(self, url, data=None, json=None, **kwargs):
     try:
-      self._response = self._request.post(url, data, json, timeout=self._timeout, proxies=self._proxies, **kwargs)
-      if self._code_type and self._response:
-        self._response.encoding = self._code_type
-      return self._response
-    except RequestException as e:
+      return self._request.post(url, data, json, timeout=self._timeout, **kwargs)
+    except Exception as e:
       self._logger.exception(e)
       return None
 

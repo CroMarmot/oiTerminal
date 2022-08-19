@@ -13,24 +13,13 @@ url2file = {
 
 
 class MockHttpUtil(object):
-  def __init__(self, headers=None, code_type=None, cookies=None, logger=None, *args, **kwargs):
+  def __init__(self, headers=None, logger=None, *args, **kwargs):
     self._headers = headers
     self._request = requests.session()
-    self._code_type = code_type
     self._timeout = (7, 12)
-    self._response = None
-    self._advanced = False
-    self._proxies = None
     self._logger = logger
-    if kwargs.get('proxies'):
-      self._proxies = {
-          'http': kwargs.get('proxies'),
-          'https': kwargs.get('proxies')
-      }
     if self._headers:
       self._request.headers.update(self._headers)
-    if cookies:
-      self._request.cookies.update(cookies)
 
   def get(self, url, **kwargs):
     for key in url2file:
@@ -47,10 +36,8 @@ class MockHttpUtil(object):
 
   def post(self, url, data=None, json=None, **kwargs):
     try:
-      self._response = self._request.post(url, data, json, timeout=self._timeout, proxies=self._proxies, **kwargs)
-      if self._code_type and self._response:
-        self._response.encoding = self._code_type
-      return self._response
+      response = self._request.post(url, data, json, timeout=self._timeout, **kwargs)
+      return response
     except RequestException as e:
       self._logger.exception(e)
       return None

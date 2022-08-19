@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
 import asyncio
-from asyncio.log import logger
+from enum import Enum
 import json
 import logging
 import os
+import threading
+import time
+from requests.exceptions import ReadTimeout, ConnectTimeout
 from typing import List
 from rich.live import Live
 from rich.table import Table
@@ -32,10 +35,24 @@ from oi_cli2.utils.template import TemplateManager
 console = Console(color_system='256', style=None)
 
 
+class VisitStatus(Enum):
+  BEFORE = 1
+  SUCCESS = 2
+  FAILED = 3
+  TIMEOUT = 3
+
+
+visitedTextMap = {
+    VisitStatus.BEFORE: "Fetching",
+    VisitStatus.SUCCESS: "[green]OK",
+    VisitStatus.FAILED: "[red]Failed",
+    VisitStatus.TIMEOUT: "[red]Timeout",
+}
+
+
 def all_visit(result) -> Table:
-  print('all'+str(result))
   for v in result:
-    if not v[1]:
+    if v[1] == VisitStatus.BEFORE:
       return False
   return True
 
@@ -45,51 +62,60 @@ def generate_table(result) -> Table:
   table = Table()
   table.add_column("Problem")
   table.add_column("Visited")
-  table.add_column("Status")
+  table.add_column("Parse Status")
 
   for row in result:
     table.add_row(
         row[0],
-        "[green]OK" if row[1] else "Fetching",
+        visitedTextMap[row[1]],
         "[green]OK" if row[2] else "Unknown",
     )
   return table
 
 
-async def createProblemAwait(data, v, contest_id: str, template, oj: str):
-  try:
-    config_folder: ConfigFolder = provider.o.get(DI_CFG)
-    file_util = FileUtil
-    problem_id = contest_id + v
-    result: ParseProblemResult = oj.problem(problem_id)
-    test_cases: List[TestCase] = result.test_cases
-    directory = config_folder.get_file_path(os.path.join('dist', type(oj).__name__, contest_id, v))
+def createProblem(data, v, contest_id: str, template, oj: str):
+  logger: logging.Logger = provider.o.get(DI_LOGGER)
+  config_folder: ConfigFolder = provider.o.get(DI_CFG)
+  timeOutRetry = 3
+  while timeOutRetry >= 0:
+    try:
+      file_util = FileUtil
+      problem_id = contest_id + v
+      result: ParseProblemResult = oj.problem(problem_id)
+      data[1] = VisitStatus.SUCCESS
+      test_cases: List[TestCase] = result.test_cases
+      directory = config_folder.get_file_path(os.path.join('dist', type(oj).__name__, contest_id, v))
 
-    for i in range(len(test_cases)):
-      file_util.write(config_folder.get_file_path(os.path.join(directory, f'in.{i}')), test_cases[i].in_data)
-      file_util.write(config_folder.get_file_path(os.path.join(directory, f'out.{i}')), test_cases[i].out_data)
+      for i in range(len(test_cases)):
+        file_util.write(config_folder.get_file_path(os.path.join(directory, f'in.{i}')), test_cases[i].in_data)
+        file_util.write(config_folder.get_file_path(os.path.join(directory, f'out.{i}')), test_cases[i].out_data)
 
-    # if code file exist not cover code
-    if not os.path.exists(config_folder.get_file_path(os.path.join(directory, os.path.basename(template.path)))):
-      file_util.copy(config_folder.get_file_path(template.path), config_folder.get_file_path(os.path.join(directory, os.path.basename(template.path))))
-    # TODO 生成state.json ( 提供 自定义字段)
-    STATE_FILE = 'state.json'
+      # if code file exist not cover code
+      if not os.path.exists(config_folder.get_file_path(os.path.join(directory, os.path.basename(template.path)))):
+        file_util.copy(config_folder.get_file_path(template.path), config_folder.get_file_path(os.path.join(directory, os.path.basename(template.path))))
+      # TODO 生成state.json ( 提供 自定义字段)
+      STATE_FILE = 'state.json'
 
-    # TODO provide more info, like single test and
-    # generate state.json
-    folder_state = FolderState(oj=type(oj).__name__, sid=problem_id, template_alias=template.alias, lang='deperated', up_lang=template.uplang)  # TODO get data from analyzer
-    with open(config_folder.get_file_path(os.path.join(directory, STATE_FILE)), "w") as statejson:
-      json.dump(folder_state.__dict__, statejson)
-      statejson.close()
-    data[2] = True
-  except Exception as e:
-    logger.error(e)
-  data[1] = True
-  print('update result')
-
-
-async def createProblem(data, v, contest_id: str, template, oj: str):
-  await createProblemAwait(data, v, contest_id, template, oj)
+      # TODO provide more info, like single test and
+      # generate state.json
+      folder_state = FolderState(oj=type(oj).__name__, sid=problem_id, template_alias=template.alias, lang='deperated', up_lang=template.uplang)  # TODO get data from analyzer
+      with open(config_folder.get_file_path(os.path.join(directory, STATE_FILE)), "w") as statejson:
+        json.dump(folder_state.__dict__, statejson)
+        statejson.close()
+      data[2] = True
+      return True
+    except (ReadTimeout, ConnectTimeout) as e:
+      logger.info(f'Http Timeout[{type(e).__name__}]: {e.request.url}')
+      if timeOutRetry == 0:
+        data[1] = VisitStatus.TIMEOUT
+        return False
+      timeOutRetry -= 1
+      time.sleep(0.5)
+    except Exception as e:
+      logger.exception(type(e).__name__)
+      logger.exception(e)
+      data[1] = VisitStatus.FAILED
+      return False
 
 
 async def createDir(oj: BaseOj, contest_id: str, problem_ids: List[str]):
@@ -99,27 +125,29 @@ async def createDir(oj: BaseOj, contest_id: str, problem_ids: List[str]):
   logger.debug(f"{oj},{contest_id},{problem_ids}")
   template = template_manager.get_platform_default(type(oj).__name__)
   if template is None:
-    print(type(oj).__name__ + ' has no default template, run ./oiTerminal.py config first')
-    logger.warn(f'{type(oj).__name__} parse problem when no template set')
+    logger.error(type(oj).__name__ + ' has no default template, run `oi config` first')
     return None
 
   # ID, visited, success
   result = []
   for v in problem_ids:
-    result.append([v, False, False])
+    result.append([v, VisitStatus.BEFORE, False])
 
   tasks = []
   for i in range(len(problem_ids)):
-    tasks.append(asyncio.create_task(createProblem(result[i], problem_ids[i], contest_id, template, oj)))
+    task = threading.Thread(target=createProblem, args=(result[i], problem_ids[i], contest_id, template, oj))
+    tasks.append(task)
+    task.start()
 
-  with Live(generate_table(result), refresh_per_second=5) as live:
+  with Live(generate_table(result), refresh_per_second=4) as live:
     while not all_visit(result):
-      await asyncio.sleep(0.2)  # time.sleep 会卡住
-      print('inner result' + str(result))
+      await asyncio.sleep(0.5)  # time.sleep 会卡住
       live.update(generate_table(result))
 
-  for t in tasks:
-    await t
+  for t in tasks:  # wait all task finished
+    t.join()
+
+  live.update(generate_table(result))
 
   return config_folder.get_file_path(os.path.join('dist', type(oj).__name__, contest_id))
 
@@ -153,7 +181,15 @@ def fetch(platform, contestid):
   else:
     raise Exception('Unknown Platform')
 
-  problems = oj.get_problemids_in_contest(contestid)
+  try:
+    problems = oj.get_problemids_in_contest(contestid)
+  except (ReadTimeout, ConnectTimeout) as e:
+    logger.error(f'Http Timeout[{type(e).__name__}]: {e.request.url}')
+    return
+  except Exception as e:
+    logger.exception(e)
+    return
+
   logger.debug(f"{contestid},{problems}")
   problem_ids = list(map(lambda x: x['id'], problems))
   directory = asyncio.run(createDir(oj=oj, contest_id=contestid, problem_ids=problem_ids))
@@ -164,7 +200,7 @@ def fetch(platform, contestid):
 @click.argument('platform')
 def list_command(platform: str):
   """list passed and recent contest
-  
+
   PLATFORM    e.g. AtCoder, Codeforces
   """
   logger: logging.Logger = provider.o.get(DI_LOGGER)

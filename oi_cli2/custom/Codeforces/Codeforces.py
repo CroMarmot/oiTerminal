@@ -5,10 +5,11 @@ import re
 import requests
 import threading
 
+from requests.exceptions import ReadTimeout, ConnectTimeout
 from bs4 import BeautifulSoup
+
 from oi_cli2.cli.constant import CIPHER_KEY, GREEN, DEFAULT, OT_FOLDER
 from oi_cli2.core import provider
-
 from oi_cli2.custom.Codeforces.CodeforcesParser import CodeforcesParser
 from oi_cli2.model.BaseOj import BaseOj
 from oi_cli2.model.ParseProblemResult import ParseProblemResult
@@ -62,10 +63,8 @@ class Codeforces(BaseOj):
     self.logger.debug(url)
 
     # http_util.get url
-    print(f"Fetching problem: {problem_id} ({url})")
     response = self.http_util.get(url=url)
-    print(f"Fetched problem: {problem_id}")
-    if response is None or response.status_code != 200 or response.text is None:
+    if response.status_code != 200 or response.text is None:
       raise Exception(f"Fetch Problem Error, problem id={problem_id}")
     problem = self.parser.problem_parse(response.text)
 
@@ -81,8 +80,8 @@ class Codeforces(BaseOj):
       if self._is_login():
         print(f"{GREEN}{self.account.account} is Logged in {Codeforces.__name__}{DEFAULT}")
         return True
-    except (requests.exceptions.ReadTimeout, requests.exceptions.ConnectTimeout):
-      self.logger.error(f'Http Timeout: {self._base_url}')
+    except (ReadTimeout, ConnectTimeout) as e:
+      self.logger.error(f'Http Timeout[{type(e).__name__}]: {e.request.url}')
       return False
     except Exception as e:
       self.logger.exception(e)
@@ -95,8 +94,8 @@ class Codeforces(BaseOj):
       soup = BeautifulSoup(res.text, 'lxml')
       csrf_token = soup.find(attrs={'name': 'X-Csrf-Token'}).get('content')
       self.http_util.post(url=f'{self._base_url}enter', data={'csrf_token': csrf_token, 'action': 'enter', 'ftaa': '', 'bfaa': '', 'handleOrEmail': self.account.account, 'password': AESCipher(CIPHER_KEY).decrypt(self.account.password), 'remember': []})
-    except (requests.exceptions.ReadTimeout, requests.exceptions.ConnectTimeout):
-      self.logger.error(f'Http Timeout: {url}')
+    except (ReadTimeout, ConnectTimeout) as e:
+      self.logger.error(f'Http Timeout[{type(e).__name__}]: {e.request.url}')
       return False
     except Exception as e:
       self.logger.exception(e)
@@ -108,8 +107,8 @@ class Codeforces(BaseOj):
         return True
       else:
         return False
-    except (requests.exceptions.ReadTimeout, requests.exceptions.ConnectTimeout):
-      self.logger.error(f'Http Timeout: {self._base_url}')
+    except (ReadTimeout, ConnectTimeout) as e:
+      self.logger.error(f'Http Timeout[{type(e).__name__}]: {e.request.url}')
       return False
     except Exception as e:
       self.logger.exception(e)
@@ -272,8 +271,8 @@ class Codeforces(BaseOj):
     try:
       url = f'{self._base_url}contests?complete=true'
       resp = self.http_util.get(url)
-    except (requests.exceptions.ReadTimeout, requests.exceptions.ConnectTimeout):
-      self.logger.error(f'Http Timeout: {url}')
+    except (ReadTimeout, ConnectTimeout) as e:
+      self.logger.error(f'Http Timeout[{type(e).__name__}]: {e.request.url}')
       return False
     except Exception as e:
       self.logger.exception(e)
@@ -299,8 +298,8 @@ class Codeforces(BaseOj):
     url = f'{self._base_url}contest/{cid}/standings/friends/true'
     try:
       printData(self.http_util.get(url).text, title=f"Friends standing {url}", handle=self.account.account)
-    except (requests.exceptions.ReadTimeout, requests.exceptions.ConnectTimeout):
-      self.logger.error(f'Http Timeout: {url}')
+    except (ReadTimeout, ConnectTimeout) as e:
+      self.logger.error(f'Http Timeout[{type(e).__name__}]: {e.request.url}')
     except Exception as e:
       self.logger.exception(e)
 

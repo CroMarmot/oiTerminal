@@ -3,6 +3,7 @@
 
 2022-08
 
+- add using threading for problems fetching again
 - support cookie auto save load(lib and for codeforces, for specific user)
 - support test account after config account
 - replace cli library from `argparse` to `click`, rich for print, support codeforces cookie.rcpc
