@@ -67,38 +67,6 @@ example:
 ./reg.py cf 1198
 ```
 
-## Q&A
+## Wiki
 
-### I'm using Windows, how can I using this tool?
-
-Windows has [WSL(Windows Subsystem Linux)](https://docs.microsoft.com/en-us/windows/wsl/install-win10) !
-
-and [Announcing WSL 2](https://devblogs.microsoft.com/commandline/announcing-wsl-2/)
-
-You can enjoy Linux on Windows !
-
-### I'm using `g++/gcc` instead of `clang++` ,or I'm using `pypy` instead of `python3` where is setting?
-
-just modify the `lang.json` file
-
-### `--ignore-trailing-space` not support
-
-This program is using `diff` to compare the result. However this command has different arguments in Linux and Mac OS, you can change the `diff_cmd` and `show_diff_cmd` in `test.py`
-
-### Enable `develop` envirnoment
-
-default environment is `production`
-
-enable `develop` environment:
-
-```shell
-export OITERMINAL_ENV=dev
-```
-
-## ref / dependency
-
-[VirtualJudge/spider](https://github.com/VirtualJudge/spider)
-
-[BeautifulSoup 4](https://www.crummy.com/software/BeautifulSoup/bs4/doc/)
-
-[colors](https://misc.flogisoft.com/bash/tip_colors_and_formatting)
+[Wiki](https://github.com/CroMarmot/oiTerminal/wiki)
