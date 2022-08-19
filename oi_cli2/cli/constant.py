@@ -19,6 +19,7 @@ SUBMIT_PY = 'submit.py'
 # LANG_CONFIG_FILE = ROOT_PATH + 'lang.json'
 OT_LOG = 'log/oiTerminal.log'
 USER_CONFIG_FILE = '_userConfig.json'
+COOKIES_FILE = '_cookies.json'
 ACCT_CONFIG_FILE = '_acctConfig.json'  # TODO split config json
 TEMP_CONFIG_FILE = '_tempConfig.json'
 

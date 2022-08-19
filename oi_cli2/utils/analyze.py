@@ -15,9 +15,7 @@ class AnalyzeManager:
         self.keys = ['platform', 'alias', 'path', 'compilation', 'execute', 'clean', 'default']
 
     def _get_analyze_list(self) -> List[Analyze]:
-        analyze_list: List[dict] = self.db.load(Ids.analyze)
-        if analyze_list is None:
-            return []
+        analyze_list: List[dict] = self.db.load(Ids.analyze) or []
         return list(map(lambda d: Analyze().dict_init(d), analyze_list))
 
     def _set_analyze_list(self, analyze_list: List[Analyze]):

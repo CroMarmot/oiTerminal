@@ -14,9 +14,7 @@ class TemplateManager:
     self.keys = ['platform', 'alias', 'path', 'compilation', 'execute', 'clean', 'default']
 
   def _get_template_list(self) -> List[Template]:
-    temp_list: List[dict] = self.db.load(Ids.template)
-    if temp_list is None:
-      return []
+    temp_list: List[dict] = self.db.load(Ids.template) or []
     return list(map(lambda d: Template().dict_init(d), temp_list))
 
   def _set_template_list(self, temp_list: List[Template]):

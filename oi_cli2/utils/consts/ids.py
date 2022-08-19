@@ -4,3 +4,7 @@ class Ids:
     template = 'template'
     analyze = 'analyze'
 
+
+class DB_COOKIES_ID:
+    cookies = 'cookies'
+

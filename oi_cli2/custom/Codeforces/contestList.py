@@ -89,15 +89,16 @@ def printData(html):
   table.add_column("Id", style="magenta")
 
   for item in cur:
-    td = item['start'] - datetime.now()
+    startTime = utc_to_local(item["start"])
+    timediff = startTime - datetime.now()
     table.add_row(
         item["name"],  # tds[0].get_text().strip(),
         # item["writers"],  # tds[1].get_text().strip(),
         # https://strftime.org/
         # Jan/27/2022 17:35 tds[2].get_text().strip(),
-        utc_to_local(item["start"]).strftime(timeFmt),
+        startTime.strftime(timeFmt),
         item["length"],  # tds[3].get_text().strip(),
-        str(timedelta(days=td.days, seconds=td.seconds)) if td.days >= 0 else 'Started',
+        str(timedelta(days=timediff.days, seconds=timediff.seconds)) if timediff.days >= 0 else 'Started',
         item["reg"],  # tds[5].get_text().strip(),
         item["cid"],  # tds[5].get_text().strip(),
         style=Style(bgcolor=None if item["reg"].startswith("Before") else (

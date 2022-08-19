@@ -1,6 +1,6 @@
 # simple IOC / DI
-from oi_cli2.core.DI import DI_ACCMAN, DI_CFG, DI_DB, DI_HTTP, DI_LOGGER, DI_PROVIDER, DI_TEMPMAN
-from oi_cli2.cli.constant import CIPHER_KEY, OT_FOLDER, OT_LOG, USER_CONFIG_FILE
+from oi_cli2.core.DI import DI_ACCMAN, DI_CFG, DI_DB, DI_DB_COOKIES, DI_HTTP, DI_LOGGER, DI_PROVIDER, DI_TEMPMAN
+from oi_cli2.cli.constant import CIPHER_KEY, COOKIES_FILE, OT_FOLDER, OT_LOG, USER_CONFIG_FILE
 from oi_cli2.utils.HttpUtil import HttpUtil
 from oi_cli2.utils.Logger import getLogger
 from oi_cli2.utils.account import AccountManager
@@ -62,6 +62,11 @@ def gen_json_db():
   return JsonFileDB(config_folder.get_config_file_path(USER_CONFIG_FILE), logger=o.get(DI_LOGGER))
 
 
+def gen_json_db_cookies():
+  config_folder: ConfigFolder = o.get(DI_CFG)
+  return JsonFileDB(config_folder.get_config_file_path(COOKIES_FILE), logger=o.get(DI_LOGGER))
+
+
 def gen_http_util():
   return HttpUtil(logger=o.get(DI_LOGGER))
 
@@ -70,6 +75,6 @@ o.reg(DI_CFG, gen_cfg)
 o.reg(DI_LOGGER, gen_logger)
 o.reg(DI_HTTP, gen_http_util)
 o.reg(DI_DB, gen_json_db)
+o.reg(DI_DB_COOKIES, gen_json_db_cookies)
 o.reg(DI_ACCMAN, gen_account_manager)
 o.reg(DI_TEMPMAN, gen_template_manager)
-

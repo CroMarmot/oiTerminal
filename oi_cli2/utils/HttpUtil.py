@@ -7,7 +7,7 @@ class HttpUtil(object):
     self._headers = headers
     self._request = requests.session()
     self._code_type = code_type
-    self._timeout = (7, 12)
+    self._timeout = (10, 30)  # connect timeout , read timeout
     self._response = None
     self._advanced = False
     self._proxies = None
@@ -21,16 +21,15 @@ class HttpUtil(object):
       self._request.headers.update(self._headers)
     if cookies:
       self._request.cookies.update(cookies)
-
+      
   def get(self, url, **kwargs):
     try:
       self._response = self._request.get(url, timeout=self._timeout, proxies=self._proxies, **kwargs)
       if self._code_type and self._response:
         self._response.encoding = self._code_type
       return self._response
-    except RequestException as e:
-      self._logger.exception(e)
-      return None
+    except Exception as e:
+      raise e
 
   def post(self, url, data=None, json=None, **kwargs):
     try:

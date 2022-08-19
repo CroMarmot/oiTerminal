@@ -40,7 +40,7 @@ class BaseOj(object):
   def get_language(self) -> LangKV:
     pass
 
-  def print_contest_list(self) -> None:
+  def print_contest_list(self) -> bool:
     pass
 
   def print_problems_in_contest(self, cid: str) -> None:
