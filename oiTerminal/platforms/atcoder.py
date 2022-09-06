@@ -241,23 +241,24 @@ class AtCoder(Base):
     # csrf_token: '....'
     # <option value="abc101_a">A
     def submit_code(self, pid: str, language: str, code: str) -> bool:
-        result = re.match('^(.+)([A-Z])$', pid)
+        result = re.match('^(.+)(([A-Z])|(Ex))$', pid)
         if result is None:
             raise Exception('problem id[' + pid + '] ERROR')
 
-        res = self._req.get('https://atcoder.jp/contests/' + result.group(1) + '/submit')
+        cid = result.group(1)
+        res = self._req.get(f'https://atcoder.jp/contests/{cid}/submit')
         if res is None:
             raise Exception(f"submit_code: cannot open problem,pid={pid},language={language}")
         soup = BeautifulSoup(res.text, 'lxml')
         csrf_token = soup.find('input', attrs={'name': 'csrf_token'})['value']
-        r = re.search('<option value="([^"]*?)">' + result.group(2), str(soup), re.DOTALL)
+        r = re.search(f'<option value="([^"]*?)">{result.group(2)}', str(soup), re.DOTALL)
         post_data = {
             'csrf_token': csrf_token,
             'data.TaskScreenName': r.group(1),
             'data.LanguageId': language,
             'sourceCode': open(code, 'rb').read(),
         }
-        url = 'https://atcoder.jp/contests/' + result.group(1) + '/submit'
+        url = f'https://atcoder.jp/contests/{cid}/submit'
         res = self._req.post(url, data=post_data)
         if res and res.status_code == 200:
             return True
@@ -267,7 +268,7 @@ class AtCoder(Base):
     # <a href='/contests/abc101/submissions/5371227'>Detail</a>
     # https://atcoder.jp/contests/abc101/submissions/me/status/json?sids[]=5371077
     def get_result(self, pid) -> Result:
-        result = re.match('^(.+)([A-Z])$', pid)
+        result = re.match('^(.+)(([A-Z])|(Ex))$', pid)
         if result is None:
             raise Exception('problem id[' + pid + '] ERROR')
 
@@ -293,7 +294,7 @@ class AtCoder(Base):
 
     def _get_result_by_url(self, url: str) -> Result:
         response = self._req.get(url=url)
-        if response is None or response.status_code is not 200 or response.text is None:
+        if response is None or response.status_code != 200 or response.text is None:
             raise Exception(f'get result Failed,url={url}')
         ret = AtCoderParser().result_parse(response=response.text)
         ret.quick_key = url

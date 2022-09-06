@@ -2,8 +2,6 @@
 
 **Codeforces 在比赛时 新增了aes保护, 本工具暂时不能在比赛时使用, 需要cookies中增加RCPC, next分支已经支持**
 
-AtCoder 目前会出现Ex为题号但是链接是`_h`后缀的, 处理上有些问题,如[ABC255Ex](https://atcoder.jp/contests/abc255/tasks/abc255_h),可以自动获取和测试,需要手动提交
-
 python3.6+
 
 ## Supported platform
