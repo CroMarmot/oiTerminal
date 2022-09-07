@@ -82,7 +82,6 @@ class Codeforces(BaseOj):
         return True
     except (ReadTimeout, ConnectTimeout) as e:
       self.logger.error(f'Http Timeout[{type(e).__name__}]: {e.request.url}')
-      return False
     except Exception as e:
       self.logger.exception(e)
 
@@ -96,7 +95,6 @@ class Codeforces(BaseOj):
       self.http_util.post(url=f'{self._base_url}enter', data={'csrf_token': csrf_token, 'action': 'enter', 'ftaa': '', 'bfaa': '', 'handleOrEmail': self.account.account, 'password': AESCipher(CIPHER_KEY).decrypt(self.account.password), 'remember': []})
     except (ReadTimeout, ConnectTimeout) as e:
       self.logger.error(f'Http Timeout[{type(e).__name__}]: {e.request.url}')
-      return False
     except Exception as e:
       self.logger.exception(e)
 
@@ -112,6 +110,7 @@ class Codeforces(BaseOj):
       return False
     except Exception as e:
       self.logger.exception(e)
+      return False
 
   def _is_login(self) -> bool:
     res = self.http_util.get(self._base_url)
@@ -190,7 +189,6 @@ class Codeforces(BaseOj):
     else:
       problem.url = url
     response = self.http_util.get(url=url)
-    print("get problem:" + pid)
     if response is None or response.status_code != 200 or response.text is None:
       raise Exception(f"Fetch Problem Error, pid={pid}")
     self.parser.problem_parse(problem=problem, response=response.text)
@@ -204,9 +202,14 @@ class Codeforces(BaseOj):
     if result is None:
       raise Exception("submit_code: WRONG pid[" + pid + "]")
 
-    res = self.http_util.get(f'{self._base_url}contest/{result.group(1)}/submit')
-    if res is None:
-      raise Exception(f"submit_code: cannot open problem,pid={pid},language={language}")
+    try:
+      res = self.http_util.get(f'{self._base_url}contest/{result.group(1)}/submit')
+    except (ReadTimeout, ConnectTimeout) as e:
+      self.logger.error(f'Http Timeout[{type(e).__name__}]: {e.request.url}')
+      return False
+    except Exception as e:
+      self.logger.exception(e)
+      return False
     soup = BeautifulSoup(res.text, 'lxml')
     csrf_token = soup.find(attrs={'name': 'X-Csrf-Token'}).get('content')
     post_data = {
@@ -222,21 +225,35 @@ class Codeforces(BaseOj):
         'sourceFile': '',
     }
     url = f'{self._base_url}contest/{result.group(1)}/submit?csrf_token={csrf_token}'
-    res = self.http_util.post(url, data=post_data)
-    if res and res.status_code == 200:
-      return True
+    try:
+      res = self.http_util.post(url, data=post_data)
+      if res and res.status_code == 200:
+        return True
+    except (ReadTimeout, ConnectTimeout) as e:
+      self.logger.error(f'Http Timeout[{type(e).__name__}]: {e.request.url}')
+      return False
+    except Exception as e:
+      self.logger.exception(e)
+      return False
     return False
 
   def get_result(self, pid: str) -> Result:
-    print(f'{self._base_url}api/user.status?handle=' + self.account.account + '&count=1')
+    logger.info(f'{self._base_url}api/user.status?handle=' + self.account.account + '&count=1')
     return self._get_result_by_url(f'{self._base_url}api/user.status?handle=' + self.account.account + '&count=1')
 
   def get_result_by_quick_id(self, quick_id: str) -> Result:
     return self._get_result_by_url(quick_id)
 
   def _get_result_by_url(self, url: str) -> Result:
-    response = self.http_util.get(url=url)
-    if response is None or response.status_code != 200 or response.text is None:
+    try:
+      response = self.http_util.get(url=url)
+    except (ReadTimeout, ConnectTimeout) as e:
+      self.logger.error(f'Http Timeout[{type(e).__name__}]: {e.request.url}')
+      raise Exception(f'get result Failed,url={url}')
+    except Exception as e:
+      self.logger.exception(e)
+      raise Exception(f'get result Failed,url={url}')
+    if response.status_code != 200 or response.text is None:
       raise Exception(f'get result Failed,url={url}')
     ret = self.parser.result_parse(response=response.text)
     ret.quick_key = url

@@ -15,7 +15,7 @@ def test_account():
   # default is empty
   assert am.get_list() == []
 
-  am.add_account(platform, user, password)
+  am.new(platform=platform, account=user, password=password)
   # password encrypted
   assert am.get_list()[0].password == cipher.encrypt(password)
 
@@ -23,15 +23,15 @@ def test_account():
   user1 = 'user1'
   password1 = 'zxcv12341'
 
-  am.add_account(platform1, user1, password1)
+  am.new(platform=platform1, account=user1, password=password1)
   assert len(am.get_list()) == 2
 
   platform2 = 'Codeforces2'
   user2 = 'user2'
   password2 = 'zxcv12342'
 
-  am.add_account(platform2, user2, password2)
-  am.delete_account(1)
+  am.new(platform=platform2, account=user2, password=password2)
+  am.delete(platform=platform1, account=user1)
   assert len(am.get_list()) == 2
   assert am.get_list()[1].platform == platform2
   assert am.get_list()[1].account == user2

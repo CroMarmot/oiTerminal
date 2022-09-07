@@ -11,19 +11,19 @@ def test_template():
   path = './custom/Main.cpp'
   compilation = 'g++ -o Main Main.cpp'
   execute = './Main'
-  clean = 'rm -rf Main'
+  uplang = 54
 
   # default is empty
   assert am.get_list() == []
 
-  am.add_template(platform, alias, path, compilation, execute, clean)
+  am.add_template(platform=platform, alias=alias, path=path, compilation=compilation, execute=execute, uplang=uplang)
 
   assert am.get_list()[0].alias == alias
   assert am.get_list()[0].path == path
   assert am.get_list()[0].platform == platform
   assert am.get_list()[0].compilation == compilation
   assert am.get_list()[0].execute == execute
-  assert am.get_list()[0].clean == clean
+  assert am.get_list()[0].uplang == uplang
 
   try:
     # cannot add same alias in same platform

@@ -31,7 +31,7 @@ def submit(
     file_path: str,
 ) -> Result:
   if not core.submit_code(pid=pid, language=language, code=file_path):
-    raise Exception(f'submit failed,account={account.account}')
+    raise Exception(f'submit failed, account={account.account}')
   print(f"{GREEN}Submitted{DEFAULT}")
 
   result = Result(Result.Status.PENDING)
