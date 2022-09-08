@@ -1,4 +1,5 @@
-from typing import List, Optional, Match, AnyStr
+import logging
+from typing import Any, Dict, List, Optional, Match 
 
 import os
 import re
@@ -11,6 +12,7 @@ from bs4 import BeautifulSoup
 from oi_cli2.cli.constant import CIPHER_KEY, GREEN, DEFAULT, OT_FOLDER
 from oi_cli2.core import provider
 from oi_cli2.custom.Codeforces.CodeforcesParser import CodeforcesParser
+from oi_cli2.custom.Codeforces.problemList import JsonResult
 from oi_cli2.model.BaseOj import BaseOj
 from oi_cli2.model.ParseProblemResult import ParseProblemResult
 from oi_cli2.model.LangKV import LangKV
@@ -25,21 +27,26 @@ from oi_cli2.utils.enc import AESCipher
 
 
 class Codeforces(BaseOj):
-  short_name = ["cf", "Codeforces", "codeforces"]
 
-  def __init__(self, http_util: HttpUtil = None, logger: object = None, template: object = None, account: Account = None, analyze: object = None, html_tag: object = None) -> object:
+  def __init__(self,
+               http_util: HttpUtil,
+               logger: logging.Logger,
+               template: object,
+               account: Account,
+               html_tag: object) -> None:
     super().__init__()
     assert (account is not None)
     self._base_url = 'https://codeforces.com/'
-    self.logger = logger
+    self.logger:logging.Logger = logger
     self.html_tag = html_tag
     self.template = template
     self.account: Account = account
-    self.analyze = analyze
     self.http_util = http_util
     self.parser = CodeforcesParser(html_tag=html_tag, logger=logger)
     config_folder = ConfigFolder(OT_FOLDER)
-    HttpUtilCookiesHelper.load_cookie(provider=provider, platform=Codeforces.__name__, account=account.account)
+    HttpUtilCookiesHelper.load_cookie(provider=provider,
+                                      platform=Codeforces.__name__,
+                                      account=account.account)
     # write codeforces RCPC cookie in .oiTerminal/CF_RCPC
     with open(config_folder.get_config_file_path("CF_RCPC")) as f:
       rcpc = f.read().strip()
@@ -74,16 +81,19 @@ class Codeforces(BaseOj):
     problem.file_path = self.pid2file_path(problem_id)
     return problem
 
-  def login_website(self) -> bool:  # return successful
-    print(f"{GREEN}Checking Log in {DEFAULT}")
-    try:
-      if self._is_login():
-        print(f"{GREEN}{self.account.account} is Logged in {Codeforces.__name__}{DEFAULT}")
-        return True
-    except (ReadTimeout, ConnectTimeout) as e:
-      self.logger.error(f'Http Timeout[{type(e).__name__}]: {e.request.url}')
-    except Exception as e:
-      self.logger.exception(e)
+  # Force: true/false login whatever login before
+  def login_website(self, force=False) -> bool:  # return successful
+    if not force:
+      # try using cookies
+      print(f"{GREEN}Checking Log in {DEFAULT}")
+      try:
+        if self._is_login():
+          print(f"{GREEN}{self.account.account} is Logged in {Codeforces.__name__}{DEFAULT}")
+          return True
+      except (ReadTimeout, ConnectTimeout) as e:
+        self.logger.error(f'Http Timeout[{type(e).__name__}]: {e.request.url}')
+      except Exception as e:
+        self.logger.exception(e)
 
     try:
       print(f"{GREEN}{self.account.account} Logining {Codeforces.__name__}{DEFAULT}")
@@ -92,7 +102,16 @@ class Codeforces(BaseOj):
       res = self.http_util.get(url)
       soup = BeautifulSoup(res.text, 'lxml')
       csrf_token = soup.find(attrs={'name': 'X-Csrf-Token'}).get('content')
-      self.http_util.post(url=f'{self._base_url}enter', data={'csrf_token': csrf_token, 'action': 'enter', 'ftaa': '', 'bfaa': '', 'handleOrEmail': self.account.account, 'password': AESCipher(CIPHER_KEY).decrypt(self.account.password), 'remember': []})
+      post_data = {
+          'csrf_token': csrf_token,
+          'action': 'enter',
+          'ftaa': '',
+          'bfaa': '',
+          'handleOrEmail': self.account.account,
+          'password': AESCipher(CIPHER_KEY).decrypt(self.account.password),
+          'remember': 'on'
+      }
+      self.http_util.post(url=f'{self._base_url}enter', data=post_data)
     except (ReadTimeout, ConnectTimeout) as e:
       self.logger.error(f'Http Timeout[{type(e).__name__}]: {e.request.url}')
     except Exception as e:
@@ -101,7 +120,9 @@ class Codeforces(BaseOj):
     try:
       if self._is_login():
         print(f"{GREEN}{self.account.account} Logined {Codeforces.__name__}{DEFAULT}")
-        HttpUtilCookiesHelper.save_cookie(provider=provider, platform=Codeforces.__name__, account=self.account.account)
+        HttpUtilCookiesHelper.save_cookie(provider=provider,
+                                          platform=Codeforces.__name__,
+                                          account=self.account.account)
         return True
       else:
         return False
@@ -114,7 +135,7 @@ class Codeforces(BaseOj):
 
   def _is_login(self) -> bool:
     res = self.http_util.get(self._base_url)
-    return res and re.search(r'logout">Logout</a>', res.text)
+    return bool(res and re.search(r'logout">Logout</a>', res.text))
 
   def get_tta(self) -> str:
     """
@@ -133,12 +154,12 @@ class Codeforces(BaseOj):
       if i > 0:
         total -= ord(hstr[i // 2]) // 2 * (total % 5)
       total = total % 1009
-    return total
+    return str(total)
 
   def reg_contest(self, cid: str) -> bool:
     if re.match('^\\d+$', cid) is None:
       raise Exception('contest id [' + cid + '] ERROR')
-    response = self.http_util.get(url=f'{self._base_url}contestRegistration/' + cid)
+    response = self.http_util.get(url=f'{self._base_url}contestRegistration/{cid}')
     if response is None or response.status_code != 200 or response.text is None:
       raise Exception(f"Reg Contest Error, cid={cid}")
     print("reg contest:" + cid)
@@ -191,14 +212,14 @@ class Codeforces(BaseOj):
     response = self.http_util.get(url=url)
     if response is None or response.status_code != 200 or response.text is None:
       raise Exception(f"Fetch Problem Error, pid={pid}")
-    self.parser.problem_parse(problem=problem, response=response.text)
+    self.parser.problem_parse(response=response.text)
     return problem
 
   def submit_code(self, pid: str, language: str, code: str) -> bool:
     if not self.login_website():
       raise Exception('Login Failed')
 
-    result: Optional[Match[AnyStr]] = re.match('^(\\d+)([A-Z]\\d?)$', pid)
+    result = re.match('^(\\d+)([A-Z]\\d?)$', pid)
     if result is None:
       raise Exception("submit_code: WRONG pid[" + pid + "]")
 
@@ -238,8 +259,9 @@ class Codeforces(BaseOj):
     return False
 
   def get_result(self, pid: str) -> Result:
-    logger.info(f'{self._base_url}api/user.status?handle=' + self.account.account + '&count=1')
-    return self._get_result_by_url(f'{self._base_url}api/user.status?handle=' + self.account.account + '&count=1')
+    self.logger.info(f'{self._base_url}api/user.status?handle=' + self.account.account + '&count=1')
+    return self._get_result_by_url(f'{self._base_url}api/user.status?handle=' +
+                                   self.account.account + '&count=1')
 
   def get_result_by_quick_id(self, quick_id: str) -> Result:
     return self._get_result_by_url(quick_id)
@@ -295,6 +317,7 @@ class Codeforces(BaseOj):
       self.logger.exception(e)
     from .contestList import printData
     printData(resp.text)
+    return True
 
   def print_problems_in_contest(self, cid: str) -> None:
     self.login_website()
@@ -302,7 +325,7 @@ class Codeforces(BaseOj):
     url = f'{self._base_url}contest/{cid}'
     printData(self.http_util.get(url).text, title=f"Contest {url}")
 
-  def get_problemids_in_contest(self, cid: str) -> List[str]:
+  def get_problemids_in_contest(self, cid: str) -> List[Dict[str, Any]]:
     self.login_website()
     from .problemList import html2json
     url = f'{self._base_url}contest/{cid}'
@@ -314,7 +337,9 @@ class Codeforces(BaseOj):
     from .standing import printData
     url = f'{self._base_url}contest/{cid}/standings/friends/true'
     try:
-      printData(self.http_util.get(url).text, title=f"Friends standing {url}", handle=self.account.account)
+      printData(self.http_util.get(url).text,
+                title=f"Friends standing {url}",
+                handle=self.account.account)
     except (ReadTimeout, ConnectTimeout) as e:
       self.logger.error(f'Http Timeout[{type(e).__name__}]: {e.request.url}')
     except Exception as e:

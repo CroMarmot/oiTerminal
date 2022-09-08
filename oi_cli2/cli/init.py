@@ -14,6 +14,6 @@ def init():
     os.makedirs(folder)
     print(folder + ' Created, oi folder inited.')
     with open(".gitignore", 'a') as f:
-      f.write(sys.path.join(folder, USER_CONFIG_FILE))
+      f.write(os.path.join(folder, USER_CONFIG_FILE))
   else:
     print(config_folder + '/.oiTerminal Exist', file=sys.stderr)

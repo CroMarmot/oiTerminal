@@ -10,7 +10,6 @@ from oi_cli2.cli.constant import DEFAULT, FETCH_RESULT_INTERVAL, GREEN, STATE_FI
 import oi_cli2.core.provider as provider
 from oi_cli2.core.DI import DI_ACCMAN,  DI_HTTP, DI_LOGGER, DI_TEMPMAN
 from oi_cli2.model.Account import Account
-from oi_cli2.model.Analyze import Analyze
 from oi_cli2.model.BaseOj import BaseOj
 from oi_cli2.model.FolderState import FolderState
 from oi_cli2.model.Result import Result
@@ -83,7 +82,7 @@ def submit_main():
   if ojname == Platforms.codeforces:
     try:
       from oi_cli2.custom.Codeforces.Codeforces import Codeforces
-      oj: BaseOj = Codeforces(http_util=http_util, logger=logger, account=account, analyze=Analyze(), html_tag=HtmlTag(http_util))
+      oj: BaseOj = Codeforces(http_util=http_util, logger=logger, account=account, html_tag=HtmlTag(http_util))
     except Exception as e:
       logger.exception(e)
       raise e

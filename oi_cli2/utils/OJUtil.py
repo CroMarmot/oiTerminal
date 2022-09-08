@@ -14,8 +14,9 @@ class OJUtil(object):
     # TODO atcoder
 
   def reg(self, oj_class: BaseOj):
-    for short_name in oj_class.short_name:
-      if short_name in self.short2class:
-        logging.error(f'{short_name} already registered')
-      else:
-        self.short2class[short_name] = oj_class
+    assert False
+    # for short_name in oj_class.short_name:
+    #   if short_name in self.short2class:
+    #     logging.error(f'{short_name} already registered')
+    #   else:
+    #     self.short2class[short_name] = oj_class

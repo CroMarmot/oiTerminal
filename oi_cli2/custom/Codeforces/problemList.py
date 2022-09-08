@@ -1,4 +1,4 @@
-from typing import List
+from typing import Any, Dict, List
 from bs4 import BeautifulSoup
 from oi_cli2.utils.MockHttpUtil import MockHttpUtil
 from rich.console import Console
@@ -15,7 +15,7 @@ class JsonResult(TypedDict):
   status: str
 
 
-def html2json(html) -> List[JsonResult]:
+def html2json(html) -> List[Dict[str, Any]]: # TODO fix with JsonResult
   soup = BeautifulSoup(html, 'lxml')
   currentContestList = soup.find('div', class_='datatable')
   # print(currentContestList)

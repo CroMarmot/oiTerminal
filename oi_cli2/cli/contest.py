@@ -12,11 +12,10 @@ from rich.live import Live
 from rich.table import Table
 import click
 from rich.console import Console
+from oi_cli2.cli.adaptor.ojman import OJManager
 from oi_cli2.core.DI import DI_ACCMAN, DI_CFG, DI_HTTP, DI_LOGGER, DI_TEMPMAN
 import oi_cli2.core.provider as provider
-from oi_cli2.custom.Codeforces.Codeforces import Codeforces
 
-from oi_cli2.model.Analyze import Analyze
 from oi_cli2.model.BaseOj import BaseOj
 from oi_cli2.model.FolderState import FolderState
 from oi_cli2.model.ParseProblemResult import ParseProblemResult
@@ -50,7 +49,7 @@ visitedTextMap = {
 }
 
 
-def all_visit(result) -> Table:
+def all_visit(result) -> bool:
   for v in result:
     if v[1] == VisitStatus.BEFORE:
       return False
@@ -73,7 +72,7 @@ def generate_table(result) -> Table:
   return table
 
 
-def createProblem(data, v, contest_id: str, template, oj: str):
+def createProblem(data, v, contest_id: str, template, oj: BaseOj):
   logger: logging.Logger = provider.o.get(DI_LOGGER)
   config_folder: ConfigFolder = provider.o.get(DI_CFG)
   timeOutRetry = 3
@@ -84,21 +83,31 @@ def createProblem(data, v, contest_id: str, template, oj: str):
       result: ParseProblemResult = oj.problem(problem_id)
       data[1] = VisitStatus.SUCCESS
       test_cases: List[TestCase] = result.test_cases
-      directory = config_folder.get_file_path(os.path.join('dist', type(oj).__name__, contest_id, v))
+      directory = config_folder.get_file_path(os.path.join('dist',
+                                                           type(oj).__name__, contest_id, v))
 
       for i in range(len(test_cases)):
-        file_util.write(config_folder.get_file_path(os.path.join(directory, f'in.{i}')), test_cases[i].in_data)
-        file_util.write(config_folder.get_file_path(os.path.join(directory, f'out.{i}')), test_cases[i].out_data)
+        file_util.write(config_folder.get_file_path(os.path.join(directory, f'in.{i}')),
+                        test_cases[i].in_data)
+        file_util.write(config_folder.get_file_path(os.path.join(directory, f'out.{i}')),
+                        test_cases[i].out_data)
 
       # if code file exist not cover code
-      if not os.path.exists(config_folder.get_file_path(os.path.join(directory, os.path.basename(template.path)))):
-        file_util.copy(config_folder.get_file_path(template.path), config_folder.get_file_path(os.path.join(directory, os.path.basename(template.path))))
+      if not os.path.exists(
+          config_folder.get_file_path(os.path.join(directory, os.path.basename(template.path)))):
+        file_util.copy(
+            config_folder.get_file_path(template.path),
+            config_folder.get_file_path(os.path.join(directory, os.path.basename(template.path))))
       # TODO 生成state.json ( 提供 自定义字段)
       STATE_FILE = 'state.json'
 
       # TODO provide more info, like single test and
       # generate state.json
-      folder_state = FolderState(oj=type(oj).__name__, sid=problem_id, template_alias=template.alias, lang='deperated', up_lang=template.uplang)  # TODO get data from analyzer
+      folder_state = FolderState(oj=type(oj).__name__,
+                                 sid=problem_id,
+                                 template_alias=template.alias,
+                                 lang='deperated',
+                                 up_lang=template.uplang)  # TODO get data from analyzer
       with open(config_folder.get_file_path(os.path.join(directory, STATE_FILE)), "w") as statejson:
         json.dump(folder_state.__dict__, statejson)
         statejson.close()
@@ -135,7 +144,8 @@ async def createDir(oj: BaseOj, contest_id: str, problem_ids: List[str]):
 
   tasks = []
   for i in range(len(problem_ids)):
-    task = threading.Thread(target=createProblem, args=(result[i], problem_ids[i], contest_id, template, oj))
+    task = threading.Thread(target=createProblem,
+                            args=(result[i], problem_ids[i], contest_id, template, oj))
     tasks.append(task)
     task.start()
 
@@ -174,7 +184,10 @@ def fetch(platform, contestid):
   if platform == Platforms.codeforces:
     try:
       from oi_cli2.custom.Codeforces.Codeforces import Codeforces
-      oj: BaseOj = Codeforces(http_util=http_util, logger=logger, account=am.get_default_account(Codeforces.__name__), analyze=Analyze(), html_tag=HtmlTag(http_util))
+      oj: BaseOj = Codeforces(http_util=http_util,
+                              logger=logger,
+                              account=am.get_default_account(platform=platform),
+                              html_tag=HtmlTag(http_util))
     except Exception as e:
       logger.exception(e)
       raise e
@@ -207,15 +220,13 @@ def list_command(platform: str):
   http_util: HttpUtil = provider.o.get(DI_HTTP)
   am: AccountManager = provider.o.get(DI_ACCMAN)
 
-  if platform == Platforms.codeforces:
-    try:
-      from oi_cli2.custom.Codeforces.Codeforces import Codeforces
-      oj: BaseOj = Codeforces(http_util=http_util, logger=logger, account=am.get_default_account(Codeforces.__name__), analyze=Analyze(), html_tag=HtmlTag(http_util))
-    except Exception as e:
-      logger.exception(e)
-      raise e
-  else:
-    raise Exception('Unknown Platform')
+  try:
+    oj: BaseOj = OJManager.createOj(platform=platform,
+                                    account=am.get_default_account(platform=platform),
+                                    provider=provider)
+  except Exception as e:
+    logger.exception(e)
+    raise e
 
   oj.print_contest_list()
 
@@ -234,15 +245,13 @@ def detail(platform, contestid):
   http_util: HttpUtil = provider.o.get(DI_HTTP)
   am: AccountManager = provider.o.get(DI_ACCMAN)
 
-  if platform == Platforms.codeforces:
-    try:
-      from oi_cli2.custom.Codeforces.Codeforces import Codeforces
-      oj: BaseOj = Codeforces(http_util=http_util, logger=logger, account=am.get_default_account(Codeforces.__name__), analyze=Analyze(), html_tag=HtmlTag(http_util))
-    except Exception as e:
-      logger.exception(e)
-      raise e
-  else:
-    raise Exception('Unknown Platform')
+  try:
+    oj: BaseOj = OJManager.createOj(platform=platform,
+                                    account=am.get_default_account(platform=platform),
+                                    provider=provider)
+  except Exception as e:
+    logger.exception(e)
+    raise e
 
   oj.print_problems_in_contest(cid=contestid)
 
@@ -258,16 +267,14 @@ def standing(platform, contestid):
   CONTESTID   The id in the url, e.g. Codeforces(1122),AtCoder(abc230)
   """
   logger: logging.Logger = provider.o.get(DI_LOGGER)
-  http_util: HttpUtil = provider.o.get(DI_HTTP)
   am: AccountManager = provider.o.get(DI_ACCMAN)
 
-  if platform == Platforms.codeforces:
-    try:
-      oj: BaseOj = Codeforces(http_util=http_util, logger=logger, account=am.get_default_account(Codeforces.__name__), analyze=Analyze(), html_tag=HtmlTag(http_util))
-    except Exception as e:
-      logger.exception(e)
-      raise e
-  else:
-    raise Exception('Unknown Platform')
+  try:
+    oj: BaseOj = OJManager.createOj(platform=platform,
+                                    account=am.get_default_account(platform=platform),
+                                    provider=provider)
+  except Exception as e:
+    logger.exception(e)
+    raise e
 
   oj.print_friends_standing(cid=contestid)

@@ -6,7 +6,6 @@ import json
 from typing import List, Type
 from oi_cli2.cli.constant import CIPHER_KEY, OT_FOLDER, USER_CONFIG_FILE
 
-from oi_cli2.model.Analyze import Analyze
 from oi_cli2.model.BaseOj import BaseOj
 from oi_cli2.model.ParseProblemResult import ParseProblemResult
 from oi_cli2.model.TestCase import TestCase
@@ -105,7 +104,6 @@ def main(argv: List[str], logger: logging, folder=OT_FOLDER):
           logger=logger,
           account=account_manager.get_default_account(
               Codeforces.__name__),
-          analyze=Analyze(),
           html_tag=HtmlTag(http_util)
       )
     except Exception as e:

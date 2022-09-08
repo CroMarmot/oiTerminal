@@ -2,10 +2,9 @@ import click
 import getpass
 import logging
 
+from oi_cli2.cli.adaptor.ojman import OJManager
 from oi_cli2.core.DI import DI_ACCMAN, DI_HTTP, DI_LOGGER, DI_PROVIDER
-from oi_cli2.model.Analyze import Analyze
 from oi_cli2.model.BaseOj import BaseOj
-from oi_cli2.utils.HtmlTag import HtmlTag
 from oi_cli2.utils.HttpUtil import HttpUtil
 from oi_cli2.utils.account import AccountManager
 
@@ -43,7 +42,7 @@ def list_command(ctx):
 @click.pass_context
 def new(ctx, platform, account, default_):
   """Create new account
-  
+
 
   PLATFORM    Platform Name, (AtCoder,Codeforces)
 
@@ -108,6 +107,7 @@ def delete(ctx, platform, account) -> bool:
     return False
   else:
     logger.info("Success Delete")
+  return True
 
 
 @account.command(name="test")
@@ -130,14 +130,10 @@ def valid_account(ctx, platform: str, account: str) -> bool:
     logger.error(f'Account [{account}] not found')
     return False
 
-  from oi_cli2.utils.consts.platforms import Platforms
-  if platform == Platforms.codeforces:
-    try:
-      from oi_cli2.custom.Codeforces.Codeforces import Codeforces
-      oj: BaseOj = Codeforces(http_util=http_util, logger=logger, account=acc, analyze=Analyze(), html_tag=HtmlTag(http_util))
-    except Exception as e:
-      logger.exception(e)
-      raise e
-  else:
-    raise Exception('Unknown Platform')
-  oj.login_website()
+  try:
+    oj: BaseOj = OJManager.createOj(platform=platform,account=acc,provider=provider)
+  except Exception as e:
+    logger.exception(e)
+    raise e
+  oj.login_website(force=True)
+  return True

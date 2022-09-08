@@ -108,3 +108,4 @@ venv.bak/
 config.json*
 debug.py
 .oiTerminal
+.vscode

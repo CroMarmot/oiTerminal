@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
 import click
+from oi_cli2.cli.adaptor.codeforcesAdaptor import CodeforcesGen
+from oi_cli2.cli.adaptor.ojman import OJManager
 
 from oi_cli2.cli.config import config
 from oi_cli2.cli.contest import contest
 from oi_cli2.cli.init import init
 from oi_cli2.cli.submit import submit_command
 from oi_cli2.cli.test import tst_command
+from oi_cli2.custom.Codeforces.Codeforces import Codeforces
 
 
 @click.group()
@@ -23,6 +26,7 @@ def main(ctx={}):
   # else:
   #   parser.print_help()
 
+OJManager.regOj(Codeforces.__name__,CodeforcesGen)
 
 main.add_command(init)
 main.add_command(config)

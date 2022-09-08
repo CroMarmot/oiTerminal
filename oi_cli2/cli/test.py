@@ -20,7 +20,7 @@ from oi_cli2.utils.template import TemplateManager
 console = Console(color_system='256', style=None)
 
 
-def tester(root_folder: str, test_files: List[str], testcase_folder: str, template: Template, diff_fn: FunctionType, logger: logging):
+def tester(root_folder: str, test_files: List[str], testcase_folder: str, template: Template, diff_fn: FunctionType, logger: logging.Logger):
   logger.debug(f'{root_folder},{test_files},{testcase_folder}')
   # makefolder & mv code 2 folder
   os.makedirs(TEST_FOLDER, exist_ok=True)

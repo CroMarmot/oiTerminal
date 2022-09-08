@@ -5,7 +5,7 @@ from oi_cli2.utils.HttpUtil import HttpUtil
 
 
 class HtmlTagAbstract(object):
-    def __init__(self, http_util: HttpUtil):
+    def __init__(self, http_util: HttpUtil) -> None:
         self.http_util = http_util
 
     class TagDesc(Enum):

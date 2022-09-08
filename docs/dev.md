@@ -70,3 +70,10 @@ orphan from 4376a9dd05fd52ca923c9f79c26c964543409d09
 ## 开发环境 log
 
 development: `export OITERMINAL_ENV=dev`
+
+## mypy static type test
+
+```
+mypy --install-types
+mypy oi_cli2/cli/main.py
+```

@@ -7,16 +7,13 @@ from oi_cli2.model.Result import Result
 
 
 class BaseOj(object):
-  short_name = []
-
   def __init__(self):
     pass
 
   def problem(self, problem_id: str) -> ParseProblemResult:
     pass
 
-  # return login cookie effective time in second
-  def login_website(self, account: Account) -> int:
+  def login_website(self, force: bool) -> bool:
     pass
 
   def reg_contest(self, cid: str) -> bool:

@@ -1,4 +1,5 @@
 # simple IOC / DI
+from typing import Any, Dict
 from oi_cli2.core.DI import DI_ACCMAN, DI_CFG, DI_DB, DI_DB_COOKIES, DI_HTTP, DI_LOGGER, DI_PROVIDER, DI_TEMPMAN
 from oi_cli2.cli.constant import CIPHER_KEY, COOKIES_FILE, OT_FOLDER, OT_LOG, USER_CONFIG_FILE
 from oi_cli2.utils.HttpUtil import HttpUtil
@@ -11,8 +12,8 @@ from oi_cli2.utils.template import TemplateManager
 
 
 class Provider:
-  _objs = {}
-  _fns = {}
+  _objs: Dict[str,Any]  = {}
+  _fns: Dict[str,Any] = {}
   loop = 0  # 简单防止循环依赖
 
   def __init__(self) -> None:
@@ -21,6 +22,7 @@ class Provider:
   def reg(self, key: str, func) -> bool:
     assert key not in self._fns
     self._fns[key] = func
+    return True
 
   def get(self, key: str):
     self.loop += 1

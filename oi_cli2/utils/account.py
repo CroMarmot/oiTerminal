@@ -39,13 +39,12 @@ class AccountManager:
 
     self._set_account_list(accs)
 
-  def get_default_account(self, platform: str) -> Optional[Account]:
+  def get_default_account(self, platform: str) -> Account:
     accs: List[Account] = self._get_account_list()
     for i in range(len(accs)):
       if accs[i].platform == platform and accs[i].default:
         return accs[i]
-
-    return None
+    raise Exception(f'Account Not Found int Platform [{platform}]')
 
   def get_account(self, platform: str, account: str) -> Optional[Account]:
     accs: List[Account] = self._get_account_list()
@@ -55,7 +54,7 @@ class AccountManager:
 
     return None
 
-  def modify(self, platform: str, account: str, password=None, default=None) -> False:
+  def modify(self, platform: str, account: str, password=None, default=None) -> bool:
     modified = False
     accs: List[Account] = self._get_account_list()
     for item in accs:

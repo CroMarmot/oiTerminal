@@ -48,10 +48,6 @@ class FolderState:
   def template_alias(self):
     return self._template_alias
 
-  @oj.setter
-  def oj(self, value):
-    self._oj = value
-
   def __repr__(self):
     return "<Folder State: %s >" % (str(self.__dict__))
 

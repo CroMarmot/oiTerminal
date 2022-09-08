@@ -85,7 +85,3 @@ def main(argv):
   http_util = MockHttpUtil()
   url = f'https://codeforces.com/contest/{argv[0]}/standings/friends/true'
   printData(http_util.get(url).text, title="Friends Standing", handle="YeXiaoRain")
-
-
-if __name__ == '__main__':
-  main()
