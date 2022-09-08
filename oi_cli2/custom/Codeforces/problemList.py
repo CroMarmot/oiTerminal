@@ -1,6 +1,5 @@
 from typing import Any, Dict, List
 from bs4 import BeautifulSoup
-from tests.mock.MockHttpUtil import MockHttpUtil
 from rich.console import Console
 from rich.table import Table
 from rich.style import Style
@@ -71,12 +70,13 @@ def printData(html: str, title: str):
   console.print(table)
 
 
-def main(argv):
-  http_util = MockHttpUtil()
-  url = f'https://codeforces.com/contest/{argv[0]}'
-  print(html2json(http_util.get(url).text))
-  printData(http_util.get(url).text, title=f"Contest {url}")
-
-
-if __name__ == '__main__':
-  main(['1628'])
+# def main(argv):
+#   http_util = MockHttpUtil()
+#   url = f'https://codeforces.com/contest/{argv[0]}'
+#   print(html2json(http_util.get(url).text))
+#   printData(http_util.get(url).text, title=f"Contest {url}")
+# 
+# 
+# if __name__ == '__main__':
+#   main(['1628'])
+# 

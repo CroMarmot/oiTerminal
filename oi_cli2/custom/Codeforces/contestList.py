@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 from typing import List
 
 from bs4 import BeautifulSoup
-from tests.mock.MockHttpUtil import MockHttpUtil
+# from tests.mock.MockHttpUtil import MockHttpUtil
 from rich.console import Console
 from rich.table import Table
 from rich.style import Style
@@ -132,11 +132,11 @@ def printData(html):
   console.print(table)
 
 
-def main():
-  http_util = MockHttpUtil()
-  url = 'https://codeforces.com/contests?complete=true'
-  printData(http_util.get(url).text)
-
-
-if __name__ == '__main__':
-  main()
+# def main():
+#   http_util = MockHttpUtil()
+#   url = 'https://codeforces.com/contests?complete=true'
+#   printData(http_util.get(url).text)
+#
+#
+# if __name__ == '__main__':
+#   main()
