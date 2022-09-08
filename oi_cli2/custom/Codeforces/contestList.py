@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 from typing import List
 
 from bs4 import BeautifulSoup
-from oi_cli2.utils.MockHttpUtil import MockHttpUtil
+from tests.mock.MockHttpUtil import MockHttpUtil
 from rich.console import Console
 from rich.table import Table
 from rich.style import Style

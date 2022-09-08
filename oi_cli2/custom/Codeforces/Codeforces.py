@@ -31,7 +31,6 @@ class Codeforces(BaseOj):
   def __init__(self,
                http_util: HttpUtil,
                logger: logging.Logger,
-               template: object,
                account: Account,
                html_tag: object) -> None:
     super().__init__()
@@ -39,7 +38,6 @@ class Codeforces(BaseOj):
     self._base_url = 'https://codeforces.com/'
     self.logger:logging.Logger = logger
     self.html_tag = html_tag
-    self.template = template
     self.account: Account = account
     self.http_util = http_util
     self.parser = CodeforcesParser(html_tag=html_tag, logger=logger)

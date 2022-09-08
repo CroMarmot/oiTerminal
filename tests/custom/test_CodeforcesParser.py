@@ -1,6 +1,6 @@
 from oi_cli2.custom.Codeforces.CodeforcesParser import CodeforcesParser
 from oi_cli2.model.ParseProblemResult import ParseProblemResult
-from oi_cli2.utils.MockHttpUtil import MockHttpUtil
+from tests.mock.MockHttpUtil import MockHttpUtil
 from oi_cli2.utils.HtmlTag import HtmlTag
 from oi_cli2.utils.Logger import getLogger
 

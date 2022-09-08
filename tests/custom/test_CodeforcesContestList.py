@@ -1,6 +1,6 @@
 import datetime
 from oi_cli2.custom.Codeforces.contestList import html2json
-from oi_cli2.utils.MockHttpUtil import MockHttpUtil
+from tests.mock.MockHttpUtil import MockHttpUtil
 
 
 def test_codeforces_parser():
