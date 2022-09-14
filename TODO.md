@@ -9,4 +9,5 @@
 - [ ] 平台特殊配置? |`oi browser www.codeforces.com [--rcpc rcpc]`|
 - [ ] 缩写名字工具?
 - [ ] webbrowser support aes codeforces
+- [ ] Test with debug / product
 
