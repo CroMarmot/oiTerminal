@@ -27,6 +27,13 @@
     "compile":"clang++ -o Main Main.cpp -std=gnu++17 -O2 -g -Wall -Wcomma -Wextra -fsanitize=integer,undefined,null,alignment",
     "exe":"./Main"
   },
+  "C++17-test":{
+    "support":true,
+    "suffix":".cpp",
+    "template":"Main.cpp",
+    "compile":"clang++ -o Main Main.cpp -std=gnu++17 -O2 -g",
+    "exe":"./Main"
+  },
   "Python2":{
     "support":true,
     "suffix":".py",
