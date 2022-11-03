@@ -8,6 +8,7 @@ from oi_cli2.cli.constant import CIPHER_KEY, OT_FOLDER, USER_CONFIG_FILE
 
 from oi_cli2.model.BaseOj import BaseOj
 from oi_cli2.model.ParseProblemResult import ParseProblemResult
+from oi_cli2.model.ProblemMeta import ProblemMeta
 from oi_cli2.model.TestCase import TestCase
 from oi_cli2.model.FolderState import FolderState
 
@@ -29,6 +30,7 @@ from oi_cli2.utils.start_terminal import start_terminal
 def createDir(
     oj: BaseOj,
     problem_id: str,
+    problem: ProblemMeta,
     file_util: Type[FileUtil],
     logger,
     template_manager: TemplateManager,
@@ -41,7 +43,7 @@ def createDir(
     logger.warn(f'{type(oj).__name__} parse problem when no template set')
     return None
 
-  result: ParseProblemResult = oj.problem(problem_id)
+  result = oj.problem(problem_id)
   test_cases: List[TestCase] = result.test_cases
   directory = config_folder.get_file_path(
       os.path.join('dist', type(oj).__name__, result.file_path))
@@ -78,7 +80,6 @@ def createDir(
       oj=type(oj).__name__,
       sid=problem_id,
       template_alias=template.alias,
-      lang='deperated',
       up_lang=template.uplang)  # TODO get data from analyzer
   with open(config_folder.get_file_path(os.path.join(directory, STATE_FILE)), "w") as statejson:
     json.dump(folder_state.__dict__, statejson)
@@ -115,6 +116,7 @@ def main(argv: List[str], logger: logging, folder=OT_FOLDER):
   directory = createDir(
       oj=oj,
       problem_id=argv[1],
+      ProblemMeta=None, # TODO support
       file_util=FileUtil,
       logger=logger,
       template_manager=template_manager,

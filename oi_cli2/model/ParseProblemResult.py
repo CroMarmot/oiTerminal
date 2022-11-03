@@ -1,30 +1,24 @@
+from dataclasses import dataclass, field
 from typing import List
 from enum import Enum
 
 from oi_cli2.model.TestCase import TestCase
 
 
+@dataclass
 class ParseProblemResult(object):
     class Status(Enum):
         AC = 'AC'
         FAILED = 'FAILED'
         NOTVIS = 'NOTVIS'
-
-    def __init__(self):
-        self.status: ParseProblemResult.Status = ParseProblemResult.Status.NOTVIS
-        self.title: str = ''
-        self.test_cases: List[TestCase] = []
-        self.id: str = ''
-        self.oj: str = ''
-        self.description: str = ''
-        self.time_limit: str = ''
-        self.mem_limit: str = ''
-        self.url: str = ''
-        self.html: str = ''
-        self.file_path: str = ''
-
-    def __repr__(self):
-        return ParseProblemResult.__name__ + str(self.__dict__)
-
-    def __str__(self):
-        return self.__repr__()
+    status: Status = Status.NOTVIS
+    title: str = ''
+    test_cases: List[TestCase] = field(default_factory=lambda : [])
+    id: str = ''
+    oj: str = ''
+    description: str = ''
+    time_limit: str = ''
+    mem_limit: str = ''
+    url: str = ''
+    html: str = ''
+    file_path: str = ''

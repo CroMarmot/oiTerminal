@@ -3,7 +3,7 @@ from oi_cli2.model.Contest import Contest
 from oi_cli2.model.LangKV import LangKV
 from oi_cli2.model.ParseProblemResult import ParseProblemResult
 from oi_cli2.model.Problem import Problem
-from oi_cli2.model.ProblemMeta import ContestMeta 
+from oi_cli2.model.ProblemMeta import ContestMeta, ProblemMeta 
 from oi_cli2.model.Result import Result
 
 
@@ -11,7 +11,10 @@ class BaseOj(object):
   def __init__(self):
     pass
 
-  def problem(self, problem_id: str) -> ParseProblemResult:
+  def problem_by_id(self, problem_id: str) -> ParseProblemResult:
+    assert(False)
+
+  def problem(self, problem: ProblemMeta) -> ParseProblemResult:
     assert(False)
 
   def login_website(self, force: bool=False) -> bool:

@@ -1,14 +1,23 @@
 class FolderState:
   _oj: str
-  _id: str
-  _lang: str
+  _id: str # string id 
+  cid: str # contest id
+  pid: str # problem id
   _up_lang: str
   _template_alias: str
 
-  def __init__(self, oj: str = '', sid: str = '', lang: str = '', up_lang: str = '', template_alias: str = ''):
+  def __init__(self,
+               oj: str = '',
+               sid: str = '',
+               cid: str = '',
+               pid: str = '',
+               lang: str = '',
+               up_lang: str = '',
+               template_alias: str = ''):
     self._oj = oj
     self._id = sid
-    self._lang = lang
+    self.cid = cid
+    self.pid = pid 
     self._up_lang = up_lang
     self._template_alias = template_alias
 
@@ -27,14 +36,6 @@ class FolderState:
   @id.setter
   def id(self, value):
     self._id = value
-
-  @property
-  def lang(self):
-    return self._lang
-
-  @lang.setter
-  def lang(self, value):
-    self._lang = value
 
   @property
   def up_lang(self):
