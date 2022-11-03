@@ -6,7 +6,9 @@ from oi_cli2.cli.constant import CIPHER_KEY, OT_FOLDER
 from oi_cli2.custom.Codeforces.CodeforcesParser import CodeforcesParser
 from oi_cli2.model.Account import Account
 from oi_cli2.model.BaseOj import BaseOj
+from oi_cli2.model.ParseProblemResult import ParseProblemResult
 from oi_cli2.model.ProblemMeta import ContestMeta, ProblemMeta
+from oi_cli2.model.TestCase import TestCase
 from oi_cli2.utils.HttpUtil import HttpUtil
 from oi_cli2.utils.HttpUtilCookiesHelper import HttpUtilCookiesHelper
 from oi_cli2.utils.Provider2 import Provider2
@@ -15,6 +17,7 @@ from oi_cli2.utils.enc import AESCipher
 
 from ac_core.auth import fetch_login, is_logged_in
 from ac_core.contest import fetch_tasks_meta, FetchProblemResult
+from ac_core.problem import parse_task
 
 console = Console(color_system='256', style=None)
 
@@ -60,3 +63,19 @@ class AtCoder(BaseOj):
                          time_limit_msec=pm.time_limit_msec)
 
     return ContestMeta(id=cid, url=res.url, problems=[transform(pm) for pm in res.problems])
+
+  # Care !! in Atcoder may arc058 C = https://atcoder.jp/contests/arc058/tasks/arc058_a
+  def problem(self, pm: ProblemMeta) -> ParseProblemResult:
+    html = self.http_util.get(pm.url).text
+    res = parse_task(html=html)
+    return ParseProblemResult(
+        # status=: Status = Status.NOTVI STODO
+        id=res.id,
+        title=pm.name,
+        test_cases=[TestCase(in_data=o.input, out_data=o.output) for o in res.tests],
+        oj=AtCoder.__name__,
+        # description=res.id,
+        time_limit=pm.time_limit_msec,
+        mem_limit=pm.memory_limit_kb,
+        url=res.url,
+    )

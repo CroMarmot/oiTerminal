@@ -58,7 +58,7 @@ class Codeforces(BaseOj):
       raise Exception('problem id[' + problem_id + '] ERROR')
     return os.path.join(result.group(1), result.group(2))
 
-  def problem(self, problem_id: str) -> ParseProblemResult:
+  def problem_by_id(self, problem_id: str) -> ParseProblemResult:
     # problem_id parse
     url = self.pid2url(problem_id)
     self.logger.debug(url)
@@ -74,6 +74,9 @@ class Codeforces(BaseOj):
     problem.oj = Codeforces.__name__
     problem.file_path = self.pid2file_path(problem_id)
     return problem
+
+  def problem(self, problem: ProblemMeta) -> ParseProblemResult:
+    return self.problem_by_id(problem.contest_id+problem.id)
 
   # TODO msg chan
   # Force: true/false login whatever login before

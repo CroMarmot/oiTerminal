@@ -20,7 +20,7 @@ import oi_cli2.core.provider as provider
 from oi_cli2.model.BaseOj import BaseOj
 from oi_cli2.model.FolderState import FolderState
 from oi_cli2.model.ParseProblemResult import ParseProblemResult
-from oi_cli2.model.ProblemMeta import E_STATUS
+from oi_cli2.model.ProblemMeta import E_STATUS, ProblemMeta
 from oi_cli2.model.TestCase import TestCase
 
 from oi_cli2.utils.FileUtil import FileUtil
@@ -74,19 +74,21 @@ def generate_table(result) -> Table:
   return table
 
 
-def createProblem(data, v, contest_id: str, template, oj: BaseOj):
+
+# TODO support by problem id
+def create_problem(data, pm:ProblemMeta, contest_id: str, template, oj: BaseOj):
   logger: logging.Logger = provider.o.get(DI_LOGGER)
   config_folder: ConfigFolder = provider.o.get(DI_CFG)
   timeOutRetry = 3
   while timeOutRetry >= 0:
     try:
       file_util = FileUtil
-      problem_id = contest_id + v
-      result: ParseProblemResult = oj.problem(problem_id)
+      problem_id = contest_id + pm.id
+      result = oj.problem(pm)
       data[1] = VisitStatus.SUCCESS
       test_cases: List[TestCase] = result.test_cases
       directory = config_folder.get_file_path(os.path.join('dist',
-                                                           type(oj).__name__, contest_id, v))
+                                                           type(oj).__name__, contest_id, pm.id))
 
       for i in range(len(test_cases)):
         file_util.write(config_folder.get_file_path(os.path.join(directory, f'in.{i}')),
@@ -106,9 +108,10 @@ def createProblem(data, v, contest_id: str, template, oj: BaseOj):
       # TODO provide more info, like single test and
       # generate state.json
       folder_state = FolderState(oj=type(oj).__name__,
+                                 cid=contest_id,
+                                 pid=pm.id,
                                  sid=problem_id,
                                  template_alias=template.alias,
-                                 lang='deperated',
                                  up_lang=template.uplang)  # TODO get data from analyzer
       with open(config_folder.get_file_path(os.path.join(directory, STATE_FILE)), "w") as statejson:
         json.dump(folder_state.__dict__, statejson)
@@ -127,13 +130,13 @@ def createProblem(data, v, contest_id: str, template, oj: BaseOj):
       logger.exception(e)
       data[1] = VisitStatus.FAILED
       return False
+  return False
 
 
-async def createDir(oj: BaseOj, contest_id: str, problem_ids: List[str]):
+async def createDir(oj: BaseOj, contest_id: str, problems: List[ProblemMeta]):
   logger: logging.Logger = provider.o.get(DI_LOGGER)
   config_folder: ConfigFolder = provider.o.get(DI_CFG)
   template_manager: TemplateManager = provider.o.get(DI_TEMPMAN)
-  logger.debug(f"{oj},{contest_id},{problem_ids}")
   template = template_manager.get_platform_default(type(oj).__name__)
   if template is None:
     logger.error(type(oj).__name__ + ' has no default template, run `oi config` first')
@@ -141,19 +144,19 @@ async def createDir(oj: BaseOj, contest_id: str, problem_ids: List[str]):
 
   # ID, Fetched, success
   result = []
-  for v in problem_ids:
-    result.append([v, VisitStatus.BEFORE, False])
+  for v in problems:
+    result.append([v.id, VisitStatus.BEFORE, False])
 
   tasks = []
-  for i in range(len(problem_ids)):
-    task = threading.Thread(target=createProblem,
-                            args=(result[i], problem_ids[i], contest_id, template, oj))
+  for i in range(len(problems)):
+    task = threading.Thread(target=create_problem,
+                            args=(result[i], problems[i], contest_id, template, oj))
     tasks.append(task)
     task.start()
 
   with Live(generate_table(result), refresh_per_second=4) as live:
     while not all_visit(result):
-      await asyncio.sleep(0.5)  # time.sleep 会卡住
+      await asyncio.sleep(0.05)  # time.sleep 会卡住
       live.update(generate_table(result))
 
   for t in tasks:  # wait all task finished
@@ -201,8 +204,7 @@ def fetch(platform, contestid):
     return
 
   logger.debug(f"{contestid},{problems}")
-  problem_ids = list(map(lambda x: x.id, problems))
-  directory = asyncio.run(createDir(oj=oj, contest_id=contestid, problem_ids=problem_ids))
+  directory = asyncio.run(createDir(oj=oj, contest_id=contestid, problems=problems))
   console.print(f"[green bold] {directory} ")
 
 

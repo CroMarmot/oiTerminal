@@ -1,8 +1,5 @@
 from typing import List
 from bs4 import BeautifulSoup
-from rich.console import Console
-from rich.table import Table
-from rich.style import Style
 from oi_cli2.model.ProblemMeta import E_STATUS, ProblemMeta
 
 

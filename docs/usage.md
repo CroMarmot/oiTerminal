@@ -22,3 +22,5 @@ oi config template new Codeforces C++20 <模板代码文件路径> "clang++ -o M
 
 **注意** 模板拷贝时会忽略原文件名, 改为 `Main.原后缀`, 因此`编译命令`需要注意
 
+远端`语言id`: https://github.com/CroMarmot/oiTerminal/blob/master/LANG.md
+
