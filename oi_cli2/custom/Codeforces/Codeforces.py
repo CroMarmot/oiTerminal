@@ -1,9 +1,8 @@
 import logging
-from typing import Any, Dict, List, Optional, Match 
+from typing import Any, Dict, List 
 
 import os
 import re
-import requests
 import threading
 
 from requests.exceptions import ReadTimeout, ConnectTimeout
@@ -12,7 +11,6 @@ from bs4 import BeautifulSoup
 from oi_cli2.cli.constant import CIPHER_KEY, GREEN, DEFAULT, OT_FOLDER
 from oi_cli2.core import provider
 from oi_cli2.custom.Codeforces.CodeforcesParser import CodeforcesParser
-from oi_cli2.custom.Codeforces.problemList import JsonResult
 from oi_cli2.model.BaseOj import BaseOj
 from oi_cli2.model.ParseProblemResult import ParseProblemResult
 from oi_cli2.model.LangKV import LangKV
@@ -42,7 +40,7 @@ class Codeforces(BaseOj):
     self.http_util = http_util
     self.parser = CodeforcesParser(html_tag=html_tag, logger=logger)
     config_folder = ConfigFolder(OT_FOLDER)
-    HttpUtilCookiesHelper.load_cookie(provider=provider,
+    HttpUtilCookiesHelper.load_cookie(provider=provider.o,
                                       platform=Codeforces.__name__,
                                       account=account.account)
     # write codeforces RCPC cookie in .oiTerminal/CF_RCPC
@@ -79,14 +77,15 @@ class Codeforces(BaseOj):
     problem.file_path = self.pid2file_path(problem_id)
     return problem
 
+  # TODO msg chan
   # Force: true/false login whatever login before
   def login_website(self, force=False) -> bool:  # return successful
     if not force:
       # try using cookies
-      print(f"{GREEN}Checking Log in {DEFAULT}")
+      logging.debug(f"{GREEN}Checking Log in {DEFAULT}")
       try:
         if self._is_login():
-          print(f"{GREEN}{self.account.account} is Logged in {Codeforces.__name__}{DEFAULT}")
+          logging.debug(f"{GREEN}{self.account.account} is Logged in {Codeforces.__name__}{DEFAULT}")
           return True
       except (ReadTimeout, ConnectTimeout) as e:
         self.logger.error(f'Http Timeout[{type(e).__name__}]: {e.request.url}')
@@ -94,7 +93,7 @@ class Codeforces(BaseOj):
         self.logger.exception(e)
 
     try:
-      print(f"{GREEN}{self.account.account} Logining {Codeforces.__name__}{DEFAULT}")
+      logging.debug(f"{GREEN}{self.account.account} Logining {Codeforces.__name__}{DEFAULT}")
       url = f'{self._base_url}enter?back=%2F'
       self.logger.debug(f"get {url}")
       res = self.http_util.get(url)
@@ -117,8 +116,8 @@ class Codeforces(BaseOj):
 
     try:
       if self._is_login():
-        print(f"{GREEN}{self.account.account} Logined {Codeforces.__name__}{DEFAULT}")
-        HttpUtilCookiesHelper.save_cookie(provider=provider,
+        logging.debug(f"{GREEN}{self.account.account} Logined {Codeforces.__name__}{DEFAULT}")
+        HttpUtilCookiesHelper.save_cookie(provider=provider.o,
                                           platform=Codeforces.__name__,
                                           account=self.account.account)
         return True

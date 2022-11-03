@@ -1,12 +1,15 @@
 import click
 import getpass
 import logging
+from rich.console import Console
 
 from oi_cli2.cli.adaptor.ojman import OJManager
 from oi_cli2.core.DI import DI_ACCMAN, DI_HTTP, DI_LOGGER, DI_PROVIDER
 from oi_cli2.model.BaseOj import BaseOj
 from oi_cli2.utils.HttpUtil import HttpUtil
 from oi_cli2.utils.account import AccountManager
+
+console = Console(color_system='256', style=None)
 
 
 @click.group()
@@ -38,7 +41,11 @@ def list_command(ctx):
 @account.command()
 @click.argument("platform")
 @click.argument("account")
-@click.option("-d", "--default", "default_", is_flag=True, help='Set account as default account in the oj platform.')
+@click.option("-d",
+              "--default",
+              "default_",
+              is_flag=True,
+              help='Set account as default account in the oj platform.')
 @click.pass_context
 def new(ctx, platform, account, default_):
   """Create new account
@@ -64,7 +71,11 @@ def new(ctx, platform, account, default_):
 @click.argument("platform")
 @click.argument("account")
 @click.option("-p", "--password", "changepassword", is_flag=True, help='Change account password.')
-@click.option("-d", "--default", "default_", is_flag=True, help='Set account as default account in the oj platform.')
+@click.option("-d",
+              "--default",
+              "default_",
+              is_flag=True,
+              help='Set account as default account in the oj platform.')
 @click.pass_context
 def modify(ctx, platform, account, changepassword: bool, default_):
   """Modify a specific account default status or change password
@@ -123,17 +134,22 @@ def valid_account(ctx, platform: str, account: str) -> bool:
   """
   provider = ctx.obj[DI_PROVIDER]
   logger: logging.Logger = provider.o.get(DI_LOGGER)
+  logger.debug(f'platform:{platform}')
   am: AccountManager = provider.o.get(DI_ACCMAN)
-  http_util: HttpUtil = provider.o.get(DI_HTTP)
   acc = am.get_account(platform=platform, account=account)
   if acc is None:
-    logger.error(f'Account [{account}] not found')
+    console.print( f'[red bold]Account [{account}] not found')
     return False
 
   try:
-    oj: BaseOj = OJManager.createOj(platform=platform,account=acc,provider=provider)
+    oj: BaseOj = OJManager.createOj(platform=platform, account=acc, provider=provider)
   except Exception as e:
     logger.exception(e)
     raise e
-  oj.login_website(force=True)
-  return True
+  console.print(f"[green bold]{platform} Logging with {acc.account} ...")
+  ok = oj.login_website(force=True)
+  if ok:
+    console.print(f"[green bold]Successful login.")
+  else:
+    console.print(f"[red bold]Login failed.")
+  return ok
