@@ -8,9 +8,10 @@ import threading
 import time
 from requests.exceptions import ReadTimeout, ConnectTimeout
 from typing import List
+import click
 from rich.live import Live
 from rich.table import Table
-import click
+from rich.style import Style
 from rich.console import Console
 from oi_cli2.cli.adaptor.ojman import OJManager
 from oi_cli2.core.DI import DI_ACCMAN, DI_CFG, DI_HTTP, DI_LOGGER, DI_TEMPMAN
@@ -19,6 +20,7 @@ import oi_cli2.core.provider as provider
 from oi_cli2.model.BaseOj import BaseOj
 from oi_cli2.model.FolderState import FolderState
 from oi_cli2.model.ParseProblemResult import ParseProblemResult
+from oi_cli2.model.ProblemMeta import E_STATUS
 from oi_cli2.model.TestCase import TestCase
 
 from oi_cli2.utils.FileUtil import FileUtil
@@ -60,7 +62,7 @@ def generate_table(result) -> Table:
   """Make a new table."""
   table = Table()
   table.add_column("Problem")
-  table.add_column("Visited")
+  table.add_column("Fetched")
   table.add_column("Parse Status")
 
   for row in result:
@@ -137,7 +139,7 @@ async def createDir(oj: BaseOj, contest_id: str, problem_ids: List[str]):
     logger.error(type(oj).__name__ + ' has no default template, run `oi config` first')
     return None
 
-  # ID, visited, success
+  # ID, Fetched, success
   result = []
   for v in problem_ids:
     result.append([v, VisitStatus.BEFORE, False])
@@ -181,21 +183,16 @@ def fetch(platform, contestid):
   am: AccountManager = provider.o.get(DI_ACCMAN)
   http_util: HttpUtil = provider.o.get(DI_HTTP)
 
-  if platform == Platforms.codeforces:
-    try:
-      from oi_cli2.custom.Codeforces.Codeforces import Codeforces
-      oj: BaseOj = Codeforces(http_util=http_util,
-                              logger=logger,
-                              account=am.get_default_account(platform=platform),
-                              html_tag=HtmlTag(http_util))
-    except Exception as e:
-      logger.exception(e)
-      raise e
-  else:
-    raise Exception('Unknown Platform')
+  try:
+    oj: BaseOj = OJManager.createOj(platform=platform,
+                                    account=am.get_default_account(platform=platform),
+                                    provider=provider.o)
+  except Exception as e:
+    logger.exception(e)
+    raise e
 
   try:
-    problems = oj.get_problemids_in_contest(contestid)
+    problems = oj.get_contest_meta(contestid).problems
   except (ReadTimeout, ConnectTimeout) as e:
     logger.error(f'Http Timeout[{type(e).__name__}]: {e.request.url}')
     return
@@ -204,7 +201,7 @@ def fetch(platform, contestid):
     return
 
   logger.debug(f"{contestid},{problems}")
-  problem_ids = list(map(lambda x: x['id'], problems))
+  problem_ids = list(map(lambda x: x.id, problems))
   directory = asyncio.run(createDir(oj=oj, contest_id=contestid, problem_ids=problem_ids))
   console.print(f"[green bold] {directory} ")
 
@@ -223,7 +220,7 @@ def list_command(platform: str):
   try:
     oj: BaseOj = OJManager.createOj(platform=platform,
                                     account=am.get_default_account(platform=platform),
-                                    provider=provider)
+                                    provider=provider.o)
   except Exception as e:
     logger.exception(e)
     raise e
@@ -248,12 +245,35 @@ def detail(platform, contestid):
   try:
     oj: BaseOj = OJManager.createOj(platform=platform,
                                     account=am.get_default_account(platform=platform),
-                                    provider=provider)
+                                    provider=provider.o)
   except Exception as e:
     logger.exception(e)
     raise e
 
-  oj.print_problems_in_contest(cid=contestid)
+  cm = oj.get_contest_meta(contestid)
+  table = Table(title=f"Contest {cm.url}")
+  table.add_column("ID", style="cyan", no_wrap=False)
+  table.add_column("Name")
+  table.add_column("Time")
+  table.add_column("Memory")
+  table.add_column("Passed")
+  table.add_column("Url")
+  for o in cm.problems:
+    style = Style()
+    if o.status == E_STATUS.AC:
+      style = Style(bgcolor="dark_green")
+    elif o.status == E_STATUS.ERROR:
+      style = Style(bgcolor="dark_red")
+    table.add_row(o.id,
+                  o.name,
+                  str(o.time_limit_msec / 1000) + "s",
+                  str(o.memory_limit_kb / 1000) + "mb",
+                  o.passed,
+                  o.url,
+                  style=style)
+
+  console = Console()
+  console.print(table)
 
 
 @contest.command()
@@ -272,7 +292,7 @@ def standing(platform, contestid):
   try:
     oj: BaseOj = OJManager.createOj(platform=platform,
                                     account=am.get_default_account(platform=platform),
-                                    provider=provider)
+                                    provider=provider.o)
   except Exception as e:
     logger.exception(e)
     raise e

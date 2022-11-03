@@ -10,4 +10,4 @@
 - [ ] 缩写名字工具?
 - [ ] webbrowser support aes codeforces
 - [ ] Test with debug / product
-
+- [ ] 增加事件 通知(插件支持)

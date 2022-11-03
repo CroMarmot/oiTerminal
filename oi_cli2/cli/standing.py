@@ -27,7 +27,7 @@ def main(argv: List[str], logger: logging, folder=OT_FOLDER):
   try:
     oj: BaseOj = OJManager.createOj(platform=platform,
                                     account=account_manager.get_default_account(platform=platform),
-                                    provider=provider)
+                                    provider=provider.o)
   except Exception as e:
     logger.exception(e)
     raise e

@@ -142,7 +142,7 @@ def valid_account(ctx, platform: str, account: str) -> bool:
     return False
 
   try:
-    oj: BaseOj = OJManager.createOj(platform=platform, account=acc, provider=provider)
+    oj: BaseOj = OJManager.createOj(platform=platform, account=acc, provider=provider.o)
   except Exception as e:
     logger.exception(e)
     raise e

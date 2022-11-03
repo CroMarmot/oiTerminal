@@ -1,7 +1,9 @@
+from typing import Any, Dict, List
 from oi_cli2.model.Contest import Contest
 from oi_cli2.model.LangKV import LangKV
 from oi_cli2.model.ParseProblemResult import ParseProblemResult
 from oi_cli2.model.Problem import Problem
+from oi_cli2.model.ProblemMeta import ContestMeta 
 from oi_cli2.model.Result import Result
 
 
@@ -39,10 +41,10 @@ class BaseOj(object):
   def print_contest_list(self) -> bool:
     assert(False)
 
-  def print_problems_in_contest(self, cid: str) -> None:
+  def print_friends_standing(self, cid: str) -> None:
     assert(False)
 
-  def print_friends_standing(self, cid: str) -> None:
+  def get_contest_meta(self, cid:str) -> ContestMeta:
     assert(False)
 
   # require account for view problem/contest/fetch result
@@ -54,3 +56,4 @@ class BaseOj(object):
   @staticmethod
   def support_contest():
     assert(False)
+
