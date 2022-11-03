@@ -1,3 +1,4 @@
+import logging
 from typing import Callable, Dict
 from oi_cli2.model.Account import Account
 
@@ -18,8 +19,8 @@ class OJManager:
     return True
 
   @staticmethod
-  def createOj(platform: str, account: Account, provider: object) -> bool:
+  def createOj(platform: str, account: Account, provider: object) -> BaseOj:
     if platform in OJManager._ojFn:
       return OJManager._ojFn[platform](provider=provider, account=account)
     else:
-      raise Exception('Unknown Platform')
+      raise Exception(f'Unknown Platform [{platform}]')

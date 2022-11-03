@@ -1,4 +1,3 @@
-from oi_cli2.model.Account import Account
 from oi_cli2.model.Contest import Contest
 from oi_cli2.model.LangKV import LangKV
 from oi_cli2.model.ParseProblemResult import ParseProblemResult
@@ -11,47 +10,47 @@ class BaseOj(object):
     pass
 
   def problem(self, problem_id: str) -> ParseProblemResult:
-    pass
+    assert(False)
 
-  def login_website(self, force: bool) -> bool:
-    pass
+  def login_website(self, force: bool=False) -> bool:
+    assert(False)
 
   def reg_contest(self, cid: str) -> bool:
-    pass
+    assert(False)
 
   def get_contest(self, cid: str) -> Contest:
-    pass
+    assert(False)
 
   def get_problem(self, pid: str) -> Problem:
-    pass
+    assert(False)
 
   def submit_code(self, pid: str, language: str, code: str) -> bool:
-    pass
+    assert(False)
 
   def get_result(self, pid) -> Result:
-    pass
+    assert(False)
 
   def get_result_by_quick_id(self, quick_id: str) -> Result:
-    pass
+    assert(False)
 
   def get_language(self) -> LangKV:
-    pass
+    assert(False)
 
   def print_contest_list(self) -> bool:
-    pass
+    assert(False)
 
   def print_problems_in_contest(self, cid: str) -> None:
-    pass
+    assert(False)
 
   def print_friends_standing(self, cid: str) -> None:
-    pass
+    assert(False)
 
   # require account for view problem/contest/fetch result
 
   @staticmethod
   def account_required() -> bool:
-    pass
+    assert(False)
 
   @staticmethod
   def support_contest():
-    pass
+    assert(False)

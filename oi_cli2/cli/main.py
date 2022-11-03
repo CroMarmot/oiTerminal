@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import click
+from oi_cli2.cli.adaptor.AtcoderAdaptor import AtcoderGen
 from oi_cli2.cli.adaptor.codeforcesAdaptor import CodeforcesGen
 from oi_cli2.cli.adaptor.ojman import OJManager
 
@@ -8,6 +9,7 @@ from oi_cli2.cli.contest import contest
 from oi_cli2.cli.init import init
 from oi_cli2.cli.submit import submit_command
 from oi_cli2.cli.test import tst_command
+from oi_cli2.custom.AtCoder.AtCoder import AtCoder
 from oi_cli2.custom.Codeforces.Codeforces import Codeforces
 
 
@@ -27,6 +29,7 @@ def main(ctx={}):
   #   parser.print_help()
 
 OJManager.regOj(Codeforces.__name__,CodeforcesGen)
+OJManager.regOj(AtCoder.__name__,AtcoderGen)
 
 main.add_command(init)
 main.add_command(config)
