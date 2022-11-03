@@ -1,5 +1,5 @@
 import logging
-from typing import Any, Dict, List 
+from typing import Any, Dict, List
 
 import os
 import re
@@ -17,6 +17,7 @@ from oi_cli2.model.LangKV import LangKV
 from oi_cli2.model.Account import Account
 from oi_cli2.model.Problem import Problem
 from oi_cli2.model.Contest import Contest
+from oi_cli2.model.ProblemMeta import ContestMeta, ProblemMeta
 from oi_cli2.model.Result import Result
 from oi_cli2.utils.HttpUtil import HttpUtil
 from oi_cli2.utils.HttpUtilCookiesHelper import HttpUtilCookiesHelper
@@ -26,15 +27,12 @@ from oi_cli2.utils.enc import AESCipher
 
 class Codeforces(BaseOj):
 
-  def __init__(self,
-               http_util: HttpUtil,
-               logger: logging.Logger,
-               account: Account,
+  def __init__(self, http_util: HttpUtil, logger: logging.Logger, account: Account,
                html_tag: object) -> None:
     super().__init__()
     assert (account is not None)
     self._base_url = 'https://codeforces.com/'
-    self.logger:logging.Logger = logger
+    self.logger: logging.Logger = logger
     self.html_tag = html_tag
     self.account: Account = account
     self.http_util = http_util
@@ -85,7 +83,8 @@ class Codeforces(BaseOj):
       logging.debug(f"{GREEN}Checking Log in {DEFAULT}")
       try:
         if self._is_login():
-          logging.debug(f"{GREEN}{self.account.account} is Logged in {Codeforces.__name__}{DEFAULT}")
+          logging.debug(
+              f"{GREEN}{self.account.account} is Logged in {Codeforces.__name__}{DEFAULT}")
           return True
       except (ReadTimeout, ConnectTimeout) as e:
         self.logger.error(f'Http Timeout[{type(e).__name__}]: {e.request.url}')
@@ -316,17 +315,16 @@ class Codeforces(BaseOj):
     printData(resp.text)
     return True
 
-  def print_problems_in_contest(self, cid: str) -> None:
-    self.login_website()
-    from .problemList import printData
-    url = f'{self._base_url}contest/{cid}'
-    printData(self.http_util.get(url).text, title=f"Contest {url}")
 
-  def get_problemids_in_contest(self, cid: str) -> List[Dict[str, Any]]:
+  def get_contest_meta(self, cid: str) -> ContestMeta:
     self.login_website()
-    from .problemList import html2json
+    from .problemList import html2struct
     url = f'{self._base_url}contest/{cid}'
-    return html2json(self.http_util.get(url).text)
+    problems = html2struct(self.http_util.get(url).text)
+    for item in problems:
+      item.contest_id = cid
+
+    return ContestMeta(id=cid, url=url, problems=problems)
 
   def print_friends_standing(self, cid: str) -> None:
     if not self.login_website():

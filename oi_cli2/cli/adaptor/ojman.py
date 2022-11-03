@@ -1,10 +1,9 @@
-import logging
 from typing import Callable, Dict
 from oi_cli2.model.Account import Account
-
 from oi_cli2.model.BaseOj import BaseOj
+from oi_cli2.utils.Provider2 import Provider2
 
-T_OJFn = Callable[[object, Account], BaseOj]
+T_OJFn = Callable[[Account,Provider2], BaseOj]
 
 
 class OJManager:
@@ -19,8 +18,8 @@ class OJManager:
     return True
 
   @staticmethod
-  def createOj(platform: str, account: Account, provider: object) -> BaseOj:
+  def createOj(platform: str, account: Account, provider: Provider2) -> BaseOj:
     if platform in OJManager._ojFn:
-      return OJManager._ojFn[platform](provider=provider, account=account)
+      return OJManager._ojFn[platform](account=account,provider=provider)
     else:
       raise Exception(f'Unknown Platform [{platform}]')

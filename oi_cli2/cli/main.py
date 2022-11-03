@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import click
 from oi_cli2.cli.adaptor.AtcoderAdaptor import AtcoderGen
-from oi_cli2.cli.adaptor.codeforcesAdaptor import CodeforcesGen
+from oi_cli2.cli.adaptor.CodeforcesAdaptor import CodeforcesGen
 from oi_cli2.cli.adaptor.ojman import OJManager
 
 from oi_cli2.cli.config import config
