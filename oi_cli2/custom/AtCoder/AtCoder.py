@@ -1,5 +1,4 @@
 import logging
-from typing import List
 from rich.console import Console
 
 from oi_cli2.cli.constant import CIPHER_KEY, OT_FOLDER
@@ -8,6 +7,7 @@ from oi_cli2.model.Account import Account
 from oi_cli2.model.BaseOj import BaseOj
 from oi_cli2.model.ParseProblemResult import ParseProblemResult
 from oi_cli2.model.ProblemMeta import ContestMeta, ProblemMeta
+from oi_cli2.model.Result import SubmissionResult
 from oi_cli2.model.TestCase import TestCase
 from oi_cli2.utils.HttpUtil import HttpUtil
 from oi_cli2.utils.HttpUtilCookiesHelper import HttpUtilCookiesHelper
@@ -18,6 +18,9 @@ from oi_cli2.utils.enc import AESCipher
 from ac_core.auth import fetch_login, is_logged_in
 from ac_core.contest import fetch_tasks_meta, FetchProblemResult
 from ac_core.problem import parse_task
+from ac_core.submit import fetch_submit
+from ac_core.interfaces.HttpUtil import HttpRespInterface
+from ac_core.result import fetch_result, SubmissionResult as CORE_SUB_RES
 
 console = Console(color_system='256', style=None)
 
@@ -78,4 +81,41 @@ class AtCoder(BaseOj):
         time_limit=pm.time_limit_msec,
         mem_limit=pm.memory_limit_kb,
         url=res.url,
+    )
+
+  def submit_code(self, problem_url: str, language_id: str, code: str) -> HttpRespInterface:
+    if not self.login_website():
+      raise Exception('Login Failed')
+
+    return fetch_submit(self.http_util,
+                        problem_url=problem_url,
+                        lang_id=language_id,
+                        source_code=open(code, 'rb').read())
+
+  def get_result(self, problem_url: str) -> SubmissionResult:
+    # problem_url https://atcoder.jp/contests/abc275/tasks/abc275_f
+    res: CORE_SUB_RES = fetch_result(self.http_util, problem_url)
+    mapdict = {
+        CORE_SUB_RES.Status.AC: SubmissionResult.Status.AC,
+        CORE_SUB_RES.Status.PENDING: SubmissionResult.Status.PENDING,
+        CORE_SUB_RES.Status.RUNNING: SubmissionResult.Status.RUNNING,
+        CORE_SUB_RES.Status.INIT: SubmissionResult.Status.PENDING,
+        CORE_SUB_RES.Status.RE: SubmissionResult.Status.RE,
+        CORE_SUB_RES.Status.TLE: SubmissionResult.Status.TLE,
+        CORE_SUB_RES.Status.WA: SubmissionResult.Status.WA,
+        CORE_SUB_RES.Status.CE: SubmissionResult.Status.CE,
+    }
+    if res.status in list(mapdict.keys()):
+      status = mapdict[res.status]
+    else:
+      self.logger.error(f'Unknown status {res.status}')
+      status = SubmissionResult.Status.UNKNOWN
+
+    return SubmissionResult(
+        id=res.id,
+        cur_status=status,
+        quick_key=res.url,  # for refetch result
+        state_note=str(res.score),
+        time_note=str(res.time_cost_ms),
+        mem_note=str(res.mem_cost_kb),
     )

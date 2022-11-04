@@ -19,16 +19,13 @@ import oi_cli2.core.provider as provider
 
 from oi_cli2.model.BaseOj import BaseOj
 from oi_cli2.model.FolderState import FolderState
-from oi_cli2.model.ParseProblemResult import ParseProblemResult
 from oi_cli2.model.ProblemMeta import E_STATUS, ProblemMeta
 from oi_cli2.model.TestCase import TestCase
 
 from oi_cli2.utils.FileUtil import FileUtil
-from oi_cli2.utils.HtmlTag import HtmlTag
 from oi_cli2.utils.HttpUtil import HttpUtil
 from oi_cli2.utils.account import AccountManager
 from oi_cli2.utils.configFolder import ConfigFolder
-from oi_cli2.utils.consts.platforms import Platforms
 
 # file_util can be any thing , everything is file
 from oi_cli2.utils.template import TemplateManager
@@ -111,8 +108,10 @@ def create_problem(data, pm:ProblemMeta, contest_id: str, template, oj: BaseOj):
                                  cid=contest_id,
                                  pid=pm.id,
                                  sid=problem_id,
+                                 problem_url=pm.url,
                                  template_alias=template.alias,
                                  up_lang=template.uplang)  # TODO get data from analyzer
+      logger.debug(f'create folder_state {folder_state}')
       with open(config_folder.get_file_path(os.path.join(directory, STATE_FILE)), "w") as statejson:
         json.dump(folder_state.__dict__, statejson)
         statejson.close()
@@ -184,7 +183,6 @@ def fetch(platform, contestid):
   """
   logger: logging.Logger = provider.o.get(DI_LOGGER)
   am: AccountManager = provider.o.get(DI_ACCMAN)
-  http_util: HttpUtil = provider.o.get(DI_HTTP)
 
   try:
     oj: BaseOj = OJManager.createOj(platform=platform,
@@ -216,7 +214,6 @@ def list_command(platform: str):
   PLATFORM    e.g. AtCoder, Codeforces
   """
   logger: logging.Logger = provider.o.get(DI_LOGGER)
-  http_util: HttpUtil = provider.o.get(DI_HTTP)
   am: AccountManager = provider.o.get(DI_ACCMAN)
 
   try:
@@ -241,7 +238,6 @@ def detail(platform, contestid):
   CONTESTID   The id in the url, e.g. Codeforces(1122),AtCoder(abc230)
   """
   logger: logging.Logger = provider.o.get(DI_LOGGER)
-  http_util: HttpUtil = provider.o.get(DI_HTTP)
   am: AccountManager = provider.o.get(DI_ACCMAN)
 
   try:

@@ -1,8 +1,9 @@
 class FolderState:
   _oj: str
-  _id: str # string id 
-  cid: str # contest id
-  pid: str # problem id
+  _id: str  # string id
+  cid: str  # contest id
+  pid: str  # problem id
+  problem_url: str
   _up_lang: str
   _template_alias: str
 
@@ -12,12 +13,14 @@ class FolderState:
                cid: str = '',
                pid: str = '',
                lang: str = '',
+               problem_url='',
                up_lang: str = '',
                template_alias: str = ''):
     self._oj = oj
     self._id = sid
     self.cid = cid
-    self.pid = pid 
+    self.pid = pid
+    self.problem_url = problem_url
     self._up_lang = up_lang
     self._template_alias = template_alias
 
