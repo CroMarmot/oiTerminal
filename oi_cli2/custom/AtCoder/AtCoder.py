@@ -1,5 +1,8 @@
 import logging
+from typing import List
 from rich.console import Console
+from rich.table import Table
+from rich.style import Style
 
 from oi_cli2.cli.constant import CIPHER_KEY, OT_FOLDER
 from oi_cli2.custom.Codeforces.CodeforcesParser import CodeforcesParser
@@ -17,13 +20,21 @@ from oi_cli2.utils.enc import AESCipher
 from oi_cli2.abstract.HtmlTagAbstract import HtmlTagAbstract
 
 from ac_core.auth import fetch_login, is_logged_in
-from ac_core.contest import fetch_tasks_meta, ParserProblemResult
+from ac_core.contest import fetch_tasks_meta, ParserProblemResult, fetch_standing
 from ac_core.problem import parse_task
 from ac_core.submit import fetch_submit
 from ac_core.interfaces.HttpUtil import HttpRespInterface
 from ac_core.result import fetch_result, SubmissionResult as CORE_SUB_RES
 
 console = Console(color_system='256', style=None)
+
+
+def s2str(sec: int) -> str:
+  if sec < 60:
+    return str(sec)
+  if sec < 60 * 60:
+    return f"{sec//60}:{(sec%60):02d}"
+  return f"{sec // 60 // 60}:{((sec // 60) % 60):02d}:{(sec % 60):02d}"
 
 
 class AtCoder(BaseOj):
@@ -110,7 +121,7 @@ class AtCoder(BaseOj):
       status = mapdict[res.status]
     else:
       self.logger.error(f'Unknown status {res.status}')
-      status = SubmissionResult.Status.UNKNOWN
+      status = SubmissionResult.Status.eNKNOWN
 
     return SubmissionResult(
         id=res.id,
@@ -120,3 +131,37 @@ class AtCoder(BaseOj):
         time_note=str(res.time_cost_ms),
         mem_note=str(res.mem_cost_kb),
     )
+
+  # TODO fav control ?
+  def print_friends_standing(self, cid: str) -> None:
+    if not self.login_website():
+      raise Exception('Login Failed')
+
+    standing = fetch_standing(self.http_util, contest_id=cid)
+
+    table = Table(title=f"Binary standing {cid}")
+    table.add_column("rank", style="cyan")
+    table.add_column("handle")
+    for task in standing.TaskInfo:
+      table.add_column(task.Assignment)
+
+    for i in range(len(standing.StandingsData)):
+      row: List[str] = []
+      d = standing.StandingsData[i]
+      is_self = d.UserName == self.account.account
+      if is_self or (i & (i - 1)) == 0:
+        row.append(str(d.Rank))
+        row.append(d.UserScreenName)
+        for task in standing.TaskInfo:
+          if task.TaskScreenName in d.TaskResults:
+            # score = d.TaskResults[task.TaskScreenName].Score // 100
+            penalty = d.TaskResults[task.TaskScreenName].Penalty
+            elapsed_s = d.TaskResults[task.TaskScreenName].Elapsed // 1000 // 1000 // 1000
+            row.append(f"+{penalty}\n{s2str(elapsed_s)}")
+          else:
+            row.append("")
+        table.add_row(*row, style=Style(bgcolor="dark_green" if is_self else None))
+        if is_self:
+          break
+
+    console.print(table)

@@ -19,7 +19,6 @@ class Provider2:
   loop = 0  # 简单防止循环依赖
 
   def __init__(self) -> None:
-    print("Provider2 Init")
     self.reg(DI_CFG, gen_cfg)
     self.reg(DI_LOGGER, gen_logger)
     self.reg(DI_HTTP, gen_http_util)
