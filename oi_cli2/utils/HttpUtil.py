@@ -4,20 +4,23 @@ import requests
 class HttpUtil(object):
 
   def __init__(self, headers=None, logger=None):
-    self._headers = headers or {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36'}
+    self._headers = headers or {
+        'User-Agent':
+        'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36'
+    }
     self._request = requests.session()
     self._timeout = (10, 20)  # connect timeout , read timeout
     self._logger = logger
     if self._headers:
       self._request.headers.update(self._headers)
 
-  def get(self, url, **kwargs):
+  def get(self, url, allow_redirects: bool = True):
     # TODO ? fix kwargs timeout 优先级大于内置_timeout ?
-    return self._request.get(url, timeout=self._timeout, **kwargs)
+    return self._request.get(url, timeout=self._timeout, allow_redirects=allow_redirects)
 
-  def post(self, url, data=None, json=None, **kwargs):
+  def post(self, url, data=None, allow_redirects: bool = True):
     try:
-      return self._request.post(url, data, json, timeout=self._timeout, **kwargs)
+      return self._request.post(url, data, timeout=self._timeout, allow_redirects=allow_redirects)
     except Exception as e:
       self._logger.exception(e)
       return None

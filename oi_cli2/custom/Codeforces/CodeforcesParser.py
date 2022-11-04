@@ -1,6 +1,9 @@
+from typing import List, Tuple, cast
 from bs4 import BeautifulSoup
 from bs4 import element
 import json
+
+import bs4
 
 from oi_cli2.abstract.HtmlTagAbstract import HtmlTagAbstract
 from oi_cli2.model.ParseProblemResult import ParseProblemResult
@@ -11,6 +14,7 @@ from oi_cli2.model.Result import SubmissionResult
 
 
 class CodeforcesParser:
+
   def __init__(self, html_tag: HtmlTagAbstract, logger=None):
     self.html_tag = html_tag
     self._logger = logger
@@ -41,71 +45,60 @@ MathJax.Hub.Config({
     contest.problems.clear()
     soup = BeautifulSoup(response, 'lxml')
     match_groups = soup.find(name='table', attrs={'class': 'problems'})
-    if match_groups:
+    if isinstance(match_groups, bs4.Tag):
       problems = match_groups.find_all(name='td', attrs={'class': 'id'})
       for each_problem in problems:
         pid = each_problem.get_text().strip(" \r\n")
-        contest.problems[pid] = Problem(
-            oj=contest.oj, pid=contest.id + pid)
+        contest.problems[pid] = Problem(oj=contest.oj, pid=contest.id + pid)
 
   def problem_parse(self, response: str) -> ParseProblemResult:
     problem = ParseProblemResult()
     soup = BeautifulSoup(response, 'lxml')
 
     match_groups = soup.find('div', attrs={'class': 'title'})
-    if match_groups:
+    if isinstance(match_groups, bs4.Tag):
       problem.title = str(match_groups.string)[2:].strip(" \r\n")
 
     match_groups = soup.find(name='div', attrs={'class': 'time-limit'})
-    if match_groups:
-      problem.time_limit = match_groups.contents[-1].strip()
+    if isinstance(match_groups, bs4.Tag):
+      problem.time_limit = str(match_groups.contents[-1]).strip()
 
     match_groups = soup.find(name='div', attrs={'class': 'memory-limit'})
-    if match_groups:
-      problem.mem_limit = match_groups.contents[-1].strip()
+    if isinstance(match_groups, bs4.Tag):
+      problem.mem_limit = str(match_groups.contents[-1]).strip()
 
-    match_groups = soup.find(
-        name='div', attrs={'class': 'problem-statement'})
+    match_groups = soup.find(name='div', attrs={'class': 'problem-statement'})
 
     # update url in html
-    problem.html = ''
-    if match_groups and isinstance(match_groups, element.Tag):
+    if isinstance(match_groups, bs4.Tag):
       for child in match_groups.children:
-        if isinstance(child, element.Tag) and child.get('class') and set(child['class']).intersection(
-                {'header'}):
-          pass
+        if isinstance(child, element.Tag) and child.get('class'):
+          set(child['class']).intersection({'header'})
         elif isinstance(child, element.Tag):
           for tag in child:
             if isinstance(tag, element.Tag):
               if tag.get('class') is None:
-                tag['class'] = ()
+                tag['class'] = []
+              assert not isinstance(tag['class'], str)
               if tag.get('class') and set(tag['class']).intersection({'section-title'}):
-                tag['class'] += (self.html_tag.TagDesc.TITLE.value,)
+                tag['class'] += [self.html_tag.TagDesc.TITLE.value]
                 tag['style'] = self.html_tag.TagStyle.TITLE.value
               else:
-                tag['class'] += (self.html_tag.TagDesc.CONTENT.value,)
+                tag['class'] += [self.html_tag.TagDesc.CONTENT.value]
                 tag['style'] = self.html_tag.TagStyle.CONTENT.value
-          problem.html += str(self.html_tag.update_tag(child,
-                              self._static_prefix))
-        else:
-          problem.html += str(self.html_tag.update_tag(child,
-                              self._static_prefix))
     problem.html = '<html>' + problem.html + self._script + '</html>'
     problem.status = ParseProblemResult.Status.NOTVIS  # TODO for show progress
 
     match_groups = soup.find(name='div', attrs={'class': 'sample-test'})
+    assert isinstance(match_groups, bs4.Tag)
     problem.test_cases.clear()
     if match_groups:
-      test_case_inputs = match_groups.find_all(
-          name='div', attrs={'class': 'input'})
-      test_case_outputs = match_groups.find_all(
-          name='div', attrs={'class': 'output'})
+      test_case_inputs = match_groups.find_all(name='div', attrs={'class': 'input'})
+      test_case_outputs = match_groups.find_all(name='div', attrs={'class': 'output'})
       assert (len(test_case_inputs) == len(test_case_outputs))
       for i in range(len(test_case_inputs)):
-        t_in = test_case_inputs[i].find(
-            name='pre').get_text("\n").strip(" \r\n")
-        t_out = test_case_outputs[i].find(
-            name='pre').get_text("\n").strip(" \r\n")
+        t_in = test_case_inputs[i].find(name='pre').get_text("\n").strip(" \r\n")
+        t_out = test_case_outputs[i].find(name='pre').get_text("\n").strip(" \r\n")
         problem.test_cases.append(TestCase(t_in, t_out))
 
     return problem
@@ -157,10 +150,9 @@ MathJax.Hub.Config({
   # }
   def result_parse(self, response: str) -> SubmissionResult:
     ret = json.loads(response)
-    result = SubmissionResult(SubmissionResult.Status.PENDING)
+    result = SubmissionResult()
     if 'status' not in ret or ret['status'] != 'OK':
-      raise ConnectionError(
-          'Cannot connect to Codeforces! ' + json.dumps(ret))
+      raise ConnectionError('Cannot connect to Codeforces! ' + json.dumps(ret))
     try:
       _result = ret['result'][0]
       result.id = _result['id']
@@ -189,8 +181,7 @@ MathJax.Hub.Config({
         print("UNKNOWN STATE with " + _verdict)
         result.cur_status = SubmissionResult.Status.PENDING
     except Exception as e:
-      raise ConnectionError(
-          'Cannot get latest submission, error:' + str(e))
+      raise ConnectionError('Cannot get latest submission, error:' + str(e))
     return result
 
   #  判断结果是否正确
@@ -206,4 +197,5 @@ MathJax.Hub.Config({
   # 判断是否运行中
   @staticmethod
   def is_running(verdict):
-    return verdict is None or str(verdict).startswith('Running on') or verdict == 'TESTING' or verdict == 'In queue'
+    return verdict is None or str(verdict).startswith(
+        'Running on') or verdict == 'TESTING' or verdict == 'In queue'

@@ -20,7 +20,8 @@ from oi_cli2.utils.template import TemplateManager
 console = Console(color_system='256', style=None)
 
 
-def tester(root_folder: str, test_files: List[str], testcase_folder: str, template: Template, diff_fn: FunctionType, logger: logging.Logger):
+def tester(root_folder: str, test_files: List[str], testcase_folder: str, template: Template, diff_fn: FunctionType,
+           logger: logging.Logger):
   logger.debug(f'{root_folder},{test_files},{testcase_folder}')
   # makefolder & mv code 2 folder
   os.makedirs(TEST_FOLDER, exist_ok=True)
@@ -74,7 +75,12 @@ def tst_main():
     return False
 
   source_file_name = os.path.basename(template.path)
-  tester(root_folder=os.path.abspath('.'), test_files=[source_file_name], testcase_folder=os.path.abspath('.'), template=template, diff_fn=diff_result_fn, logger=logger)
+  tester(root_folder=os.path.abspath('.'),
+         test_files=[source_file_name],
+         testcase_folder=os.path.abspath('.'),
+         template=template,
+         diff_fn=diff_result_fn,
+         logger=logger)
 
   # shutil.rmtree(TEST_FOLDER)
   logger.info('test finished')

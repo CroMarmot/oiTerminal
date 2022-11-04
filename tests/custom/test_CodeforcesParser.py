@@ -9,8 +9,7 @@ def test_codeforces_parser():
   http_util = MockHttpUtil()
   test_doc: str = http_util.get('https://codeforces.com/contest/1628/problem/A').text
 
-  parser = CodeforcesParser(html_tag=HtmlTag(
-      MockHttpUtil()), logger=getLogger('/tmp/oiTerminal/test.log'))
+  parser = CodeforcesParser(html_tag=HtmlTag(MockHttpUtil()), logger=getLogger('/tmp/oiTerminal/test.log'))
   parse_problem_result = parser.problem_parse(test_doc)
   assert parse_problem_result.status == ParseProblemResult.Status.NOTVIS
   assert parse_problem_result.title == 'A+B (Trial Problem)'

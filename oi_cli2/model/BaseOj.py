@@ -1,10 +1,9 @@
-from typing import Any, Dict, List
-from oi_cli2.model.Contest import Contest
+from typing import Union
 from oi_cli2.model.LangKV import LangKV
 from oi_cli2.model.ParseProblemResult import ParseProblemResult
-from oi_cli2.model.Problem import Problem
 from oi_cli2.model.ProblemMeta import ContestMeta, ProblemMeta
 from oi_cli2.model.Result import SubmissionResult
+from ac_core.interfaces.HttpUtil import HttpRespInterface
 
 
 class BaseOj(object):
@@ -30,13 +29,13 @@ class BaseOj(object):
   # def get_problem(self, pid: str) -> Problem:
   #   assert(False)
 
-  def submit_code(self, problem_url: str, language_id: str, code: str) -> bool:
+  def submit_code(self, problem_url: str, language_id: str, code: str) -> Union[bool,HttpRespInterface]:
     assert (False)
 
   def submit_code_by_sid(self, sid: str, language_id: str, code: str) -> bool:
     assert (False)
 
-  def get_result(self, problem_url:str) -> SubmissionResult:
+  def get_result(self, problem_url: str) -> SubmissionResult:
     assert (False)
 
   def get_result_by_sid(self, sid: str) -> SubmissionResult:

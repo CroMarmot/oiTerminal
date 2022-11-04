@@ -15,6 +15,7 @@ url2file = {
 
 
 class MockHttpUtil(object):
+
   def __init__(self, headers=None, logger=None, *args, **kwargs):
     self._headers = headers
     self._request = requests.session()

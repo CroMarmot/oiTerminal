@@ -7,18 +7,20 @@ from oi_cli2.model.TestCase import TestCase
 
 @dataclass
 class ParseProblemResult(object):
-    class Status(Enum):
-        AC = 'AC'
-        FAILED = 'FAILED'
-        NOTVIS = 'NOTVIS'
-    status: Status = Status.NOTVIS
-    title: str = ''
-    test_cases: List[TestCase] = field(default_factory=lambda : [])
-    id: str = ''
-    oj: str = ''
-    description: str = ''
-    time_limit: str = ''
-    mem_limit: str = ''
-    url: str = ''
-    html: str = ''
-    file_path: str = ''
+
+  class Status(Enum):
+    AC = 'AC'
+    FAILED = 'FAILED'
+    NOTVIS = 'NOTVIS'
+
+  status: Status = Status.NOTVIS
+  title: str = ''
+  test_cases: List[TestCase] = field(default_factory=lambda: [])
+  id: str = ''
+  oj: str = ''
+  description: str = ''
+  time_limit: str = ''
+  mem_limit: str = ''
+  url: str = ''
+  html: str = ''
+  file_path: str = ''

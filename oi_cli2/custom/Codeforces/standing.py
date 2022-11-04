@@ -2,6 +2,7 @@ from dataclasses import dataclass, field
 from typing import Dict, List, Optional, Tuple
 
 from bs4 import BeautifulSoup
+import bs4
 from rich.console import Console
 from rich.table import Table
 from rich.style import Style
@@ -22,14 +23,16 @@ class StandingRow:
   rank: str = ''
   who: str = ''
   passed: Optional[str] = None
+  score: str = ''
   hack: str = ''
   penalty: str = ''
-  problems: List[StandingProblem] = field(default_factory=lambda : [])
+  problems: List[StandingProblem] = field(default_factory=lambda: [])
 
 
-def parseStandingHtml(html) -> Tuple[List[StandingRow],List[str]]:
+def parseStandingHtml(html) -> Tuple[List[StandingRow], List[str]]:
   soup = BeautifulSoup(html, 'lxml')
   currentContestList = soup.find('div', class_='datatable')
+  assert isinstance(currentContestList,bs4.Tag)
   ret: List[StandingRow] = []
   # print(currentContestList)
   trs: List[BeautifulSoup] = currentContestList.find_all('tr')
@@ -72,14 +75,14 @@ def parseStandingHtml(html) -> Tuple[List[StandingRow],List[str]]:
         problem = StandingProblem(id=h[j])
         if passScore and len(passScore) > 0:
           problem.score = passScore[0].get_text().strip()
-          problem.time = tds[j].find('span',class_="cell-time").get_text().strip()
+          problem.time = tds[j].find('span', class_="cell-time").get_text().strip()
         else:
           problem.score = tds[j].get_text().strip()
         row.problems.append(problem)
     ret.append(row)
 
   # TODO add pagenation
-  return ret, h 
+  return ret, h
 
 
 def printData(html: str, title: str, handle: str):
@@ -95,20 +98,20 @@ def printData(html: str, title: str, handle: str):
       table.add_column(h)
 
   for item in rows:
-    row:List[str] = []
+    row: List[str] = []
     for i in range(len(head)):
       # TODO reconstruct
       if head[i] == "rank":
-        row.append(item.rank) 
+        row.append(item.rank)
       elif head[i] == "who":
-        row.append(item.who) 
+        row.append(item.who)
       elif head[i] == "hack":
-        row.append(item.hack) 
+        row.append(item.hack)
       elif head[i] == "score":
-        row.append(item.score) 
+        row.append(item.score)
       elif head[i] == "penalty":
-        row.append(item.penalty) 
-    
+        row.append(item.penalty)
+
     for p in item.problems:
       if p.time:
         row.append(f"{p.score}({p.time})")

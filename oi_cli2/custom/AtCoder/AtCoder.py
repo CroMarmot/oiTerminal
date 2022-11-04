@@ -14,9 +14,10 @@ from oi_cli2.utils.HttpUtilCookiesHelper import HttpUtilCookiesHelper
 from oi_cli2.utils.Provider2 import Provider2
 from oi_cli2.utils.configFolder import ConfigFolder
 from oi_cli2.utils.enc import AESCipher
+from oi_cli2.abstract.HtmlTagAbstract import HtmlTagAbstract
 
 from ac_core.auth import fetch_login, is_logged_in
-from ac_core.contest import fetch_tasks_meta, FetchProblemResult
+from ac_core.contest import fetch_tasks_meta, ParserProblemResult
 from ac_core.problem import parse_task
 from ac_core.submit import fetch_submit
 from ac_core.interfaces.HttpUtil import HttpRespInterface
@@ -28,7 +29,7 @@ console = Console(color_system='256', style=None)
 class AtCoder(BaseOj):
 
   def __init__(self, http_util: HttpUtil, logger: logging.Logger, account: Account,
-               html_tag: object) -> None:
+               html_tag: HtmlTagAbstract) -> None:
     super().__init__()
     assert (account is not None)
     self._base_url = 'https://atcoder.jp/'
@@ -57,7 +58,7 @@ class AtCoder(BaseOj):
     self.login_website()
     res = fetch_tasks_meta(self.http_util, cid)
 
-    def transform(pm: FetchProblemResult) -> ProblemMeta:
+    def transform(pm: ParserProblemResult) -> ProblemMeta:
       return ProblemMeta(id=pm.id,
                          url=pm.url,
                          name=pm.name,
@@ -78,19 +79,19 @@ class AtCoder(BaseOj):
         test_cases=[TestCase(in_data=o.input, out_data=o.output) for o in res.tests],
         oj=AtCoder.__name__,
         # description=res.id,
-        time_limit=pm.time_limit_msec,
-        mem_limit=pm.memory_limit_kb,
+        time_limit=str(pm.time_limit_msec),
+        mem_limit=str(pm.memory_limit_kb),
         url=res.url,
     )
 
-  def submit_code(self, problem_url: str, language_id: str, code: str) -> HttpRespInterface:
+  def submit_code(self, problem_url: str, language_id: str, code_path: str) -> HttpRespInterface:
     if not self.login_website():
       raise Exception('Login Failed')
 
     return fetch_submit(self.http_util,
                         problem_url=problem_url,
                         lang_id=language_id,
-                        source_code=open(code, 'rb').read())
+                        source_code=str(open(code_path, 'rb').read()))
 
   def get_result(self, problem_url: str) -> SubmissionResult:
     # problem_url https://atcoder.jp/contests/abc275/tasks/abc275_f

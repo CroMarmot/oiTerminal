@@ -28,8 +28,9 @@ def main(ctx={}):
   # else:
   #   parser.print_help()
 
-OJManager.regOj(Codeforces.__name__,CodeforcesGen)
-OJManager.regOj(AtCoder.__name__,AtcoderGen)
+
+OJManager.regOj(Codeforces.__name__, CodeforcesGen)
+OJManager.regOj(AtCoder.__name__, AtcoderGen)
 
 main.add_command(init)
 main.add_command(config)

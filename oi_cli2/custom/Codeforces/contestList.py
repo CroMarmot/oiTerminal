@@ -41,7 +41,7 @@ def html2json(html):
       elif regText.startswith('Register »'):
         regText = regText[len('Register »'):].strip()
         if regText.endswith("*has extra registration"):
-          regText = regText[:len(regText)-len("*has extra registration")]
+          regText = regText[:len(regText) - len("*has extra registration")]
         row["reg"] = regText
       elif regText.startswith("Registration completed"):
         row["reg"] = "Registered " + regText[len("Registration completed"):].strip()
@@ -59,15 +59,19 @@ def html2json(html):
       a.decompose()
     # print(tds[0].children)
     row = {
-        "name": tds[0].get_text().strip(),
-        "writers": tds[1].get_text().strip().replace('\n', ',').replace('\r', ',').replace(",,", ",").strip(),
-        "start": moscow_to_utc(datetime.strptime(
-            tds[2].find('span', class_="format-time-only").get_text().strip(),
-            timeFmt)),
-        "length": tds[3].get_text().strip(),
-        "registered": tds[5].get_text().strip(),
+        "name":
+        tds[0].get_text().strip(),
+        "writers":
+        tds[1].get_text().strip().replace('\n', ',').replace('\r', ',').replace(",,", ",").strip(),
+        "start":
+        moscow_to_utc(datetime.strptime(tds[2].find('span', class_="format-time-only").get_text().strip(), timeFmt)),
+        "length":
+        tds[3].get_text().strip(),
+        "registered":
+        tds[5].get_text().strip(),
         # data-contestId -> lowercase
-        "cid": trs[i].attrs['data-contestid']
+        "cid":
+        trs[i].attrs['data-contestid']
     }
     his.append(row)
 
@@ -80,7 +84,7 @@ def printData(html):
   console = Console()
 
   table = Table(title="Current or upcoming contests")
-  table.add_column("Name",  style="cyan", no_wrap=False)
+  table.add_column("Name", style="cyan", no_wrap=False)
   # table.add_column("Writers", style="magenta")
   table.add_column("Start")
   table.add_column("Length")
@@ -102,14 +106,13 @@ def printData(html):
         item["reg"],  # tds[5].get_text().strip(),
         item["cid"],  # tds[5].get_text().strip(),
         style=Style(bgcolor=None if item["reg"].startswith("Before") else (
-            "dark_green" if item["reg"].startswith("Registered") else "grey30"))
-    )
+            "dark_green" if item["reg"].startswith("Registered") else "grey30")))
 
   console.print(table)
 
   # history
   table = Table(title="History contests (Recent 5)")
-  table.add_column("Name",  style="cyan", no_wrap=False)
+  table.add_column("Name", style="cyan", no_wrap=False)
   # table.add_column("Writers", style="magenta")
   table.add_column("Start")
   table.add_column("Length")

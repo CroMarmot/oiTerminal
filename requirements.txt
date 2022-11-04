@@ -3,6 +3,7 @@ types-beautifulsoup4
 lxml==4.7.1
 pycryptodome==3.13.0
 requests
+types-requests
 coverage==6.2
 pytest==7.1.2
 websocket-client==1.2.3

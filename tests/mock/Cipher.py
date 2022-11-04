@@ -1,4 +1,5 @@
 class FakeCipher:
+
   def encrypt(self, data: str) -> str:
     return '[' + data + ']'
 

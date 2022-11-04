@@ -3,7 +3,7 @@ from oi_cli2.model.Account import Account
 from oi_cli2.model.BaseOj import BaseOj
 from oi_cli2.utils.Provider2 import Provider2
 
-T_OJFn = Callable[[Account,Provider2], BaseOj]
+T_OJFn = Callable[[Account, Provider2], BaseOj]
 
 
 class OJManager:
@@ -20,6 +20,6 @@ class OJManager:
   @staticmethod
   def createOj(platform: str, account: Account, provider: Provider2) -> BaseOj:
     if platform in OJManager._ojFn:
-      return OJManager._ojFn[platform](account=account,provider=provider)
+      return OJManager._ojFn[platform](account=account, provider=provider)
     else:
       raise Exception(f'Unknown Platform [{platform}]')

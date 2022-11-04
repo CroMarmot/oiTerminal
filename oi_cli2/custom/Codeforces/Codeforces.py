@@ -1,46 +1,43 @@
 import logging
-from typing import Any, Dict, List
+from typing import cast
 
 import os
 import re
-import threading
+import bs4
 
 from requests.exceptions import ReadTimeout, ConnectTimeout
 from bs4 import BeautifulSoup
 
 from oi_cli2.cli.constant import CIPHER_KEY, GREEN, DEFAULT, OT_FOLDER
-from oi_cli2.core import provider
 from oi_cli2.custom.Codeforces.CodeforcesParser import CodeforcesParser
 from oi_cli2.model.BaseOj import BaseOj
 from oi_cli2.model.ParseProblemResult import ParseProblemResult
 from oi_cli2.model.LangKV import LangKV
 from oi_cli2.model.Account import Account
-from oi_cli2.model.Problem import Problem
-from oi_cli2.model.Contest import Contest
+from oi_cli2.abstract.HtmlTagAbstract import HtmlTagAbstract
 from oi_cli2.model.ProblemMeta import ContestMeta, ProblemMeta
 from oi_cli2.model.Result import SubmissionResult
 from oi_cli2.utils.HttpUtil import HttpUtil
 from oi_cli2.utils.HttpUtilCookiesHelper import HttpUtilCookiesHelper
+from oi_cli2.utils.Provider2 import Provider2
 from oi_cli2.utils.configFolder import ConfigFolder
 from oi_cli2.utils.enc import AESCipher
 
 
+
 class Codeforces(BaseOj):
 
-  def __init__(self, http_util: HttpUtil, logger: logging.Logger, account: Account,
-               html_tag: object) -> None:
+  def __init__(self, http_util: HttpUtil, logger: logging.Logger, account: Account, html_tag: HtmlTagAbstract) -> None:
     super().__init__()
     assert (account is not None)
     self._base_url = 'https://codeforces.com/'
     self.logger: logging.Logger = logger
-    self.html_tag = html_tag
+    # self.html_tag = html_tag
     self.account: Account = account
     self.http_util = http_util
     self.parser = CodeforcesParser(html_tag=html_tag, logger=logger)
     config_folder = ConfigFolder(OT_FOLDER)
-    HttpUtilCookiesHelper.load_cookie(provider=provider.o,
-                                      platform=Codeforces.__name__,
-                                      account=account.account)
+    HttpUtilCookiesHelper.load_cookie(provider=Provider2(), platform=Codeforces.__name__, account=account.account)
     # write codeforces RCPC cookie in .oiTerminal/CF_RCPC
     with open(config_folder.get_config_file_path("CF_RCPC")) as f:
       rcpc = f.read().strip()
@@ -86,8 +83,7 @@ class Codeforces(BaseOj):
       logging.debug(f"{GREEN}Checking Log in {DEFAULT}")
       try:
         if self._is_login():
-          logging.debug(
-              f"{GREEN}{self.account.account} is Logged in {Codeforces.__name__}{DEFAULT}")
+          logging.debug(f"{GREEN}{self.account.account} is Logged in {Codeforces.__name__}{DEFAULT}")
           return True
       except (ReadTimeout, ConnectTimeout) as e:
         self.logger.error(f'Http Timeout[{type(e).__name__}]: {e.request.url}')
@@ -100,7 +96,7 @@ class Codeforces(BaseOj):
       self.logger.debug(f"get {url}")
       res = self.http_util.get(url)
       soup = BeautifulSoup(res.text, 'lxml')
-      csrf_token = soup.find(attrs={'name': 'X-Csrf-Token'}).get('content')
+      csrf_token = cast(bs4.Tag,soup.find(attrs={'name': 'X-Csrf-Token'})).get('content')
       post_data = {
           'csrf_token': csrf_token,
           'action': 'enter',
@@ -119,7 +115,7 @@ class Codeforces(BaseOj):
     try:
       if self._is_login():
         logging.debug(f"{GREEN}{self.account.account} Logined {Codeforces.__name__}{DEFAULT}")
-        HttpUtilCookiesHelper.save_cookie(provider=provider.o,
+        HttpUtilCookiesHelper.save_cookie(provider=Provider2(),
                                           platform=Codeforces.__name__,
                                           account=self.account.account)
         return True
@@ -165,7 +161,7 @@ class Codeforces(BaseOj):
 
     soup = BeautifulSoup(response.text, 'lxml')
 
-    csrf_token = soup.find(attrs={'name': 'csrf_token'}).get('value')
+    csrf_token = cast(bs4.Tag,soup.find(attrs={'name': 'csrf_token'})).get('value')
     _tta = self.get_tta()
     post_data = {
         'csrf_token': csrf_token,
@@ -213,14 +209,15 @@ class Codeforces(BaseOj):
   #     raise Exception(f"Fetch Problem Error, pid={pid}")
   #   self.parser.problem_parse(response=response.text)
   #   return problem
-  def submit_code(self, problem_url: str, language_id: str, code: str) -> bool:
+  def submit_code(self, problem_url: str, language_id: str, code_path: str) -> bool:
     # https://codeforces.com/contest/1740/problem/G
     result = re.match('^.*contest/(.*)/problem/(.*)$', problem_url)
+    assert result is not None
     sid = result.group(1) + result.group(2)
-    return self.submit_code_by_sid(sid, language_id=language_id, code=code)
+    return self.submit_code_by_sid(sid, language_id=language_id, code_path=code_path)
 
   # TODO move sid out as just Syntactic sugar
-  def submit_code_by_sid(self, sid: str, language_id: str, code: str) -> bool:
+  def submit_code_by_sid(self, sid: str, language_id: str, code_path: str) -> bool:
     if not self.login_website():
       raise Exception('Login Failed')
 
@@ -237,7 +234,7 @@ class Codeforces(BaseOj):
       self.logger.exception(e)
       return False
     soup = BeautifulSoup(res.text, 'lxml')
-    csrf_token = soup.find(attrs={'name': 'X-Csrf-Token'}).get('content')
+    csrf_token = cast(bs4.Tag,soup.find(attrs={'name': 'X-Csrf-Token'})).get('content')
     post_data = {
         'csrf_token': csrf_token,
         'ftaa': '',
@@ -246,7 +243,7 @@ class Codeforces(BaseOj):
         'contestId': result.group(1),
         'submittedProblemIndex': result.group(2),
         'programTypeId': language_id,
-        'source': open(code, 'rb').read(),
+        'source': str(open(code_path, 'rb').read()),
         'tabSize': 0,
         'sourceFile': '',
     }
@@ -262,18 +259,16 @@ class Codeforces(BaseOj):
       self.logger.exception(e)
       return False
     return False
-  
+
   def get_result_by_sid(self, sid: str) -> SubmissionResult:
     # TODO more check
     # TODO websocket
-    return self._get_result_by_url(f'{self._base_url}api/user.status?handle=' +
-                                   self.account.account + '&count=1')
+    return self._get_result_by_url(f'{self._base_url}api/user.status?handle=' + self.account.account + '&count=1')
 
   def get_result(self, problem_url: str) -> SubmissionResult:
     # TODO more check
     # TODO websocket
-    return self._get_result_by_url(f'{self._base_url}api/user.status?handle=' +
-                                   self.account.account + '&count=1')
+    return self._get_result_by_url(f'{self._base_url}api/user.status?handle=' + self.account.account + '&count=1')
 
   def get_result_by_quick_id(self, quick_id: str) -> SubmissionResult:
     return self._get_result_by_url(quick_id)
@@ -300,7 +295,7 @@ class Codeforces(BaseOj):
     if res.text:
       soup = BeautifulSoup(res.text, 'lxml')
       tags = soup.find('select', attrs={'name': 'programTypeId'})
-      if tags:
+      if isinstance(tags,bs4.Tag):
         for child in tags.find_all('option'):
           ret[child.get('value')] = child.string
     return ret
@@ -349,9 +344,7 @@ class Codeforces(BaseOj):
     from .standing import printData
     url = f'{self._base_url}contest/{cid}/standings/friends/true'
     try:
-      printData(self.http_util.get(url).text,
-                title=f"Friends standing {url}",
-                handle=self.account.account)
+      printData(self.http_util.get(url).text, title=f"Friends standing {url}", handle=self.account.account)
     except (ReadTimeout, ConnectTimeout) as e:
       self.logger.error(f'Http Timeout[{type(e).__name__}]: {e.request.url}')
     except Exception as e:
