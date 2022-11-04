@@ -1,34 +1,32 @@
+from dataclasses import dataclass
 from enum import Enum
-
 from oi_cli2.cli.constant import GREEN, RED, YELLOW, DEFAULT
 
 
-class Result:
+@dataclass
+class SubmissionResult:
+
   class Status(Enum):
-    PENDING, RUNNING, AC, RE, CE, WA, TLE, MLE, IDLE = range(9)
+    PENDING, RUNNING, AC, RE, CE, WA, TLE, MLE, IDLE, UNKNOWN = range(10)
 
-  @property
-  def status_string(self) -> str:
-    return {
-        Result.Status.PENDING: YELLOW + 'Pending...' + DEFAULT,
-        Result.Status.RUNNING: GREEN + 'Running...' + DEFAULT,
-        Result.Status.AC: GREEN + 'AC' + DEFAULT,
-        Result.Status.CE: RED + 'CE' + DEFAULT,
-        Result.Status.RE: RED + 'RE' + DEFAULT,
-        Result.Status.WA: RED + 'WA' + DEFAULT,
-        Result.Status.TLE: RED + 'TLE' + DEFAULT,
-        Result.Status.MLE: RED + 'MLE' + DEFAULT,
-        Result.Status.MLE: RED + 'IDLENESS_LIMIT_EXCEEDED' + DEFAULT,
-    }[self.cur_status]
-
-  cur_status: Status
-  quick_key: str = ''
-
+  id: int = 0
+  cur_status: Status = Status.PENDING
+  quick_key: str = ''  # for refetch result
   state_note: str = '0'
   time_note: str = '0/0'
   mem_note: str = '0/0'
 
-  id: int = 0
 
-  def __init__(self, cur_status: Status):
-    self.cur_status = cur_status
+def status_string(result: SubmissionResult) -> str:
+  return {
+      SubmissionResult.Status.PENDING: YELLOW + 'Pending...' + DEFAULT,
+      SubmissionResult.Status.RUNNING: GREEN + 'Running...' + DEFAULT,
+      SubmissionResult.Status.AC: GREEN + 'AC' + DEFAULT,
+      SubmissionResult.Status.CE: RED + 'CE' + DEFAULT,
+      SubmissionResult.Status.RE: RED + 'RE' + DEFAULT,
+      SubmissionResult.Status.WA: RED + 'WA' + DEFAULT,
+      SubmissionResult.Status.TLE: RED + 'TLE' + DEFAULT,
+      SubmissionResult.Status.MLE: RED + 'MLE' + DEFAULT,
+      SubmissionResult.Status.MLE: RED + 'IDLENESS_LIMIT_EXCEEDED' + DEFAULT,
+      SubmissionResult.Status.UNKNOWN: RED + 'UNKNOWN RESULT' + DEFAULT,
+  }[result.cur_status]

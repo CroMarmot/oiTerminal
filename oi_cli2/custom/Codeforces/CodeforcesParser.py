@@ -7,7 +7,7 @@ from oi_cli2.model.ParseProblemResult import ParseProblemResult
 from oi_cli2.model.Problem import Problem
 from oi_cli2.model.TestCase import TestCase
 from oi_cli2.model.Contest import Contest
-from oi_cli2.model.Result import Result
+from oi_cli2.model.Result import SubmissionResult
 
 
 class CodeforcesParser:
@@ -155,9 +155,9 @@ MathJax.Hub.Config({
   #     }
   #   ]
   # }
-  def result_parse(self, response: str) -> Result:
+  def result_parse(self, response: str) -> SubmissionResult:
     ret = json.loads(response)
-    result = Result(Result.Status.PENDING)
+    result = SubmissionResult(SubmissionResult.Status.PENDING)
     if 'status' not in ret or ret['status'] != 'OK':
       raise ConnectionError(
           'Cannot connect to Codeforces! ' + json.dumps(ret))
@@ -169,25 +169,25 @@ MathJax.Hub.Config({
       result.mem_note = str(_result['memoryConsumedBytes']) + " B"
       _verdict = _result.get('verdict')
       if _verdict in ['OK', 'Happy New Year!']:
-        result.cur_status = Result.Status.AC
+        result.cur_status = SubmissionResult.Status.AC
       elif _verdict in ['TESTING', None]:
-        result.cur_status = Result.Status.RUNNING
+        result.cur_status = SubmissionResult.Status.RUNNING
       elif _verdict in ['WRONG_ANSWER']:
-        result.cur_status = Result.Status.WA
+        result.cur_status = SubmissionResult.Status.WA
       elif _verdict in ['RUNTIME_ERROR']:
-        result.cur_status = Result.Status.RE
+        result.cur_status = SubmissionResult.Status.RE
       elif _verdict in ['MEMORY_LIMIT_EXCEEDED']:
-        result.cur_status = Result.Status.MLE
+        result.cur_status = SubmissionResult.Status.MLE
       elif _verdict in ['TIME_LIMIT_EXCEEDED']:
-        result.cur_status = Result.Status.TLE
+        result.cur_status = SubmissionResult.Status.TLE
       elif _verdict in ['COMPILATION_ERROR']:
-        result.cur_status = Result.Status.CE
+        result.cur_status = SubmissionResult.Status.CE
       elif _verdict in ['IDLENESS_LIMIT_EXCEEDED']:
-        result.cur_status = Result.Status.IDLE
+        result.cur_status = SubmissionResult.Status.IDLE
       else:
         self._logger.warn("UNKNOWN STATE with " + _verdict)
         print("UNKNOWN STATE with " + _verdict)
-        result.cur_status = Result.Status.PENDING
+        result.cur_status = SubmissionResult.Status.PENDING
     except Exception as e:
       raise ConnectionError(
           'Cannot get latest submission, error:' + str(e))

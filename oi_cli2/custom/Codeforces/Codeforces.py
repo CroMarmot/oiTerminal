@@ -18,7 +18,7 @@ from oi_cli2.model.Account import Account
 from oi_cli2.model.Problem import Problem
 from oi_cli2.model.Contest import Contest
 from oi_cli2.model.ProblemMeta import ContestMeta, ProblemMeta
-from oi_cli2.model.Result import Result
+from oi_cli2.model.Result import SubmissionResult
 from oi_cli2.utils.HttpUtil import HttpUtil
 from oi_cli2.utils.HttpUtilCookiesHelper import HttpUtilCookiesHelper
 from oi_cli2.utils.configFolder import ConfigFolder
@@ -76,7 +76,7 @@ class Codeforces(BaseOj):
     return problem
 
   def problem(self, problem: ProblemMeta) -> ParseProblemResult:
-    return self.problem_by_id(problem.contest_id+problem.id)
+    return self.problem_by_id(problem.contest_id + problem.id)
 
   # TODO msg chan
   # Force: true/false login whatever login before
@@ -179,48 +179,54 @@ class Codeforces(BaseOj):
     # TODO get more detail
     return True
 
-  def get_contest(self, cid: str) -> Contest:
-    if re.match('^\\d+$', cid) is None:
-      raise Exception(f'contest id "{cid}" ERROR')
+  # def get_contest(self, cid: str) -> Contest:
+  #   if re.match('^\\d+$', cid) is None:
+  #     raise Exception(f'contest id "{cid}" ERROR')
 
-    response = self.http_util.get(url=f'{self._base_url}contest/' + cid)
-    ret = Contest(oj=Codeforces.__name__, cid=cid)
-    if response is None or response.status_code != 200 or response.text is None:
-      raise Exception(f"Fetch Contest Error,cid={cid}")
-    print("get contest:" + cid)
-    self.parser.contest_parse(contest=ret, response=response.text)
-    threads = []
-    for pid in ret.problems.keys():
-      # self.get_problem(pid=cid + pid, problem=ret.problems[pid])
-      t = threading.Thread(target=self.get_problem, args=(cid + pid, ret.problems[pid]))
-      threads.append(t)
-      t.start()
-    for t in threads:
-      t.join()
-    return ret
+  #   response = self.http_util.get(url=f'{self._base_url}contest/' + cid)
+  #   ret = Contest(oj=Codeforces.__name__, cid=cid)
+  #   if response is None or response.status_code != 200 or response.text is None:
+  #     raise Exception(f"Fetch Contest Error,cid={cid}")
+  #   print("get contest:" + cid)
+  #   self.parser.contest_parse(contest=ret, response=response.text)
+  #   threads = []
+  #   for pid in ret.problems.keys():
+  #     # self.get_problem(pid=cid + pid, problem=ret.problems[pid])
+  #     t = threading.Thread(target=self.get_problem, args=(cid + pid, ret.problems[pid]))
+  #     threads.append(t)
+  #     t.start()
+  #   for t in threads:
+  #     t.join()
+  #   return ret
 
-  def get_problem(self, pid: str, problem: Problem = None) -> Problem:
-    result = re.match('^(\\d+)([A-Z]\\d?)$', pid)
-    if result is None:
-      raise Exception('problem id[' + pid + '] ERROR')
-    url = f'{self._base_url}contest/{result.group(1)}/problem/{result.group(2)}'
-    if problem is None:
-      problem = Problem(oj=Codeforces.__name__, pid=pid, url=url)
-    else:
-      problem.url = url
-    response = self.http_util.get(url=url)
-    if response is None or response.status_code != 200 or response.text is None:
-      raise Exception(f"Fetch Problem Error, pid={pid}")
-    self.parser.problem_parse(response=response.text)
-    return problem
+  # def get_problem(self, pid: str, problem: Problem = None) -> Problem:
+  #   result = re.match('^(\\d+)([A-Z]\\d?)$', pid)
+  #   if result is None:
+  #     raise Exception('problem id[' + pid + '] ERROR')
+  #   url = f'{self._base_url}contest/{result.group(1)}/problem/{result.group(2)}'
+  #   if problem is None:
+  #     problem = Problem(oj=Codeforces.__name__, pid=pid, url=url)
+  #   else:
+  #     problem.url = url
+  #   response = self.http_util.get(url=url)
+  #   if response is None or response.status_code != 200 or response.text is None:
+  #     raise Exception(f"Fetch Problem Error, pid={pid}")
+  #   self.parser.problem_parse(response=response.text)
+  #   return problem
+  def submit_code(self, problem_url: str, language_id: str, code: str) -> bool:
+    # https://codeforces.com/contest/1740/problem/G
+    result = re.match('^.*contest/(.*)/problem/(.*)$', problem_url)
+    sid = result.group(1) + result.group(2)
+    return self.submit_code_by_sid(sid, language_id=language_id, code=code)
 
-  def submit_code(self, pid: str, language: str, code: str) -> bool:
+  # TODO move sid out as just Syntactic sugar
+  def submit_code_by_sid(self, sid: str, language_id: str, code: str) -> bool:
     if not self.login_website():
       raise Exception('Login Failed')
 
-    result = re.match('^(\\d+)([A-Z]\\d?)$', pid)
+    result = re.match('^(\\d+)([A-Z]\\d?)$', sid)
     if result is None:
-      raise Exception("submit_code: WRONG pid[" + pid + "]")
+      raise Exception("submit_code: WRONG sid[" + sid + "]")
 
     try:
       res = self.http_util.get(f'{self._base_url}contest/{result.group(1)}/submit')
@@ -239,7 +245,7 @@ class Codeforces(BaseOj):
         'action': 'submitSolutionFormSubmitted',
         'contestId': result.group(1),
         'submittedProblemIndex': result.group(2),
-        'programTypeId': language,
+        'programTypeId': language_id,
         'source': open(code, 'rb').read(),
         'tabSize': 0,
         'sourceFile': '',
@@ -256,16 +262,24 @@ class Codeforces(BaseOj):
       self.logger.exception(e)
       return False
     return False
-
-  def get_result(self, pid: str) -> Result:
-    self.logger.info(f'{self._base_url}api/user.status?handle=' + self.account.account + '&count=1')
+  
+  def get_result_by_sid(self, sid: str) -> SubmissionResult:
+    # TODO more check
+    # TODO websocket
     return self._get_result_by_url(f'{self._base_url}api/user.status?handle=' +
                                    self.account.account + '&count=1')
 
-  def get_result_by_quick_id(self, quick_id: str) -> Result:
+  def get_result(self, problem_url: str) -> SubmissionResult:
+    # TODO more check
+    # TODO websocket
+    return self._get_result_by_url(f'{self._base_url}api/user.status?handle=' +
+                                   self.account.account + '&count=1')
+
+  def get_result_by_quick_id(self, quick_id: str) -> SubmissionResult:
     return self._get_result_by_url(quick_id)
 
-  def _get_result_by_url(self, url: str) -> Result:
+  def _get_result_by_url(self, url: str) -> SubmissionResult:
+    self.logger.debug(url)
     try:
       response = self.http_util.get(url=url)
     except (ReadTimeout, ConnectTimeout) as e:
@@ -318,7 +332,6 @@ class Codeforces(BaseOj):
     printData(resp.text)
     return True
 
-
   def get_contest_meta(self, cid: str) -> ContestMeta:
     self.login_website()
     from .problemList import html2struct
@@ -326,6 +339,7 @@ class Codeforces(BaseOj):
     problems = html2struct(self.http_util.get(url).text)
     for item in problems:
       item.contest_id = cid
+      item.url = os.path.join(self._base_url, 'contest', cid, 'problem', item.id)
 
     return ContestMeta(id=cid, url=url, problems=problems)
 
