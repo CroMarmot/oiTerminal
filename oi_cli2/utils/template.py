@@ -123,7 +123,13 @@ class TemplateManager:
         is_default = False
         break
 
-    temps.append(Template().initial(platform=platform, alias=alias, path=path, compilation=compilation, execute=execute, uplang=uplang, default=is_default))
+    temps.append(Template().initial(platform=platform,
+                                    alias=alias,
+                                    path=path,
+                                    compilation=compilation,
+                                    execute=execute,
+                                    uplang=uplang,
+                                    default=is_default))
     self._set_template_list(temps)
 
   def modify_alias(self, index: int, value: str):
@@ -159,7 +165,8 @@ class TemplateManager:
     self._set_template_list(temps)
 
   # update
-  def update_template(self, platform, alias: str, newalias: str, path: str, compilation: str, execute: str, uplang: str, default: bool):
+  def update_template(self, platform, alias: str, newalias: str, path: str, compilation: str, execute: str, uplang: str,
+                      default: bool):
     temps: List[Template] = self._get_template_list()
     idx = self.find_alias(temps, platform, alias)
     if idx == -1:

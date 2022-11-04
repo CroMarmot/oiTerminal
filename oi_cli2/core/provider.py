@@ -12,8 +12,8 @@ from oi_cli2.utils.template import TemplateManager
 
 
 class Provider:
-  _objs: Dict[str,Any]  = {}
-  _fns: Dict[str,Any] = {}
+  _objs: Dict[str, Any] = {}
+  _fns: Dict[str, Any] = {}
   loop = 0  # 简单防止循环依赖
 
   def __init__(self) -> None:
@@ -54,6 +54,7 @@ def gen_logger():
 
 def gen_template_manager():
   return TemplateManager(db=o.get(DI_DB))
+
 
 def gen_account_manager():
   return AccountManager(db=o.get(DI_DB), cipher=AESCipher(CIPHER_KEY), logger=o.get(DI_LOGGER))

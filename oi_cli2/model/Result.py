@@ -9,7 +9,7 @@ class SubmissionResult:
   class Status(Enum):
     PENDING, RUNNING, AC, RE, CE, WA, TLE, MLE, IDLE, UNKNOWN = range(10)
 
-  id: int = 0
+  id: str = '0'
   cur_status: Status = Status.PENDING
   quick_key: str = ''  # for refetch result
   state_note: str = '0'

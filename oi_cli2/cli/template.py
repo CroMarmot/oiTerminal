@@ -97,4 +97,11 @@ def modify(ctx, platform, name, newname, path, compile, execute, langid, default
   tm: TemplateManager = ctx.obj[DI_TEMPMAN]
   logger: logging.Logger = ctx.obj[DI_LOGGER]
   logger.debug(f"{platform}, {name}, {path}, {compile}, {execute}, {langid},{default}")
-  tm.update_template(platform=platform, alias=name, newalias=newname, path=path, compilation=compile, execute=execute, uplang=langid, default=default)
+  tm.update_template(platform=platform,
+                     alias=name,
+                     newalias=newname,
+                     path=path,
+                     compilation=compile,
+                     execute=execute,
+                     uplang=langid,
+                     default=default)

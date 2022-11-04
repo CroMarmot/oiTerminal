@@ -3,7 +3,7 @@ import logging
 import os
 import time
 import traceback
-from typing import Tuple
+from typing import Tuple, cast
 import click
 from rich.console import Console
 from rich.text import Text
@@ -33,7 +33,7 @@ def watch_result(oj: BaseOj, problem_url: str) -> SubmissionResult:
   return result
 
 
-def submit_parser() -> Tuple[str, str, str, str, str, str]:
+def submit_parser() -> Tuple[str, str, str, Account, str, str]:
   logger: logging.Logger = Provider2().get(DI_LOGGER)
   am: AccountManager = Provider2().get(DI_ACCMAN)
   tm: TemplateManager = Provider2().get(DI_TEMPMAN)
@@ -45,13 +45,12 @@ def submit_parser() -> Tuple[str, str, str, str, str, str]:
     state_oj.__dict__ = json.load(f)
 
   oj = state_oj.oj
-  up_lang = state_oj.up_lang
+  up_lang = cast(str,state_oj.up_lang)
 
   template = tm.get_template_by_name(state_oj.oj, state_oj.template_alias)
 
   if template is None:
-    logger.error(f'Template not found by [{state_oj.oj},{state_oj.template_alias}]')
-    return False
+    raise Exception(f'Template not found by [{state_oj.oj},{state_oj.template_alias}]')
   source_file_name = os.path.basename(template.path)
   code_file = os.path.join('.', source_file_name)
   if not os.path.isfile(code_file):
@@ -92,7 +91,7 @@ def submit_command():
 
 
 @click.command(name="result")
-def submit_command():
+def result_command():
   logger: logging.Logger = Provider2().get(DI_LOGGER)
   platform, sid, up_lang, account, code_path, problem_url = submit_parser()
   console.print(f"OJ         : {platform}")
@@ -107,7 +106,7 @@ def submit_command():
     logger.exception(e)
     raise e
 
-  logger.debug(problem_url) 
+  logger.debug(problem_url)
 
   res = watch_result(oj, problem_url)
   console.print(f"Result ID  : {res.id}")

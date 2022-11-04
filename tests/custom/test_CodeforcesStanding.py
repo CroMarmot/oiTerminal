@@ -13,7 +13,7 @@ def test_standing_contest_1721():
   assert rows[7].penalty == '265'
   assert len(rows[7].problems) == 6
   assert rows[7].problems[1].id == 'B'
-  assert rows[7].problems[1].score == '+1\n00:28' # TODO split?
+  assert rows[7].problems[1].score == '+1\n00:28'  # TODO split?
 
 
 def test_standing_contest_1720():

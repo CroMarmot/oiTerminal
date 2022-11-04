@@ -1,5 +1,5 @@
-
 class FakeLogger:
+
   def warning(self, *args, **kwargs):
     pass
 

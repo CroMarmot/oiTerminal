@@ -14,7 +14,7 @@ from rich.table import Table
 from rich.style import Style
 from rich.console import Console
 from oi_cli2.cli.adaptor.ojman import OJManager
-from oi_cli2.core.DI import DI_ACCMAN, DI_CFG, DI_HTTP, DI_LOGGER, DI_TEMPMAN
+from oi_cli2.core.DI import DI_ACCMAN, DI_CFG, DI_LOGGER, DI_TEMPMAN
 import oi_cli2.core.provider as provider
 
 from oi_cli2.model.BaseOj import BaseOj
@@ -23,7 +23,7 @@ from oi_cli2.model.ProblemMeta import E_STATUS, ProblemMeta
 from oi_cli2.model.TestCase import TestCase
 
 from oi_cli2.utils.FileUtil import FileUtil
-from oi_cli2.utils.HttpUtil import HttpUtil
+from oi_cli2.utils.Provider2 import Provider2
 from oi_cli2.utils.account import AccountManager
 from oi_cli2.utils.configFolder import ConfigFolder
 
@@ -71,9 +71,8 @@ def generate_table(result) -> Table:
   return table
 
 
-
 # TODO support by problem id
-def create_problem(data, pm:ProblemMeta, contest_id: str, template, oj: BaseOj):
+def create_problem(data, pm: ProblemMeta, contest_id: str, template, oj: BaseOj):
   logger: logging.Logger = provider.o.get(DI_LOGGER)
   config_folder: ConfigFolder = provider.o.get(DI_CFG)
   timeOutRetry = 3
@@ -84,8 +83,9 @@ def create_problem(data, pm:ProblemMeta, contest_id: str, template, oj: BaseOj):
       result = oj.problem(pm)
       data[1] = VisitStatus.SUCCESS
       test_cases: List[TestCase] = result.test_cases
-      directory = config_folder.get_file_path(os.path.join('dist',
-                                                           type(oj).__name__, contest_id, pm.id))
+      directory = config_folder.get_file_path(
+          os.path.join('dist',
+                       type(oj).__name__, contest_id, pm.id))
 
       for i in range(len(test_cases)):
         file_util.write(config_folder.get_file_path(os.path.join(directory, f'in.{i}')),
@@ -213,13 +213,13 @@ def list_command(platform: str):
 
   PLATFORM    e.g. AtCoder, Codeforces
   """
-  logger: logging.Logger = provider.o.get(DI_LOGGER)
-  am: AccountManager = provider.o.get(DI_ACCMAN)
+  logger: logging.Logger = Provider2().get(DI_LOGGER)
+  am: AccountManager = Provider2().get(DI_ACCMAN)
 
   try:
     oj: BaseOj = OJManager.createOj(platform=platform,
                                     account=am.get_default_account(platform=platform),
-                                    provider=provider.o)
+                                    provider=Provider2())
   except Exception as e:
     logger.exception(e)
     raise e

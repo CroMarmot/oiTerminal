@@ -21,8 +21,7 @@ class AccountManager:
     return list(map(lambda d: Account().dict_init(d), acc_list))
 
   def _set_account_list(self, acc_list: List[Account]):
-    acc_list.sort(key=lambda acc0: (acc0.platform, -
-                  acc0.default, acc0.account, acc0.password))
+    acc_list.sort(key=lambda acc0: (acc0.platform, -acc0.default, acc0.account, acc0.password))
     self.db.save(Ids.account, list(map(lambda d: d.__dict__, acc_list)))
 
   def get_list(self) -> List[Account]:
@@ -68,7 +67,7 @@ class AccountManager:
         elif default:
           item.default = False
     self._set_account_list(accs)
-    return modified 
+    return modified
 
   # Delete
   def delete(self, platform: str, account: str) -> bool:
@@ -105,8 +104,10 @@ class AccountManager:
     # first account in platform
     if not has_default:
       default = True
-    accs.append(Account().initial(platform=platform, account=account,
-                                  password=self.cipher.encrypt(password), default=default))
+    accs.append(Account().initial(platform=platform,
+                                  account=account,
+                                  password=self.cipher.encrypt(password),
+                                  default=default))
     if default:
       for item in accs:
         if item.platform == platform and item.account != account:

@@ -6,6 +6,7 @@ from oi_cli2.utils.Singleton import Singleton
 
 @Singleton
 class OJUtil(object):
+
   def __init__(self):
     self.short2class = {}
 

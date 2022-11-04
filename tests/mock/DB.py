@@ -1,5 +1,5 @@
-
 class FakeDB:
+
   def __init__(self):
     self.store = {}
 

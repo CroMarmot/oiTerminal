@@ -49,12 +49,12 @@ namespaces = true # true by default
 
 [tool.pytest.ini_options]
 minversion = "6.0"
-addopts = "-ra -q"
+addopts = "-ra -q --ignore=unused*"
 testpaths = [
   "tests",
 ]
 
 [tool.yapf]
 based_on_style = "pep8"
-column_limit = 9999
+column_limit = 120
 indent_width = 2

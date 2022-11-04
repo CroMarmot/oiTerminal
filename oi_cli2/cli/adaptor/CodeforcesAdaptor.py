@@ -5,7 +5,7 @@ from oi_cli2.utils.HtmlTag import HtmlTag
 from oi_cli2.utils.Provider2 import Provider2
 
 
-def CodeforcesGen(account:Account,provider: Provider2) -> BaseOj:
+def CodeforcesGen(account: Account, provider: Provider2) -> BaseOj:
   from oi_cli2.custom.Codeforces.Codeforces import Codeforces
   http_util = provider.get(DI_HTTP)
   oj: BaseOj = Codeforces(http_util=http_util,

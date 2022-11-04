@@ -4,37 +4,38 @@ from oi_cli2.model.Problem import Problem
 
 
 class Contest:
-    def __init__(self, oj: str, cid: str):
-        self._oj: str = oj
-        self._id = cid
-        self._url: str = ''
-        self._name: str = ''
-        self.problems: Dict[str, Problem] = {}
 
-    @property
-    def id(self):
-        return self._id
+  def __init__(self, oj: str, cid: str):
+    self._oj: str = oj
+    self._id = cid
+    self._url: str = ''
+    self._name: str = ''
+    self.problems: Dict[str, Problem] = {}
 
-    @property
-    def name(self):
-        return self._name
+  @property
+  def id(self):
+    return self._id
 
-    @name.setter
-    def name(self, value):
-        self._name = value
+  @property
+  def name(self):
+    return self._name
 
-    @property
-    def url(self):
-        return self._url
+  @name.setter
+  def name(self, value):
+    self._name = value
 
-    @url.setter
-    def url(self, value):
-        self._url = value
+  @property
+  def url(self):
+    return self._url
 
-    @property
-    def oj(self):
-        return self._oj
+  @url.setter
+  def url(self, value):
+    self._url = value
 
-    @oj.setter
-    def oj(self, value):
-        self._oj = value
+  @property
+  def oj(self):
+    return self._oj
+
+  @oj.setter
+  def oj(self, value):
+    self._oj = value

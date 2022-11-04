@@ -15,7 +15,7 @@ class Template:
     self.path = ''
     self.compilation = ''
     self.execute = ''
-    self.clean = '' # deperated
+    self.clean = ''  # deperated
     self.uplang = ''
     self.default = False
 
