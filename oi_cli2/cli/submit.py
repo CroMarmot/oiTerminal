@@ -76,7 +76,7 @@ def submit_command():
       logger.exception(e)
       raise e
 
-    if not oj.submit_code(problem_url=problem_url, language_id=language, code=file_path):
+    if not oj.submit_code(problem_url=problem_url, language_id=up_lang, code_path=code_path):
       raise Exception(f'submit failed, account={account.account}')
     console.print("[green]Submitted")
     res = watch_result(oj, problem_url)
@@ -111,5 +111,5 @@ def result_command():
   res = watch_result(oj, problem_url)
   console.print(f"Result ID  : {res.id}")
   console.print(Text.from_ansi(f"Status     : {status_string(res)}"))
-  console.print(f"Time       : {res.time_note}")
-  console.print(f"Memory     : {res.mem_note}")
+  console.print(f"Time(s)    : {res.time_note}")
+  console.print(f"Memory(KB) : {res.mem_note}")

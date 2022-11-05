@@ -47,7 +47,8 @@ cliAccept = {
         "fetch": platformKey(),
     },
     "test": {},
-    "submit": {}
+    "submit": {},
+    "result": {},
 }
 
 

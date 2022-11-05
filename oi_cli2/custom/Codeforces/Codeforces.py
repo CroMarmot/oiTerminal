@@ -243,7 +243,7 @@ class Codeforces(BaseOj):
         'contestId': result.group(1),
         'submittedProblemIndex': result.group(2),
         'programTypeId': language_id,
-        'source': str(open(code_path, 'rb').read()),
+        'source': open(code_path, 'rb').read(),
         'tabSize': 0,
         'sourceFile': '',
     }
