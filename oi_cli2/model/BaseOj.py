@@ -29,7 +29,7 @@ class BaseOj(object):
   # def get_problem(self, pid: str) -> Problem:
   #   assert(False)
 
-  def submit_code(self, problem_url: str, language_id: str, code: str) -> Union[bool,HttpRespInterface]:
+  def submit_code(self, problem_url: str, language_id: str, code_path: str) -> Union[bool,HttpRespInterface]:
     assert (False)
 
   def submit_code_by_sid(self, sid: str, language_id: str, code: str) -> bool:

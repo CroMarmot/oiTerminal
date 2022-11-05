@@ -18,13 +18,14 @@ from oi_cli2.utils.Provider2 import Provider2
 from oi_cli2.utils.configFolder import ConfigFolder
 from oi_cli2.utils.enc import AESCipher
 from oi_cli2.abstract.HtmlTagAbstract import HtmlTagAbstract
+from oi_cli2.core.DI import DI_ACCMAN, DI_LOGGER, DI_PROVIDER
 
 from ac_core.auth import fetch_login, is_logged_in
 from ac_core.contest import fetch_tasks_meta, ParserProblemResult, fetch_standing
 from ac_core.problem import parse_task
 from ac_core.submit import fetch_submit
 from ac_core.interfaces.HttpUtil import HttpRespInterface
-from ac_core.result import fetch_result, SubmissionResult as CORE_SUB_RES
+from ac_core.result import fetch_result, fetch_result_by_url, SubmissionResult as CORE_SUB_RES
 
 console = Console(color_system='256', style=None)
 
@@ -35,6 +36,34 @@ def s2str(sec: int) -> str:
   if sec < 60 * 60:
     return f"{sec//60}:{(sec%60):02d}"
   return f"{sec // 60 // 60}:{((sec // 60) % 60):02d}:{(sec % 60):02d}"
+
+
+def transform_Result(res: CORE_SUB_RES) -> SubmissionResult:
+  mapdict = {
+      CORE_SUB_RES.Status.AC: SubmissionResult.Status.AC,
+      CORE_SUB_RES.Status.PENDING: SubmissionResult.Status.PENDING,
+      CORE_SUB_RES.Status.RUNNING: SubmissionResult.Status.RUNNING,
+      CORE_SUB_RES.Status.INIT: SubmissionResult.Status.PENDING,
+      CORE_SUB_RES.Status.RE: SubmissionResult.Status.RE,
+      CORE_SUB_RES.Status.TLE: SubmissionResult.Status.TLE,
+      CORE_SUB_RES.Status.WA: SubmissionResult.Status.WA,
+      CORE_SUB_RES.Status.CE: SubmissionResult.Status.CE,
+  }
+  if res.status in list(mapdict.keys()):
+    status = mapdict[res.status]
+  else:
+    logger: logging.Logger = Provider2().get(DI_LOGGER)
+    logger.error(f'Unknown status {res.status}')
+    status = SubmissionResult.Status.UNKNOWN
+
+  return SubmissionResult(
+      id=res.id,
+      cur_status=status,
+      quick_key=res.url,  # for refetch result
+      state_note=str(res.score),
+      time_note=str(res.time_cost_ms),
+      mem_note=str(res.mem_cost_kb),
+  )
 
 
 class AtCoder(BaseOj):
@@ -102,35 +131,16 @@ class AtCoder(BaseOj):
     return fetch_submit(self.http_util,
                         problem_url=problem_url,
                         lang_id=language_id,
-                        source_code=str(open(code_path, 'rb').read()))
+                        source_code=open(code_path, 'r').read())
+
+  def get_result_by_quick_id(self, quick_id: str) -> SubmissionResult:
+    res = fetch_result_by_url(self.http_util, quick_id)
+    return transform_Result(res)
 
   def get_result(self, problem_url: str) -> SubmissionResult:
     # problem_url https://atcoder.jp/contests/abc275/tasks/abc275_f
-    res: CORE_SUB_RES = fetch_result(self.http_util, problem_url)
-    mapdict = {
-        CORE_SUB_RES.Status.AC: SubmissionResult.Status.AC,
-        CORE_SUB_RES.Status.PENDING: SubmissionResult.Status.PENDING,
-        CORE_SUB_RES.Status.RUNNING: SubmissionResult.Status.RUNNING,
-        CORE_SUB_RES.Status.INIT: SubmissionResult.Status.PENDING,
-        CORE_SUB_RES.Status.RE: SubmissionResult.Status.RE,
-        CORE_SUB_RES.Status.TLE: SubmissionResult.Status.TLE,
-        CORE_SUB_RES.Status.WA: SubmissionResult.Status.WA,
-        CORE_SUB_RES.Status.CE: SubmissionResult.Status.CE,
-    }
-    if res.status in list(mapdict.keys()):
-      status = mapdict[res.status]
-    else:
-      self.logger.error(f'Unknown status {res.status}')
-      status = SubmissionResult.Status.eNKNOWN
-
-    return SubmissionResult(
-        id=res.id,
-        cur_status=status,
-        quick_key=res.url,  # for refetch result
-        state_note=str(res.score),
-        time_note=str(res.time_cost_ms),
-        mem_note=str(res.mem_cost_kb),
-    )
+    res = fetch_result(self.http_util, problem_url)
+    return transform_Result(res)
 
   # TODO fav control ?
   def print_friends_standing(self, cid: str) -> None:

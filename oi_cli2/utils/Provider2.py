@@ -32,7 +32,7 @@ class Provider2:
     self._fns[key] = func
     return True
 
-  def get(self, key: str):
+  def get(self, key: str) -> Any:
     self.loop += 1
     assert key in self._fns
     assert (self.loop < 100)
