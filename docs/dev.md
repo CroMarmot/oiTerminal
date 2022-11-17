@@ -77,3 +77,11 @@ development: `export OITERMINAL_ENV=dev`
 mypy --install-types
 mypy oi_cli2/cli/main.py
 ```
+
+## 自动补全
+
+`~/.bashrc` 中增加
+
+```bashrc
+source /<your source code path>/auto-completion/ot-auto-completion.sh
+```

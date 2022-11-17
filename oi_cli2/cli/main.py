@@ -9,6 +9,7 @@ from oi_cli2.cli.contest import contest
 from oi_cli2.cli.init import init
 from oi_cli2.cli.submit import submit_command, result_command
 from oi_cli2.cli.test import tst_command
+from oi_cli2.cli.completion import completion_command
 from oi_cli2.custom.AtCoder.AtCoder import AtCoder
 from oi_cli2.custom.Codeforces.Codeforces import Codeforces
 
@@ -38,3 +39,4 @@ main.add_command(contest)
 main.add_command(tst_command)
 main.add_command(submit_command)
 main.add_command(result_command)
+main.add_command(completion_command)
