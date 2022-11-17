@@ -1,15 +1,7 @@
-#!/usr/bin/env python3
-from sys import argv
+import click
 
+# TODO inject account
 platformNames = ["Codeforces", "AtCoder"]
-isDebug = False
-
-
-def debug(s: str):
-  if not isDebug:
-    return
-  with open('/tmp/ot-auto-completion-debug.log', 'a') as f:
-    f.write(s)
 
 
 def platformKey():
@@ -52,12 +44,15 @@ cliAccept = {
 }
 
 
-def main():
-  # first is python scripts name, second is program name
-  debug(str(argv))
+@click.command(name="completion")
+@click.argument('cmds', nargs=-1)  # unlimited args
+def completion_command(cmds):  # (oi, xxx, xxx)
+  # Debug
+  # with open('/tmp/out','a+') as f:
+  #   f.write(str(cmds))
   ptr = cliAccept
-  for i in range(2, len(argv)):
-    key = argv[i]
+  for i in range(1, len(cmds)):
+    key = cmds[i]
     if key in ptr:
       ptr = ptr[key]
     else:
@@ -66,7 +61,3 @@ def main():
   for k in ptr:
     print(k, end=' ')
   print()
-
-
-if __name__ == '__main__':
-  main()
