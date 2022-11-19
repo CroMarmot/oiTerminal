@@ -23,14 +23,6 @@ pip3 install -e .
 source /tmp/ot-auto-completion.sh
 ```
 
-## 手动配置CF RCPC
-
-手动添加`.oiTerminal/CF_RCPC`, 内容为浏览器中`cookie`的`RCPC`字段
-
-```text
-xxxxxxxxxxxxxxxxxxxxxxxx
-```
-
 ## oi Cheeat Sheat
 
 |Feature|Command|
