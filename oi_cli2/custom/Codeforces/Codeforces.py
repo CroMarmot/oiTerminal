@@ -22,7 +22,7 @@ from oi_cli2.utils.HttpUtilCookiesHelper import HttpUtilCookiesHelper
 from oi_cli2.utils.Provider2 import Provider2
 from oi_cli2.utils.configFolder import ConfigFolder
 from oi_cli2.utils.enc import AESCipher
-
+from .cf_rcpc_token_decode import get_cipher_token
 
 
 class Codeforces(BaseOj):
@@ -39,9 +39,13 @@ class Codeforces(BaseOj):
     config_folder = ConfigFolder(OT_FOLDER)
     HttpUtilCookiesHelper.load_cookie(provider=Provider2(), platform=Codeforces.__name__, account=account.account)
     # write codeforces RCPC cookie in .oiTerminal/CF_RCPC
-    with open(config_folder.get_config_file_path("CF_RCPC")) as f:
-      rcpc = f.read().strip()
-      self.http_util.cookies.set("RCPC", rcpc, domain="codeforces.com")
+    # with open(config_folder.get_config_file_path("CF_RCPC")) as f:
+    #   rcpc = f.read().strip()
+    #   self.http_util.cookies.set("RCPC", rcpc, domain="codeforces.com")
+    ok, chiper, rcpc_token = get_cipher_token()
+    if ok:
+      # TODO cache RCPC and auto check update
+      self.http_util.cookies.set("RCPC", rcpc_token, domain="codeforces.com")
 
   def pid2url(self, problem_id: str):
     result = re.match('^(\\d+)([A-Z]\\d?)$', problem_id)
