@@ -44,8 +44,11 @@ class Codeforces(BaseOj):
     #   self.http_util.cookies.set("RCPC", rcpc, domain="codeforces.com")
     ok, chiper, rcpc_token = get_cipher_token()
     if ok:
+      print("RCPC ok")  #, rcpc_token)
       # TODO cache RCPC and auto check update
-      self.http_util.cookies.set("RCPC", rcpc_token, domain="codeforces.com")
+      self.http_util.cookies.set("RCPC", rcpc_token) # , domain="codeforces.com")
+    else:
+      print("RCPC failed")
 
   def pid2url(self, problem_id: str):
     result = re.match('^(\\d+)([A-Z]\\d?)$', problem_id)
@@ -224,6 +227,7 @@ class Codeforces(BaseOj):
   def submit_code_by_sid(self, sid: str, language_id: str, code_path: str) -> bool:
     if not self.login_website():
       raise Exception('Login Failed')
+    print("Login ok")
 
     result = re.match('^(\\d+)([A-Z]\\d?)$', sid)
     if result is None:
