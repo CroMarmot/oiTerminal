@@ -27,6 +27,6 @@ def status_string(result: SubmissionResult) -> str:
       SubmissionResult.Status.WA: RED + 'WA' + DEFAULT,
       SubmissionResult.Status.TLE: RED + 'TLE' + DEFAULT,
       SubmissionResult.Status.MLE: RED + 'MLE' + DEFAULT,
-      SubmissionResult.Status.MLE: RED + 'IDLENESS_LIMIT_EXCEEDED' + DEFAULT,
+      SubmissionResult.Status.IDLE: RED + 'IDLENESS_LIMIT_EXCEEDED' + DEFAULT,
       SubmissionResult.Status.UNKNOWN: RED + 'UNKNOWN RESULT' + DEFAULT,
   }[result.cur_status]
