@@ -103,10 +103,6 @@ def submit_command():
       raise Exception(f'submit failed, account={account.account}')
     console.print("[green]Submitted")
     watch_result(oj, problem_url)
-    # console.print(f"Result ID  : {res.id}")
-    # console.print(Text.from_ansi(f"Status     : {status_string(res)}"))
-    # console.print(f"Time       : {res.time_note}")
-    # console.print(f"Memory     : {res.mem_note}")
   except KeyboardInterrupt:
     logger.info("Interrupt by user")
   except Exception:
@@ -131,8 +127,4 @@ def result_command():
 
   logger.debug(problem_url)
 
-  res = watch_result(oj, problem_url)
-  # console.print(f"Result ID  : {res.id}")
-  # console.print(Text.from_ansi(f"Status     : {status_string(res)}"))
-  # console.print(f"Time(s)    : {res.time_note}")
-  # console.print(f"Memory(KB) : {res.mem_note}")
+  watch_result(oj, problem_url)
