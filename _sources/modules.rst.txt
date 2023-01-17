@@ -5,5 +5,3 @@ oiTerminal
    :maxdepth: 4
 
    oi_cli2
-   setup
-   tests
