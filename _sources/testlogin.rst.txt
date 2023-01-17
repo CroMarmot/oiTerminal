@@ -1,7 +1,0 @@
-testlogin module
-================
-
-.. automodule:: testlogin
-   :members:
-   :undoc-members:
-   :show-inheritance:

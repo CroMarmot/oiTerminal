@@ -6,5 +6,4 @@ oiTerminal
 
    oi_cli2
    setup
-   testlogin
    tests
