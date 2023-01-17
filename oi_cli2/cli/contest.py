@@ -153,10 +153,10 @@ async def createDir(oj: BaseOj, contest_id: str, problems: List[ProblemMeta]):
     tasks.append(task)
     task.start()
 
-  with Live(generate_table(result), refresh_per_second=4) as live:
+  with Live(generate_table(result), auto_refresh=False) as live:
     while not all_visit(result):
       await asyncio.sleep(0.05)  # time.sleep 会卡住
-      live.update(generate_table(result))
+      live.update(generate_table(result), refresh=True)
 
   for t in tasks:  # wait all task finished
     t.join()
