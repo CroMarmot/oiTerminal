@@ -18,7 +18,7 @@ jobs:
       run: pip install -r requirements.txt
     - name: build doc
       run: |
-        sphinx-apidoc -o docs/ . -f
+        sphinx-apidoc -f -o docs/ . tests setup.py
         cd docs && make html
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
