@@ -6,6 +6,8 @@
 Welcome to oi-cli's documentation!
 ==================================
 
+A simple personal use command line tool for Codeforces and AtCoder
+
 .. toctree::
    :maxdepth: 2
    :hidden:
