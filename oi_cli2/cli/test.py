@@ -83,7 +83,7 @@ def tst_main():
          logger=logger)
 
   # shutil.rmtree(TEST_FOLDER)
-  logger.info('test finished')
+  logger.debug('test finished')
 
 
 @click.command(name='test')
