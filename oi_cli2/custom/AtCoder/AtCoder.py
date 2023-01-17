@@ -161,7 +161,7 @@ class AtCoder(BaseOj):
       row: List[str] = []
       d = standing.StandingsData[i]
       is_self = d.UserName == self.account.account
-      if is_self or (i & (i - 1)) == 0:
+      if is_self or (i & (i + 1)) == 0: # care 0-index
         row.append(str(d.Rank))
         row.append(d.UserScreenName)
         for task in standing.TaskInfo:
