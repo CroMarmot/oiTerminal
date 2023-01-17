@@ -1,0 +1,19 @@
+oi\_cli2.custom package
+=======================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   oi_cli2.custom.AtCoder
+   oi_cli2.custom.Codeforces
+
+Module contents
+---------------
+
+.. automodule:: oi_cli2.custom
+   :members:
+   :undoc-members:
+   :show-inheritance:

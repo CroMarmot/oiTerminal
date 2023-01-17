@@ -1,0 +1,37 @@
+oi\_cli2.core package
+=====================
+
+Submodules
+----------
+
+oi\_cli2.core.DI module
+-----------------------
+
+.. automodule:: oi_cli2.core.DI
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+oi\_cli2.core.problem module
+----------------------------
+
+.. automodule:: oi_cli2.core.problem
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+oi\_cli2.core.provider module
+-----------------------------
+
+.. automodule:: oi_cli2.core.provider
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: oi_cli2.core
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,69 @@
+oi\_cli2.custom.Codeforces package
+==================================
+
+Submodules
+----------
+
+oi\_cli2.custom.Codeforces.Codeforces module
+--------------------------------------------
+
+.. automodule:: oi_cli2.custom.Codeforces.Codeforces
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+oi\_cli2.custom.Codeforces.CodeforcesParser module
+--------------------------------------------------
+
+.. automodule:: oi_cli2.custom.Codeforces.CodeforcesParser
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+oi\_cli2.custom.Codeforces.cf\_rcpc\_token\_decode module
+---------------------------------------------------------
+
+.. automodule:: oi_cli2.custom.Codeforces.cf_rcpc_token_decode
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+oi\_cli2.custom.Codeforces.contestList module
+---------------------------------------------
+
+.. automodule:: oi_cli2.custom.Codeforces.contestList
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+oi\_cli2.custom.Codeforces.problemList module
+---------------------------------------------
+
+.. automodule:: oi_cli2.custom.Codeforces.problemList
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+oi\_cli2.custom.Codeforces.slow\_aes module
+-------------------------------------------
+
+.. automodule:: oi_cli2.custom.Codeforces.slow_aes
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+oi\_cli2.custom.Codeforces.standing module
+------------------------------------------
+
+.. automodule:: oi_cli2.custom.Codeforces.standing
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: oi_cli2.custom.Codeforces
+   :members:
+   :undoc-members:
+   :show-inheritance:

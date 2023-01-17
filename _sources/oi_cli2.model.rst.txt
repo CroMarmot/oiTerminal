@@ -1,0 +1,109 @@
+oi\_cli2.model package
+======================
+
+Submodules
+----------
+
+oi\_cli2.model.Account module
+-----------------------------
+
+.. automodule:: oi_cli2.model.Account
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+oi\_cli2.model.Analyze module
+-----------------------------
+
+.. automodule:: oi_cli2.model.Analyze
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+oi\_cli2.model.BaseOj module
+----------------------------
+
+.. automodule:: oi_cli2.model.BaseOj
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+oi\_cli2.model.Contest module
+-----------------------------
+
+.. automodule:: oi_cli2.model.Contest
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+oi\_cli2.model.FolderState module
+---------------------------------
+
+.. automodule:: oi_cli2.model.FolderState
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+oi\_cli2.model.LangKV module
+----------------------------
+
+.. automodule:: oi_cli2.model.LangKV
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+oi\_cli2.model.ParseProblemResult module
+----------------------------------------
+
+.. automodule:: oi_cli2.model.ParseProblemResult
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+oi\_cli2.model.Problem module
+-----------------------------
+
+.. automodule:: oi_cli2.model.Problem
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+oi\_cli2.model.ProblemMeta module
+---------------------------------
+
+.. automodule:: oi_cli2.model.ProblemMeta
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+oi\_cli2.model.Result module
+----------------------------
+
+.. automodule:: oi_cli2.model.Result
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+oi\_cli2.model.Template module
+------------------------------
+
+.. automodule:: oi_cli2.model.Template
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+oi\_cli2.model.TestCase module
+------------------------------
+
+.. automodule:: oi_cli2.model.TestCase
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: oi_cli2.model
+   :members:
+   :undoc-members:
+   :show-inheritance:

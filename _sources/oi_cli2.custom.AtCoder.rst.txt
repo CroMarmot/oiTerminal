@@ -1,0 +1,21 @@
+oi\_cli2.custom.AtCoder package
+===============================
+
+Submodules
+----------
+
+oi\_cli2.custom.AtCoder.AtCoder module
+--------------------------------------
+
+.. automodule:: oi_cli2.custom.AtCoder.AtCoder
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: oi_cli2.custom.AtCoder
+   :members:
+   :undoc-members:
+   :show-inheritance:

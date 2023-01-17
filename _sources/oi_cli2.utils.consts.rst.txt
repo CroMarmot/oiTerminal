@@ -1,0 +1,29 @@
+oi\_cli2.utils.consts package
+=============================
+
+Submodules
+----------
+
+oi\_cli2.utils.consts.ids module
+--------------------------------
+
+.. automodule:: oi_cli2.utils.consts.ids
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+oi\_cli2.utils.consts.platforms module
+--------------------------------------
+
+.. automodule:: oi_cli2.utils.consts.platforms
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: oi_cli2.utils.consts
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,117 @@
+oi\_cli2.cli package
+====================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   oi_cli2.cli.adaptor
+
+Submodules
+----------
+
+oi\_cli2.cli.account module
+---------------------------
+
+.. automodule:: oi_cli2.cli.account
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+oi\_cli2.cli.analyze module
+---------------------------
+
+.. automodule:: oi_cli2.cli.analyze
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+oi\_cli2.cli.completion module
+------------------------------
+
+.. automodule:: oi_cli2.cli.completion
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+oi\_cli2.cli.config module
+--------------------------
+
+.. automodule:: oi_cli2.cli.config
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+oi\_cli2.cli.constant module
+----------------------------
+
+.. automodule:: oi_cli2.cli.constant
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+oi\_cli2.cli.contest module
+---------------------------
+
+.. automodule:: oi_cli2.cli.contest
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+oi\_cli2.cli.init module
+------------------------
+
+.. automodule:: oi_cli2.cli.init
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+oi\_cli2.cli.main module
+------------------------
+
+.. automodule:: oi_cli2.cli.main
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+oi\_cli2.cli.problem module
+---------------------------
+
+.. automodule:: oi_cli2.cli.problem
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+oi\_cli2.cli.submit module
+--------------------------
+
+.. automodule:: oi_cli2.cli.submit
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+oi\_cli2.cli.template module
+----------------------------
+
+.. automodule:: oi_cli2.cli.template
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+oi\_cli2.cli.test module
+------------------------
+
+.. automodule:: oi_cli2.cli.test
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: oi_cli2.cli
+   :members:
+   :undoc-members:
+   :show-inheritance:

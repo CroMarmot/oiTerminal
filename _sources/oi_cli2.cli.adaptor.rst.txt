@@ -1,0 +1,37 @@
+oi\_cli2.cli.adaptor package
+============================
+
+Submodules
+----------
+
+oi\_cli2.cli.adaptor.AtcoderAdaptor module
+------------------------------------------
+
+.. automodule:: oi_cli2.cli.adaptor.AtcoderAdaptor
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+oi\_cli2.cli.adaptor.CodeforcesAdaptor module
+---------------------------------------------
+
+.. automodule:: oi_cli2.cli.adaptor.CodeforcesAdaptor
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+oi\_cli2.cli.adaptor.ojman module
+---------------------------------
+
+.. automodule:: oi_cli2.cli.adaptor.ojman
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: oi_cli2.cli.adaptor
+   :members:
+   :undoc-members:
+   :show-inheritance:

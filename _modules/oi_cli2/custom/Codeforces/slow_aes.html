@@ -1,0 +1,912 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../genindex.html" /><link rel="search" title="Search" href="../../../../search.html" />
+
+    <!-- Generated with Sphinx 5.0.0 and Furo 2022.12.07 -->
+        <title>oi_cli2.custom.Codeforces.slow_aes - yxr-oi-cli 0.2.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?digest=91d0f0d1c444bdcb17a68e833c7a53903343c195" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../../../index.html"><div class="brand">yxr-oi-cli 0.2.1 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../../index.html">
+  
+  
+  <span class="sidebar-brand-text">yxr-oi-cli 0.2.1 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../../../../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../usage0.2/index.html">User</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../usage0.2/install.html">Install</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../usage0.2/init.html">Init</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../usage0.2/config.html">Config</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../usage0.2/contest.html">Contest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../usage0.2/test.html">Test Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../usage0.2/submit.html">Submit Code</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../dev/index.html">Developer</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../dev/doc.html">Doc</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../modules.html">oiTerminal</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../oi_cli2.html">oi_cli2 package</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../oi_cli2.abstract.html">oi_cli2.abstract package</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../../oi_cli2.cli.html">oi_cli2.cli package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../oi_cli2.cli.adaptor.html">oi_cli2.cli.adaptor package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../oi_cli2.core.html">oi_cli2.core package</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../../oi_cli2.custom.html">oi_cli2.custom package</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../oi_cli2.custom.AtCoder.html">oi_cli2.custom.AtCoder package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../oi_cli2.custom.Codeforces.html">oi_cli2.custom.Codeforces package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../oi_cli2.model.html">oi_cli2.model package</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../../oi_cli2.utils.html">oi_cli2.utils package</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../oi_cli2.utils.consts.html">oi_cli2.utils.consts package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../setup.html">setup module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../testlogin.html">testlogin module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../tests.html">tests package</a></li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <h1>Source code for oi_cli2.custom.Codeforces.slow_aes</h1><div class="highlight"><pre>
+<span></span><span class="c1"># # https://github.com/great-prophet/adhoc_cf_rcpc_token_decoder</span>
+<span class="c1">#</span>
+<span class="c1"># Translated from Python 2 to Python 3</span>
+<span class="c1"># aes.py: implements AES - Advanced Encryption Standard</span>
+<span class="c1"># from the SlowAES project, http://code.google.com/p/slowaes/</span>
+<span class="c1">#</span>
+<span class="c1"># Copyright (c) 2008    Josh Davis ( http://www.josh-davis.org ),</span>
+<span class="c1">#           Alex Martelli ( http://www.aleax.it )</span>
+<span class="c1">#</span>
+<span class="c1"># Ported from C code written by Laurent Haan ( http://www.progressive-coding.com )</span>
+<span class="c1">#</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0</span>
+<span class="c1"># http://www.apache.org/licenses/</span>
+<span class="c1">#</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">math</span>
+
+<div class="viewcode-block" id="append_PKCS7_padding"><a class="viewcode-back" href="../../../../oi_cli2.custom.Codeforces.html#oi_cli2.custom.Codeforces.slow_aes.append_PKCS7_padding">[docs]</a><span class="k">def</span> <span class="nf">append_PKCS7_padding</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;return s padded to a multiple of 16-bytes by PKCS7 padding&quot;&quot;&quot;</span>
+    <span class="n">numpads</span> <span class="o">=</span> <span class="mi">16</span> <span class="o">-</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">%</span><span class="mi">16</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">s</span> <span class="o">+</span> <span class="n">numpads</span><span class="o">*</span><span class="nb">chr</span><span class="p">(</span><span class="n">numpads</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="strip_PKCS7_padding"><a class="viewcode-back" href="../../../../oi_cli2.custom.Codeforces.html#oi_cli2.custom.Codeforces.slow_aes.strip_PKCS7_padding">[docs]</a><span class="k">def</span> <span class="nf">strip_PKCS7_padding</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;return s stripped of PKCS7 padding&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">%</span><span class="mi">16</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">s</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;String of len </span><span class="si">%d</span><span class="s2"> can&#39;t be PCKS7-padded&quot;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>
+    <span class="n">numpads</span> <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">numpads</span> <span class="o">&gt;</span> <span class="mi">16</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;String ending with </span><span class="si">%r</span><span class="s2"> can&#39;t be PCKS7-padded&quot;</span> <span class="o">%</span> <span class="n">s</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">s</span><span class="p">[:</span><span class="o">-</span><span class="n">numpads</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="AES"><a class="viewcode-back" href="../../../../oi_cli2.custom.Codeforces.html#oi_cli2.custom.Codeforces.slow_aes.AES">[docs]</a><span class="k">class</span> <span class="nc">AES</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="c1"># valid key sizes</span>
+    <span class="n">keySize</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">SIZE_128</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">SIZE_192</span><span class="o">=</span><span class="mi">24</span><span class="p">,</span> <span class="n">SIZE_256</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
+
+    <span class="c1"># Rijndael S-box</span>
+    <span class="n">sbox</span> <span class="o">=</span>  <span class="p">[</span><span class="mh">0x63</span><span class="p">,</span> <span class="mh">0x7c</span><span class="p">,</span> <span class="mh">0x77</span><span class="p">,</span> <span class="mh">0x7b</span><span class="p">,</span> <span class="mh">0xf2</span><span class="p">,</span> <span class="mh">0x6b</span><span class="p">,</span> <span class="mh">0x6f</span><span class="p">,</span> <span class="mh">0xc5</span><span class="p">,</span> <span class="mh">0x30</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span> <span class="mh">0x67</span><span class="p">,</span>
+            <span class="mh">0x2b</span><span class="p">,</span> <span class="mh">0xfe</span><span class="p">,</span> <span class="mh">0xd7</span><span class="p">,</span> <span class="mh">0xab</span><span class="p">,</span> <span class="mh">0x76</span><span class="p">,</span> <span class="mh">0xca</span><span class="p">,</span> <span class="mh">0x82</span><span class="p">,</span> <span class="mh">0xc9</span><span class="p">,</span> <span class="mh">0x7d</span><span class="p">,</span> <span class="mh">0xfa</span><span class="p">,</span> <span class="mh">0x59</span><span class="p">,</span>
+            <span class="mh">0x47</span><span class="p">,</span> <span class="mh">0xf0</span><span class="p">,</span> <span class="mh">0xad</span><span class="p">,</span> <span class="mh">0xd4</span><span class="p">,</span> <span class="mh">0xa2</span><span class="p">,</span> <span class="mh">0xaf</span><span class="p">,</span> <span class="mh">0x9c</span><span class="p">,</span> <span class="mh">0xa4</span><span class="p">,</span> <span class="mh">0x72</span><span class="p">,</span> <span class="mh">0xc0</span><span class="p">,</span> <span class="mh">0xb7</span><span class="p">,</span>
+            <span class="mh">0xfd</span><span class="p">,</span> <span class="mh">0x93</span><span class="p">,</span> <span class="mh">0x26</span><span class="p">,</span> <span class="mh">0x36</span><span class="p">,</span> <span class="mh">0x3f</span><span class="p">,</span> <span class="mh">0xf7</span><span class="p">,</span> <span class="mh">0xcc</span><span class="p">,</span> <span class="mh">0x34</span><span class="p">,</span> <span class="mh">0xa5</span><span class="p">,</span> <span class="mh">0xe5</span><span class="p">,</span> <span class="mh">0xf1</span><span class="p">,</span>
+            <span class="mh">0x71</span><span class="p">,</span> <span class="mh">0xd8</span><span class="p">,</span> <span class="mh">0x31</span><span class="p">,</span> <span class="mh">0x15</span><span class="p">,</span> <span class="mh">0x04</span><span class="p">,</span> <span class="mh">0xc7</span><span class="p">,</span> <span class="mh">0x23</span><span class="p">,</span> <span class="mh">0xc3</span><span class="p">,</span> <span class="mh">0x18</span><span class="p">,</span> <span class="mh">0x96</span><span class="p">,</span> <span class="mh">0x05</span><span class="p">,</span>
+            <span class="mh">0x9a</span><span class="p">,</span> <span class="mh">0x07</span><span class="p">,</span> <span class="mh">0x12</span><span class="p">,</span> <span class="mh">0x80</span><span class="p">,</span> <span class="mh">0xe2</span><span class="p">,</span> <span class="mh">0xeb</span><span class="p">,</span> <span class="mh">0x27</span><span class="p">,</span> <span class="mh">0xb2</span><span class="p">,</span> <span class="mh">0x75</span><span class="p">,</span> <span class="mh">0x09</span><span class="p">,</span> <span class="mh">0x83</span><span class="p">,</span>
+            <span class="mh">0x2c</span><span class="p">,</span> <span class="mh">0x1a</span><span class="p">,</span> <span class="mh">0x1b</span><span class="p">,</span> <span class="mh">0x6e</span><span class="p">,</span> <span class="mh">0x5a</span><span class="p">,</span> <span class="mh">0xa0</span><span class="p">,</span> <span class="mh">0x52</span><span class="p">,</span> <span class="mh">0x3b</span><span class="p">,</span> <span class="mh">0xd6</span><span class="p">,</span> <span class="mh">0xb3</span><span class="p">,</span> <span class="mh">0x29</span><span class="p">,</span>
+            <span class="mh">0xe3</span><span class="p">,</span> <span class="mh">0x2f</span><span class="p">,</span> <span class="mh">0x84</span><span class="p">,</span> <span class="mh">0x53</span><span class="p">,</span> <span class="mh">0xd1</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0xed</span><span class="p">,</span> <span class="mh">0x20</span><span class="p">,</span> <span class="mh">0xfc</span><span class="p">,</span> <span class="mh">0xb1</span><span class="p">,</span> <span class="mh">0x5b</span><span class="p">,</span>
+            <span class="mh">0x6a</span><span class="p">,</span> <span class="mh">0xcb</span><span class="p">,</span> <span class="mh">0xbe</span><span class="p">,</span> <span class="mh">0x39</span><span class="p">,</span> <span class="mh">0x4a</span><span class="p">,</span> <span class="mh">0x4c</span><span class="p">,</span> <span class="mh">0x58</span><span class="p">,</span> <span class="mh">0xcf</span><span class="p">,</span> <span class="mh">0xd0</span><span class="p">,</span> <span class="mh">0xef</span><span class="p">,</span> <span class="mh">0xaa</span><span class="p">,</span>
+            <span class="mh">0xfb</span><span class="p">,</span> <span class="mh">0x43</span><span class="p">,</span> <span class="mh">0x4d</span><span class="p">,</span> <span class="mh">0x33</span><span class="p">,</span> <span class="mh">0x85</span><span class="p">,</span> <span class="mh">0x45</span><span class="p">,</span> <span class="mh">0xf9</span><span class="p">,</span> <span class="mh">0x02</span><span class="p">,</span> <span class="mh">0x7f</span><span class="p">,</span> <span class="mh">0x50</span><span class="p">,</span> <span class="mh">0x3c</span><span class="p">,</span>
+            <span class="mh">0x9f</span><span class="p">,</span> <span class="mh">0xa8</span><span class="p">,</span> <span class="mh">0x51</span><span class="p">,</span> <span class="mh">0xa3</span><span class="p">,</span> <span class="mh">0x40</span><span class="p">,</span> <span class="mh">0x8f</span><span class="p">,</span> <span class="mh">0x92</span><span class="p">,</span> <span class="mh">0x9d</span><span class="p">,</span> <span class="mh">0x38</span><span class="p">,</span> <span class="mh">0xf5</span><span class="p">,</span> <span class="mh">0xbc</span><span class="p">,</span>
+            <span class="mh">0xb6</span><span class="p">,</span> <span class="mh">0xda</span><span class="p">,</span> <span class="mh">0x21</span><span class="p">,</span> <span class="mh">0x10</span><span class="p">,</span> <span class="mh">0xff</span><span class="p">,</span> <span class="mh">0xf3</span><span class="p">,</span> <span class="mh">0xd2</span><span class="p">,</span> <span class="mh">0xcd</span><span class="p">,</span> <span class="mh">0x0c</span><span class="p">,</span> <span class="mh">0x13</span><span class="p">,</span> <span class="mh">0xec</span><span class="p">,</span>
+            <span class="mh">0x5f</span><span class="p">,</span> <span class="mh">0x97</span><span class="p">,</span> <span class="mh">0x44</span><span class="p">,</span> <span class="mh">0x17</span><span class="p">,</span> <span class="mh">0xc4</span><span class="p">,</span> <span class="mh">0xa7</span><span class="p">,</span> <span class="mh">0x7e</span><span class="p">,</span> <span class="mh">0x3d</span><span class="p">,</span> <span class="mh">0x64</span><span class="p">,</span> <span class="mh">0x5d</span><span class="p">,</span> <span class="mh">0x19</span><span class="p">,</span>
+            <span class="mh">0x73</span><span class="p">,</span> <span class="mh">0x60</span><span class="p">,</span> <span class="mh">0x81</span><span class="p">,</span> <span class="mh">0x4f</span><span class="p">,</span> <span class="mh">0xdc</span><span class="p">,</span> <span class="mh">0x22</span><span class="p">,</span> <span class="mh">0x2a</span><span class="p">,</span> <span class="mh">0x90</span><span class="p">,</span> <span class="mh">0x88</span><span class="p">,</span> <span class="mh">0x46</span><span class="p">,</span> <span class="mh">0xee</span><span class="p">,</span>
+            <span class="mh">0xb8</span><span class="p">,</span> <span class="mh">0x14</span><span class="p">,</span> <span class="mh">0xde</span><span class="p">,</span> <span class="mh">0x5e</span><span class="p">,</span> <span class="mh">0x0b</span><span class="p">,</span> <span class="mh">0xdb</span><span class="p">,</span> <span class="mh">0xe0</span><span class="p">,</span> <span class="mh">0x32</span><span class="p">,</span> <span class="mh">0x3a</span><span class="p">,</span> <span class="mh">0x0a</span><span class="p">,</span> <span class="mh">0x49</span><span class="p">,</span>
+            <span class="mh">0x06</span><span class="p">,</span> <span class="mh">0x24</span><span class="p">,</span> <span class="mh">0x5c</span><span class="p">,</span> <span class="mh">0xc2</span><span class="p">,</span> <span class="mh">0xd3</span><span class="p">,</span> <span class="mh">0xac</span><span class="p">,</span> <span class="mh">0x62</span><span class="p">,</span> <span class="mh">0x91</span><span class="p">,</span> <span class="mh">0x95</span><span class="p">,</span> <span class="mh">0xe4</span><span class="p">,</span> <span class="mh">0x79</span><span class="p">,</span>
+            <span class="mh">0xe7</span><span class="p">,</span> <span class="mh">0xc8</span><span class="p">,</span> <span class="mh">0x37</span><span class="p">,</span> <span class="mh">0x6d</span><span class="p">,</span> <span class="mh">0x8d</span><span class="p">,</span> <span class="mh">0xd5</span><span class="p">,</span> <span class="mh">0x4e</span><span class="p">,</span> <span class="mh">0xa9</span><span class="p">,</span> <span class="mh">0x6c</span><span class="p">,</span> <span class="mh">0x56</span><span class="p">,</span> <span class="mh">0xf4</span><span class="p">,</span>
+            <span class="mh">0xea</span><span class="p">,</span> <span class="mh">0x65</span><span class="p">,</span> <span class="mh">0x7a</span><span class="p">,</span> <span class="mh">0xae</span><span class="p">,</span> <span class="mh">0x08</span><span class="p">,</span> <span class="mh">0xba</span><span class="p">,</span> <span class="mh">0x78</span><span class="p">,</span> <span class="mh">0x25</span><span class="p">,</span> <span class="mh">0x2e</span><span class="p">,</span> <span class="mh">0x1c</span><span class="p">,</span> <span class="mh">0xa6</span><span class="p">,</span>
+            <span class="mh">0xb4</span><span class="p">,</span> <span class="mh">0xc6</span><span class="p">,</span> <span class="mh">0xe8</span><span class="p">,</span> <span class="mh">0xdd</span><span class="p">,</span> <span class="mh">0x74</span><span class="p">,</span> <span class="mh">0x1f</span><span class="p">,</span> <span class="mh">0x4b</span><span class="p">,</span> <span class="mh">0xbd</span><span class="p">,</span> <span class="mh">0x8b</span><span class="p">,</span> <span class="mh">0x8a</span><span class="p">,</span> <span class="mh">0x70</span><span class="p">,</span>
+            <span class="mh">0x3e</span><span class="p">,</span> <span class="mh">0xb5</span><span class="p">,</span> <span class="mh">0x66</span><span class="p">,</span> <span class="mh">0x48</span><span class="p">,</span> <span class="mh">0x03</span><span class="p">,</span> <span class="mh">0xf6</span><span class="p">,</span> <span class="mh">0x0e</span><span class="p">,</span> <span class="mh">0x61</span><span class="p">,</span> <span class="mh">0x35</span><span class="p">,</span> <span class="mh">0x57</span><span class="p">,</span> <span class="mh">0xb9</span><span class="p">,</span>
+            <span class="mh">0x86</span><span class="p">,</span> <span class="mh">0xc1</span><span class="p">,</span> <span class="mh">0x1d</span><span class="p">,</span> <span class="mh">0x9e</span><span class="p">,</span> <span class="mh">0xe1</span><span class="p">,</span> <span class="mh">0xf8</span><span class="p">,</span> <span class="mh">0x98</span><span class="p">,</span> <span class="mh">0x11</span><span class="p">,</span> <span class="mh">0x69</span><span class="p">,</span> <span class="mh">0xd9</span><span class="p">,</span> <span class="mh">0x8e</span><span class="p">,</span>
+            <span class="mh">0x94</span><span class="p">,</span> <span class="mh">0x9b</span><span class="p">,</span> <span class="mh">0x1e</span><span class="p">,</span> <span class="mh">0x87</span><span class="p">,</span> <span class="mh">0xe9</span><span class="p">,</span> <span class="mh">0xce</span><span class="p">,</span> <span class="mh">0x55</span><span class="p">,</span> <span class="mh">0x28</span><span class="p">,</span> <span class="mh">0xdf</span><span class="p">,</span> <span class="mh">0x8c</span><span class="p">,</span> <span class="mh">0xa1</span><span class="p">,</span>
+            <span class="mh">0x89</span><span class="p">,</span> <span class="mh">0x0d</span><span class="p">,</span> <span class="mh">0xbf</span><span class="p">,</span> <span class="mh">0xe6</span><span class="p">,</span> <span class="mh">0x42</span><span class="p">,</span> <span class="mh">0x68</span><span class="p">,</span> <span class="mh">0x41</span><span class="p">,</span> <span class="mh">0x99</span><span class="p">,</span> <span class="mh">0x2d</span><span class="p">,</span> <span class="mh">0x0f</span><span class="p">,</span> <span class="mh">0xb0</span><span class="p">,</span>
+            <span class="mh">0x54</span><span class="p">,</span> <span class="mh">0xbb</span><span class="p">,</span> <span class="mh">0x16</span><span class="p">]</span>
+
+    <span class="c1"># Rijndael Inverted S-box</span>
+    <span class="n">rsbox</span> <span class="o">=</span> <span class="p">[</span><span class="mh">0x52</span><span class="p">,</span> <span class="mh">0x09</span><span class="p">,</span> <span class="mh">0x6a</span><span class="p">,</span> <span class="mh">0xd5</span><span class="p">,</span> <span class="mh">0x30</span><span class="p">,</span> <span class="mh">0x36</span><span class="p">,</span> <span class="mh">0xa5</span><span class="p">,</span> <span class="mh">0x38</span><span class="p">,</span> <span class="mh">0xbf</span><span class="p">,</span> <span class="mh">0x40</span><span class="p">,</span> <span class="mh">0xa3</span><span class="p">,</span>
+            <span class="mh">0x9e</span><span class="p">,</span> <span class="mh">0x81</span><span class="p">,</span> <span class="mh">0xf3</span><span class="p">,</span> <span class="mh">0xd7</span><span class="p">,</span> <span class="mh">0xfb</span> <span class="p">,</span> <span class="mh">0x7c</span><span class="p">,</span> <span class="mh">0xe3</span><span class="p">,</span> <span class="mh">0x39</span><span class="p">,</span> <span class="mh">0x82</span><span class="p">,</span> <span class="mh">0x9b</span><span class="p">,</span> <span class="mh">0x2f</span><span class="p">,</span>
+            <span class="mh">0xff</span><span class="p">,</span> <span class="mh">0x87</span><span class="p">,</span> <span class="mh">0x34</span><span class="p">,</span> <span class="mh">0x8e</span><span class="p">,</span> <span class="mh">0x43</span><span class="p">,</span> <span class="mh">0x44</span><span class="p">,</span> <span class="mh">0xc4</span><span class="p">,</span> <span class="mh">0xde</span><span class="p">,</span> <span class="mh">0xe9</span><span class="p">,</span> <span class="mh">0xcb</span> <span class="p">,</span> <span class="mh">0x54</span><span class="p">,</span>
+            <span class="mh">0x7b</span><span class="p">,</span> <span class="mh">0x94</span><span class="p">,</span> <span class="mh">0x32</span><span class="p">,</span> <span class="mh">0xa6</span><span class="p">,</span> <span class="mh">0xc2</span><span class="p">,</span> <span class="mh">0x23</span><span class="p">,</span> <span class="mh">0x3d</span><span class="p">,</span> <span class="mh">0xee</span><span class="p">,</span> <span class="mh">0x4c</span><span class="p">,</span> <span class="mh">0x95</span><span class="p">,</span> <span class="mh">0x0b</span><span class="p">,</span>
+            <span class="mh">0x42</span><span class="p">,</span> <span class="mh">0xfa</span><span class="p">,</span> <span class="mh">0xc3</span><span class="p">,</span> <span class="mh">0x4e</span> <span class="p">,</span> <span class="mh">0x08</span><span class="p">,</span> <span class="mh">0x2e</span><span class="p">,</span> <span class="mh">0xa1</span><span class="p">,</span> <span class="mh">0x66</span><span class="p">,</span> <span class="mh">0x28</span><span class="p">,</span> <span class="mh">0xd9</span><span class="p">,</span> <span class="mh">0x24</span><span class="p">,</span>
+            <span class="mh">0xb2</span><span class="p">,</span> <span class="mh">0x76</span><span class="p">,</span> <span class="mh">0x5b</span><span class="p">,</span> <span class="mh">0xa2</span><span class="p">,</span> <span class="mh">0x49</span><span class="p">,</span> <span class="mh">0x6d</span><span class="p">,</span> <span class="mh">0x8b</span><span class="p">,</span> <span class="mh">0xd1</span><span class="p">,</span> <span class="mh">0x25</span> <span class="p">,</span> <span class="mh">0x72</span><span class="p">,</span> <span class="mh">0xf8</span><span class="p">,</span>
+            <span class="mh">0xf6</span><span class="p">,</span> <span class="mh">0x64</span><span class="p">,</span> <span class="mh">0x86</span><span class="p">,</span> <span class="mh">0x68</span><span class="p">,</span> <span class="mh">0x98</span><span class="p">,</span> <span class="mh">0x16</span><span class="p">,</span> <span class="mh">0xd4</span><span class="p">,</span> <span class="mh">0xa4</span><span class="p">,</span> <span class="mh">0x5c</span><span class="p">,</span> <span class="mh">0xcc</span><span class="p">,</span> <span class="mh">0x5d</span><span class="p">,</span>
+            <span class="mh">0x65</span><span class="p">,</span> <span class="mh">0xb6</span><span class="p">,</span> <span class="mh">0x92</span> <span class="p">,</span> <span class="mh">0x6c</span><span class="p">,</span> <span class="mh">0x70</span><span class="p">,</span> <span class="mh">0x48</span><span class="p">,</span> <span class="mh">0x50</span><span class="p">,</span> <span class="mh">0xfd</span><span class="p">,</span> <span class="mh">0xed</span><span class="p">,</span> <span class="mh">0xb9</span><span class="p">,</span> <span class="mh">0xda</span><span class="p">,</span>
+            <span class="mh">0x5e</span><span class="p">,</span> <span class="mh">0x15</span><span class="p">,</span> <span class="mh">0x46</span><span class="p">,</span> <span class="mh">0x57</span><span class="p">,</span> <span class="mh">0xa7</span><span class="p">,</span> <span class="mh">0x8d</span><span class="p">,</span> <span class="mh">0x9d</span><span class="p">,</span> <span class="mh">0x84</span> <span class="p">,</span> <span class="mh">0x90</span><span class="p">,</span> <span class="mh">0xd8</span><span class="p">,</span> <span class="mh">0xab</span><span class="p">,</span>
+            <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x8c</span><span class="p">,</span> <span class="mh">0xbc</span><span class="p">,</span> <span class="mh">0xd3</span><span class="p">,</span> <span class="mh">0x0a</span><span class="p">,</span> <span class="mh">0xf7</span><span class="p">,</span> <span class="mh">0xe4</span><span class="p">,</span> <span class="mh">0x58</span><span class="p">,</span> <span class="mh">0x05</span><span class="p">,</span> <span class="mh">0xb8</span><span class="p">,</span> <span class="mh">0xb3</span><span class="p">,</span>
+            <span class="mh">0x45</span><span class="p">,</span> <span class="mh">0x06</span> <span class="p">,</span> <span class="mh">0xd0</span><span class="p">,</span> <span class="mh">0x2c</span><span class="p">,</span> <span class="mh">0x1e</span><span class="p">,</span> <span class="mh">0x8f</span><span class="p">,</span> <span class="mh">0xca</span><span class="p">,</span> <span class="mh">0x3f</span><span class="p">,</span> <span class="mh">0x0f</span><span class="p">,</span> <span class="mh">0x02</span><span class="p">,</span> <span class="mh">0xc1</span><span class="p">,</span>
+            <span class="mh">0xaf</span><span class="p">,</span> <span class="mh">0xbd</span><span class="p">,</span> <span class="mh">0x03</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span> <span class="mh">0x13</span><span class="p">,</span> <span class="mh">0x8a</span><span class="p">,</span> <span class="mh">0x6b</span> <span class="p">,</span> <span class="mh">0x3a</span><span class="p">,</span> <span class="mh">0x91</span><span class="p">,</span> <span class="mh">0x11</span><span class="p">,</span> <span class="mh">0x41</span><span class="p">,</span>
+            <span class="mh">0x4f</span><span class="p">,</span> <span class="mh">0x67</span><span class="p">,</span> <span class="mh">0xdc</span><span class="p">,</span> <span class="mh">0xea</span><span class="p">,</span> <span class="mh">0x97</span><span class="p">,</span> <span class="mh">0xf2</span><span class="p">,</span> <span class="mh">0xcf</span><span class="p">,</span> <span class="mh">0xce</span><span class="p">,</span> <span class="mh">0xf0</span><span class="p">,</span> <span class="mh">0xb4</span><span class="p">,</span> <span class="mh">0xe6</span><span class="p">,</span>
+            <span class="mh">0x73</span> <span class="p">,</span> <span class="mh">0x96</span><span class="p">,</span> <span class="mh">0xac</span><span class="p">,</span> <span class="mh">0x74</span><span class="p">,</span> <span class="mh">0x22</span><span class="p">,</span> <span class="mh">0xe7</span><span class="p">,</span> <span class="mh">0xad</span><span class="p">,</span> <span class="mh">0x35</span><span class="p">,</span> <span class="mh">0x85</span><span class="p">,</span> <span class="mh">0xe2</span><span class="p">,</span> <span class="mh">0xf9</span><span class="p">,</span>
+            <span class="mh">0x37</span><span class="p">,</span> <span class="mh">0xe8</span><span class="p">,</span> <span class="mh">0x1c</span><span class="p">,</span> <span class="mh">0x75</span><span class="p">,</span> <span class="mh">0xdf</span><span class="p">,</span> <span class="mh">0x6e</span> <span class="p">,</span> <span class="mh">0x47</span><span class="p">,</span> <span class="mh">0xf1</span><span class="p">,</span> <span class="mh">0x1a</span><span class="p">,</span> <span class="mh">0x71</span><span class="p">,</span> <span class="mh">0x1d</span><span class="p">,</span>
+            <span class="mh">0x29</span><span class="p">,</span> <span class="mh">0xc5</span><span class="p">,</span> <span class="mh">0x89</span><span class="p">,</span> <span class="mh">0x6f</span><span class="p">,</span> <span class="mh">0xb7</span><span class="p">,</span> <span class="mh">0x62</span><span class="p">,</span> <span class="mh">0x0e</span><span class="p">,</span> <span class="mh">0xaa</span><span class="p">,</span> <span class="mh">0x18</span><span class="p">,</span> <span class="mh">0xbe</span><span class="p">,</span> <span class="mh">0x1b</span> <span class="p">,</span>
+            <span class="mh">0xfc</span><span class="p">,</span> <span class="mh">0x56</span><span class="p">,</span> <span class="mh">0x3e</span><span class="p">,</span> <span class="mh">0x4b</span><span class="p">,</span> <span class="mh">0xc6</span><span class="p">,</span> <span class="mh">0xd2</span><span class="p">,</span> <span class="mh">0x79</span><span class="p">,</span> <span class="mh">0x20</span><span class="p">,</span> <span class="mh">0x9a</span><span class="p">,</span> <span class="mh">0xdb</span><span class="p">,</span> <span class="mh">0xc0</span><span class="p">,</span>
+            <span class="mh">0xfe</span><span class="p">,</span> <span class="mh">0x78</span><span class="p">,</span> <span class="mh">0xcd</span><span class="p">,</span> <span class="mh">0x5a</span><span class="p">,</span> <span class="mh">0xf4</span> <span class="p">,</span> <span class="mh">0x1f</span><span class="p">,</span> <span class="mh">0xdd</span><span class="p">,</span> <span class="mh">0xa8</span><span class="p">,</span> <span class="mh">0x33</span><span class="p">,</span> <span class="mh">0x88</span><span class="p">,</span> <span class="mh">0x07</span><span class="p">,</span>
+            <span class="mh">0xc7</span><span class="p">,</span> <span class="mh">0x31</span><span class="p">,</span> <span class="mh">0xb1</span><span class="p">,</span> <span class="mh">0x12</span><span class="p">,</span> <span class="mh">0x10</span><span class="p">,</span> <span class="mh">0x59</span><span class="p">,</span> <span class="mh">0x27</span><span class="p">,</span> <span class="mh">0x80</span><span class="p">,</span> <span class="mh">0xec</span><span class="p">,</span> <span class="mh">0x5f</span> <span class="p">,</span> <span class="mh">0x60</span><span class="p">,</span>
+            <span class="mh">0x51</span><span class="p">,</span> <span class="mh">0x7f</span><span class="p">,</span> <span class="mh">0xa9</span><span class="p">,</span> <span class="mh">0x19</span><span class="p">,</span> <span class="mh">0xb5</span><span class="p">,</span> <span class="mh">0x4a</span><span class="p">,</span> <span class="mh">0x0d</span><span class="p">,</span> <span class="mh">0x2d</span><span class="p">,</span> <span class="mh">0xe5</span><span class="p">,</span> <span class="mh">0x7a</span><span class="p">,</span> <span class="mh">0x9f</span><span class="p">,</span>
+            <span class="mh">0x93</span><span class="p">,</span> <span class="mh">0xc9</span><span class="p">,</span> <span class="mh">0x9c</span><span class="p">,</span> <span class="mh">0xef</span> <span class="p">,</span> <span class="mh">0xa0</span><span class="p">,</span> <span class="mh">0xe0</span><span class="p">,</span> <span class="mh">0x3b</span><span class="p">,</span> <span class="mh">0x4d</span><span class="p">,</span> <span class="mh">0xae</span><span class="p">,</span> <span class="mh">0x2a</span><span class="p">,</span> <span class="mh">0xf5</span><span class="p">,</span>
+            <span class="mh">0xb0</span><span class="p">,</span> <span class="mh">0xc8</span><span class="p">,</span> <span class="mh">0xeb</span><span class="p">,</span> <span class="mh">0xbb</span><span class="p">,</span> <span class="mh">0x3c</span><span class="p">,</span> <span class="mh">0x83</span><span class="p">,</span> <span class="mh">0x53</span><span class="p">,</span> <span class="mh">0x99</span><span class="p">,</span> <span class="mh">0x61</span> <span class="p">,</span> <span class="mh">0x17</span><span class="p">,</span> <span class="mh">0x2b</span><span class="p">,</span>
+            <span class="mh">0x04</span><span class="p">,</span> <span class="mh">0x7e</span><span class="p">,</span> <span class="mh">0xba</span><span class="p">,</span> <span class="mh">0x77</span><span class="p">,</span> <span class="mh">0xd6</span><span class="p">,</span> <span class="mh">0x26</span><span class="p">,</span> <span class="mh">0xe1</span><span class="p">,</span> <span class="mh">0x69</span><span class="p">,</span> <span class="mh">0x14</span><span class="p">,</span> <span class="mh">0x63</span><span class="p">,</span> <span class="mh">0x55</span><span class="p">,</span>
+            <span class="mh">0x21</span><span class="p">,</span> <span class="mh">0x0c</span><span class="p">,</span> <span class="mh">0x7d</span><span class="p">]</span>
+
+<div class="viewcode-block" id="AES.getSBoxValue"><a class="viewcode-back" href="../../../../oi_cli2.custom.Codeforces.html#oi_cli2.custom.Codeforces.slow_aes.AES.getSBoxValue">[docs]</a>    <span class="k">def</span> <span class="nf">getSBoxValue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">num</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieves a given S-Box Value&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sbox</span><span class="p">[</span><span class="n">num</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="AES.getSBoxInvert"><a class="viewcode-back" href="../../../../oi_cli2.custom.Codeforces.html#oi_cli2.custom.Codeforces.slow_aes.AES.getSBoxInvert">[docs]</a>    <span class="k">def</span> <span class="nf">getSBoxInvert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">num</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieves a given Inverted S-Box Value&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">rsbox</span><span class="p">[</span><span class="n">num</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="AES.rotate"><a class="viewcode-back" href="../../../../oi_cli2.custom.Codeforces.html#oi_cli2.custom.Codeforces.slow_aes.AES.rotate">[docs]</a>    <span class="k">def</span> <span class="nf">rotate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">word</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Rijndael&#39;s key schedule rotate operation.</span>
+
+<span class="sd">        Rotate a word eight bits to the left: eg, rotate(1d2c3a4f) == 2c3a4f1d</span>
+<span class="sd">        Word is an char list of size 4 (32 bits overall).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">word</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">+</span> <span class="n">word</span><span class="p">[:</span><span class="mi">1</span><span class="p">]</span></div>
+
+    <span class="c1"># Rijndael Rcon</span>
+    <span class="n">Rcon</span> <span class="o">=</span> <span class="p">[</span><span class="mh">0x8d</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span> <span class="mh">0x02</span><span class="p">,</span> <span class="mh">0x04</span><span class="p">,</span> <span class="mh">0x08</span><span class="p">,</span> <span class="mh">0x10</span><span class="p">,</span> <span class="mh">0x20</span><span class="p">,</span> <span class="mh">0x40</span><span class="p">,</span> <span class="mh">0x80</span><span class="p">,</span> <span class="mh">0x1b</span><span class="p">,</span> <span class="mh">0x36</span><span class="p">,</span>
+            <span class="mh">0x6c</span><span class="p">,</span> <span class="mh">0xd8</span><span class="p">,</span> <span class="mh">0xab</span><span class="p">,</span> <span class="mh">0x4d</span><span class="p">,</span> <span class="mh">0x9a</span><span class="p">,</span> <span class="mh">0x2f</span><span class="p">,</span> <span class="mh">0x5e</span><span class="p">,</span> <span class="mh">0xbc</span><span class="p">,</span> <span class="mh">0x63</span><span class="p">,</span> <span class="mh">0xc6</span><span class="p">,</span> <span class="mh">0x97</span><span class="p">,</span>
+            <span class="mh">0x35</span><span class="p">,</span> <span class="mh">0x6a</span><span class="p">,</span> <span class="mh">0xd4</span><span class="p">,</span> <span class="mh">0xb3</span><span class="p">,</span> <span class="mh">0x7d</span><span class="p">,</span> <span class="mh">0xfa</span><span class="p">,</span> <span class="mh">0xef</span><span class="p">,</span> <span class="mh">0xc5</span><span class="p">,</span> <span class="mh">0x91</span><span class="p">,</span> <span class="mh">0x39</span><span class="p">,</span> <span class="mh">0x72</span><span class="p">,</span>
+            <span class="mh">0xe4</span><span class="p">,</span> <span class="mh">0xd3</span><span class="p">,</span> <span class="mh">0xbd</span><span class="p">,</span> <span class="mh">0x61</span><span class="p">,</span> <span class="mh">0xc2</span><span class="p">,</span> <span class="mh">0x9f</span><span class="p">,</span> <span class="mh">0x25</span><span class="p">,</span> <span class="mh">0x4a</span><span class="p">,</span> <span class="mh">0x94</span><span class="p">,</span> <span class="mh">0x33</span><span class="p">,</span> <span class="mh">0x66</span><span class="p">,</span>
+            <span class="mh">0xcc</span><span class="p">,</span> <span class="mh">0x83</span><span class="p">,</span> <span class="mh">0x1d</span><span class="p">,</span> <span class="mh">0x3a</span><span class="p">,</span> <span class="mh">0x74</span><span class="p">,</span> <span class="mh">0xe8</span><span class="p">,</span> <span class="mh">0xcb</span><span class="p">,</span> <span class="mh">0x8d</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span> <span class="mh">0x02</span><span class="p">,</span> <span class="mh">0x04</span><span class="p">,</span>
+            <span class="mh">0x08</span><span class="p">,</span> <span class="mh">0x10</span><span class="p">,</span> <span class="mh">0x20</span><span class="p">,</span> <span class="mh">0x40</span><span class="p">,</span> <span class="mh">0x80</span><span class="p">,</span> <span class="mh">0x1b</span><span class="p">,</span> <span class="mh">0x36</span><span class="p">,</span> <span class="mh">0x6c</span><span class="p">,</span> <span class="mh">0xd8</span><span class="p">,</span> <span class="mh">0xab</span><span class="p">,</span> <span class="mh">0x4d</span><span class="p">,</span>
+            <span class="mh">0x9a</span><span class="p">,</span> <span class="mh">0x2f</span><span class="p">,</span> <span class="mh">0x5e</span><span class="p">,</span> <span class="mh">0xbc</span><span class="p">,</span> <span class="mh">0x63</span><span class="p">,</span> <span class="mh">0xc6</span><span class="p">,</span> <span class="mh">0x97</span><span class="p">,</span> <span class="mh">0x35</span><span class="p">,</span> <span class="mh">0x6a</span><span class="p">,</span> <span class="mh">0xd4</span><span class="p">,</span> <span class="mh">0xb3</span><span class="p">,</span>
+            <span class="mh">0x7d</span><span class="p">,</span> <span class="mh">0xfa</span><span class="p">,</span> <span class="mh">0xef</span><span class="p">,</span> <span class="mh">0xc5</span><span class="p">,</span> <span class="mh">0x91</span><span class="p">,</span> <span class="mh">0x39</span><span class="p">,</span> <span class="mh">0x72</span><span class="p">,</span> <span class="mh">0xe4</span><span class="p">,</span> <span class="mh">0xd3</span><span class="p">,</span> <span class="mh">0xbd</span><span class="p">,</span> <span class="mh">0x61</span><span class="p">,</span>
+            <span class="mh">0xc2</span><span class="p">,</span> <span class="mh">0x9f</span><span class="p">,</span> <span class="mh">0x25</span><span class="p">,</span> <span class="mh">0x4a</span><span class="p">,</span> <span class="mh">0x94</span><span class="p">,</span> <span class="mh">0x33</span><span class="p">,</span> <span class="mh">0x66</span><span class="p">,</span> <span class="mh">0xcc</span><span class="p">,</span> <span class="mh">0x83</span><span class="p">,</span> <span class="mh">0x1d</span><span class="p">,</span> <span class="mh">0x3a</span><span class="p">,</span>
+            <span class="mh">0x74</span><span class="p">,</span> <span class="mh">0xe8</span><span class="p">,</span> <span class="mh">0xcb</span><span class="p">,</span> <span class="mh">0x8d</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span> <span class="mh">0x02</span><span class="p">,</span> <span class="mh">0x04</span><span class="p">,</span> <span class="mh">0x08</span><span class="p">,</span> <span class="mh">0x10</span><span class="p">,</span> <span class="mh">0x20</span><span class="p">,</span> <span class="mh">0x40</span><span class="p">,</span>
+            <span class="mh">0x80</span><span class="p">,</span> <span class="mh">0x1b</span><span class="p">,</span> <span class="mh">0x36</span><span class="p">,</span> <span class="mh">0x6c</span><span class="p">,</span> <span class="mh">0xd8</span><span class="p">,</span> <span class="mh">0xab</span><span class="p">,</span> <span class="mh">0x4d</span><span class="p">,</span> <span class="mh">0x9a</span><span class="p">,</span> <span class="mh">0x2f</span><span class="p">,</span> <span class="mh">0x5e</span><span class="p">,</span> <span class="mh">0xbc</span><span class="p">,</span>
+            <span class="mh">0x63</span><span class="p">,</span> <span class="mh">0xc6</span><span class="p">,</span> <span class="mh">0x97</span><span class="p">,</span> <span class="mh">0x35</span><span class="p">,</span> <span class="mh">0x6a</span><span class="p">,</span> <span class="mh">0xd4</span><span class="p">,</span> <span class="mh">0xb3</span><span class="p">,</span> <span class="mh">0x7d</span><span class="p">,</span> <span class="mh">0xfa</span><span class="p">,</span> <span class="mh">0xef</span><span class="p">,</span> <span class="mh">0xc5</span><span class="p">,</span>
+            <span class="mh">0x91</span><span class="p">,</span> <span class="mh">0x39</span><span class="p">,</span> <span class="mh">0x72</span><span class="p">,</span> <span class="mh">0xe4</span><span class="p">,</span> <span class="mh">0xd3</span><span class="p">,</span> <span class="mh">0xbd</span><span class="p">,</span> <span class="mh">0x61</span><span class="p">,</span> <span class="mh">0xc2</span><span class="p">,</span> <span class="mh">0x9f</span><span class="p">,</span> <span class="mh">0x25</span><span class="p">,</span> <span class="mh">0x4a</span><span class="p">,</span>
+            <span class="mh">0x94</span><span class="p">,</span> <span class="mh">0x33</span><span class="p">,</span> <span class="mh">0x66</span><span class="p">,</span> <span class="mh">0xcc</span><span class="p">,</span> <span class="mh">0x83</span><span class="p">,</span> <span class="mh">0x1d</span><span class="p">,</span> <span class="mh">0x3a</span><span class="p">,</span> <span class="mh">0x74</span><span class="p">,</span> <span class="mh">0xe8</span><span class="p">,</span> <span class="mh">0xcb</span><span class="p">,</span> <span class="mh">0x8d</span><span class="p">,</span>
+            <span class="mh">0x01</span><span class="p">,</span> <span class="mh">0x02</span><span class="p">,</span> <span class="mh">0x04</span><span class="p">,</span> <span class="mh">0x08</span><span class="p">,</span> <span class="mh">0x10</span><span class="p">,</span> <span class="mh">0x20</span><span class="p">,</span> <span class="mh">0x40</span><span class="p">,</span> <span class="mh">0x80</span><span class="p">,</span> <span class="mh">0x1b</span><span class="p">,</span> <span class="mh">0x36</span><span class="p">,</span> <span class="mh">0x6c</span><span class="p">,</span>
+            <span class="mh">0xd8</span><span class="p">,</span> <span class="mh">0xab</span><span class="p">,</span> <span class="mh">0x4d</span><span class="p">,</span> <span class="mh">0x9a</span><span class="p">,</span> <span class="mh">0x2f</span><span class="p">,</span> <span class="mh">0x5e</span><span class="p">,</span> <span class="mh">0xbc</span><span class="p">,</span> <span class="mh">0x63</span><span class="p">,</span> <span class="mh">0xc6</span><span class="p">,</span> <span class="mh">0x97</span><span class="p">,</span> <span class="mh">0x35</span><span class="p">,</span>
+            <span class="mh">0x6a</span><span class="p">,</span> <span class="mh">0xd4</span><span class="p">,</span> <span class="mh">0xb3</span><span class="p">,</span> <span class="mh">0x7d</span><span class="p">,</span> <span class="mh">0xfa</span><span class="p">,</span> <span class="mh">0xef</span><span class="p">,</span> <span class="mh">0xc5</span><span class="p">,</span> <span class="mh">0x91</span><span class="p">,</span> <span class="mh">0x39</span><span class="p">,</span> <span class="mh">0x72</span><span class="p">,</span> <span class="mh">0xe4</span><span class="p">,</span>
+            <span class="mh">0xd3</span><span class="p">,</span> <span class="mh">0xbd</span><span class="p">,</span> <span class="mh">0x61</span><span class="p">,</span> <span class="mh">0xc2</span><span class="p">,</span> <span class="mh">0x9f</span><span class="p">,</span> <span class="mh">0x25</span><span class="p">,</span> <span class="mh">0x4a</span><span class="p">,</span> <span class="mh">0x94</span><span class="p">,</span> <span class="mh">0x33</span><span class="p">,</span> <span class="mh">0x66</span><span class="p">,</span> <span class="mh">0xcc</span><span class="p">,</span>
+            <span class="mh">0x83</span><span class="p">,</span> <span class="mh">0x1d</span><span class="p">,</span> <span class="mh">0x3a</span><span class="p">,</span> <span class="mh">0x74</span><span class="p">,</span> <span class="mh">0xe8</span><span class="p">,</span> <span class="mh">0xcb</span><span class="p">,</span> <span class="mh">0x8d</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span> <span class="mh">0x02</span><span class="p">,</span> <span class="mh">0x04</span><span class="p">,</span> <span class="mh">0x08</span><span class="p">,</span>
+            <span class="mh">0x10</span><span class="p">,</span> <span class="mh">0x20</span><span class="p">,</span> <span class="mh">0x40</span><span class="p">,</span> <span class="mh">0x80</span><span class="p">,</span> <span class="mh">0x1b</span><span class="p">,</span> <span class="mh">0x36</span><span class="p">,</span> <span class="mh">0x6c</span><span class="p">,</span> <span class="mh">0xd8</span><span class="p">,</span> <span class="mh">0xab</span><span class="p">,</span> <span class="mh">0x4d</span><span class="p">,</span> <span class="mh">0x9a</span><span class="p">,</span>
+            <span class="mh">0x2f</span><span class="p">,</span> <span class="mh">0x5e</span><span class="p">,</span> <span class="mh">0xbc</span><span class="p">,</span> <span class="mh">0x63</span><span class="p">,</span> <span class="mh">0xc6</span><span class="p">,</span> <span class="mh">0x97</span><span class="p">,</span> <span class="mh">0x35</span><span class="p">,</span> <span class="mh">0x6a</span><span class="p">,</span> <span class="mh">0xd4</span><span class="p">,</span> <span class="mh">0xb3</span><span class="p">,</span> <span class="mh">0x7d</span><span class="p">,</span>
+            <span class="mh">0xfa</span><span class="p">,</span> <span class="mh">0xef</span><span class="p">,</span> <span class="mh">0xc5</span><span class="p">,</span> <span class="mh">0x91</span><span class="p">,</span> <span class="mh">0x39</span><span class="p">,</span> <span class="mh">0x72</span><span class="p">,</span> <span class="mh">0xe4</span><span class="p">,</span> <span class="mh">0xd3</span><span class="p">,</span> <span class="mh">0xbd</span><span class="p">,</span> <span class="mh">0x61</span><span class="p">,</span> <span class="mh">0xc2</span><span class="p">,</span>
+            <span class="mh">0x9f</span><span class="p">,</span> <span class="mh">0x25</span><span class="p">,</span> <span class="mh">0x4a</span><span class="p">,</span> <span class="mh">0x94</span><span class="p">,</span> <span class="mh">0x33</span><span class="p">,</span> <span class="mh">0x66</span><span class="p">,</span> <span class="mh">0xcc</span><span class="p">,</span> <span class="mh">0x83</span><span class="p">,</span> <span class="mh">0x1d</span><span class="p">,</span> <span class="mh">0x3a</span><span class="p">,</span> <span class="mh">0x74</span><span class="p">,</span>
+            <span class="mh">0xe8</span><span class="p">,</span> <span class="mh">0xcb</span> <span class="p">]</span>
+
+<div class="viewcode-block" id="AES.getRconValue"><a class="viewcode-back" href="../../../../oi_cli2.custom.Codeforces.html#oi_cli2.custom.Codeforces.slow_aes.AES.getRconValue">[docs]</a>    <span class="k">def</span> <span class="nf">getRconValue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieves a given Rcon Value&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">Rcon</span><span class="p">[</span><span class="n">num</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="AES.core"><a class="viewcode-back" href="../../../../oi_cli2.custom.Codeforces.html#oi_cli2.custom.Codeforces.slow_aes.AES.core">[docs]</a>    <span class="k">def</span> <span class="nf">core</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">word</span><span class="p">,</span> <span class="n">iteration</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Key schedule core.&quot;&quot;&quot;</span>
+        <span class="c1"># rotate the 32-bit word 8 bits to the left</span>
+        <span class="n">word</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+        <span class="c1"># apply S-Box substitution on all 4 parts of the 32-bit word</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
+            <span class="n">word</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getSBoxValue</span><span class="p">(</span><span class="n">word</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="c1"># XOR the output of the rcon operation with i to the first part</span>
+        <span class="c1"># (leftmost) only</span>
+        <span class="n">word</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">word</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">^</span> <span class="bp">self</span><span class="o">.</span><span class="n">getRconValue</span><span class="p">(</span><span class="n">iteration</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">word</span></div>
+
+<div class="viewcode-block" id="AES.expandKey"><a class="viewcode-back" href="../../../../oi_cli2.custom.Codeforces.html#oi_cli2.custom.Codeforces.slow_aes.AES.expandKey">[docs]</a>    <span class="k">def</span> <span class="nf">expandKey</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">expandedKeySize</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Rijndael&#39;s key expansion.</span>
+
+<span class="sd">        Expands an 128,192,256 key into an 176,208,240 bytes key</span>
+
+<span class="sd">        expandedKey is a char list of large enough size,</span>
+<span class="sd">        key is the non-expanded key.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># current expanded keySize, in bytes</span>
+        <span class="n">currentSize</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">rconIteration</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">expandedKey</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">expandedKeySize</span>
+
+        <span class="c1"># set the 16, 24, 32 bytes of the expanded key to the input key</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
+            <span class="n">expandedKey</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">key</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+        <span class="n">currentSize</span> <span class="o">+=</span> <span class="n">size</span>
+
+        <span class="k">while</span> <span class="n">currentSize</span> <span class="o">&lt;</span> <span class="n">expandedKeySize</span><span class="p">:</span>
+            <span class="c1"># assign the previous 4 bytes to the temporary value t</span>
+            <span class="n">t</span> <span class="o">=</span> <span class="n">expandedKey</span><span class="p">[</span><span class="n">currentSize</span><span class="o">-</span><span class="mi">4</span><span class="p">:</span><span class="n">currentSize</span><span class="p">]</span>
+
+            <span class="c1"># every 16,24,32 bytes we apply the core schedule to t</span>
+            <span class="c1"># and increment rconIteration afterwards</span>
+            <span class="k">if</span> <span class="n">currentSize</span> <span class="o">%</span> <span class="n">size</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">core</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">rconIteration</span><span class="p">)</span>
+                <span class="n">rconIteration</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="c1"># For 256-bit keys, we add an extra sbox to the calculation</span>
+            <span class="k">if</span> <span class="n">size</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">keySize</span><span class="p">[</span><span class="s2">&quot;SIZE_256&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="p">((</span><span class="n">currentSize</span> <span class="o">%</span> <span class="n">size</span><span class="p">)</span> <span class="o">==</span> <span class="mi">16</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span> <span class="n">t</span><span class="p">[</span><span class="n">l</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getSBoxValue</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="n">l</span><span class="p">])</span>
+
+            <span class="c1"># We XOR t with the four-byte block 16,24,32 bytes before the new</span>
+            <span class="c1"># expanded key.  This becomes the next four bytes in the expanded</span>
+            <span class="c1"># key.</span>
+            <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
+                <span class="n">expandedKey</span><span class="p">[</span><span class="n">currentSize</span><span class="p">]</span> <span class="o">=</span> <span class="n">expandedKey</span><span class="p">[</span><span class="n">currentSize</span> <span class="o">-</span> <span class="n">size</span><span class="p">]</span> <span class="o">^</span> \
+                        <span class="n">t</span><span class="p">[</span><span class="n">m</span><span class="p">]</span>
+                <span class="n">currentSize</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="n">expandedKey</span></div>
+
+<div class="viewcode-block" id="AES.addRoundKey"><a class="viewcode-back" href="../../../../oi_cli2.custom.Codeforces.html#oi_cli2.custom.Codeforces.slow_aes.AES.addRoundKey">[docs]</a>    <span class="k">def</span> <span class="nf">addRoundKey</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">roundKey</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Adds (XORs) the round key to the state.&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">16</span><span class="p">):</span>
+            <span class="n">state</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">^=</span> <span class="n">roundKey</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">state</span></div>
+
+<div class="viewcode-block" id="AES.createRoundKey"><a class="viewcode-back" href="../../../../oi_cli2.custom.Codeforces.html#oi_cli2.custom.Codeforces.slow_aes.AES.createRoundKey">[docs]</a>    <span class="k">def</span> <span class="nf">createRoundKey</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expandedKey</span><span class="p">,</span> <span class="n">roundKeyPointer</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a round key.</span>
+<span class="sd">        Creates a round key from the given expanded key and the</span>
+<span class="sd">        position within the expanded key.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">roundKey</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">16</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
+                <span class="n">roundKey</span><span class="p">[</span><span class="n">j</span><span class="o">*</span><span class="mi">4</span><span class="o">+</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">expandedKey</span><span class="p">[</span><span class="n">roundKeyPointer</span> <span class="o">+</span> <span class="n">i</span><span class="o">*</span><span class="mi">4</span> <span class="o">+</span> <span class="n">j</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">roundKey</span></div>
+
+<div class="viewcode-block" id="AES.galois_multiplication"><a class="viewcode-back" href="../../../../oi_cli2.custom.Codeforces.html#oi_cli2.custom.Codeforces.slow_aes.AES.galois_multiplication">[docs]</a>    <span class="k">def</span> <span class="nf">galois_multiplication</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Galois multiplication of 8 bit characters a and b.&quot;&quot;&quot;</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">counter</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">8</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">b</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="p">:</span> <span class="n">p</span> <span class="o">^=</span> <span class="n">a</span>
+            <span class="n">hi_bit_set</span> <span class="o">=</span> <span class="n">a</span> <span class="o">&amp;</span> <span class="mh">0x80</span>
+            <span class="n">a</span> <span class="o">&lt;&lt;=</span> <span class="mi">1</span>
+            <span class="c1"># keep a 8 bit</span>
+            <span class="n">a</span> <span class="o">&amp;=</span> <span class="mh">0xFF</span>
+            <span class="k">if</span> <span class="n">hi_bit_set</span><span class="p">:</span>
+                <span class="n">a</span> <span class="o">^=</span> <span class="mh">0x1b</span>
+            <span class="n">b</span> <span class="o">&gt;&gt;=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">p</span></div>
+
+    <span class="c1">#</span>
+    <span class="c1"># substitute all the values from the state with the value in the SBox</span>
+    <span class="c1"># using the state value as index for the SBox</span>
+    <span class="c1">#</span>
+<div class="viewcode-block" id="AES.subBytes"><a class="viewcode-back" href="../../../../oi_cli2.custom.Codeforces.html#oi_cli2.custom.Codeforces.slow_aes.AES.subBytes">[docs]</a>    <span class="k">def</span> <span class="nf">subBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">isInv</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">isInv</span><span class="p">:</span> <span class="n">getter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getSBoxInvert</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">getter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getSBoxValue</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">16</span><span class="p">):</span> <span class="n">state</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">getter</span><span class="p">(</span><span class="n">state</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">state</span></div>
+
+    <span class="c1"># iterate over the 4 rows and call shiftRow() with that row</span>
+<div class="viewcode-block" id="AES.shiftRows"><a class="viewcode-back" href="../../../../oi_cli2.custom.Codeforces.html#oi_cli2.custom.Codeforces.slow_aes.AES.shiftRows">[docs]</a>    <span class="k">def</span> <span class="nf">shiftRows</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">isInv</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
+            <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shiftRow</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">i</span><span class="o">*</span><span class="mi">4</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">isInv</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">state</span></div>
+
+    <span class="c1"># each iteration shifts the row to the left by 1</span>
+<div class="viewcode-block" id="AES.shiftRow"><a class="viewcode-back" href="../../../../oi_cli2.custom.Codeforces.html#oi_cli2.custom.Codeforces.slow_aes.AES.shiftRow">[docs]</a>    <span class="k">def</span> <span class="nf">shiftRow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">statePointer</span><span class="p">,</span> <span class="n">nbr</span><span class="p">,</span> <span class="n">isInv</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nbr</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">isInv</span><span class="p">:</span>
+                <span class="n">state</span><span class="p">[</span><span class="n">statePointer</span><span class="p">:</span><span class="n">statePointer</span><span class="o">+</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> \
+                        <span class="n">state</span><span class="p">[</span><span class="n">statePointer</span><span class="o">+</span><span class="mi">3</span><span class="p">:</span><span class="n">statePointer</span><span class="o">+</span><span class="mi">4</span><span class="p">]</span> <span class="o">+</span> \
+                        <span class="n">state</span><span class="p">[</span><span class="n">statePointer</span><span class="p">:</span><span class="n">statePointer</span><span class="o">+</span><span class="mi">3</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">state</span><span class="p">[</span><span class="n">statePointer</span><span class="p">:</span><span class="n">statePointer</span><span class="o">+</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> \
+                        <span class="n">state</span><span class="p">[</span><span class="n">statePointer</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="n">statePointer</span><span class="o">+</span><span class="mi">4</span><span class="p">]</span> <span class="o">+</span> \
+                        <span class="n">state</span><span class="p">[</span><span class="n">statePointer</span><span class="p">:</span><span class="n">statePointer</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">state</span></div>
+
+    <span class="c1"># galois multiplication of the 4x4 matrix</span>
+<div class="viewcode-block" id="AES.mixColumns"><a class="viewcode-back" href="../../../../oi_cli2.custom.Codeforces.html#oi_cli2.custom.Codeforces.slow_aes.AES.mixColumns">[docs]</a>    <span class="k">def</span> <span class="nf">mixColumns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">isInv</span><span class="p">):</span>
+        <span class="c1"># iterate over the 4 columns</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
+            <span class="c1"># construct one column by slicing over the 4 rows</span>
+            <span class="n">column</span> <span class="o">=</span> <span class="n">state</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="mi">16</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span>
+            <span class="c1"># apply the mixColumn on one column</span>
+            <span class="n">column</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mixColumn</span><span class="p">(</span><span class="n">column</span><span class="p">,</span> <span class="n">isInv</span><span class="p">)</span>
+            <span class="c1"># put the values back into the state</span>
+            <span class="n">state</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="mi">16</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="n">column</span>
+
+        <span class="k">return</span> <span class="n">state</span></div>
+
+    <span class="c1"># galois multiplication of 1 column of the 4x4 matrix</span>
+<div class="viewcode-block" id="AES.mixColumn"><a class="viewcode-back" href="../../../../oi_cli2.custom.Codeforces.html#oi_cli2.custom.Codeforces.slow_aes.AES.mixColumn">[docs]</a>    <span class="k">def</span> <span class="nf">mixColumn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column</span><span class="p">,</span> <span class="n">isInv</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">isInv</span><span class="p">:</span> <span class="n">mult</span> <span class="o">=</span> <span class="p">[</span><span class="mi">14</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">11</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">mult</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+        <span class="n">cpy</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">column</span><span class="p">)</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">galois_multiplication</span>
+
+        <span class="n">column</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">g</span><span class="p">(</span><span class="n">cpy</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">mult</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">^</span> <span class="n">g</span><span class="p">(</span><span class="n">cpy</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">mult</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">^</span> \
+                    <span class="n">g</span><span class="p">(</span><span class="n">cpy</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">mult</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="o">^</span> <span class="n">g</span><span class="p">(</span><span class="n">cpy</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">mult</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+        <span class="n">column</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">g</span><span class="p">(</span><span class="n">cpy</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">mult</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">^</span> <span class="n">g</span><span class="p">(</span><span class="n">cpy</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">mult</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">^</span> \
+                    <span class="n">g</span><span class="p">(</span><span class="n">cpy</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">mult</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="o">^</span> <span class="n">g</span><span class="p">(</span><span class="n">cpy</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">mult</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+        <span class="n">column</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">g</span><span class="p">(</span><span class="n">cpy</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">mult</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">^</span> <span class="n">g</span><span class="p">(</span><span class="n">cpy</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">mult</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">^</span> \
+                    <span class="n">g</span><span class="p">(</span><span class="n">cpy</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">mult</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="o">^</span> <span class="n">g</span><span class="p">(</span><span class="n">cpy</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">mult</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+        <span class="n">column</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">g</span><span class="p">(</span><span class="n">cpy</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">mult</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">^</span> <span class="n">g</span><span class="p">(</span><span class="n">cpy</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">mult</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">^</span> \
+                    <span class="n">g</span><span class="p">(</span><span class="n">cpy</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">mult</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="o">^</span> <span class="n">g</span><span class="p">(</span><span class="n">cpy</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">mult</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">column</span></div>
+
+    <span class="c1"># applies the 4 operations of the forward round in sequence</span>
+<div class="viewcode-block" id="AES.aes_round"><a class="viewcode-back" href="../../../../oi_cli2.custom.Codeforces.html#oi_cli2.custom.Codeforces.slow_aes.AES.aes_round">[docs]</a>    <span class="k">def</span> <span class="nf">aes_round</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">roundKey</span><span class="p">):</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">subBytes</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shiftRows</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mixColumns</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">addRoundKey</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">roundKey</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">state</span></div>
+
+    <span class="c1"># applies the 4 operations of the inverse round in sequence</span>
+<div class="viewcode-block" id="AES.aes_invRound"><a class="viewcode-back" href="../../../../oi_cli2.custom.Codeforces.html#oi_cli2.custom.Codeforces.slow_aes.AES.aes_invRound">[docs]</a>    <span class="k">def</span> <span class="nf">aes_invRound</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">roundKey</span><span class="p">):</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shiftRows</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">subBytes</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">addRoundKey</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">roundKey</span><span class="p">)</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mixColumns</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">state</span></div>
+
+    <span class="c1"># Perform the initial operations, the standard round, and the final</span>
+    <span class="c1"># operations of the forward aes, creating a round key for each round</span>
+<div class="viewcode-block" id="AES.aes_main"><a class="viewcode-back" href="../../../../oi_cli2.custom.Codeforces.html#oi_cli2.custom.Codeforces.slow_aes.AES.aes_main">[docs]</a>    <span class="k">def</span> <span class="nf">aes_main</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">expandedKey</span><span class="p">,</span> <span class="n">nbrRounds</span><span class="p">):</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">addRoundKey</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">createRoundKey</span><span class="p">(</span><span class="n">expandedKey</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">nbrRounds</span><span class="p">:</span>
+            <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">aes_round</span><span class="p">(</span><span class="n">state</span><span class="p">,</span>
+                                   <span class="bp">self</span><span class="o">.</span><span class="n">createRoundKey</span><span class="p">(</span><span class="n">expandedKey</span><span class="p">,</span> <span class="mi">16</span><span class="o">*</span><span class="n">i</span><span class="p">))</span>
+            <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">subBytes</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shiftRows</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">addRoundKey</span><span class="p">(</span><span class="n">state</span><span class="p">,</span>
+                                 <span class="bp">self</span><span class="o">.</span><span class="n">createRoundKey</span><span class="p">(</span><span class="n">expandedKey</span><span class="p">,</span> <span class="mi">16</span><span class="o">*</span><span class="n">nbrRounds</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">state</span></div>
+
+    <span class="c1"># Perform the initial operations, the standard round, and the final</span>
+    <span class="c1"># operations of the inverse aes, creating a round key for each round</span>
+<div class="viewcode-block" id="AES.aes_invMain"><a class="viewcode-back" href="../../../../oi_cli2.custom.Codeforces.html#oi_cli2.custom.Codeforces.slow_aes.AES.aes_invMain">[docs]</a>    <span class="k">def</span> <span class="nf">aes_invMain</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">expandedKey</span><span class="p">,</span> <span class="n">nbrRounds</span><span class="p">):</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">addRoundKey</span><span class="p">(</span><span class="n">state</span><span class="p">,</span>
+                                 <span class="bp">self</span><span class="o">.</span><span class="n">createRoundKey</span><span class="p">(</span><span class="n">expandedKey</span><span class="p">,</span> <span class="mi">16</span><span class="o">*</span><span class="n">nbrRounds</span><span class="p">))</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="n">nbrRounds</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="k">while</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">aes_invRound</span><span class="p">(</span><span class="n">state</span><span class="p">,</span>
+                                      <span class="bp">self</span><span class="o">.</span><span class="n">createRoundKey</span><span class="p">(</span><span class="n">expandedKey</span><span class="p">,</span> <span class="mi">16</span><span class="o">*</span><span class="n">i</span><span class="p">))</span>
+            <span class="n">i</span> <span class="o">-=</span> <span class="mi">1</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shiftRows</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">subBytes</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">addRoundKey</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">createRoundKey</span><span class="p">(</span><span class="n">expandedKey</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">state</span></div>
+
+    <span class="c1"># encrypts a 128 bit input block against the given key of size specified</span>
+<div class="viewcode-block" id="AES.encrypt"><a class="viewcode-back" href="../../../../oi_cli2.custom.Codeforces.html#oi_cli2.custom.Codeforces.slow_aes.AES.encrypt">[docs]</a>    <span class="k">def</span> <span class="nf">encrypt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iput</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">size</span><span class="p">):</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">16</span>
+        <span class="c1"># the number of rounds</span>
+        <span class="n">nbrRounds</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="c1"># the 128 bit block to encode</span>
+        <span class="n">block</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">16</span>
+        <span class="c1"># set the number of rounds</span>
+        <span class="k">if</span> <span class="n">size</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">keySize</span><span class="p">[</span><span class="s2">&quot;SIZE_128&quot;</span><span class="p">]:</span> <span class="n">nbrRounds</span> <span class="o">=</span> <span class="mi">10</span>
+        <span class="k">elif</span> <span class="n">size</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">keySize</span><span class="p">[</span><span class="s2">&quot;SIZE_192&quot;</span><span class="p">]:</span> <span class="n">nbrRounds</span> <span class="o">=</span> <span class="mi">12</span>
+        <span class="k">elif</span> <span class="n">size</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">keySize</span><span class="p">[</span><span class="s2">&quot;SIZE_256&quot;</span><span class="p">]:</span> <span class="n">nbrRounds</span> <span class="o">=</span> <span class="mi">14</span>
+        <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="c1"># the expanded keySize</span>
+        <span class="n">expandedKeySize</span> <span class="o">=</span> <span class="mi">16</span><span class="o">*</span><span class="p">(</span><span class="n">nbrRounds</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># Set the block values, for the block:</span>
+        <span class="c1"># a0,0 a0,1 a0,2 a0,3</span>
+        <span class="c1"># a1,0 a1,1 a1,2 a1,3</span>
+        <span class="c1"># a2,0 a2,1 a2,2 a2,3</span>
+        <span class="c1"># a3,0 a3,1 a3,2 a3,3</span>
+        <span class="c1"># the mapping order is a0,0 a1,0 a2,0 a3,0 a0,1 a1,1 ... a2,3 a3,3</span>
+        <span class="c1">#</span>
+        <span class="c1"># iterate over the columns</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
+            <span class="c1"># iterate over the rows</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
+                <span class="n">block</span><span class="p">[(</span><span class="n">i</span><span class="o">+</span><span class="p">(</span><span class="n">j</span><span class="o">*</span><span class="mi">4</span><span class="p">))]</span> <span class="o">=</span> <span class="n">iput</span><span class="p">[(</span><span class="n">i</span><span class="o">*</span><span class="mi">4</span><span class="p">)</span><span class="o">+</span><span class="n">j</span><span class="p">]</span>
+
+        <span class="c1"># expand the key into an 176, 208, 240 bytes key</span>
+        <span class="c1"># the expanded key</span>
+        <span class="n">expandedKey</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">expandKey</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">expandedKeySize</span><span class="p">)</span>
+
+        <span class="c1"># encrypt the block using the expandedKey</span>
+        <span class="n">block</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">aes_main</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="n">expandedKey</span><span class="p">,</span> <span class="n">nbrRounds</span><span class="p">)</span>
+
+        <span class="c1"># unmap the block again into the output</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
+            <span class="c1"># iterate over the rows</span>
+            <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
+                <span class="n">output</span><span class="p">[(</span><span class="n">k</span><span class="o">*</span><span class="mi">4</span><span class="p">)</span><span class="o">+</span><span class="n">l</span><span class="p">]</span> <span class="o">=</span> <span class="n">block</span><span class="p">[(</span><span class="n">k</span><span class="o">+</span><span class="p">(</span><span class="n">l</span><span class="o">*</span><span class="mi">4</span><span class="p">))]</span>
+        <span class="k">return</span> <span class="n">output</span></div>
+
+    <span class="c1"># decrypts a 128 bit input block against the given key of size specified</span>
+<div class="viewcode-block" id="AES.decrypt"><a class="viewcode-back" href="../../../../oi_cli2.custom.Codeforces.html#oi_cli2.custom.Codeforces.slow_aes.AES.decrypt">[docs]</a>    <span class="k">def</span> <span class="nf">decrypt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iput</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">size</span><span class="p">):</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">16</span>
+        <span class="c1"># the number of rounds</span>
+        <span class="n">nbrRounds</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="c1"># the 128 bit block to decode</span>
+        <span class="n">block</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">16</span>
+        <span class="c1"># set the number of rounds</span>
+        <span class="k">if</span> <span class="n">size</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">keySize</span><span class="p">[</span><span class="s2">&quot;SIZE_128&quot;</span><span class="p">]:</span> <span class="n">nbrRounds</span> <span class="o">=</span> <span class="mi">10</span>
+        <span class="k">elif</span> <span class="n">size</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">keySize</span><span class="p">[</span><span class="s2">&quot;SIZE_192&quot;</span><span class="p">]:</span> <span class="n">nbrRounds</span> <span class="o">=</span> <span class="mi">12</span>
+        <span class="k">elif</span> <span class="n">size</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">keySize</span><span class="p">[</span><span class="s2">&quot;SIZE_256&quot;</span><span class="p">]:</span> <span class="n">nbrRounds</span> <span class="o">=</span> <span class="mi">14</span>
+        <span class="k">else</span><span class="p">:</span> <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="c1"># the expanded keySize</span>
+        <span class="n">expandedKeySize</span> <span class="o">=</span> <span class="mi">16</span><span class="o">*</span><span class="p">(</span><span class="n">nbrRounds</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># Set the block values, for the block:</span>
+        <span class="c1"># a0,0 a0,1 a0,2 a0,3</span>
+        <span class="c1"># a1,0 a1,1 a1,2 a1,3</span>
+        <span class="c1"># a2,0 a2,1 a2,2 a2,3</span>
+        <span class="c1"># a3,0 a3,1 a3,2 a3,3</span>
+        <span class="c1"># the mapping order is a0,0 a1,0 a2,0 a3,0 a0,1 a1,1 ... a2,3 a3,3</span>
+
+        <span class="c1"># iterate over the columns</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
+            <span class="c1"># iterate over the rows</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
+                <span class="n">block</span><span class="p">[(</span><span class="n">i</span><span class="o">+</span><span class="p">(</span><span class="n">j</span><span class="o">*</span><span class="mi">4</span><span class="p">))]</span> <span class="o">=</span> <span class="n">iput</span><span class="p">[(</span><span class="n">i</span><span class="o">*</span><span class="mi">4</span><span class="p">)</span><span class="o">+</span><span class="n">j</span><span class="p">]</span>
+        <span class="c1"># expand the key into an 176, 208, 240 bytes key</span>
+        <span class="n">expandedKey</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">expandKey</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">expandedKeySize</span><span class="p">)</span>
+        <span class="c1"># decrypt the block using the expandedKey</span>
+        <span class="n">block</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">aes_invMain</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="n">expandedKey</span><span class="p">,</span> <span class="n">nbrRounds</span><span class="p">)</span>
+        <span class="c1"># unmap the block again into the output</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
+            <span class="c1"># iterate over the rows</span>
+            <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
+                <span class="n">output</span><span class="p">[(</span><span class="n">k</span><span class="o">*</span><span class="mi">4</span><span class="p">)</span><span class="o">+</span><span class="n">l</span><span class="p">]</span> <span class="o">=</span> <span class="n">block</span><span class="p">[(</span><span class="n">k</span><span class="o">+</span><span class="p">(</span><span class="n">l</span><span class="o">*</span><span class="mi">4</span><span class="p">))]</span>
+        <span class="k">return</span> <span class="n">output</span></div></div>
+
+
+<div class="viewcode-block" id="AESModeOfOperation"><a class="viewcode-back" href="../../../../oi_cli2.custom.Codeforces.html#oi_cli2.custom.Codeforces.slow_aes.AESModeOfOperation">[docs]</a><span class="k">class</span> <span class="nc">AESModeOfOperation</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="n">aes</span> <span class="o">=</span> <span class="n">AES</span><span class="p">()</span>
+
+    <span class="c1"># structure of supported modes of operation</span>
+    <span class="n">modeOfOperation</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">OFB</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">CFB</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">CBC</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="c1"># converts a 16 character string into a number array</span>
+<div class="viewcode-block" id="AESModeOfOperation.convertString"><a class="viewcode-back" href="../../../../oi_cli2.custom.Codeforces.html#oi_cli2.custom.Codeforces.slow_aes.AESModeOfOperation.convertString">[docs]</a>    <span class="k">def</span> <span class="nf">convertString</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">string</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">mode</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">end</span> <span class="o">-</span> <span class="n">start</span> <span class="o">&gt;</span> <span class="mi">16</span><span class="p">:</span> <span class="n">end</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">16</span>
+        <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">modeOfOperation</span><span class="p">[</span><span class="s2">&quot;CBC&quot;</span><span class="p">]:</span> <span class="n">ar</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">16</span>
+        <span class="k">else</span><span class="p">:</span> <span class="n">ar</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="n">i</span> <span class="o">=</span> <span class="n">start</span>
+        <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">ar</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">:</span>
+            <span class="n">ar</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">end</span><span class="p">:</span>
+            <span class="n">ar</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="n">string</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="n">j</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">ar</span></div>
+
+    <span class="c1"># Mode of Operation Encryption</span>
+    <span class="c1"># stringIn - Input String</span>
+    <span class="c1"># mode - mode of type modeOfOperation</span>
+    <span class="c1"># hexKey - a hex key of the bit length size</span>
+    <span class="c1"># size - the bit length of the key</span>
+    <span class="c1"># hexIV - the 128 bit hex Initilization Vector</span>
+<div class="viewcode-block" id="AESModeOfOperation.encrypt"><a class="viewcode-back" href="../../../../oi_cli2.custom.Codeforces.html#oi_cli2.custom.Codeforces.slow_aes.AESModeOfOperation.encrypt">[docs]</a>    <span class="k">def</span> <span class="nf">encrypt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stringIn</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">IV</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="o">%</span> <span class="n">size</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">IV</span><span class="p">)</span> <span class="o">%</span> <span class="mi">16</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="c1"># the AES input/output</span>
+        <span class="n">plaintext</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">iput</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">16</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">ciphertext</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">16</span>
+        <span class="c1"># the output cipher string</span>
+        <span class="n">cipherOut</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># char firstRound</span>
+        <span class="n">firstRound</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="n">stringIn</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">stringIn</span><span class="p">))</span><span class="o">/</span><span class="mi">16</span><span class="p">))):</span>
+                <span class="n">start</span> <span class="o">=</span> <span class="n">j</span><span class="o">*</span><span class="mi">16</span>
+                <span class="n">end</span> <span class="o">=</span> <span class="n">j</span><span class="o">*</span><span class="mi">16</span><span class="o">+</span><span class="mi">16</span>
+                <span class="k">if</span>  <span class="n">end</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">stringIn</span><span class="p">):</span>
+                    <span class="n">end</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">stringIn</span><span class="p">)</span>
+                <span class="n">plaintext</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">convertString</span><span class="p">(</span><span class="n">stringIn</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span>
+                <span class="c1"># print &#39;PT@%s:%s&#39; % (j, plaintext)</span>
+                <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">modeOfOperation</span><span class="p">[</span><span class="s2">&quot;CFB&quot;</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="n">firstRound</span><span class="p">:</span>
+                        <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">aes</span><span class="o">.</span><span class="n">encrypt</span><span class="p">(</span><span class="n">IV</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
+                        <span class="n">firstRound</span> <span class="o">=</span> <span class="kc">False</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">aes</span><span class="o">.</span><span class="n">encrypt</span><span class="p">(</span><span class="n">iput</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">16</span><span class="p">):</span>
+                        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">plaintext</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span> <span class="o">&lt;</span> <span class="n">i</span><span class="p">:</span>
+                            <span class="n">ciphertext</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">^</span> <span class="n">output</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">output</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span> <span class="o">&lt;</span> <span class="n">i</span><span class="p">:</span>
+                            <span class="n">ciphertext</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">plaintext</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">^</span> <span class="mi">0</span>
+                        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">plaintext</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span> <span class="o">&lt;</span> <span class="n">i</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">output</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">i</span><span class="p">:</span>
+                            <span class="n">ciphertext</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">^</span> <span class="mi">0</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">ciphertext</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">plaintext</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">^</span> <span class="n">output</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">end</span><span class="o">-</span><span class="n">start</span><span class="p">):</span>
+                        <span class="n">cipherOut</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ciphertext</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
+                    <span class="n">iput</span> <span class="o">=</span> <span class="n">ciphertext</span>
+                <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">modeOfOperation</span><span class="p">[</span><span class="s2">&quot;OFB&quot;</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="n">firstRound</span><span class="p">:</span>
+                        <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">aes</span><span class="o">.</span><span class="n">encrypt</span><span class="p">(</span><span class="n">IV</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
+                        <span class="n">firstRound</span> <span class="o">=</span> <span class="kc">False</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">aes</span><span class="o">.</span><span class="n">encrypt</span><span class="p">(</span><span class="n">iput</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">16</span><span class="p">):</span>
+                        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">plaintext</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span> <span class="o">&lt;</span> <span class="n">i</span><span class="p">:</span>
+                            <span class="n">ciphertext</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">^</span> <span class="n">output</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">output</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span> <span class="o">&lt;</span> <span class="n">i</span><span class="p">:</span>
+                            <span class="n">ciphertext</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">plaintext</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">^</span> <span class="mi">0</span>
+                        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">plaintext</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span> <span class="o">&lt;</span> <span class="n">i</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">output</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">i</span><span class="p">:</span>
+                            <span class="n">ciphertext</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">^</span> <span class="mi">0</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">ciphertext</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">plaintext</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">^</span> <span class="n">output</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">end</span><span class="o">-</span><span class="n">start</span><span class="p">):</span>
+                        <span class="n">cipherOut</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ciphertext</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
+                    <span class="n">iput</span> <span class="o">=</span> <span class="n">output</span>
+                <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">modeOfOperation</span><span class="p">[</span><span class="s2">&quot;CBC&quot;</span><span class="p">]:</span>
+                    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">16</span><span class="p">):</span>
+                        <span class="k">if</span> <span class="n">firstRound</span><span class="p">:</span>
+                            <span class="n">iput</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span>  <span class="n">plaintext</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">^</span> <span class="n">IV</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">iput</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span>  <span class="n">plaintext</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">^</span> <span class="n">ciphertext</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                    <span class="c1"># print &#39;IP@%s:%s&#39; % (j, iput)</span>
+                    <span class="n">firstRound</span> <span class="o">=</span> <span class="kc">False</span>
+                    <span class="n">ciphertext</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">aes</span><span class="o">.</span><span class="n">encrypt</span><span class="p">(</span><span class="n">iput</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
+                    <span class="c1"># always 16 bytes because of the padding for CBC</span>
+                    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">16</span><span class="p">):</span>
+                        <span class="n">cipherOut</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ciphertext</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">mode</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">stringIn</span><span class="p">),</span> <span class="n">cipherOut</span></div>
+
+    <span class="c1"># Mode of Operation Decryption</span>
+    <span class="c1"># cipherIn - Encrypted String</span>
+    <span class="c1"># originalsize - The unencrypted string length - required for CBC</span>
+    <span class="c1"># mode - mode of type modeOfOperation</span>
+    <span class="c1"># key - a number array of the bit length size</span>
+    <span class="c1"># size - the bit length of the key</span>
+    <span class="c1"># IV - the 128 bit number array Initilization Vector</span>
+<div class="viewcode-block" id="AESModeOfOperation.decrypt"><a class="viewcode-back" href="../../../../oi_cli2.custom.Codeforces.html#oi_cli2.custom.Codeforces.slow_aes.AESModeOfOperation.decrypt">[docs]</a>    <span class="k">def</span> <span class="nf">decrypt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cipherIn</span><span class="p">,</span> <span class="n">originalsize</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">IV</span><span class="p">):</span>
+        <span class="c1"># cipherIn = unescCtrlChars(cipherIn)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="o">%</span> <span class="n">size</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">IV</span><span class="p">)</span> <span class="o">%</span> <span class="mi">16</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="c1"># the AES input/output</span>
+        <span class="n">ciphertext</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">iput</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">plaintext</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">16</span>
+        <span class="c1"># the output plain text string</span>
+        <span class="n">stringOut</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="c1"># char firstRound</span>
+        <span class="n">firstRound</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="n">cipherIn</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cipherIn</span><span class="p">))</span><span class="o">/</span><span class="mi">16</span><span class="p">))):</span>
+                <span class="n">start</span> <span class="o">=</span> <span class="n">j</span><span class="o">*</span><span class="mi">16</span>
+                <span class="n">end</span> <span class="o">=</span> <span class="n">j</span><span class="o">*</span><span class="mi">16</span><span class="o">+</span><span class="mi">16</span>
+                <span class="k">if</span> <span class="n">j</span><span class="o">*</span><span class="mi">16</span><span class="o">+</span><span class="mi">16</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">cipherIn</span><span class="p">):</span>
+                    <span class="n">end</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">cipherIn</span><span class="p">)</span>
+                <span class="n">ciphertext</span> <span class="o">=</span> <span class="n">cipherIn</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">]</span>
+
+                <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">aes</span><span class="o">.</span><span class="n">decrypt</span><span class="p">(</span><span class="n">ciphertext</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">16</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">firstRound</span><span class="p">:</span>
+                        <span class="n">plaintext</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">IV</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">^</span> <span class="n">output</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">plaintext</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">iput</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">^</span> <span class="n">output</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="n">firstRound</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="k">if</span> <span class="n">originalsize</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">originalsize</span> <span class="o">&lt;</span> <span class="n">end</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">originalsize</span><span class="o">-</span><span class="n">start</span><span class="p">):</span>
+                        <span class="n">stringOut</span> <span class="o">+=</span> <span class="nb">chr</span><span class="p">(</span><span class="n">plaintext</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">end</span><span class="o">-</span><span class="n">start</span><span class="p">):</span>
+                        <span class="n">stringOut</span> <span class="o">+=</span> <span class="nb">chr</span><span class="p">(</span><span class="n">plaintext</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
+                <span class="n">iput</span> <span class="o">=</span> <span class="n">ciphertext</span>
+        <span class="k">return</span> <span class="n">plaintext</span></div></div>
+
+
+<div class="viewcode-block" id="encryptData"><a class="viewcode-back" href="../../../../oi_cli2.custom.Codeforces.html#oi_cli2.custom.Codeforces.slow_aes.encryptData">[docs]</a><span class="k">def</span> <span class="nf">encryptData</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">AESModeOfOperation</span><span class="o">.</span><span class="n">modeOfOperation</span><span class="p">[</span><span class="s2">&quot;CBC&quot;</span><span class="p">]):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;encrypt `data` using `key`</span>
+
+<span class="sd">    `key` should be a string of bytes.</span>
+
+<span class="sd">    returned cipher is a string of bytes prepended with the initialization</span>
+<span class="sd">    vector.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">key</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">ord</span><span class="p">,</span> <span class="n">key</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="n">AESModeOfOperation</span><span class="o">.</span><span class="n">modeOfOperation</span><span class="p">[</span><span class="s2">&quot;CBC&quot;</span><span class="p">]:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">append_PKCS7_padding</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">keysize</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">keysize</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">AES</span><span class="o">.</span><span class="n">keySize</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span> <span class="s1">&#39;invalid key size: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">keysize</span>
+    <span class="c1"># create a new iv using random data</span>
+    <span class="n">iv</span> <span class="o">=</span> <span class="p">[</span><span class="nb">ord</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">urandom</span><span class="p">(</span><span class="mi">16</span><span class="p">)]</span>
+    <span class="n">moo</span> <span class="o">=</span> <span class="n">AESModeOfOperation</span><span class="p">()</span>
+    <span class="p">(</span><span class="n">mode</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">ciph</span><span class="p">)</span> <span class="o">=</span> <span class="n">moo</span><span class="o">.</span><span class="n">encrypt</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">keysize</span><span class="p">,</span> <span class="n">iv</span><span class="p">)</span>
+    <span class="c1"># With padding, the original length does not need to be known. It&#39;s a bad</span>
+    <span class="c1"># idea to store the original message length.</span>
+    <span class="c1"># prepend the iv.</span>
+    <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">chr</span><span class="p">,</span> <span class="n">iv</span><span class="p">))</span> <span class="o">+</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">chr</span><span class="p">,</span> <span class="n">ciph</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="decryptData"><a class="viewcode-back" href="../../../../oi_cli2.custom.Codeforces.html#oi_cli2.custom.Codeforces.slow_aes.decryptData">[docs]</a><span class="k">def</span> <span class="nf">decryptData</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">AESModeOfOperation</span><span class="o">.</span><span class="n">modeOfOperation</span><span class="p">[</span><span class="s2">&quot;CBC&quot;</span><span class="p">]):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;decrypt `data` using `key`</span>
+
+<span class="sd">    `key` should be a string of bytes.</span>
+
+<span class="sd">    `data` should have the initialization vector prepended as a string of</span>
+<span class="sd">    ordinal values.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">key</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">ord</span><span class="p">,</span> <span class="n">key</span><span class="p">))</span>
+    <span class="n">keysize</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">keysize</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">AES</span><span class="o">.</span><span class="n">keySize</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span> <span class="s1">&#39;invalid key size: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">keysize</span>
+    <span class="c1"># iv is first 16 bytes</span>
+    <span class="n">iv</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">ord</span><span class="p">,</span> <span class="n">data</span><span class="p">[:</span><span class="mi">16</span><span class="p">]))</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">ord</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="mi">16</span><span class="p">:]))</span>
+    <span class="n">moo</span> <span class="o">=</span> <span class="n">AESModeOfOperation</span><span class="p">()</span>
+    <span class="n">decr</span> <span class="o">=</span> <span class="n">moo</span><span class="o">.</span><span class="n">decrypt</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">keysize</span><span class="p">,</span> <span class="n">iv</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="n">AESModeOfOperation</span><span class="o">.</span><span class="n">modeOfOperation</span><span class="p">[</span><span class="s2">&quot;CBC&quot;</span><span class="p">]:</span>
+        <span class="n">decr</span> <span class="o">=</span> <span class="n">strip_PKCS7_padding</span><span class="p">(</span><span class="n">decr</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">decr</span></div>
+
+<div class="viewcode-block" id="generateRandomKey"><a class="viewcode-back" href="../../../../oi_cli2.custom.Codeforces.html#oi_cli2.custom.Codeforces.slow_aes.generateRandomKey">[docs]</a><span class="k">def</span> <span class="nf">generateRandomKey</span><span class="p">(</span><span class="n">keysize</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generates a key from random data of length `keysize`.</span>
+<span class="sd">    </span>
+<span class="sd">    The returned key is a string of bytes.</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">keysize</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">32</span><span class="p">):</span>
+        <span class="n">emsg</span> <span class="o">=</span> <span class="s1">&#39;Invalid keysize, </span><span class="si">%s</span><span class="s1">. Should be one of (16, 24, 32).&#39;</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">emsg</span> <span class="o">%</span> <span class="n">keysize</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">urandom</span><span class="p">(</span><span class="n">keysize</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="encrypt"><a class="viewcode-back" href="../../../../oi_cli2.custom.Codeforces.html#oi_cli2.custom.Codeforces.slow_aes.encrypt">[docs]</a><span class="k">def</span> <span class="nf">encrypt</span><span class="p">(</span><span class="n">plaintext</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">     Encrypts text easily: assumes that the key size is 16, the input is a str and a hex encoded str is wanted</span>
+<span class="sd">     as output</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">padded</span> <span class="o">=</span> <span class="n">plaintext</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">plaintext</span><span class="p">)</span><span class="o">%</span><span class="mi">16</span> <span class="k">else</span> <span class="n">plaintext</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span><span class="o">*</span><span class="p">(</span><span class="mi">16</span><span class="o">*</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">plaintext</span><span class="p">)</span><span class="o">/</span><span class="mi">16</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">plaintext</span><span class="p">))</span>
+    <span class="n">crypto</span> <span class="o">=</span> <span class="n">AES</span><span class="p">()</span>
+    <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                <span class="nb">map</span><span class="p">(</span><span class="nb">chr</span><span class="p">,</span> <span class="n">crypto</span><span class="o">.</span><span class="n">encrypt</span><span class="p">(</span>
+                        <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">ord</span><span class="p">,</span> <span class="n">padded</span><span class="p">)),</span>
+                        <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">ord</span><span class="p">,</span> <span class="n">key</span><span class="p">)),</span>
+                        <span class="mi">16</span>
+                    <span class="p">))</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;hex&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="decrypt"><a class="viewcode-back" href="../../../../oi_cli2.custom.Codeforces.html#oi_cli2.custom.Codeforces.slow_aes.decrypt">[docs]</a><span class="k">def</span> <span class="nf">decrypt</span><span class="p">(</span><span class="n">cipher</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Decrypts text assuming that it was encrypted with a keysize of 16 and that the input is hex encoded and </span>
+<span class="sd">       a str is wanted as output</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">crypto</span> <span class="o">=</span> <span class="n">AES</span><span class="p">()</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">decoded</span> <span class="o">=</span> <span class="n">cipher</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;hex&#39;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+        <span class="k">raise</span>
+
+    <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                <span class="nb">map</span><span class="p">(</span><span class="nb">chr</span><span class="p">,</span> <span class="n">crypto</span><span class="o">.</span><span class="n">decrypt</span><span class="p">(</span>
+                            <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">ord</span><span class="p">,</span> <span class="n">decoded</span><span class="p">)),</span>
+                            <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">ord</span><span class="p">,</span> <span class="n">key</span><span class="p">)),</span>
+                            <span class="mi">16</span>
+                    <span class="p">))</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span></div>
+</pre></div>
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2023, Cro-Marmot
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+    <script src="../../../../_static/jquery.js"></script>
+    <script src="../../../../_static/underscore.js"></script>
+    <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/scripts/furo.js"></script>
+    </body>
+</html>

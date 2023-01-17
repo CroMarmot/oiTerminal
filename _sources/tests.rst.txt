@@ -1,0 +1,53 @@
+tests package
+=============
+
+Submodules
+----------
+
+tests.test\_account module
+--------------------------
+
+.. automodule:: tests.test_account
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+tests.test\_analyze module
+--------------------------
+
+.. automodule:: tests.test_analyze
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+tests.test\_db module
+---------------------
+
+.. automodule:: tests.test_db
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+tests.test\_enc module
+----------------------
+
+.. automodule:: tests.test_enc
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+tests.test\_template module
+---------------------------
+
+.. automodule:: tests.test_template
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: tests
+   :members:
+   :undoc-members:
+   :show-inheritance:

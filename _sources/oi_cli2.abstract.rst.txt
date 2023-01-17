@@ -1,0 +1,21 @@
+oi\_cli2.abstract package
+=========================
+
+Submodules
+----------
+
+oi\_cli2.abstract.HtmlTagAbstract module
+----------------------------------------
+
+.. automodule:: oi_cli2.abstract.HtmlTagAbstract
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: oi_cli2.abstract
+   :members:
+   :undoc-members:
+   :show-inheritance:
