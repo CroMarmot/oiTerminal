@@ -7,6 +7,9 @@ from typing import Tuple, cast
 import click
 from rich.console import Console
 from rich.text import Text
+from rich.table import Table
+from rich.live import Live
+
 from oi_cli2.cli.adaptor.ojman import OJManager
 from oi_cli2.cli.constant import FETCH_RESULT_INTERVAL, STATE_FILE
 from oi_cli2.core.DI import DI_ACCMAN, DI_LOGGER, DI_TEMPMAN
@@ -21,15 +24,35 @@ from oi_cli2.utils.template import TemplateManager
 console = Console(color_system='256', style=None)
 
 
+def generate_submission_table(res: SubmissionResult) -> Table:
+  """Make a new submission table."""
+  table = Table().grid()
+  table.add_column(min_width=12)
+  table.add_column()
+  table.add_row("Result ID", f"{res.id}")
+  # "[red]ERROR" if value < 50 else "[green]SUCCESS"
+  table.add_row("Status", Text.from_ansi(f"{status_string(res)}"))
+  table.add_row("Time(s)", f"{res.time_note}")
+  table.add_row("Memory(KB)", f"{res.mem_note}")
+  if res.msg_txt:
+    table.add_row("MSG", f"{res.msg_txt}")
+  if res.url:
+    table.add_row("Url", f"{res.url}")
+  return table
+
+
 def watch_result(oj: BaseOj, problem_url: str) -> SubmissionResult:
   result = SubmissionResult()
-  while result.cur_status in [SubmissionResult.Status.RUNNING, SubmissionResult.Status.PENDING]:
-    console.print(Text.from_ansi(f"Fetching result...({result.state_note})"))
-    time.sleep(FETCH_RESULT_INTERVAL)
-    if result.quick_key != '':
-      result = oj.get_result_by_quick_id(result.quick_key)
-    else:
-      result = oj.get_result(problem_url)
+  with Live(auto_refresh=False) as live:
+    while result.cur_status in [SubmissionResult.Status.RUNNING, SubmissionResult.Status.PENDING]:
+      # console.print(Text.from_ansi(f"Fetching result...({result.state_note})"))
+      time.sleep(FETCH_RESULT_INTERVAL)
+      if result.quick_key:
+        result = oj.get_result_by_quick_id(result.quick_key)
+      else:
+        result = oj.get_result(problem_url)
+      live.update(generate_submission_table(result), refresh=True)
+
   return result
 
 
@@ -45,7 +68,7 @@ def submit_parser() -> Tuple[str, str, str, Account, str, str]:
     state_oj.__dict__ = json.load(f)
 
   oj = state_oj.oj
-  up_lang = cast(str,state_oj.up_lang)
+  up_lang = cast(str, state_oj.up_lang)
 
   template = tm.get_template_by_name(state_oj.oj, state_oj.template_alias)
 
@@ -79,11 +102,11 @@ def submit_command():
     if not oj.submit_code(problem_url=problem_url, language_id=up_lang, code_path=code_path):
       raise Exception(f'submit failed, account={account.account}')
     console.print("[green]Submitted")
-    res = watch_result(oj, problem_url)
-    console.print(f"Result ID  : {res.id}")
-    console.print(Text.from_ansi(f"Status     : {status_string(res)}"))
-    console.print(f"Time       : {res.time_note}")
-    console.print(f"Memory     : {res.mem_note}")
+    watch_result(oj, problem_url)
+    # console.print(f"Result ID  : {res.id}")
+    # console.print(Text.from_ansi(f"Status     : {status_string(res)}"))
+    # console.print(f"Time       : {res.time_note}")
+    # console.print(f"Memory     : {res.mem_note}")
   except KeyboardInterrupt:
     logger.info("Interrupt by user")
   except Exception:
@@ -109,7 +132,7 @@ def result_command():
   logger.debug(problem_url)
 
   res = watch_result(oj, problem_url)
-  console.print(f"Result ID  : {res.id}")
-  console.print(Text.from_ansi(f"Status     : {status_string(res)}"))
-  console.print(f"Time(s)    : {res.time_note}")
-  console.print(f"Memory(KB) : {res.mem_note}")
+  # console.print(f"Result ID  : {res.id}")
+  # console.print(Text.from_ansi(f"Status     : {status_string(res)}"))
+  # console.print(f"Time(s)    : {res.time_note}")
+  # console.print(f"Memory(KB) : {res.mem_note}")

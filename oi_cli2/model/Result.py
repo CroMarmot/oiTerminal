@@ -11,10 +11,12 @@ class SubmissionResult:
 
   id: str = '0'
   cur_status: Status = Status.PENDING
+  url: str ='' # print for user
   quick_key: str = ''  # for refetch result
   state_note: str = '0'
   time_note: str = '0/0'
   mem_note: str = '0/0'
+  msg_txt: str = ''
 
 
 def status_string(result: SubmissionResult) -> str:

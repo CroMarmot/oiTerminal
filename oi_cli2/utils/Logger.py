@@ -47,7 +47,7 @@ def getLogger(logger_path):
   # stream warning
   sh = logging.StreamHandler()
   sh.setFormatter(streamformatter)
-  sh.setLevel(logging.WARNING if LogConfig().is_production() else logging.DEBUG)
+  sh.setLevel(logging.INFO if LogConfig().is_production() else logging.DEBUG)
   logger.addHandler(sh)
 
   return logger
