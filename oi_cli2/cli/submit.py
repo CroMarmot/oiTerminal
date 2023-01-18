@@ -88,10 +88,15 @@ def submit_command():
   try:
     logger: logging.Logger = Provider2().get(DI_LOGGER)
     platform, sid, up_lang, account, code_path, problem_url = submit_parser()
-    console.print(f"OJ         : {platform}")
-    console.print(f"Account    : {account.account}")
-    console.print(f"Problem ID : {sid}")
-    console.print(f"up_lang    : {up_lang}")
+
+    table = Table().grid()
+    table.add_column(min_width=12)
+    table.add_column()
+    table.add_row("OJ", f"{platform}")
+    table.add_row("Account", f"{account.account}")
+    table.add_row("Problem ID", f"{sid}")
+    table.add_row("up_lang", f"{up_lang}")
+    console.print(table)
 
     try:
       oj: BaseOj = OJManager.createOj(platform=platform, account=account, provider=Provider2())
@@ -113,11 +118,15 @@ def submit_command():
 def result_command():
   logger: logging.Logger = Provider2().get(DI_LOGGER)
   platform, sid, up_lang, account, code_path, problem_url = submit_parser()
-  console.print(f"OJ         : {platform}")
-  console.print(f"Account    : {account.account}")
-  console.print(f"Problem ID : {sid}")
-  console.print(f"up_lang    : {up_lang}")
-  console.print(f"Problem_url: {problem_url}")
+  table = Table().grid()
+  table.add_column(min_width=12)
+  table.add_column()
+  table.add_row("OJ", f"{platform}")
+  table.add_row("Account", f"{account.account}")
+  table.add_row("Problem ID", f"{sid}")
+  table.add_row("up_lang", f"{up_lang}")
+  table.add_row("Problem Url", f"{problem_url}")
+  console.print(table)
 
   try:
     oj: BaseOj = OJManager.createOj(platform=platform, account=account, provider=Provider2())
