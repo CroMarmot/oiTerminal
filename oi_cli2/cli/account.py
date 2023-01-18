@@ -15,8 +15,8 @@ console = Console(color_system='256', style=None)
 @click.pass_context
 def account(ctx):
   """Manage accounts"""
-  import oi_cli2.core.provider as provider
-  ctx.obj[DI_PROVIDER] = provider
+  from oi_cli2.utils.Provider2 import Provider2
+  ctx.obj[DI_PROVIDER] = Provider2()
 
 
 @account.command(name='list')
@@ -24,7 +24,7 @@ def account(ctx):
 def list_command(ctx):
   """List all account"""
   provider = ctx.obj[DI_PROVIDER]
-  am: AccountManager = provider.o.get(DI_ACCMAN)
+  am: AccountManager = provider.get(DI_ACCMAN)
   acc_list = am.get_list()
   for i in range(len(acc_list)):
     if i == 0 or acc_list[i].platform != acc_list[i - 1].platform:
@@ -51,8 +51,8 @@ def new(ctx, platform, account, default_):
   ACCOUNT     Account name
   """
   provider = ctx.obj[DI_PROVIDER]
-  logger: logging.Logger = provider.o.get(DI_LOGGER)
-  am: AccountManager = provider.o.get(DI_ACCMAN)
+  logger: logging.Logger = provider.get(DI_LOGGER)
+  am: AccountManager = provider.get(DI_ACCMAN)
   password = getpass.getpass("Password:")
   if not am.new(platform=platform, account=account, password=password, default=default_):
     logger.error('New Account Failed.')
@@ -77,8 +77,8 @@ def modify(ctx, platform, account, changepassword: bool, default_):
   ACCOUNT     Account name
   """
   provider = ctx.obj[DI_PROVIDER]
-  logger: logging.Logger = provider.o.get(DI_LOGGER)
-  am: AccountManager = provider.o.get(DI_ACCMAN)
+  logger: logging.Logger = provider.get(DI_LOGGER)
+  am: AccountManager = provider.get(DI_ACCMAN)
   if changepassword:
     password = getpass.getpass("Password:")
   else:
@@ -102,8 +102,8 @@ def delete(ctx, platform, account) -> bool:
   ACCOUNT     Account name
   """
   provider = ctx.obj[DI_PROVIDER]
-  logger: logging.Logger = provider.o.get(DI_LOGGER)
-  am: AccountManager = provider.o.get(DI_ACCMAN)
+  logger: logging.Logger = provider.get(DI_LOGGER)
+  am: AccountManager = provider.get(DI_ACCMAN)
   if not am.delete(platform=platform, account=account):
     logger.error("Account not found")
     return False
@@ -124,16 +124,16 @@ def valid_account(ctx, platform: str, account: str) -> bool:
   ACCOUNT     Account name
   """
   provider = ctx.obj[DI_PROVIDER]
-  logger: logging.Logger = provider.o.get(DI_LOGGER)
+  logger: logging.Logger = provider.get(DI_LOGGER)
   logger.debug(f'platform:{platform}')
-  am: AccountManager = provider.o.get(DI_ACCMAN)
+  am: AccountManager = provider.get(DI_ACCMAN)
   acc = am.get_account(platform=platform, account=account)
   if acc is None:
     console.print(f'[red bold]Account [{account}] not found')
     return False
 
   try:
-    oj: BaseOj = OJManager.createOj(platform=platform, account=acc, provider=provider.o)
+    oj: BaseOj = OJManager.createOj(platform=platform, account=acc, provider=provider)
   except Exception as e:
     logger.exception(e)
     raise e

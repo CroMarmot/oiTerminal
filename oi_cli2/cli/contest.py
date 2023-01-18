@@ -15,7 +15,6 @@ from rich.style import Style
 from rich.console import Console
 from oi_cli2.cli.adaptor.ojman import OJManager
 from oi_cli2.core.DI import DI_ACCMAN, DI_CFG, DI_LOGGER, DI_TEMPMAN
-import oi_cli2.core.provider as provider
 
 from oi_cli2.model.BaseOj import BaseOj
 from oi_cli2.model.FolderState import FolderState
@@ -73,8 +72,8 @@ def generate_table(result) -> Table:
 
 # TODO support by problem id
 def create_problem(data, pm: ProblemMeta, contest_id: str, template, oj: BaseOj):
-  logger: logging.Logger = provider.o.get(DI_LOGGER)
-  config_folder: ConfigFolder = provider.o.get(DI_CFG)
+  logger: logging.Logger = Provider2().get(DI_LOGGER)
+  config_folder: ConfigFolder = Provider2().get(DI_CFG)
   timeOutRetry = 3
   while timeOutRetry >= 0:
     try:
@@ -133,9 +132,9 @@ def create_problem(data, pm: ProblemMeta, contest_id: str, template, oj: BaseOj)
 
 
 async def createDir(oj: BaseOj, contest_id: str, problems: List[ProblemMeta]):
-  logger: logging.Logger = provider.o.get(DI_LOGGER)
-  config_folder: ConfigFolder = provider.o.get(DI_CFG)
-  template_manager: TemplateManager = provider.o.get(DI_TEMPMAN)
+  logger: logging.Logger = Provider2().get(DI_LOGGER)
+  config_folder: ConfigFolder = Provider2().get(DI_CFG)
+  template_manager: TemplateManager = Provider2().get(DI_TEMPMAN)
   template = template_manager.get_platform_default(type(oj).__name__)
   if template is None:
     logger.error(type(oj).__name__ + ' has no default template, run `oi config` first')
@@ -181,13 +180,13 @@ def fetch(platform, contestid):
 
   CONTESTID   The id in the url, e.g. Codeforces(1122),AtCoder(abc230)
   """
-  logger: logging.Logger = provider.o.get(DI_LOGGER)
-  am: AccountManager = provider.o.get(DI_ACCMAN)
+  logger: logging.Logger = Provider2().get(DI_LOGGER)
+  am: AccountManager = Provider2().get(DI_ACCMAN)
 
   try:
     oj: BaseOj = OJManager.createOj(platform=platform,
                                     account=am.get_default_account(platform=platform),
-                                    provider=provider.o)
+                                    provider=Provider2())
   except Exception as e:
     logger.exception(e)
     raise e
@@ -237,13 +236,13 @@ def detail(platform, contestid):
 
   CONTESTID   The id in the url, e.g. Codeforces(1122),AtCoder(abc230)
   """
-  logger: logging.Logger = provider.o.get(DI_LOGGER)
-  am: AccountManager = provider.o.get(DI_ACCMAN)
+  logger: logging.Logger = Provider2().get(DI_LOGGER)
+  am: AccountManager = Provider2().get(DI_ACCMAN)
 
   try:
     oj: BaseOj = OJManager.createOj(platform=platform,
                                     account=am.get_default_account(platform=platform),
-                                    provider=provider.o)
+                                    provider=Provider2())
   except Exception as e:
     logger.exception(e)
     raise e
@@ -284,13 +283,13 @@ def standing(platform, contestid):
 
   CONTESTID   The id in the url, e.g. Codeforces(1122),AtCoder(abc230)
   """
-  logger: logging.Logger = provider.o.get(DI_LOGGER)
-  am: AccountManager = provider.o.get(DI_ACCMAN)
+  logger: logging.Logger = Provider2().get(DI_LOGGER)
+  am: AccountManager = Provider2().get(DI_ACCMAN)
 
   try:
     oj: BaseOj = OJManager.createOj(platform=platform,
                                     account=am.get_default_account(platform=platform),
-                                    provider=provider.o)
+                                    provider=Provider2())
   except Exception as e:
     logger.exception(e)
     raise e

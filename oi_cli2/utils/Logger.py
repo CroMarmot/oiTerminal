@@ -35,17 +35,16 @@ def getLogger(logger_path):
   # remove default handler
   logging.getLogger().handlers.clear()
 
-  fileformatter = logging.Formatter('[%(asctime)s %(levelname)s %(filename)s %(funcName)s %(lineno)d]: %(message)s')
-  streamformatter = logging.Formatter('[%(levelname)s]: %(message)s')
-
   # file
   fh = logging.FileHandler(logger_path)
+  fileformatter = logging.Formatter('[%(asctime)s %(levelname)s %(filename)s %(funcName)s %(lineno)d]: %(message)s')
   fh.setFormatter(fileformatter)
   fh.setLevel(logging.DEBUG)
   logger.addHandler(fh)
 
   # stream warning
   sh = logging.StreamHandler()
+  streamformatter = logging.Formatter('[%(levelname)s]: %(message)s')
   sh.setFormatter(streamformatter)
   sh.setLevel(logging.INFO if LogConfig().is_production() else logging.DEBUG)
   logger.addHandler(sh)

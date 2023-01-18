@@ -10,7 +10,7 @@ from typing import List
 import click
 from rich.console import Console
 from oi_cli2.cli.constant import DEFAULT, GREEN, IN_SUFFIX, OUT_SUFFIX, STATE_FILE, TEST_FOLDER
-import oi_cli2.core.provider as provider
+from oi_cli2.utils.Provider2 import Provider2
 from oi_cli2.core.DI import DI_LOGGER, DI_TEMPMAN
 from oi_cli2.model.FolderState import FolderState
 from oi_cli2.model.Template import Template
@@ -57,8 +57,8 @@ def tester(root_folder: str, test_files: List[str], testcase_folder: str, templa
 
 
 def tst_main():
-  logger: logging.Logger = provider.o.get(DI_LOGGER)
-  tm: TemplateManager = provider.o.get(DI_TEMPMAN)
+  logger: logging.Logger = Provider2().get(DI_LOGGER)
+  tm: TemplateManager = Provider2().get(DI_TEMPMAN)
 
   # get language config
   if not os.path.isfile(STATE_FILE):
@@ -89,7 +89,7 @@ def tst_main():
 @click.command(name='test')
 def tst_command():
   try:
-    logger: logging.Logger = provider.o.get(DI_LOGGER)
+    logger: logging.Logger = Provider2().get(DI_LOGGER)
     tst_main()
   except KeyboardInterrupt:
     logger.info("Interrupt by user")

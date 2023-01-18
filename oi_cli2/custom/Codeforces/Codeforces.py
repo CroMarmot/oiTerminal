@@ -44,11 +44,11 @@ class Codeforces(BaseOj):
     #   self.http_util.cookies.set("RCPC", rcpc, domain="codeforces.com")
     ok, chiper, rcpc_token = get_cipher_token()
     if ok:
-      print("RCPC ok")  #, rcpc_token)
+      self.logger.info("RCPC ok")  #, rcpc_token)
       # TODO cache RCPC and auto check update
       self.http_util.cookies.set("RCPC", rcpc_token) # , domain="codeforces.com")
     else:
-      print("RCPC failed")
+      self.logger.info("RCPC failed")
 
   def pid2url(self, problem_id: str):
     result = re.match('^(\\d+)([A-Z]\\d?)$', problem_id)
@@ -87,10 +87,10 @@ class Codeforces(BaseOj):
   def login_website(self, force=False) -> bool:  # return successful
     if not force:
       # try using cookies
-      logging.debug(f"{GREEN}Checking Log in {DEFAULT}")
+      self.logger.info(f"{GREEN}Checking Log in {DEFAULT}")
       try:
         if self._is_login():
-          logging.debug(f"{GREEN}{self.account.account} is Logged in {Codeforces.__name__}{DEFAULT}")
+          self.logger.info(f"{GREEN}{self.account.account} is Logged in {Codeforces.__name__}{DEFAULT}")
           return True
       except (ReadTimeout, ConnectTimeout) as e:
         self.logger.error(f'Http Timeout[{type(e).__name__}]: {e.request.url}')
@@ -98,7 +98,7 @@ class Codeforces(BaseOj):
         self.logger.exception(e)
 
     try:
-      logging.debug(f"{GREEN}{self.account.account} Logining {Codeforces.__name__}{DEFAULT}")
+      self.logger.debug(f"{GREEN}{self.account.account} Logining {Codeforces.__name__}{DEFAULT}")
       url = f'{self._base_url}enter?back=%2F'
       self.logger.debug(f"get {url}")
       res = self.http_util.get(url)
@@ -121,7 +121,7 @@ class Codeforces(BaseOj):
 
     try:
       if self._is_login():
-        logging.debug(f"{GREEN}{self.account.account} Logined {Codeforces.__name__}{DEFAULT}")
+        self.logger.debug(f"{GREEN}{self.account.account} Logined {Codeforces.__name__}{DEFAULT}")
         HttpUtilCookiesHelper.save_cookie(provider=Provider2(),
                                           platform=Codeforces.__name__,
                                           account=self.account.account)

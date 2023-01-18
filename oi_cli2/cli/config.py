@@ -6,7 +6,7 @@ from oi_cli2.cli.template import template
 from oi_cli2.cli.account import account
 from oi_cli2.utils.configFolder import ConfigFolder
 from oi_cli2.utils.db import JsonFileDB
-import oi_cli2.core.provider as provider
+from oi_cli2.utils.Provider2 import Provider2
 import logging
 
 
@@ -17,7 +17,7 @@ def config(ctx):
   # TODO make it provider?
   config_folder = ConfigFolder(OT_FOLDER)
   try:
-    logger: logging.Logger = provider.o.get(DI_LOGGER)
+    logger: logging.Logger = Provider2().get(DI_LOGGER)
   except Exception as e:
     print(str(e))
     exit(1)
