@@ -20,14 +20,6 @@ oi\_cli2.core.problem module
    :undoc-members:
    :show-inheritance:
 
-oi\_cli2.core.provider module
------------------------------
-
-.. automodule:: oi_cli2.core.provider
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 Module contents
 ---------------
 
