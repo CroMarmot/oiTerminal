@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import click
-from oi_cli2.cli.adaptor.AtcoderAdaptor import AtcoderGen
+from oi_cli2.cli.adaptor.AtCoderAdaptor import AtCoder, AtcoderGen
 from oi_cli2.cli.adaptor.CodeforcesAdaptor import CodeforcesGen
 from oi_cli2.cli.adaptor.ojman import OJManager
 
@@ -10,7 +10,6 @@ from oi_cli2.cli.init import init
 from oi_cli2.cli.submit import submit_command, result_command
 from oi_cli2.cli.test import tst_command
 from oi_cli2.cli.completion import completion_command
-from oi_cli2.custom.AtCoder.AtCoder import AtCoder
 from oi_cli2.custom.Codeforces.Codeforces import Codeforces
 
 
