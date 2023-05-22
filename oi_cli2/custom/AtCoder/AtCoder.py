@@ -87,10 +87,13 @@ class AtCoder(BaseOj):
 
   def login_website(self, force: bool = False) -> bool:
     if force or not is_logged_in(self.http_util):  # need login
+      if force:
+        self.http_util._request.cookies.clear()
       ok = fetch_login(self.http_util, self.account.account,
                        AESCipher(CIPHER_KEY).decrypt(self.account.password))
-      if ok:
-        HttpUtilCookiesHelper.save_cookie(provider=Provider2(),
+      # if ok:
+      # always save cookie
+      HttpUtilCookiesHelper.save_cookie(provider=Provider2(),
                                           platform=AtCoder.__name__,
                                           account=self.account.account)
       return ok
