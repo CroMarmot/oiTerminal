@@ -17,3 +17,4 @@ sphinx
 sphinx-autobuild
 furo
 myst-parser
+yxr-atcoder-core==0.0.3.3
