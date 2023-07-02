@@ -60,7 +60,7 @@ def new(ctx, platform, name, path, compile, execute, langid):
 
   EXECUTE     Execute command
 
-  LANGID      Upload language id(TODO tools)"""
+  LANGID      Upload language id(`oi lang <platform>`)"""
   tm: TemplateManager = ctx.obj[DI_TEMPMAN]
   logger: logging.Logger = ctx.obj[DI_LOGGER]
   logger.debug(f"{platform}, {name}, {path}, {compile}, {execute}, {langid}")

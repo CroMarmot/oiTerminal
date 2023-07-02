@@ -2,8 +2,10 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import List
 
+from oi_cli2.model.ParseProblemResult import ParsedProblemResult
 
-class E_STATUS(Enum):
+
+class E_STATUS(str, Enum):
   NOT_SUBMITTED = ""
   AC = "AC"
   ERROR = "ERROR"

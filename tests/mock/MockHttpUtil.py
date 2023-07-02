@@ -35,7 +35,7 @@ class MockHttpUtil(object):
         resp.status_code = 200
         return resp
     else:
-      return None
+      raise Exception(f'url[{url}] not match')
 
   def post(self, url, data=None, json=None, **kwargs):
     try:

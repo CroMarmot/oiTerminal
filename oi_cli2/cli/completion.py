@@ -1,7 +1,9 @@
 import click
+from . import reg_list
 
 # TODO inject account
-platformNames = ["Codeforces", "AtCoder"]
+
+platformNames = list(map(lambda o: o[0], reg_list))
 
 
 def platformKey():
@@ -10,6 +12,8 @@ def platformKey():
     res[k] = {}
   return res
 
+
+platformKeys = platformKey()
 
 # TODO auto generate by click
 cliAccept = {
@@ -29,15 +33,16 @@ cliAccept = {
             "delete": platformKey(),
         }
     },
-    "problem": {
-        "fetch": platformKey()
-    },
+    # "problem": {
+    #     "fetch": platformKey()
+    # },
     "contest": {
         "list": platformKey(),
         "detail": platformKey(),
         "standing": platformKey(),
         "fetch": platformKey(),
     },
+    "lang": platformKey(),
     "test": {},
     "submit": {},
     "result": {},

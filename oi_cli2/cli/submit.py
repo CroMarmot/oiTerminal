@@ -1,7 +1,7 @@
+import asyncio
 import json
 import logging
 import os
-import time
 import traceback
 from typing import Tuple, cast
 import click
@@ -42,17 +42,19 @@ def generate_submission_table(res: SubmissionResult) -> Table:
 
 
 def watch_result(oj: BaseOj, problem_url: str) -> SubmissionResult:
-  result = SubmissionResult()
-  with Live(auto_refresh=False) as live:
-    while result.cur_status in [SubmissionResult.Status.RUNNING, SubmissionResult.Status.PENDING]:
-      # console.print(Text.from_ansi(f"Fetching result...({result.state_note})"))
-      time.sleep(FETCH_RESULT_INTERVAL)
-      if result.quick_key:
-        result = oj.get_result_by_quick_id(result.quick_key)
-      else:
-        result = oj.get_result(problem_url)
-      live.update(generate_submission_table(result), refresh=True)
+  return asyncio.run(async_watch_result(oj, problem_url))
 
+
+async def async_watch_result(oj: BaseOj, problem_url: str) -> SubmissionResult:
+  await oj.init()
+  try:
+    result = SubmissionResult()
+    with Live(auto_refresh=False) as live:
+      async for result in oj.async_get_result_yield(problem_url, time_gap=FETCH_RESULT_INTERVAL):
+        live.update(generate_submission_table(result), refresh=True)
+  except Exception as e:
+    logging.ERROR(e)
+  await oj.deinit()
   return result
 
 

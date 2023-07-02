@@ -1,9 +1,8 @@
-from typing import Union
+from typing import Any, Union
 from oi_cli2.model.LangKV import LangKV
-from oi_cli2.model.ParseProblemResult import ParseProblemResult
+from oi_cli2.model.ParseProblemResult import ParsedProblemResult
 from oi_cli2.model.ProblemMeta import ContestMeta, ProblemMeta
 from oi_cli2.model.Result import SubmissionResult
-from ac_core.interfaces.HttpUtil import HttpRespInterface
 
 
 class BaseOj(object):
@@ -11,10 +10,19 @@ class BaseOj(object):
   def __init__(self):
     pass
 
-  def problem_by_id(self, problem_id: str) -> ParseProblemResult:
+  async def init(self) -> None:
+    pass
+
+  async def deinit(self) -> None:
+    pass
+
+  def problem_by_id(self, problem_id: str) -> ParsedProblemResult:
     assert (False)
 
-  def problem(self, problem: ProblemMeta) -> ParseProblemResult:
+  async def async_problem(self, problem: ProblemMeta) -> ParsedProblemResult:
+    assert (False)
+
+  def problem(self, problem: ProblemMeta) -> ParsedProblemResult:
     assert (False)
 
   def login_website(self, force: bool = False) -> bool:
@@ -23,25 +31,10 @@ class BaseOj(object):
   def reg_contest(self, cid: str) -> bool:
     assert (False)
 
-  # def get_contest(self, cid: str) -> Contest:
-  #   assert(False)
-
-  # def get_problem(self, pid: str) -> Problem:
-  #   assert(False)
-
-  def submit_code(self, problem_url: str, language_id: str, code_path: str) -> Union[bool,HttpRespInterface]:
+  def submit_code(self, problem_url: str, language_id: str, code_path: str) -> Union[bool, Any]:
     assert (False)
 
-  def submit_code_by_sid(self, sid: str, language_id: str, code: str) -> bool:
-    assert (False)
-
-  def get_result(self, problem_url: str) -> SubmissionResult:
-    assert (False)
-
-  def get_result_by_sid(self, sid: str) -> SubmissionResult:
-    assert (False)
-
-  def get_result_by_quick_id(self, quick_id: str) -> SubmissionResult:
+  async def async_get_result_yield(self, problem_url: str, time_gap: float = 1) -> SubmissionResult:
     assert (False)
 
   def get_language(self) -> LangKV:
@@ -53,10 +46,11 @@ class BaseOj(object):
   def print_friends_standing(self, cid: str) -> None:
     assert (False)
 
-  def get_contest_meta(self, cid: str) -> ContestMeta:
+  async def async_get_contest_meta(self, cid: str) -> ContestMeta:
     assert (False)
 
-  # require account for view problem/contest/fetch result
+  def get_contest_meta(self, cid: str) -> ContestMeta:
+    assert (False)
 
   @staticmethod
   def account_required() -> bool:

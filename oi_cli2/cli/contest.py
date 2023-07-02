@@ -57,8 +57,8 @@ def all_visit(result) -> bool:
 def generate_table(result) -> Table:
   """Make a new table."""
   table = Table()
-  table.add_column("Problem")
-  table.add_column("Fetched")
+  table.add_column("Problem", width=10)
+  table.add_column("Fetched", width=10)
   table.add_column("Parse Status")
 
   for row in result:
@@ -71,7 +71,7 @@ def generate_table(result) -> Table:
 
 
 # TODO support by problem id
-def create_problem(data, pm: ProblemMeta, contest_id: str, template, oj: BaseOj):
+async def create_problem(data, pm: ProblemMeta, contest_id: str, template, oj: BaseOj):
   logger: logging.Logger = Provider2().get(DI_LOGGER)
   config_folder: ConfigFolder = Provider2().get(DI_CFG)
   timeOutRetry = 3
@@ -79,25 +79,19 @@ def create_problem(data, pm: ProblemMeta, contest_id: str, template, oj: BaseOj)
     try:
       file_util = FileUtil
       problem_id = contest_id + pm.id
-      result = oj.problem(pm)
+      result = await oj.async_problem(pm)
       data[1] = VisitStatus.SUCCESS
       test_cases: List[TestCase] = result.test_cases
-      directory = config_folder.get_file_path(
-          os.path.join('dist',
-                       type(oj).__name__, contest_id, pm.id))
+      directory = config_folder.get_file_path(os.path.join('dist', type(oj).__name__, contest_id, pm.id))
 
       for i in range(len(test_cases)):
-        file_util.write(config_folder.get_file_path(os.path.join(directory, f'in.{i}')),
-                        test_cases[i].in_data)
-        file_util.write(config_folder.get_file_path(os.path.join(directory, f'out.{i}')),
-                        test_cases[i].out_data)
+        file_util.write(config_folder.get_file_path(os.path.join(directory, f'in.{i}')), test_cases[i].in_data)
+        file_util.write(config_folder.get_file_path(os.path.join(directory, f'out.{i}')), test_cases[i].out_data)
 
       # if code file exist not cover code
-      if not os.path.exists(
-          config_folder.get_file_path(os.path.join(directory, os.path.basename(template.path)))):
-        file_util.copy(
-            config_folder.get_file_path(template.path),
-            config_folder.get_file_path(os.path.join(directory, os.path.basename(template.path))))
+      if not os.path.exists(config_folder.get_file_path(os.path.join(directory, os.path.basename(template.path)))):
+        file_util.copy(config_folder.get_file_path(template.path),
+                       config_folder.get_file_path(os.path.join(directory, os.path.basename(template.path))))
       # TODO 生成state.json ( 提供 自定义字段)
       STATE_FILE = 'state.json'
 
@@ -137,32 +131,66 @@ async def createDir(oj: BaseOj, contest_id: str, problems: List[ProblemMeta]):
   template_manager: TemplateManager = Provider2().get(DI_TEMPMAN)
   template = template_manager.get_platform_default(type(oj).__name__)
   if template is None:
-    logger.error(type(oj).__name__ + ' has no default template, run `oi config` first')
+    logger.error(type(oj).__name__ + ' has no default template, run `oi config template` first')
     return None
 
-  # ID, Fetched, success
-  result = []
-  for v in problems:
-    result.append([v.id, VisitStatus.BEFORE, False])
+  async def sync_oj():  # use thread
+    # ID, Fetched, success
+    result = []
+    for v in problems:
+      result.append([v.id, VisitStatus.BEFORE, False])
 
-  tasks = []
-  for i in range(len(problems)):
-    task = threading.Thread(target=create_problem,
-                            args=(result[i], problems[i], contest_id, template, oj))
-    tasks.append(task)
-    task.start()
+    def between_callback(*args):
+      loop = asyncio.new_event_loop()
+      asyncio.set_event_loop(loop)
 
-  with Live(generate_table(result), auto_refresh=False) as live:
-    while not all_visit(result):
-      await asyncio.sleep(0.05)  # time.sleep 会卡住
-      live.update(generate_table(result), refresh=True)
+      loop.run_until_complete(create_problem(*args))
+      loop.close()
 
-  for t in tasks:  # wait all task finished
-    t.join()
+    tasks = []
+    for i in range(len(problems)):
+      task = threading.Thread(target=between_callback, args=(result[i], problems[i], contest_id, template, oj))
+      tasks.append(task)
+      task.start()
 
-  live.update(generate_table(result))
+    with Live(generate_table(result), auto_refresh=False) as live:
+      while not all_visit(result):
+        await asyncio.sleep(0.05)  # time.sleep 会卡住
+        live.update(generate_table(result), refresh=True)
 
-  return config_folder.get_file_path(os.path.join('dist', type(oj).__name__, contest_id))
+    for t in tasks:  # wait all task finished
+      t.join()
+
+    live.update(generate_table(result), refresh=True)
+
+    return config_folder.get_file_path(os.path.join('dist', type(oj).__name__, contest_id))
+
+  async def async_oj():  # use async/await
+    # ID, Fetched, success
+    result = []
+    for v in problems:
+      result.append([v.id, VisitStatus.BEFORE, False])
+
+    tasks = []
+    for i in range(len(problems)):
+      tasks.append(asyncio.create_task(create_problem(result[i], problems[i], contest_id, template, oj)))
+
+    with Live(generate_table(result), auto_refresh=False) as live:
+      while not all_visit(result):
+        await asyncio.sleep(0.05)  # time.sleep 会卡住
+        live.update(generate_table(result), refresh=True)
+
+    asyncio.gather(*tasks)  # wait all task finished
+
+    live.update(generate_table(result), refresh=True)
+    return config_folder.get_file_path(os.path.join('dist', type(oj).__name__, contest_id))
+
+  if oj.__class__.__name__ == 'AtCoder':
+    return await sync_oj()
+  elif oj.__class__.__name__ == 'Codeforces':
+    return await async_oj()
+  else:
+    raise Exception(f'Un specific oj[{oj.__class__.__name__}] sync/async type')
 
 
 @click.group()
@@ -174,6 +202,10 @@ def contest():
 @click.argument('platform')
 @click.argument('contestid')
 def fetch(platform, contestid):
+  asyncio.run(async_fetch(platform, contestid))
+
+
+async def async_fetch(platform, contestid):
   """Fetch a contest(problems and testcases)
 
   PLATFORM    e.g. AtCoder, Codeforces
@@ -191,8 +223,9 @@ def fetch(platform, contestid):
     logger.exception(e)
     raise e
 
+  await oj.init()
   try:
-    problems = oj.get_contest_meta(contestid).problems
+    problems = (await oj.async_get_contest_meta(contestid)).problems
   except (ReadTimeout, ConnectTimeout) as e:
     logger.error(f'Http Timeout[{type(e).__name__}]: {e.request.url}')
     return
@@ -200,9 +233,13 @@ def fetch(platform, contestid):
     logger.exception(e)
     return
 
-  logger.debug(f"{contestid},{problems}")
-  directory = asyncio.run(createDir(oj=oj, contest_id=contestid, problems=problems))
-  console.print(f"[green bold] {directory} ")
+  try:
+    logger.debug(f"{contestid},{problems}")
+    directory = await createDir(oj=oj, contest_id=contestid, problems=problems)
+    console.print(f"[green bold] {directory} ")
+  except Exception as e:
+    logger.error(e)
+  await oj.deinit()
 
 
 @contest.command(name='list')
@@ -257,6 +294,7 @@ def detail(platform, contestid):
   table.add_column("Url")
   for o in cm.problems:
     style = Style()
+
     if o.status == E_STATUS.AC:
       style = Style(bgcolor="dark_green")
     elif o.status == E_STATUS.ERROR:

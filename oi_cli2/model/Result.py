@@ -11,7 +11,7 @@ class SubmissionResult:
 
   id: str = '0'
   cur_status: Status = Status.PENDING
-  url: str ='' # print for user
+  url: str = ''  # print for user
   quick_key: str = ''  # for refetch result
   state_note: str = '0'
   time_note: str = '0/0'

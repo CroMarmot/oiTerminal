@@ -1,4 +1,4 @@
-from typing import Callable, Dict
+from typing import Callable, Dict, List
 from oi_cli2.model.Account import Account
 from oi_cli2.model.BaseOj import BaseOj
 from oi_cli2.utils.Provider2 import Provider2
