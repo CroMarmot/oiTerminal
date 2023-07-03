@@ -92,6 +92,14 @@ oi\_cli2.utils.analyze module
    :undoc-members:
    :show-inheritance:
 
+oi\_cli2.utils.async2sync module
+--------------------------------
+
+.. automodule:: oi_cli2.utils.async2sync
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 oi\_cli2.utils.configFolder module
 ----------------------------------
 

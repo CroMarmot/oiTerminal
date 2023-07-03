@@ -68,6 +68,14 @@ oi\_cli2.cli.init module
    :undoc-members:
    :show-inheritance:
 
+oi\_cli2.cli.lang module
+------------------------
+
+.. automodule:: oi_cli2.cli.lang
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 oi\_cli2.cli.main module
 ------------------------
 
@@ -80,6 +88,14 @@ oi\_cli2.cli.problem module
 ---------------------------
 
 .. automodule:: oi_cli2.cli.problem
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+oi\_cli2.cli.reg\_list module
+-----------------------------
+
+.. automodule:: oi_cli2.cli.reg_list
    :members:
    :undoc-members:
    :show-inheritance:

@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
     <!-- Generated with Sphinx 5.0.0 and Furo 2023.03.27 -->
-        <title>oi_cli2.cli.test - yxr-oi-cli 0.2.1 documentation</title>
+        <title>oi_cli2.cli.test - yxr-oi-cli 0.2.1.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?digest=fad236701ea90a88636c2a8c73b44ae642ed2a53" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
@@ -122,7 +122,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../index.html"><div class="brand">yxr-oi-cli 0.2.1 documentation</div></a>
+      <a href="../../../index.html"><div class="brand">yxr-oi-cli 0.2.1.1 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -145,7 +145,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../index.html">
   
   
-  <span class="sidebar-brand-text">yxr-oi-cli 0.2.1 documentation</span>
+  <span class="sidebar-brand-text">yxr-oi-cli 0.2.1.1 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -177,7 +177,6 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../oi_cli2.core.html">oi_cli2.core package</a></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../../oi_cli2.custom.html">oi_cli2.custom package</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../../oi_cli2.custom.AtCoder.html">oi_cli2.custom.AtCoder package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../oi_cli2.custom.Codeforces.html">oi_cli2.custom.Codeforces package</a></li>
 </ul>
 </li>
@@ -231,8 +230,7 @@
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">shutil</span>
 <span class="kn">import</span> <span class="nn">traceback</span>
-<span class="kn">from</span> <span class="nn">types</span> <span class="kn">import</span> <span class="n">FunctionType</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Callable</span>
 <span class="kn">import</span> <span class="nn">click</span>
 <span class="kn">from</span> <span class="nn">rich.console</span> <span class="kn">import</span> <span class="n">Console</span>
 <span class="kn">from</span> <span class="nn">oi_cli2.cli.constant</span> <span class="kn">import</span> <span class="n">DEFAULT</span><span class="p">,</span> <span class="n">GREEN</span><span class="p">,</span> <span class="n">IN_SUFFIX</span><span class="p">,</span> <span class="n">OUT_SUFFIX</span><span class="p">,</span> <span class="n">STATE_FILE</span><span class="p">,</span> <span class="n">TEST_FOLDER</span>
@@ -246,8 +244,8 @@
 <span class="n">console</span> <span class="o">=</span> <span class="n">Console</span><span class="p">(</span><span class="n">color_system</span><span class="o">=</span><span class="s1">&#39;256&#39;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="tester"><a class="viewcode-back" href="../../../oi_cli2.cli.html#oi_cli2.cli.test.tester">[docs]</a><span class="k">def</span> <span class="nf">tester</span><span class="p">(</span><span class="n">root_folder</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">test_files</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">testcase_folder</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">template</span><span class="p">:</span> <span class="n">Template</span><span class="p">,</span> <span class="n">diff_fn</span><span class="p">:</span> <span class="n">FunctionType</span><span class="p">,</span>
-           <span class="n">logger</span><span class="p">:</span> <span class="n">logging</span><span class="o">.</span><span class="n">Logger</span><span class="p">):</span>
+<div class="viewcode-block" id="tester"><a class="viewcode-back" href="../../../oi_cli2.cli.html#oi_cli2.cli.test.tester">[docs]</a><span class="k">def</span> <span class="nf">tester</span><span class="p">(</span><span class="n">root_folder</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">test_files</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">testcase_folder</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">template</span><span class="p">:</span> <span class="n">Template</span><span class="p">,</span>
+           <span class="n">diff_fn</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span> <span class="kc">None</span><span class="p">],</span> <span class="n">logger</span><span class="p">:</span> <span class="n">logging</span><span class="o">.</span><span class="n">Logger</span><span class="p">):</span>
   <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">root_folder</span><span class="si">}</span><span class="s1">,</span><span class="si">{</span><span class="n">test_files</span><span class="si">}</span><span class="s1">,</span><span class="si">{</span><span class="n">testcase_folder</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
   <span class="c1"># makefolder &amp; mv code 2 folder</span>
   <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">TEST_FOLDER</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -282,7 +280,7 @@
   <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="s2">&quot;../&quot;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="tst_main"><a class="viewcode-back" href="../../../oi_cli2.cli.html#oi_cli2.cli.test.tst_main">[docs]</a><span class="k">def</span> <span class="nf">tst_main</span><span class="p">():</span>
+<div class="viewcode-block" id="tst_main"><a class="viewcode-back" href="../../../oi_cli2.cli.html#oi_cli2.cli.test.tst_main">[docs]</a><span class="k">def</span> <span class="nf">tst_main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
   <span class="n">logger</span><span class="p">:</span> <span class="n">logging</span><span class="o">.</span><span class="n">Logger</span> <span class="o">=</span> <span class="n">Provider2</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">DI_LOGGER</span><span class="p">)</span>
   <span class="n">tm</span><span class="p">:</span> <span class="n">TemplateManager</span> <span class="o">=</span> <span class="n">Provider2</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">DI_TEMPMAN</span><span class="p">)</span>
 
@@ -309,11 +307,12 @@
          <span class="n">logger</span><span class="o">=</span><span class="n">logger</span><span class="p">)</span>
 
   <span class="c1"># shutil.rmtree(TEST_FOLDER)</span>
-  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;test finished&#39;</span><span class="p">)</span></div>
+  <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;test finished&#39;</span><span class="p">)</span>
+  <span class="k">return</span> <span class="kc">True</span></div>
 
 
 <span class="nd">@click</span><span class="o">.</span><span class="n">command</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;test&#39;</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">tst_command</span><span class="p">():</span>
+<span class="k">def</span> <span class="nf">tst_command</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
   <span class="k">try</span><span class="p">:</span>
     <span class="n">logger</span><span class="p">:</span> <span class="n">logging</span><span class="o">.</span><span class="n">Logger</span> <span class="o">=</span> <span class="n">Provider2</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">DI_LOGGER</span><span class="p">)</span>
     <span class="n">tst_main</span><span class="p">()</span>

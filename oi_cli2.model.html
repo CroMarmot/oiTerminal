@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="oi_cli2.utils package" href="oi_cli2.utils.html" /><link rel="prev" title="oi_cli2.custom.Codeforces package" href="oi_cli2.custom.Codeforces.html" />
 
     <!-- Generated with Sphinx 5.0.0 and Furo 2023.03.27 -->
-        <title>oi_cli2.model package - yxr-oi-cli 0.2.1 documentation</title>
+        <title>oi_cli2.model package - yxr-oi-cli 0.2.1.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=fad236701ea90a88636c2a8c73b44ae642ed2a53" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
@@ -123,7 +123,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">yxr-oi-cli 0.2.1 documentation</div></a>
+      <a href="index.html"><div class="brand">yxr-oi-cli 0.2.1.1 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -146,7 +146,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
   
-  <span class="sidebar-brand-text">yxr-oi-cli 0.2.1 documentation</span>
+  <span class="sidebar-brand-text">yxr-oi-cli 0.2.1.1 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -178,7 +178,6 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="oi_cli2.core.html">oi_cli2.core package</a></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="oi_cli2.custom.html">oi_cli2.custom package</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l4"><a class="reference internal" href="oi_cli2.custom.AtCoder.html">oi_cli2.custom.AtCoder package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="oi_cli2.custom.Codeforces.html">oi_cli2.custom.Codeforces package</a></li>
 </ul>
 </li>
@@ -313,8 +312,94 @@
 </dd></dl>
 
 </section>
-<section id="oi-cli2-model-baseoj-module">
-<h2>oi_cli2.model.BaseOj module<a class="headerlink" href="#oi-cli2-model-baseoj-module" title="Permalink to this heading">#</a></h2>
+<section id="module-oi_cli2.model.BaseOj">
+<span id="oi-cli2-model-baseoj-module"></span><h2>oi_cli2.model.BaseOj module<a class="headerlink" href="#module-oi_cli2.model.BaseOj" title="Permalink to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="oi_cli2.model.BaseOj.BaseOj">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oi_cli2.model.BaseOj.</span></span><span class="sig-name descname"><span class="pre">BaseOj</span></span><a class="reference internal" href="_modules/oi_cli2/model/BaseOj.html#BaseOj"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oi_cli2.model.BaseOj.BaseOj" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="oi_cli2.model.BaseOj.BaseOj.account_required">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">account_required</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/oi_cli2/model/BaseOj.html#BaseOj.account_required"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oi_cli2.model.BaseOj.BaseOj.account_required" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oi_cli2.model.BaseOj.BaseOj.async_get_contest_meta">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">async_get_contest_meta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#oi_cli2.model.ProblemMeta.ContestMeta" title="oi_cli2.model.ProblemMeta.ContestMeta"><span class="pre">ContestMeta</span></a></span></span><a class="reference internal" href="_modules/oi_cli2/model/BaseOj.html#BaseOj.async_get_contest_meta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oi_cli2.model.BaseOj.BaseOj.async_get_contest_meta" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oi_cli2.model.BaseOj.BaseOj.async_get_result_yield">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">async_get_result_yield</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">problem_url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_gap</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">AsyncIterator</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#oi_cli2.model.Result.SubmissionResult" title="oi_cli2.model.Result.SubmissionResult"><span class="pre">SubmissionResult</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/oi_cli2/model/BaseOj.html#BaseOj.async_get_result_yield"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oi_cli2.model.BaseOj.BaseOj.async_get_result_yield" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oi_cli2.model.BaseOj.BaseOj.async_problem">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">async_problem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">problem</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#oi_cli2.model.ProblemMeta.ProblemMeta" title="oi_cli2.model.ProblemMeta.ProblemMeta"><span class="pre">ProblemMeta</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#oi_cli2.model.ParseProblemResult.ParsedProblemResult" title="oi_cli2.model.ParseProblemResult.ParsedProblemResult"><span class="pre">ParsedProblemResult</span></a></span></span><a class="reference internal" href="_modules/oi_cli2/model/BaseOj.html#BaseOj.async_problem"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oi_cli2.model.BaseOj.BaseOj.async_problem" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oi_cli2.model.BaseOj.BaseOj.deinit">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">deinit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/oi_cli2/model/BaseOj.html#BaseOj.deinit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oi_cli2.model.BaseOj.BaseOj.deinit" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oi_cli2.model.BaseOj.BaseOj.get_contest_meta">
+<span class="sig-name descname"><span class="pre">get_contest_meta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#oi_cli2.model.ProblemMeta.ContestMeta" title="oi_cli2.model.ProblemMeta.ContestMeta"><span class="pre">ContestMeta</span></a></span></span><a class="reference internal" href="_modules/oi_cli2/model/BaseOj.html#BaseOj.get_contest_meta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oi_cli2.model.BaseOj.BaseOj.get_contest_meta" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oi_cli2.model.BaseOj.BaseOj.get_language">
+<span class="sig-name descname"><span class="pre">get_language</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/oi_cli2/model/BaseOj.html#BaseOj.get_language"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oi_cli2.model.BaseOj.BaseOj.get_language" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oi_cli2.model.BaseOj.BaseOj.init">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">init</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/oi_cli2/model/BaseOj.html#BaseOj.init"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oi_cli2.model.BaseOj.BaseOj.init" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oi_cli2.model.BaseOj.BaseOj.login_website">
+<span class="sig-name descname"><span class="pre">login_website</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/oi_cli2/model/BaseOj.html#BaseOj.login_website"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oi_cli2.model.BaseOj.BaseOj.login_website" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oi_cli2.model.BaseOj.BaseOj.print_contest_list">
+<span class="sig-name descname"><span class="pre">print_contest_list</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/oi_cli2/model/BaseOj.html#BaseOj.print_contest_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oi_cli2.model.BaseOj.BaseOj.print_contest_list" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oi_cli2.model.BaseOj.BaseOj.print_friends_standing">
+<span class="sig-name descname"><span class="pre">print_friends_standing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/oi_cli2/model/BaseOj.html#BaseOj.print_friends_standing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oi_cli2.model.BaseOj.BaseOj.print_friends_standing" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oi_cli2.model.BaseOj.BaseOj.problem">
+<span class="sig-name descname"><span class="pre">problem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">problem</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#oi_cli2.model.ProblemMeta.ProblemMeta" title="oi_cli2.model.ProblemMeta.ProblemMeta"><span class="pre">ProblemMeta</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#oi_cli2.model.ParseProblemResult.ParsedProblemResult" title="oi_cli2.model.ParseProblemResult.ParsedProblemResult"><span class="pre">ParsedProblemResult</span></a></span></span><a class="reference internal" href="_modules/oi_cli2/model/BaseOj.html#BaseOj.problem"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oi_cli2.model.BaseOj.BaseOj.problem" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oi_cli2.model.BaseOj.BaseOj.problem_by_id">
+<span class="sig-name descname"><span class="pre">problem_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">problem_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#oi_cli2.model.ParseProblemResult.ParsedProblemResult" title="oi_cli2.model.ParseProblemResult.ParsedProblemResult"><span class="pre">ParsedProblemResult</span></a></span></span><a class="reference internal" href="_modules/oi_cli2/model/BaseOj.html#BaseOj.problem_by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oi_cli2.model.BaseOj.BaseOj.problem_by_id" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oi_cli2.model.BaseOj.BaseOj.reg_contest">
+<span class="sig-name descname"><span class="pre">reg_contest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/oi_cli2/model/BaseOj.html#BaseOj.reg_contest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oi_cli2.model.BaseOj.BaseOj.reg_contest" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oi_cli2.model.BaseOj.BaseOj.submit_code">
+<span class="sig-name descname"><span class="pre">submit_code</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">problem_url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">language_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">code_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">bool</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/oi_cli2/model/BaseOj.html#BaseOj.submit_code"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oi_cli2.model.BaseOj.BaseOj.submit_code" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oi_cli2.model.BaseOj.BaseOj.support_contest">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">support_contest</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/oi_cli2/model/BaseOj.html#BaseOj.support_contest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oi_cli2.model.BaseOj.BaseOj.support_contest" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="module-oi_cli2.model.Contest">
 <span id="oi-cli2-model-contest-module"></span><h2>oi_cli2.model.Contest module<a class="headerlink" href="#module-oi_cli2.model.Contest" title="Permalink to this heading">#</a></h2>
@@ -391,104 +476,88 @@
 </section>
 <section id="module-oi_cli2.model.LangKV">
 <span id="oi-cli2-model-langkv-module"></span><h2>oi_cli2.model.LangKV module<a class="headerlink" href="#module-oi_cli2.model.LangKV" title="Permalink to this heading">#</a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="oi_cli2.model.LangKV.LangKV">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oi_cli2.model.LangKV.</span></span><span class="sig-name descname"><span class="pre">LangKV</span></span><a class="reference internal" href="_modules/oi_cli2/model/LangKV.html#LangKV"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oi_cli2.model.LangKV.LangKV" title="Permalink to this definition">#</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]</p>
-<dl class="py property">
-<dt class="sig sig-object py" id="oi_cli2.model.LangKV.LangKV.data">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">data</span></span><a class="headerlink" href="#oi_cli2.model.LangKV.LangKV.data" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="oi_cli2.model.LangKV.LangKV.set">
-<span class="sig-name descname"><span class="pre">set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/oi_cli2/model/LangKV.html#LangKV.set"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oi_cli2.model.LangKV.LangKV.set" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
 </section>
 <section id="module-oi_cli2.model.ParseProblemResult">
 <span id="oi-cli2-model-parseproblemresult-module"></span><h2>oi_cli2.model.ParseProblemResult module<a class="headerlink" href="#module-oi_cli2.model.ParseProblemResult" title="Permalink to this heading">#</a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="oi_cli2.model.ParseProblemResult.ParseProblemResult">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oi_cli2.model.ParseProblemResult.</span></span><span class="sig-name descname"><span class="pre">ParseProblemResult</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status:</span> <span class="pre">oi_cli2.model.ParseProblemResult.ParseProblemResult.Status</span> <span class="pre">=</span> <span class="pre">&lt;Status.NOTVIS:</span> <span class="pre">'NOTVIS'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_cases:</span> <span class="pre">List[oi_cli2.model.TestCase.TestCase]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">oj:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_limit:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mem_limit:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">html:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_path:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/oi_cli2/model/ParseProblemResult.html#ParseProblemResult"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oi_cli2.model.ParseProblemResult.ParseProblemResult" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="oi_cli2.model.ParseProblemResult.ParsedProblemResult">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oi_cli2.model.ParseProblemResult.</span></span><span class="sig-name descname"><span class="pre">ParsedProblemResult</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status:</span> <span class="pre">oi_cli2.model.ParseProblemResult.ParsedProblemResult.Status</span> <span class="pre">=</span> <span class="pre">&lt;Status.NOTVIS:</span> <span class="pre">'NOTVIS'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_cases:</span> <span class="pre">List[oi_cli2.model.TestCase.TestCase]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">oj:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_limit:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mem_limit:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">html:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_path:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/oi_cli2/model/ParseProblemResult.html#ParsedProblemResult"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oi_cli2.model.ParseProblemResult.ParsedProblemResult" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py class">
-<dt class="sig sig-object py" id="oi_cli2.model.ParseProblemResult.ParseProblemResult.Status">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Status</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/oi_cli2/model/ParseProblemResult.html#ParseProblemResult.Status"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oi_cli2.model.ParseProblemResult.ParseProblemResult.Status" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="oi_cli2.model.ParseProblemResult.ParsedProblemResult.Status">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Status</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/oi_cli2/model/ParseProblemResult.html#ParsedProblemResult.Status"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oi_cli2.model.ParseProblemResult.ParsedProblemResult.Status" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
 <p>An enumeration.</p>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="oi_cli2.model.ParseProblemResult.ParseProblemResult.Status.AC">
-<span class="sig-name descname"><span class="pre">AC</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'AC'</span></em><a class="headerlink" href="#oi_cli2.model.ParseProblemResult.ParseProblemResult.Status.AC" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="oi_cli2.model.ParseProblemResult.ParsedProblemResult.Status.AC">
+<span class="sig-name descname"><span class="pre">AC</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'AC'</span></em><a class="headerlink" href="#oi_cli2.model.ParseProblemResult.ParsedProblemResult.Status.AC" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="oi_cli2.model.ParseProblemResult.ParseProblemResult.Status.FAILED">
-<span class="sig-name descname"><span class="pre">FAILED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'FAILED'</span></em><a class="headerlink" href="#oi_cli2.model.ParseProblemResult.ParseProblemResult.Status.FAILED" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="oi_cli2.model.ParseProblemResult.ParsedProblemResult.Status.FAILED">
+<span class="sig-name descname"><span class="pre">FAILED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'FAILED'</span></em><a class="headerlink" href="#oi_cli2.model.ParseProblemResult.ParsedProblemResult.Status.FAILED" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="oi_cli2.model.ParseProblemResult.ParseProblemResult.Status.NOTVIS">
-<span class="sig-name descname"><span class="pre">NOTVIS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'NOTVIS'</span></em><a class="headerlink" href="#oi_cli2.model.ParseProblemResult.ParseProblemResult.Status.NOTVIS" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="oi_cli2.model.ParseProblemResult.ParsedProblemResult.Status.NOTVIS">
+<span class="sig-name descname"><span class="pre">NOTVIS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'NOTVIS'</span></em><a class="headerlink" href="#oi_cli2.model.ParseProblemResult.ParsedProblemResult.Status.NOTVIS" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="oi_cli2.model.ParseProblemResult.ParseProblemResult.description">
-<span class="sig-name descname"><span class="pre">description</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></em><a class="headerlink" href="#oi_cli2.model.ParseProblemResult.ParseProblemResult.description" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="oi_cli2.model.ParseProblemResult.ParsedProblemResult.description">
+<span class="sig-name descname"><span class="pre">description</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></em><a class="headerlink" href="#oi_cli2.model.ParseProblemResult.ParsedProblemResult.description" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="oi_cli2.model.ParseProblemResult.ParseProblemResult.file_path">
-<span class="sig-name descname"><span class="pre">file_path</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></em><a class="headerlink" href="#oi_cli2.model.ParseProblemResult.ParseProblemResult.file_path" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="oi_cli2.model.ParseProblemResult.ParsedProblemResult.file_path">
+<span class="sig-name descname"><span class="pre">file_path</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></em><a class="headerlink" href="#oi_cli2.model.ParseProblemResult.ParsedProblemResult.file_path" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="oi_cli2.model.ParseProblemResult.ParseProblemResult.html">
-<span class="sig-name descname"><span class="pre">html</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></em><a class="headerlink" href="#oi_cli2.model.ParseProblemResult.ParseProblemResult.html" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="oi_cli2.model.ParseProblemResult.ParsedProblemResult.html">
+<span class="sig-name descname"><span class="pre">html</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></em><a class="headerlink" href="#oi_cli2.model.ParseProblemResult.ParsedProblemResult.html" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="oi_cli2.model.ParseProblemResult.ParseProblemResult.id">
-<span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></em><a class="headerlink" href="#oi_cli2.model.ParseProblemResult.ParseProblemResult.id" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="oi_cli2.model.ParseProblemResult.ParsedProblemResult.id">
+<span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></em><a class="headerlink" href="#oi_cli2.model.ParseProblemResult.ParsedProblemResult.id" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="oi_cli2.model.ParseProblemResult.ParseProblemResult.mem_limit">
-<span class="sig-name descname"><span class="pre">mem_limit</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></em><a class="headerlink" href="#oi_cli2.model.ParseProblemResult.ParseProblemResult.mem_limit" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="oi_cli2.model.ParseProblemResult.ParsedProblemResult.mem_limit">
+<span class="sig-name descname"><span class="pre">mem_limit</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></em><a class="headerlink" href="#oi_cli2.model.ParseProblemResult.ParsedProblemResult.mem_limit" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="oi_cli2.model.ParseProblemResult.ParseProblemResult.oj">
-<span class="sig-name descname"><span class="pre">oj</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></em><a class="headerlink" href="#oi_cli2.model.ParseProblemResult.ParseProblemResult.oj" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="oi_cli2.model.ParseProblemResult.ParsedProblemResult.oj">
+<span class="sig-name descname"><span class="pre">oj</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></em><a class="headerlink" href="#oi_cli2.model.ParseProblemResult.ParsedProblemResult.oj" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="oi_cli2.model.ParseProblemResult.ParseProblemResult.status">
-<span class="sig-name descname"><span class="pre">status</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#oi_cli2.model.ParseProblemResult.ParseProblemResult.Status" title="oi_cli2.model.ParseProblemResult.ParseProblemResult.Status"><span class="pre">Status</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'NOTVIS'</span></em><a class="headerlink" href="#oi_cli2.model.ParseProblemResult.ParseProblemResult.status" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="oi_cli2.model.ParseProblemResult.ParsedProblemResult.status">
+<span class="sig-name descname"><span class="pre">status</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#oi_cli2.model.ParseProblemResult.ParsedProblemResult.Status" title="oi_cli2.model.ParseProblemResult.ParsedProblemResult.Status"><span class="pre">Status</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'NOTVIS'</span></em><a class="headerlink" href="#oi_cli2.model.ParseProblemResult.ParsedProblemResult.status" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="oi_cli2.model.ParseProblemResult.ParseProblemResult.test_cases">
-<span class="sig-name descname"><span class="pre">test_cases</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#oi_cli2.model.TestCase.TestCase" title="oi_cli2.model.TestCase.TestCase"><span class="pre">TestCase</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#oi_cli2.model.ParseProblemResult.ParseProblemResult.test_cases" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="oi_cli2.model.ParseProblemResult.ParsedProblemResult.test_cases">
+<span class="sig-name descname"><span class="pre">test_cases</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#oi_cli2.model.TestCase.TestCase" title="oi_cli2.model.TestCase.TestCase"><span class="pre">TestCase</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#oi_cli2.model.ParseProblemResult.ParsedProblemResult.test_cases" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="oi_cli2.model.ParseProblemResult.ParseProblemResult.time_limit">
-<span class="sig-name descname"><span class="pre">time_limit</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></em><a class="headerlink" href="#oi_cli2.model.ParseProblemResult.ParseProblemResult.time_limit" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="oi_cli2.model.ParseProblemResult.ParsedProblemResult.time_limit">
+<span class="sig-name descname"><span class="pre">time_limit</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></em><a class="headerlink" href="#oi_cli2.model.ParseProblemResult.ParsedProblemResult.time_limit" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="oi_cli2.model.ParseProblemResult.ParseProblemResult.title">
-<span class="sig-name descname"><span class="pre">title</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></em><a class="headerlink" href="#oi_cli2.model.ParseProblemResult.ParseProblemResult.title" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="oi_cli2.model.ParseProblemResult.ParsedProblemResult.title">
+<span class="sig-name descname"><span class="pre">title</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></em><a class="headerlink" href="#oi_cli2.model.ParseProblemResult.ParsedProblemResult.title" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="oi_cli2.model.ParseProblemResult.ParseProblemResult.url">
-<span class="sig-name descname"><span class="pre">url</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></em><a class="headerlink" href="#oi_cli2.model.ParseProblemResult.ParseProblemResult.url" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="oi_cli2.model.ParseProblemResult.ParsedProblemResult.url">
+<span class="sig-name descname"><span class="pre">url</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></em><a class="headerlink" href="#oi_cli2.model.ParseProblemResult.ParsedProblemResult.url" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -566,7 +635,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="oi_cli2.model.ProblemMeta.E_STATUS">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oi_cli2.model.ProblemMeta.</span></span><span class="sig-name descname"><span class="pre">E_STATUS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/oi_cli2/model/ProblemMeta.html#E_STATUS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oi_cli2.model.ProblemMeta.E_STATUS" title="Permalink to this definition">#</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
 <p>An enumeration.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="oi_cli2.model.ProblemMeta.E_STATUS.AC">
@@ -890,7 +959,7 @@
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
 <li><a class="reference internal" href="#module-oi_cli2.model.Account">oi_cli2.model.Account module</a></li>
 <li><a class="reference internal" href="#module-oi_cli2.model.Analyze">oi_cli2.model.Analyze module</a></li>
-<li><a class="reference internal" href="#oi-cli2-model-baseoj-module">oi_cli2.model.BaseOj module</a></li>
+<li><a class="reference internal" href="#module-oi_cli2.model.BaseOj">oi_cli2.model.BaseOj module</a></li>
 <li><a class="reference internal" href="#module-oi_cli2.model.Contest">oi_cli2.model.Contest module</a></li>
 <li><a class="reference internal" href="#module-oi_cli2.model.FolderState">oi_cli2.model.FolderState module</a></li>
 <li><a class="reference internal" href="#module-oi_cli2.model.LangKV">oi_cli2.model.LangKV module</a></li>

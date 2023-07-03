@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../genindex.html" /><link rel="search" title="Search" href="../../../../search.html" />
 
     <!-- Generated with Sphinx 5.0.0 and Furo 2023.03.27 -->
-        <title>oi_cli2.custom.Codeforces.contestList - yxr-oi-cli 0.2.1 documentation</title>
+        <title>oi_cli2.custom.Codeforces.contestList - yxr-oi-cli 0.2.1.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?digest=fad236701ea90a88636c2a8c73b44ae642ed2a53" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
@@ -122,7 +122,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../../index.html"><div class="brand">yxr-oi-cli 0.2.1 documentation</div></a>
+      <a href="../../../../index.html"><div class="brand">yxr-oi-cli 0.2.1.1 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -145,7 +145,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../../index.html">
   
   
-  <span class="sidebar-brand-text">yxr-oi-cli 0.2.1 documentation</span>
+  <span class="sidebar-brand-text">yxr-oi-cli 0.2.1.1 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -177,7 +177,6 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../oi_cli2.core.html">oi_cli2.core package</a></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../../../oi_cli2.custom.html">oi_cli2.custom package</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../../../oi_cli2.custom.AtCoder.html">oi_cli2.custom.AtCoder package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../oi_cli2.custom.Codeforces.html">oi_cli2.custom.Codeforces package</a></li>
 </ul>
 </li>
@@ -233,80 +232,17 @@
 <span class="kn">from</span> <span class="nn">rich.table</span> <span class="kn">import</span> <span class="n">Table</span>
 <span class="kn">from</span> <span class="nn">rich.style</span> <span class="kn">import</span> <span class="n">Style</span>
 
+<span class="kn">from</span> <span class="nn">codeforces_core.contest_list</span> <span class="kn">import</span> <span class="n">ContestList</span>
+
 <span class="kn">from</span> <span class="nn">oi_cli2.utils.utc2local</span> <span class="kn">import</span> <span class="n">moscow_to_utc</span><span class="p">,</span> <span class="n">utc_to_local</span>
 
 <span class="n">timeFmt</span> <span class="o">=</span> <span class="s2">&quot;%b/</span><span class="si">%d</span><span class="s2">/%Y %H:%M&quot;</span>
 
 
-<div class="viewcode-block" id="html2json"><a class="viewcode-back" href="../../../../oi_cli2.custom.Codeforces.html#oi_cli2.custom.Codeforces.contestList.html2json">[docs]</a><span class="k">def</span> <span class="nf">html2json</span><span class="p">(</span><span class="n">html</span><span class="p">):</span>
-  <span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">html</span><span class="p">,</span> <span class="s1">&#39;lxml&#39;</span><span class="p">)</span>
-  <span class="n">currentContestList</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">,</span> <span class="n">class_</span><span class="o">=</span><span class="s1">&#39;datatable&#39;</span><span class="p">)</span>
-  <span class="n">hisContests</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">,</span> <span class="n">class_</span><span class="o">=</span><span class="s2">&quot;contests-table&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">,</span> <span class="n">class_</span><span class="o">=</span><span class="s1">&#39;datatable&#39;</span><span class="p">)</span>
-  <span class="n">cur</span> <span class="o">=</span> <span class="p">[]</span>
-  <span class="k">if</span> <span class="n">currentContestList</span> <span class="o">!=</span> <span class="n">hisContests</span><span class="p">:</span>
-    <span class="c1"># print(currentContestList)</span>
-    <span class="n">trs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">BeautifulSoup</span><span class="p">]</span> <span class="o">=</span> <span class="n">currentContestList</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s1">&#39;tr&#39;</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">trs</span><span class="p">)):</span>
-      <span class="n">tds</span> <span class="o">=</span> <span class="n">trs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s1">&#39;td&#39;</span><span class="p">)</span>
-      <span class="n">row</span> <span class="o">=</span> <span class="p">{</span>
-          <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">tds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_text</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;Enter »&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span>
-          <span class="s2">&quot;writers&quot;</span><span class="p">:</span> <span class="n">tds</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">get_text</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;,&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\r</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;,&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;,,&quot;</span><span class="p">,</span> <span class="s2">&quot;,&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span>
-          <span class="s2">&quot;start&quot;</span><span class="p">:</span> <span class="n">moscow_to_utc</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">tds</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">get_text</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">timeFmt</span><span class="p">)),</span>
-          <span class="s2">&quot;length&quot;</span><span class="p">:</span> <span class="n">tds</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">get_text</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span>
-          <span class="c1"># &quot;beforestart&quot;: tds[4].get_text().strip(),</span>
-          <span class="s2">&quot;reg&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-          <span class="c1"># data-contestId -&gt; lowercase</span>
-          <span class="s2">&quot;cid&quot;</span><span class="p">:</span> <span class="n">trs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;data-contestid&#39;</span><span class="p">]</span>
-      <span class="p">}</span>
-      <span class="c1"># if row[&quot;beforestart&quot;].startswith(&quot;Before start&quot;):</span>
-      <span class="c1">#   row[&quot;beforestart&quot;] = row[&quot;beforestart&quot;][len(&quot;Before start&quot;):].strip()</span>
-
-      <span class="n">regText</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">tds</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">get_text</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\r</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-      <span class="k">if</span> <span class="n">regText</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;Before registration&#39;</span><span class="p">):</span>
-        <span class="n">row</span><span class="p">[</span><span class="s2">&quot;reg&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Before &quot;</span> <span class="o">+</span> <span class="n">regText</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="s1">&#39;Before registration&#39;</span><span class="p">):]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-      <span class="k">elif</span> <span class="n">regText</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;Register »&#39;</span><span class="p">):</span>
-        <span class="n">regText</span> <span class="o">=</span> <span class="n">regText</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="s1">&#39;Register »&#39;</span><span class="p">):]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">regText</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;*has extra registration&quot;</span><span class="p">):</span>
-          <span class="n">regText</span> <span class="o">=</span> <span class="n">regText</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">regText</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="s2">&quot;*has extra registration&quot;</span><span class="p">)]</span>
-        <span class="n">row</span><span class="p">[</span><span class="s2">&quot;reg&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">regText</span>
-      <span class="k">elif</span> <span class="n">regText</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;Registration completed&quot;</span><span class="p">):</span>
-        <span class="n">row</span><span class="p">[</span><span class="s2">&quot;reg&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Registered &quot;</span> <span class="o">+</span> <span class="n">regText</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="s2">&quot;Registration completed&quot;</span><span class="p">):]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-      <span class="k">else</span><span class="p">:</span>
-        <span class="n">row</span><span class="p">[</span><span class="s2">&quot;reg&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">regText</span>
-      <span class="n">cur</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
-
-  <span class="n">his</span> <span class="o">=</span> <span class="p">[]</span>
-  <span class="n">trs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">BeautifulSoup</span><span class="p">]</span> <span class="o">=</span> <span class="n">hisContests</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s1">&#39;tr&#39;</span><span class="p">)</span>
-  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">trs</span><span class="p">)):</span>
-    <span class="n">tds</span> <span class="o">=</span> <span class="n">trs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s1">&#39;td&#39;</span><span class="p">)</span>
-    <span class="c1"># remove a tag</span>
-    <span class="n">alla</span> <span class="o">=</span> <span class="n">tds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">alla</span><span class="p">:</span>
-      <span class="n">a</span><span class="o">.</span><span class="n">decompose</span><span class="p">()</span>
-    <span class="c1"># print(tds[0].children)</span>
-    <span class="n">row</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;name&quot;</span><span class="p">:</span>
-        <span class="n">tds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_text</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span>
-        <span class="s2">&quot;writers&quot;</span><span class="p">:</span>
-        <span class="n">tds</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">get_text</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;,&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\r</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;,&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;,,&quot;</span><span class="p">,</span> <span class="s2">&quot;,&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span>
-        <span class="s2">&quot;start&quot;</span><span class="p">:</span>
-        <span class="n">moscow_to_utc</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">tds</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;span&#39;</span><span class="p">,</span> <span class="n">class_</span><span class="o">=</span><span class="s2">&quot;format-time-only&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get_text</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">timeFmt</span><span class="p">)),</span>
-        <span class="s2">&quot;length&quot;</span><span class="p">:</span>
-        <span class="n">tds</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">get_text</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span>
-        <span class="s2">&quot;registered&quot;</span><span class="p">:</span>
-        <span class="n">tds</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">get_text</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span>
-        <span class="c1"># data-contestId -&gt; lowercase</span>
-        <span class="s2">&quot;cid&quot;</span><span class="p">:</span>
-        <span class="n">trs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;data-contestid&#39;</span><span class="p">]</span>
-    <span class="p">}</span>
-    <span class="n">his</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
-
-  <span class="k">return</span> <span class="n">cur</span><span class="p">,</span> <span class="n">his</span></div>
-
-
-<div class="viewcode-block" id="printData"><a class="viewcode-back" href="../../../../oi_cli2.custom.Codeforces.html#oi_cli2.custom.Codeforces.contestList.printData">[docs]</a><span class="k">def</span> <span class="nf">printData</span><span class="p">(</span><span class="n">html</span><span class="p">):</span>
+<div class="viewcode-block" id="printData"><a class="viewcode-back" href="../../../../oi_cli2.custom.Codeforces.html#oi_cli2.custom.Codeforces.contestList.printData">[docs]</a><span class="k">def</span> <span class="nf">printData</span><span class="p">(</span><span class="n">cl</span><span class="p">:</span> <span class="n">ContestList</span><span class="p">):</span>
   <span class="c1"># print(html)</span>
-  <span class="n">cur</span><span class="p">,</span> <span class="n">his</span> <span class="o">=</span> <span class="n">html2json</span><span class="p">(</span><span class="n">html</span><span class="p">)</span>
+  <span class="n">cur</span> <span class="o">=</span> <span class="n">cl</span><span class="o">.</span><span class="n">upcomming</span>
+  <span class="n">his</span> <span class="o">=</span> <span class="n">cl</span><span class="o">.</span><span class="n">history</span>
   <span class="n">console</span> <span class="o">=</span> <span class="n">Console</span><span class="p">()</span>
 
   <span class="n">table</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;Current or upcoming contests&quot;</span><span class="p">)</span>
@@ -319,25 +255,25 @@
   <span class="n">table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="s2">&quot;Id&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;magenta&quot;</span><span class="p">)</span>
 
   <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">cur</span><span class="p">:</span>
-    <span class="n">startTime</span> <span class="o">=</span> <span class="n">utc_to_local</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">])</span>
+    <span class="n">startTime</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">start</span><span class="p">)</span>
     <span class="n">timediff</span> <span class="o">=</span> <span class="n">startTime</span> <span class="o">-</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
     <span class="n">table</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span>
-        <span class="n">item</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span>  <span class="c1"># tds[0].get_text().strip(),</span>
+        <span class="n">item</span><span class="o">.</span><span class="n">title</span><span class="p">,</span>
         <span class="c1"># item[&quot;writers&quot;],  # tds[1].get_text().strip(),</span>
         <span class="c1"># https://strftime.org/</span>
         <span class="c1"># Jan/27/2022 17:35 tds[2].get_text().strip(),</span>
         <span class="n">startTime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">timeFmt</span><span class="p">),</span>
-        <span class="n">item</span><span class="p">[</span><span class="s2">&quot;length&quot;</span><span class="p">],</span>  <span class="c1"># tds[3].get_text().strip(),</span>
+        <span class="n">item</span><span class="o">.</span><span class="n">length</span><span class="p">,</span>  <span class="c1"># tds[3].get_text().strip(),</span>
         <span class="nb">str</span><span class="p">(</span><span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="n">timediff</span><span class="o">.</span><span class="n">days</span><span class="p">,</span> <span class="n">seconds</span><span class="o">=</span><span class="n">timediff</span><span class="o">.</span><span class="n">seconds</span><span class="p">))</span> <span class="k">if</span> <span class="n">timediff</span><span class="o">.</span><span class="n">days</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="k">else</span> <span class="s1">&#39;Started&#39;</span><span class="p">,</span>
-        <span class="n">item</span><span class="p">[</span><span class="s2">&quot;reg&quot;</span><span class="p">],</span>  <span class="c1"># tds[5].get_text().strip(),</span>
-        <span class="n">item</span><span class="p">[</span><span class="s2">&quot;cid&quot;</span><span class="p">],</span>  <span class="c1"># tds[5].get_text().strip(),</span>
-        <span class="n">style</span><span class="o">=</span><span class="n">Style</span><span class="p">(</span><span class="n">bgcolor</span><span class="o">=</span><span class="kc">None</span> <span class="k">if</span> <span class="n">item</span><span class="p">[</span><span class="s2">&quot;reg&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;Before&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="p">(</span>
-            <span class="s2">&quot;dark_green&quot;</span> <span class="k">if</span> <span class="n">item</span><span class="p">[</span><span class="s2">&quot;reg&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;Registered&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="s2">&quot;grey30&quot;</span><span class="p">)))</span>
+        <span class="n">item</span><span class="o">.</span><span class="n">participants</span><span class="p">,</span>  <span class="c1"># tds[5].get_text().strip(),</span>
+        <span class="nb">str</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">id</span><span class="p">),</span>  <span class="c1"># tds[5].get_text().strip(),</span>
+        <span class="n">style</span><span class="o">=</span><span class="n">Style</span><span class="p">(</span><span class="n">bgcolor</span><span class="o">=</span><span class="kc">None</span> <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">participants</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;Before&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="p">(</span>
+            <span class="s2">&quot;dark_green&quot;</span> <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">participants</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;Registered&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="s2">&quot;grey30&quot;</span><span class="p">)))</span>
 
   <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
 
   <span class="c1"># history</span>
-  <span class="n">table</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;History contests (Recent 5)&quot;</span><span class="p">)</span>
+  <span class="n">table</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;History contests (Recent 10)&quot;</span><span class="p">)</span>
   <span class="n">table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="s2">&quot;Name&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;cyan&quot;</span><span class="p">,</span> <span class="n">no_wrap</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
   <span class="c1"># table.add_column(&quot;Writers&quot;, style=&quot;magenta&quot;)</span>
   <span class="n">table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="s2">&quot;Start&quot;</span><span class="p">)</span>
@@ -345,30 +281,20 @@
   <span class="n">table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="s2">&quot;Registered&quot;</span><span class="p">)</span>
   <span class="n">table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="s2">&quot;Id&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;magenta&quot;</span><span class="p">)</span>
 
-  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">his</span><span class="p">))):</span>
+  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">his</span><span class="p">))):</span>
     <span class="n">item</span> <span class="o">=</span> <span class="n">his</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
     <span class="n">table</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span>
-        <span class="n">item</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span>  <span class="c1"># tds[0].get_text().strip(),</span>
+        <span class="n">item</span><span class="o">.</span><span class="n">title</span><span class="p">,</span>  <span class="c1"># tds[0].get_text().strip(),</span>
         <span class="c1"># item[&quot;writers&quot;],  # tds[1].get_text().strip(),</span>
         <span class="c1"># https://strftime.org/</span>
         <span class="c1"># Jan/27/2022 17:35 tds[2].get_text().strip(),</span>
-        <span class="n">utc_to_local</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">timeFmt</span><span class="p">),</span>
-        <span class="n">item</span><span class="p">[</span><span class="s2">&quot;length&quot;</span><span class="p">],</span>  <span class="c1"># tds[3].get_text().strip(),</span>
-        <span class="n">item</span><span class="p">[</span><span class="s2">&quot;registered&quot;</span><span class="p">],</span>  <span class="c1"># tds[5].get_text().strip(),</span>
-        <span class="n">item</span><span class="p">[</span><span class="s2">&quot;cid&quot;</span><span class="p">],</span>  <span class="c1"># tds[5].get_text().strip(),</span>
+        <span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">start</span><span class="p">)</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">timeFmt</span><span class="p">),</span>
+        <span class="n">item</span><span class="o">.</span><span class="n">length</span><span class="p">,</span>  <span class="c1"># tds[3].get_text().strip(),</span>
+        <span class="n">item</span><span class="o">.</span><span class="n">participants</span><span class="p">,</span>  <span class="c1"># tds[5].get_text().strip(),</span>
+        <span class="nb">str</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">id</span><span class="p">),</span>  <span class="c1"># tds[5].get_text().strip(),</span>
     <span class="p">)</span>
 
   <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">table</span><span class="p">)</span></div>
-
-
-<span class="c1"># def main():</span>
-<span class="c1">#   http_util = MockHttpUtil()</span>
-<span class="c1">#   url = &#39;https://codeforces.com/contests?complete=true&#39;</span>
-<span class="c1">#   printData(http_util.get(url).text)</span>
-<span class="c1">#</span>
-<span class="c1">#</span>
-<span class="c1"># if __name__ == &#39;__main__&#39;:</span>
-<span class="c1">#   main()</span>
 </pre></div>
         </article>
       </div>

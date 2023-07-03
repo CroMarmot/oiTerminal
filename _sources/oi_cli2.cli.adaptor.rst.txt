@@ -4,10 +4,10 @@ oi\_cli2.cli.adaptor package
 Submodules
 ----------
 
-oi\_cli2.cli.adaptor.AtcoderAdaptor module
+oi\_cli2.cli.adaptor.AtCoderAdaptor module
 ------------------------------------------
 
-.. automodule:: oi_cli2.cli.adaptor.AtcoderAdaptor
+.. automodule:: oi_cli2.cli.adaptor.AtCoderAdaptor
    :members:
    :undoc-members:
    :show-inheritance:

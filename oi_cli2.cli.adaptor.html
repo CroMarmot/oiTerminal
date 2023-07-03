@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="oi_cli2.core package" href="oi_cli2.core.html" /><link rel="prev" title="oi_cli2.cli package" href="oi_cli2.cli.html" />
 
     <!-- Generated with Sphinx 5.0.0 and Furo 2023.03.27 -->
-        <title>oi_cli2.cli.adaptor package - yxr-oi-cli 0.2.1 documentation</title>
+        <title>oi_cli2.cli.adaptor package - yxr-oi-cli 0.2.1.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=fad236701ea90a88636c2a8c73b44ae642ed2a53" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
@@ -123,7 +123,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">yxr-oi-cli 0.2.1 documentation</div></a>
+      <a href="index.html"><div class="brand">yxr-oi-cli 0.2.1.1 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -146,7 +146,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
   
-  <span class="sidebar-brand-text">yxr-oi-cli 0.2.1 documentation</span>
+  <span class="sidebar-brand-text">yxr-oi-cli 0.2.1.1 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -178,7 +178,6 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="oi_cli2.core.html">oi_cli2.core package</a></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="oi_cli2.custom.html">oi_cli2.custom package</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l4"><a class="reference internal" href="oi_cli2.custom.AtCoder.html">oi_cli2.custom.AtCoder package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="oi_cli2.custom.Codeforces.html">oi_cli2.custom.Codeforces package</a></li>
 </ul>
 </li>
@@ -230,14 +229,96 @@
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">#</a></h2>
 </section>
-<section id="oi-cli2-cli-adaptor-atcoderadaptor-module">
-<h2>oi_cli2.cli.adaptor.AtcoderAdaptor module<a class="headerlink" href="#oi-cli2-cli-adaptor-atcoderadaptor-module" title="Permalink to this heading">#</a></h2>
+<section id="module-oi_cli2.cli.adaptor.AtCoderAdaptor">
+<span id="oi-cli2-cli-adaptor-atcoderadaptor-module"></span><h2>oi_cli2.cli.adaptor.AtCoderAdaptor module<a class="headerlink" href="#module-oi_cli2.cli.adaptor.AtCoderAdaptor" title="Permalink to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="oi_cli2.cli.adaptor.AtCoderAdaptor.AtCoder">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oi_cli2.cli.adaptor.AtCoderAdaptor.</span></span><span class="sig-name descname"><span class="pre">AtCoder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">http_util</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="oi_cli2.utils.html#oi_cli2.utils.HttpUtil.HttpUtil" title="oi_cli2.utils.HttpUtil.HttpUtil"><span class="pre">HttpUtil</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Logger</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">account</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="oi_cli2.model.html#oi_cli2.model.Account.Account" title="oi_cli2.model.Account.Account"><span class="pre">Account</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">html_tag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="oi_cli2.abstract.html#oi_cli2.abstract.HtmlTagAbstract.HtmlTagAbstract" title="oi_cli2.abstract.HtmlTagAbstract.HtmlTagAbstract"><span class="pre">HtmlTagAbstract</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/oi_cli2/cli/adaptor/AtCoderAdaptor.html#AtCoder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oi_cli2.cli.adaptor.AtCoderAdaptor.AtCoder" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="oi_cli2.model.html#oi_cli2.model.BaseOj.BaseOj" title="oi_cli2.model.BaseOj.BaseOj"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseOj</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="oi_cli2.cli.adaptor.AtCoderAdaptor.AtCoder.async_get_contest_meta">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">async_get_contest_meta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="oi_cli2.model.html#oi_cli2.model.ProblemMeta.ContestMeta" title="oi_cli2.model.ProblemMeta.ContestMeta"><span class="pre">ContestMeta</span></a></span></span><a class="reference internal" href="_modules/oi_cli2/cli/adaptor/AtCoderAdaptor.html#AtCoder.async_get_contest_meta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oi_cli2.cli.adaptor.AtCoderAdaptor.AtCoder.async_get_contest_meta" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oi_cli2.cli.adaptor.AtCoderAdaptor.AtCoder.async_get_result_yield">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">async_get_result_yield</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">problem_url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_gap</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">AsyncIterator</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="oi_cli2.model.html#oi_cli2.model.Result.SubmissionResult" title="oi_cli2.model.Result.SubmissionResult"><span class="pre">SubmissionResult</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/oi_cli2/cli/adaptor/AtCoderAdaptor.html#AtCoder.async_get_result_yield"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oi_cli2.cli.adaptor.AtCoderAdaptor.AtCoder.async_get_result_yield" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oi_cli2.cli.adaptor.AtCoderAdaptor.AtCoder.async_problem">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">async_problem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">problem</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="oi_cli2.model.html#oi_cli2.model.ProblemMeta.ProblemMeta" title="oi_cli2.model.ProblemMeta.ProblemMeta"><span class="pre">ProblemMeta</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="oi_cli2.model.html#oi_cli2.model.ParseProblemResult.ParsedProblemResult" title="oi_cli2.model.ParseProblemResult.ParsedProblemResult"><span class="pre">ParsedProblemResult</span></a></span></span><a class="reference internal" href="_modules/oi_cli2/cli/adaptor/AtCoderAdaptor.html#AtCoder.async_problem"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oi_cli2.cli.adaptor.AtCoderAdaptor.AtCoder.async_problem" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oi_cli2.cli.adaptor.AtCoderAdaptor.AtCoder.get_contest_meta">
+<span class="sig-name descname"><span class="pre">get_contest_meta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="oi_cli2.model.html#oi_cli2.model.ProblemMeta.ContestMeta" title="oi_cli2.model.ProblemMeta.ContestMeta"><span class="pre">ContestMeta</span></a></span></span><a class="reference internal" href="_modules/oi_cli2/cli/adaptor/AtCoderAdaptor.html#AtCoder.get_contest_meta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oi_cli2.cli.adaptor.AtCoderAdaptor.AtCoder.get_contest_meta" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oi_cli2.cli.adaptor.AtCoderAdaptor.AtCoder.login_website">
+<span class="sig-name descname"><span class="pre">login_website</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/oi_cli2/cli/adaptor/AtCoderAdaptor.html#AtCoder.login_website"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oi_cli2.cli.adaptor.AtCoderAdaptor.AtCoder.login_website" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oi_cli2.cli.adaptor.AtCoderAdaptor.AtCoder.print_friends_standing">
+<span class="sig-name descname"><span class="pre">print_friends_standing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/oi_cli2/cli/adaptor/AtCoderAdaptor.html#AtCoder.print_friends_standing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oi_cli2.cli.adaptor.AtCoderAdaptor.AtCoder.print_friends_standing" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oi_cli2.cli.adaptor.AtCoderAdaptor.AtCoder.problem">
+<span class="sig-name descname"><span class="pre">problem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pm</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="oi_cli2.model.html#oi_cli2.model.ProblemMeta.ProblemMeta" title="oi_cli2.model.ProblemMeta.ProblemMeta"><span class="pre">ProblemMeta</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="oi_cli2.model.html#oi_cli2.model.ParseProblemResult.ParsedProblemResult" title="oi_cli2.model.ParseProblemResult.ParsedProblemResult"><span class="pre">ParsedProblemResult</span></a></span></span><a class="reference internal" href="_modules/oi_cli2/cli/adaptor/AtCoderAdaptor.html#AtCoder.problem"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oi_cli2.cli.adaptor.AtCoderAdaptor.AtCoder.problem" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oi_cli2.cli.adaptor.AtCoderAdaptor.AtCoder.submit_code">
+<span class="sig-name descname"><span class="pre">submit_code</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">problem_url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">language_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">code_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">HttpRespInterface</span></span></span><a class="reference internal" href="_modules/oi_cli2/cli/adaptor/AtCoderAdaptor.html#AtCoder.submit_code"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oi_cli2.cli.adaptor.AtCoderAdaptor.AtCoder.submit_code" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="oi_cli2.cli.adaptor.AtCoderAdaptor.AtcoderGen">
+<span class="sig-prename descclassname"><span class="pre">oi_cli2.cli.adaptor.AtCoderAdaptor.</span></span><span class="sig-name descname"><span class="pre">AtcoderGen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">account:</span> <span class="pre">~oi_cli2.model.Account.Account</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">provider:</span> <span class="pre">~oi_cli2.utils.Singleton.Singleton.&lt;locals&gt;.wrapper</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="oi_cli2.model.html#oi_cli2.model.BaseOj.BaseOj" title="oi_cli2.model.BaseOj.BaseOj"><span class="pre">BaseOj</span></a></span></span><a class="reference internal" href="_modules/oi_cli2/cli/adaptor/AtCoderAdaptor.html#AtcoderGen"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oi_cli2.cli.adaptor.AtCoderAdaptor.AtcoderGen" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="oi_cli2.cli.adaptor.AtCoderAdaptor.s2str">
+<span class="sig-prename descclassname"><span class="pre">oi_cli2.cli.adaptor.AtCoderAdaptor.</span></span><span class="sig-name descname"><span class="pre">s2str</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sec</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/oi_cli2/cli/adaptor/AtCoderAdaptor.html#s2str"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oi_cli2.cli.adaptor.AtCoderAdaptor.s2str" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="oi_cli2.cli.adaptor.AtCoderAdaptor.transform_Result">
+<span class="sig-prename descclassname"><span class="pre">oi_cli2.cli.adaptor.AtCoderAdaptor.</span></span><span class="sig-name descname"><span class="pre">transform_Result</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">res</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SubmissionResult</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="oi_cli2.model.html#oi_cli2.model.Result.SubmissionResult" title="oi_cli2.model.Result.SubmissionResult"><span class="pre">SubmissionResult</span></a></span></span><a class="reference internal" href="_modules/oi_cli2/cli/adaptor/AtCoderAdaptor.html#transform_Result"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oi_cli2.cli.adaptor.AtCoderAdaptor.transform_Result" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
 </section>
-<section id="oi-cli2-cli-adaptor-codeforcesadaptor-module">
-<h2>oi_cli2.cli.adaptor.CodeforcesAdaptor module<a class="headerlink" href="#oi-cli2-cli-adaptor-codeforcesadaptor-module" title="Permalink to this heading">#</a></h2>
+<section id="module-oi_cli2.cli.adaptor.CodeforcesAdaptor">
+<span id="oi-cli2-cli-adaptor-codeforcesadaptor-module"></span><h2>oi_cli2.cli.adaptor.CodeforcesAdaptor module<a class="headerlink" href="#module-oi_cli2.cli.adaptor.CodeforcesAdaptor" title="Permalink to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="oi_cli2.cli.adaptor.CodeforcesAdaptor.CodeforcesGen">
+<span class="sig-prename descclassname"><span class="pre">oi_cli2.cli.adaptor.CodeforcesAdaptor.</span></span><span class="sig-name descname"><span class="pre">CodeforcesGen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">account:</span> <span class="pre">~oi_cli2.model.Account.Account</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">provider:</span> <span class="pre">~oi_cli2.utils.Singleton.Singleton.&lt;locals&gt;.wrapper</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="oi_cli2.model.html#oi_cli2.model.BaseOj.BaseOj" title="oi_cli2.model.BaseOj.BaseOj"><span class="pre">BaseOj</span></a></span></span><a class="reference internal" href="_modules/oi_cli2/cli/adaptor/CodeforcesAdaptor.html#CodeforcesGen"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oi_cli2.cli.adaptor.CodeforcesAdaptor.CodeforcesGen" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
 </section>
-<section id="oi-cli2-cli-adaptor-ojman-module">
-<h2>oi_cli2.cli.adaptor.ojman module<a class="headerlink" href="#oi-cli2-cli-adaptor-ojman-module" title="Permalink to this heading">#</a></h2>
+<section id="module-oi_cli2.cli.adaptor.ojman">
+<span id="oi-cli2-cli-adaptor-ojman-module"></span><h2>oi_cli2.cli.adaptor.ojman module<a class="headerlink" href="#module-oi_cli2.cli.adaptor.ojman" title="Permalink to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="oi_cli2.cli.adaptor.ojman.OJManager">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">oi_cli2.cli.adaptor.ojman.</span></span><span class="sig-name descname"><span class="pre">OJManager</span></span><a class="reference internal" href="_modules/oi_cli2/cli/adaptor/ojman.html#OJManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oi_cli2.cli.adaptor.ojman.OJManager" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="oi_cli2.cli.adaptor.ojman.OJManager.createOj">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">createOj</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">platform:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">account:</span> <span class="pre">~oi_cli2.model.Account.Account</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">provider:</span> <span class="pre">~oi_cli2.utils.Singleton.Singleton.&lt;locals&gt;.wrapper</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="oi_cli2.model.html#oi_cli2.model.BaseOj.BaseOj" title="oi_cli2.model.BaseOj.BaseOj"><span class="pre">BaseOj</span></a></span></span><a class="reference internal" href="_modules/oi_cli2/cli/adaptor/ojman.html#OJManager.createOj"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oi_cli2.cli.adaptor.ojman.OJManager.createOj" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="oi_cli2.cli.adaptor.ojman.OJManager.regOj">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">regOj</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">platform:</span> <span class="pre">str,</span> <span class="pre">fn:</span> <span class="pre">~typing.Callable[[~oi_cli2.model.Account.Account,</span> <span class="pre">~oi_cli2.utils.Singleton.Singleton.&lt;locals&gt;.wrapper],</span> <span class="pre">~oi_cli2.model.BaseOj.BaseOj]</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/oi_cli2/cli/adaptor/ojman.html#OJManager.regOj"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#oi_cli2.cli.adaptor.ojman.OJManager.regOj" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="module-oi_cli2.cli.adaptor">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-oi_cli2.cli.adaptor" title="Permalink to this heading">#</a></h2>
@@ -301,9 +382,9 @@
             <ul>
 <li><a class="reference internal" href="#">oi_cli2.cli.adaptor package</a><ul>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#oi-cli2-cli-adaptor-atcoderadaptor-module">oi_cli2.cli.adaptor.AtcoderAdaptor module</a></li>
-<li><a class="reference internal" href="#oi-cli2-cli-adaptor-codeforcesadaptor-module">oi_cli2.cli.adaptor.CodeforcesAdaptor module</a></li>
-<li><a class="reference internal" href="#oi-cli2-cli-adaptor-ojman-module">oi_cli2.cli.adaptor.ojman module</a></li>
+<li><a class="reference internal" href="#module-oi_cli2.cli.adaptor.AtCoderAdaptor">oi_cli2.cli.adaptor.AtCoderAdaptor module</a></li>
+<li><a class="reference internal" href="#module-oi_cli2.cli.adaptor.CodeforcesAdaptor">oi_cli2.cli.adaptor.CodeforcesAdaptor module</a></li>
+<li><a class="reference internal" href="#module-oi_cli2.cli.adaptor.ojman">oi_cli2.cli.adaptor.ojman module</a></li>
 <li><a class="reference internal" href="#module-oi_cli2.cli.adaptor">Module contents</a></li>
 </ul>
 </li>

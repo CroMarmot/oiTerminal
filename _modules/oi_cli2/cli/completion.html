@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
     <!-- Generated with Sphinx 5.0.0 and Furo 2023.03.27 -->
-        <title>oi_cli2.cli.completion - yxr-oi-cli 0.2.1 documentation</title>
+        <title>oi_cli2.cli.completion - yxr-oi-cli 0.2.1.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?digest=fad236701ea90a88636c2a8c73b44ae642ed2a53" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
@@ -122,7 +122,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../index.html"><div class="brand">yxr-oi-cli 0.2.1 documentation</div></a>
+      <a href="../../../index.html"><div class="brand">yxr-oi-cli 0.2.1.1 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -145,7 +145,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../index.html">
   
   
-  <span class="sidebar-brand-text">yxr-oi-cli 0.2.1 documentation</span>
+  <span class="sidebar-brand-text">yxr-oi-cli 0.2.1.1 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -177,7 +177,6 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../oi_cli2.core.html">oi_cli2.core package</a></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../../oi_cli2.custom.html">oi_cli2.custom package</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../../oi_cli2.custom.AtCoder.html">oi_cli2.custom.AtCoder package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../oi_cli2.custom.Codeforces.html">oi_cli2.custom.Codeforces package</a></li>
 </ul>
 </li>
@@ -224,18 +223,23 @@
         </div>
         <article role="main">
           <h1>Source code for oi_cli2.cli.completion</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">click</span>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">cast</span>
+<span class="kn">import</span> <span class="nn">click</span>
+<span class="kn">from</span> <span class="nn">.reg_list</span> <span class="kn">import</span> <span class="n">reg_list</span>
 
 <span class="c1"># TODO inject account</span>
-<span class="n">platformNames</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Codeforces&quot;</span><span class="p">,</span> <span class="s2">&quot;AtCoder&quot;</span><span class="p">]</span>
+
+<span class="n">platformNames</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">reg_list</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
 
 
-<div class="viewcode-block" id="platformKey"><a class="viewcode-back" href="../../../oi_cli2.cli.html#oi_cli2.cli.completion.platformKey">[docs]</a><span class="k">def</span> <span class="nf">platformKey</span><span class="p">():</span>
-  <span class="n">res</span> <span class="o">=</span> <span class="p">{}</span>
+<div class="viewcode-block" id="platformKey"><a class="viewcode-back" href="../../../oi_cli2.cli.html#oi_cli2.cli.completion.platformKey">[docs]</a><span class="k">def</span> <span class="nf">platformKey</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+  <span class="n">res</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
   <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">platformNames</span><span class="p">:</span>
     <span class="n">res</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
   <span class="k">return</span> <span class="n">res</span></div>
 
+
+<span class="n">platformKeys</span> <span class="o">=</span> <span class="n">platformKey</span><span class="p">()</span>
 
 <span class="c1"># TODO auto generate by click</span>
 <span class="n">cliAccept</span> <span class="o">=</span> <span class="p">{</span>
@@ -255,15 +259,16 @@
             <span class="s2">&quot;delete&quot;</span><span class="p">:</span> <span class="n">platformKey</span><span class="p">(),</span>
         <span class="p">}</span>
     <span class="p">},</span>
-    <span class="s2">&quot;problem&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;fetch&quot;</span><span class="p">:</span> <span class="n">platformKey</span><span class="p">()</span>
-    <span class="p">},</span>
+    <span class="c1"># &quot;problem&quot;: {</span>
+    <span class="c1">#     &quot;fetch&quot;: platformKey()</span>
+    <span class="c1"># },</span>
     <span class="s2">&quot;contest&quot;</span><span class="p">:</span> <span class="p">{</span>
         <span class="s2">&quot;list&quot;</span><span class="p">:</span> <span class="n">platformKey</span><span class="p">(),</span>
         <span class="s2">&quot;detail&quot;</span><span class="p">:</span> <span class="n">platformKey</span><span class="p">(),</span>
         <span class="s2">&quot;standing&quot;</span><span class="p">:</span> <span class="n">platformKey</span><span class="p">(),</span>
         <span class="s2">&quot;fetch&quot;</span><span class="p">:</span> <span class="n">platformKey</span><span class="p">(),</span>
     <span class="p">},</span>
+    <span class="s2">&quot;lang&quot;</span><span class="p">:</span> <span class="n">platformKey</span><span class="p">(),</span>
     <span class="s2">&quot;test&quot;</span><span class="p">:</span> <span class="p">{},</span>
     <span class="s2">&quot;submit&quot;</span><span class="p">:</span> <span class="p">{},</span>
     <span class="s2">&quot;result&quot;</span><span class="p">:</span> <span class="p">{},</span>
@@ -280,7 +285,7 @@
   <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">cmds</span><span class="p">)):</span>
     <span class="n">key</span> <span class="o">=</span> <span class="n">cmds</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">ptr</span><span class="p">:</span>
-      <span class="n">ptr</span> <span class="o">=</span> <span class="n">ptr</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+      <span class="n">ptr</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">ptr</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
     <span class="k">else</span><span class="p">:</span>
       <span class="nb">print</span><span class="p">()</span>
       <span class="k">return</span>
