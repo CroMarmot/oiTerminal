@@ -227,14 +227,14 @@
         <article role="main">
           <section id="install">
 <h1>Install<a class="headerlink" href="#install" title="Permalink to this heading">#</a></h1>
-<section id="installation-from-pypi">
-<span id="installation"></span><h2>Installation From Pypi<a class="headerlink" href="#installation-from-pypi" title="Permalink to this heading">#</a></h2>
+<section id="install-from-pypi">
+<span id="installation"></span><h2>Install From Pypi<a class="headerlink" href="#install-from-pypi" title="Permalink to this heading">#</a></h2>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>pip3<span class="w"> </span>install<span class="w"> </span>yxr-oi-cli
 </pre></div>
 </div>
 </section>
-<section id="installation-from-github">
-<h2>Installation From Github<a class="headerlink" href="#installation-from-github" title="Permalink to this heading">#</a></h2>
+<section id="install-from-github">
+<h2>Install From Github<a class="headerlink" href="#install-from-github" title="Permalink to this heading">#</a></h2>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/CroMarmot/oiTerminal<span class="w"> </span>-b<span class="w"> </span>He
 <span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>oiTerminal
 <span class="gp">$ </span>pip3<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
@@ -243,10 +243,15 @@
 </section>
 <section id="enable-tab-auto-completion">
 <h2>Enable tab auto completion<a class="headerlink" href="#enable-tab-auto-completion" title="Permalink to this heading">#</a></h2>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">source</span><span class="w"> </span>./auto-completion/ot-auto-completion.sh
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>_oi_completions<span class="o">()</span>
+<span class="o">{</span>
+<span class="w">  </span><span class="nv">keys</span><span class="o">=</span><span class="k">$(</span>/usr/bin/env<span class="w"> </span>oi<span class="w"> </span>completion<span class="w"> </span><span class="si">${</span><span class="nv">COMP_WORDS</span><span class="p">[@]:</span><span class="nv">0</span><span class="p">:</span><span class="nv">$COMP_CWORD</span><span class="si">}</span><span class="k">)</span>
+<span class="w">  </span><span class="nv">COMPREPLY</span><span class="o">=(</span><span class="k">$(</span><span class="nb">compgen</span><span class="w"> </span>-W<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$keys</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">COMP_WORDS</span><span class="p">[</span><span class="nv">$COMP_CWORD</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="k">)</span><span class="o">)</span>
+<span class="o">}</span>
+<span class="nb">complete</span><span class="w"> </span>-F<span class="w"> </span>_oi_completions<span class="w"> </span>oi
 </pre></div>
 </div>
-<p>You can add this command in <code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code> for good better experience</p>
+<p>You can add this in <code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code> for better experience</p>
 </section>
 </section>
 
@@ -306,8 +311,8 @@
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">Install</a><ul>
-<li><a class="reference internal" href="#installation-from-pypi">Installation From Pypi</a></li>
-<li><a class="reference internal" href="#installation-from-github">Installation From Github</a></li>
+<li><a class="reference internal" href="#install-from-pypi">Install From Pypi</a></li>
+<li><a class="reference internal" href="#install-from-github">Install From Github</a></li>
 <li><a class="reference internal" href="#enable-tab-auto-completion">Enable tab auto completion</a></li>
 </ul>
 </li>
