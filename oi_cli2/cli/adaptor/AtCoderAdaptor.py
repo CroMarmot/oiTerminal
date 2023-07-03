@@ -12,12 +12,13 @@ from oi_cli2.model.ParseProblemResult import ParsedProblemResult
 from oi_cli2.model.ProblemMeta import ContestMeta, ProblemMeta
 from oi_cli2.model.Result import SubmissionResult
 from oi_cli2.model.TestCase import TestCase
+from oi_cli2.utils.HtmlTag import HtmlTag
 from oi_cli2.utils.HttpUtil import HttpUtil
 from oi_cli2.utils.HttpUtilCookiesHelper import HttpUtilCookiesHelper
 from oi_cli2.utils.Provider2 import Provider2
 from oi_cli2.utils.enc import AESCipher
 from oi_cli2.abstract.HtmlTagAbstract import HtmlTagAbstract
-from oi_cli2.core.DI import DI_LOGGER
+from oi_cli2.core.DI import DI_ACCMAN, DI_HTTP, DI_LOGGER, DI_PROVIDER
 
 from ac_core.auth import fetch_login, is_logged_in
 from ac_core.contest import fetch_tasks_meta, ParserProblemResult, fetch_standing
@@ -176,3 +177,13 @@ class AtCoder(BaseOj):
           break
 
     console.print(table)
+
+
+def AtcoderGen(account: Account, provider: Provider2) -> BaseOj:
+  http_util = provider.get(DI_HTTP)
+  logger = provider.get(DI_LOGGER)
+  oj: BaseOj = AtCoder(http_util=http_util,
+                       logger=logger,
+                       account=account,
+                       html_tag=HtmlTag(http_util))
+  return oj
