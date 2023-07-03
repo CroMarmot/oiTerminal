@@ -12,7 +12,7 @@ import logging
 
 @click.group()
 @click.pass_context
-def config(ctx):
+def config(ctx) -> None:
   """Config environment """
   # TODO make it provider?
   config_folder = ConfigFolder(OT_FOLDER)

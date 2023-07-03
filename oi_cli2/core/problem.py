@@ -1,6 +1,6 @@
 from typing import List
 
-from oi_cli2.model.ParseProblemResult import ParseProblemResult
+from oi_cli2.model.ParseProblemResult import ParsedProblemResult
 from oi_cli2.model.TestCase import TestCase
 from oi_cli2.utils.FileUtil import FileUtil
 

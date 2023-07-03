@@ -7,7 +7,7 @@ from typing import List, Type
 from oi_cli2.cli.constant import CIPHER_KEY, OT_FOLDER, USER_CONFIG_FILE
 
 from oi_cli2.model.BaseOj import BaseOj
-from oi_cli2.model.ParseProblemResult import ParseProblemResult
+from oi_cli2.model.ParseProblemResult import ParsedProblemResult
 from oi_cli2.model.ProblemMeta import ProblemMeta
 from oi_cli2.model.TestCase import TestCase
 from oi_cli2.model.FolderState import FolderState
@@ -18,7 +18,6 @@ from oi_cli2.utils.configFolder import ConfigFolder
 # file_util can be any thing , everything is file
 from oi_cli2.utils.template import TemplateManager
 from oi_cli2.utils.force_symlink import force_symlink
-
 
 # def createDir(oj: BaseOj, problem_id: str, problem: ProblemMeta, file_util: Type[FileUtil], logger,
 #               template_manager: TemplateManager, config_folder: ConfigFolder):

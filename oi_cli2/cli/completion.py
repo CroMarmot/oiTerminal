@@ -1,15 +1,20 @@
+from typing import Any, Dict, cast
 import click
+from .reg_list import reg_list
 
 # TODO inject account
-platformNames = ["Codeforces", "AtCoder"]
+
+platformNames = list(reg_list.keys())
 
 
-def platformKey():
-  res = {}
+def platformKey() -> Dict[str, Any]:
+  res: Dict[str, Any] = {}
   for k in platformNames:
     res[k] = {}
   return res
 
+
+platformKeys = platformKey()
 
 # TODO auto generate by click
 cliAccept = {
@@ -29,15 +34,16 @@ cliAccept = {
             "delete": platformKey(),
         }
     },
-    "problem": {
-        "fetch": platformKey()
-    },
+    # "problem": {
+    #     "fetch": platformKey()
+    # },
     "contest": {
         "list": platformKey(),
         "detail": platformKey(),
         "standing": platformKey(),
         "fetch": platformKey(),
     },
+    "lang": platformKey(),
     "test": {},
     "submit": {},
     "result": {},
@@ -54,7 +60,7 @@ def completion_command(cmds):  # (oi, xxx, xxx)
   for i in range(1, len(cmds)):
     key = cmds[i]
     if key in ptr:
-      ptr = ptr[key]
+      ptr = cast(Dict[str, Any], ptr[key])
     else:
       print()
       return

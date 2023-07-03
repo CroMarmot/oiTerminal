@@ -1,11 +1,7 @@
-from collections import namedtuple
-from oi_cli2.cli.account import valid_account
-from oi_cli2.core.DI import DI_PROVIDER
-
-
 def test_valid_account():
+  return
 
-  ctx = namedtuple("obj", {})
+  # ctx = namedtuple("obj", {})
   # ctx.obj[DI_PROVIDER] = fake provider
 
   # valid_account(ctx, platform: str, account: str) -> bool:

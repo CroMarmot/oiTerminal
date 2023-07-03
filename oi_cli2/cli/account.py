@@ -21,7 +21,7 @@ def account(ctx):
 
 @account.command(name='list')
 @click.pass_context
-def list_command(ctx):
+def list_command(ctx) -> None:
   """List all account"""
   provider = ctx.obj[DI_PROVIDER]
   am: AccountManager = provider.get(DI_ACCMAN)
@@ -42,7 +42,7 @@ def list_command(ctx):
 @click.argument("account")
 @click.option("-d", "--default", "default_", is_flag=True, help='Set account as default account in the oj platform.')
 @click.pass_context
-def new(ctx, platform, account, default_):
+def new(ctx, platform, account, default_) -> None:
   """Create new account
 
 

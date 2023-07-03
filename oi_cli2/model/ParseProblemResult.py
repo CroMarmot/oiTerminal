@@ -6,7 +6,7 @@ from oi_cli2.model.TestCase import TestCase
 
 
 @dataclass
-class ParseProblemResult(object):
+class ParsedProblemResult(object):
 
   class Status(Enum):
     AC = 'AC'

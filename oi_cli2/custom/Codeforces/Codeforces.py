@@ -1,95 +1,101 @@
+import asyncio
 import logging
-from typing import cast
-
 import os
-import re
-import bs4
+from typing import Any, Tuple, AsyncIterator
 
 from requests.exceptions import ReadTimeout, ConnectTimeout
-from bs4 import BeautifulSoup
 
-from oi_cli2.cli.constant import CIPHER_KEY, GREEN, DEFAULT, OT_FOLDER
-from oi_cli2.custom.Codeforces.CodeforcesParser import CodeforcesParser
+from oi_cli2.cli.constant import CIPHER_KEY, GREEN, DEFAULT
 from oi_cli2.model.BaseOj import BaseOj
-from oi_cli2.model.ParseProblemResult import ParseProblemResult
+from oi_cli2.model.ParseProblemResult import ParsedProblemResult
 from oi_cli2.model.LangKV import LangKV
 from oi_cli2.model.Account import Account
-from oi_cli2.abstract.HtmlTagAbstract import HtmlTagAbstract
-from oi_cli2.model.ProblemMeta import ContestMeta, ProblemMeta
+from oi_cli2.model.ProblemMeta import ContestMeta, ProblemMeta, E_STATUS
 from oi_cli2.model.Result import SubmissionResult
-from oi_cli2.utils.HttpUtil import HttpUtil
-from oi_cli2.utils.HttpUtilCookiesHelper import HttpUtilCookiesHelper
-from oi_cli2.utils.Provider2 import Provider2
-from oi_cli2.utils.configFolder import ConfigFolder
+from oi_cli2.model.TestCase import TestCase
+# from oi_cli2.utils.async2sync import iter_over_async
 from oi_cli2.utils.enc import AESCipher
-from .cf_rcpc_token_decode import get_cipher_token
+
+from codeforces_core.account import async_login, async_fetch_logged_in
+from codeforces_core.contest_list import async_contest_list
+from codeforces_core.contest_register import async_register, RegisterResultMsg
+from codeforces_core.contest_standing import async_friends_standing
+from codeforces_core.contest_meta import async_contest_meta, ProblemMeta as InnerProblemMeta
+from codeforces_core.interfaces.AioHttpHelper import AioHttpHelperInterface
+from codeforces_core.language import async_language
+from codeforces_core.problem import async_problem
+from codeforces_core.submit import async_submit, transform_submission, async_fetch_submission_page, SubmissionWSResult, SubmissionPageResult
+from codeforces_core.url import pid2url, pid2split, problem_url_parse
+from codeforces_core.websocket import create_contest_ws_task_yield
 
 
 class Codeforces(BaseOj):
 
-  def __init__(self, http_util: HttpUtil, logger: logging.Logger, account: Account, html_tag: HtmlTagAbstract) -> None:
+  def __init__(self, http_util: AioHttpHelperInterface, logger: logging.Logger, account: Account) -> None:
     super().__init__()
     assert (account is not None)
     self._base_url = 'https://codeforces.com/'
     self.logger: logging.Logger = logger
-    # self.html_tag = html_tag
     self.account: Account = account
-    self.http_util = http_util
-    self.parser = CodeforcesParser(html_tag=html_tag, logger=logger)
-    config_folder = ConfigFolder(OT_FOLDER)
-    HttpUtilCookiesHelper.load_cookie(provider=Provider2(), platform=Codeforces.__name__, account=account.account)
-    # write codeforces RCPC cookie in .oiTerminal/CF_RCPC
-    # with open(config_folder.get_config_file_path("CF_RCPC")) as f:
-    #   rcpc = f.read().strip()
-    #   self.http_util.cookies.set("RCPC", rcpc, domain="codeforces.com")
-    ok, chiper, rcpc_token = get_cipher_token()
-    if ok:
-      self.logger.info("RCPC ok")  #, rcpc_token)
-      # TODO cache RCPC and auto check update
-      self.http_util.cookies.set("RCPC", rcpc_token) # , domain="codeforces.com")
-    else:
-      self.logger.info("RCPC failed")
+    self.http = http_util
+
+  async def init(self) -> None:
+    await self.http.open_session()
+
+  async def deinit(self) -> None:
+    await self.http.close_session()
 
   def pid2url(self, problem_id: str):
-    result = re.match('^(\\d+)([A-Z]\\d?)$', problem_id)
-    if result is None:
-      raise Exception('problem id[' + problem_id + '] ERROR')
-    return f'{self._base_url}contest/{result.group(1)}/problem/{result.group(2)}'
+    return self._base_url[:-1] + pid2url(problem_id)
 
   def pid2file_path(self, problem_id: str):
-    result = re.match('^(\\d+)([A-Z]\\d?)$', problem_id)
-    if result is None:
-      raise Exception('problem id[' + problem_id + '] ERROR')
-    return os.path.join(result.group(1), result.group(2))
+    contest_id, problem_key = pid2split(problem_id)
+    return os.path.join(contest_id, problem_key)
 
-  def problem_by_id(self, problem_id: str) -> ParseProblemResult:
-    # problem_id parse
-    url = self.pid2url(problem_id)
-    self.logger.debug(url)
+  def problem_by_id(self, problem_id: str) -> ParsedProblemResult:
+    return self.async_2_sync_session_wrap(lambda: self.async_problem_by_id(problem_id))
 
-    # http_util.get url
-    response = self.http_util.get(url=url)
-    if response.status_code != 200 or response.text is None:
-      raise Exception(f"Fetch Problem Error, problem id={problem_id}")
-    problem = self.parser.problem_parse(response.text)
+  async def async_problem_by_id(self, problem_id: str) -> ParsedProblemResult:
+    contest_id, problem_key = pid2split(problem_id)
+    self.logger.debug(f'{problem_id} => {contest_id}, {problem_key}')
 
-    problem.id = problem_id
-    problem.url = url
-    problem.oj = Codeforces.__name__
-    problem.file_path = self.pid2file_path(problem_id)
-    return problem
+    result = await async_problem(http=self.http, contest_id=contest_id, level=problem_key)
 
-  def problem(self, problem: ProblemMeta) -> ParseProblemResult:
+    return ParsedProblemResult(
+        status=ParsedProblemResult.Status.NOTVIS,  # TODO for show progress
+        title=result.title,
+        test_cases=list(map(lambda x: TestCase(in_data=x.in_data, out_data=x.out_data), result.test_cases)),
+        id=problem_id,
+        oj=Codeforces.__name__,
+        description=result.description,
+        time_limit=result.time_limit,
+        mem_limit=result.mem_limit,
+        url=self.pid2url(problem_id),
+        html=result.html,
+        file_path=self.pid2file_path(problem_id))
+
+  def problem(self, problem: ProblemMeta) -> ParsedProblemResult:
     return self.problem_by_id(problem.contest_id + problem.id)
 
-  # TODO msg chan
-  # Force: true/false login whatever login before
+  async def async_problem(self, problem: ProblemMeta) -> ParsedProblemResult:
+    return await self.async_problem_by_id(problem.contest_id + problem.id)
+
   def login_website(self, force=False) -> bool:  # return successful
+    return self.async_2_sync_session_wrap(lambda: self.async_login_website(force=force))
+
+  # Force: true/false login whatever login before
+  # TODO 逻辑还是有点问题，要实现支持
+  #  - 未登录 => 登录
+  #  - 已登录 => 不操作
+  #  强制:
+  #   - 未登录 => 登录
+  #   - 已登录 => 取消cookies等 强制登录
+  async def async_login_website(self, force=False) -> bool:  # return successful
     if not force:
       # try using cookies
       self.logger.info(f"{GREEN}Checking Log in {DEFAULT}")
       try:
-        if self._is_login():
+        if await self.async_is_login():
           self.logger.info(f"{GREEN}{self.account.account} is Logged in {Codeforces.__name__}{DEFAULT}")
           return True
       except (ReadTimeout, ConnectTimeout) as e:
@@ -99,267 +105,188 @@ class Codeforces(BaseOj):
 
     try:
       self.logger.debug(f"{GREEN}{self.account.account} Logining {Codeforces.__name__}{DEFAULT}")
-      url = f'{self._base_url}enter?back=%2F'
-      self.logger.debug(f"get {url}")
-      res = self.http_util.get(url)
-      soup = BeautifulSoup(res.text, 'lxml')
-      csrf_token = cast(bs4.Tag,soup.find(attrs={'name': 'X-Csrf-Token'})).get('content')
-      post_data = {
-          'csrf_token': csrf_token,
-          'action': 'enter',
-          'ftaa': '',
-          'bfaa': '',
-          'handleOrEmail': self.account.account,
-          'password': AESCipher(CIPHER_KEY).decrypt(self.account.password),
-          'remember': 'on'
-      }
-      self.http_util.post(url=f'{self._base_url}enter', data=post_data)
+
+      return (await async_login(http=self.http,
+                                handle=self.account.account,
+                                password=AESCipher(CIPHER_KEY).decrypt(self.account.password))).success
     except (ReadTimeout, ConnectTimeout) as e:
       self.logger.error(f'Http Timeout[{type(e).__name__}]: {e.request.url}')
     except Exception as e:
       self.logger.exception(e)
 
-    try:
-      if self._is_login():
-        self.logger.debug(f"{GREEN}{self.account.account} Logined {Codeforces.__name__}{DEFAULT}")
-        HttpUtilCookiesHelper.save_cookie(provider=Provider2(),
-                                          platform=Codeforces.__name__,
-                                          account=self.account.account)
-        return True
-      else:
-        return False
-    except (ReadTimeout, ConnectTimeout) as e:
-      self.logger.error(f'Http Timeout[{type(e).__name__}]: {e.request.url}')
-      return False
-    except Exception as e:
-      self.logger.exception(e)
-      return False
+    return False
 
   def _is_login(self) -> bool:
-    res = self.http_util.get(self._base_url)
-    return bool(res and re.search(r'logout">Logout</a>', res.text))
+    return self.async_2_sync_session_wrap(lambda: self.async_is_login())
 
-  def get_tta(self) -> str:
-    """
-    This calculates protection value (_tta)
-    Reversed from js
-    """
-    hstr = self.http_util.cookies.get('39ce7')
-    total = 0
-    for i, ch in enumerate(hstr):
-      total = (total + (i + 1) * (i + 2) * ord(ch)) % 1009
-      if i % 3 == 0:
-        total += 1
-      if i % 2 == 0:
-        total *= 2
+  async def async_is_login(self) -> bool:
+    ok, html_data = await async_fetch_logged_in(self.http)
+    return ok
 
-      if i > 0:
-        total -= ord(hstr[i // 2]) // 2 * (total % 5)
-      total = total % 1009
-    return str(total)
+  def reg_contest(self, contest_id: str) -> bool:
+    return self.async_2_sync_session_wrap(lambda: self.async_reg_contest(contest_id))
 
-  def reg_contest(self, cid: str) -> bool:
-    if re.match('^\\d+$', cid) is None:
-      raise Exception('contest id [' + cid + '] ERROR')
-    response = self.http_util.get(url=f'{self._base_url}contestRegistration/{cid}')
-    if response is None or response.status_code != 200 or response.text is None:
-      raise Exception(f"Reg Contest Error, cid={cid}")
-    print("reg contest:" + cid)
+  async def async_reg_contest(self, contest_id: str) -> bool:
 
-    soup = BeautifulSoup(response.text, 'lxml')
+    result = await async_register(http=self.http, contest_id=contest_id)
+    return result.msg == RegisterResultMsg.AlreadyRegistered or result.msg == RegisterResultMsg.HaveBeenRegistered
 
-    csrf_token = cast(bs4.Tag,soup.find(attrs={'name': 'csrf_token'})).get('value')
-    _tta = self.get_tta()
-    post_data = {
-        'csrf_token': csrf_token,
-        'action': 'formSubmitted',
-        'backUrl': '',
-        'takePartAs': 'personal',
-        '_tta': _tta,
-    }
-    self.http_util.post(url=f'{self._base_url}contestRegistration/' + cid, data=post_data)
-    # return True except network error
-    # TODO get more detail
-    return True
-
-  # def get_contest(self, cid: str) -> Contest:
-  #   if re.match('^\\d+$', cid) is None:
-  #     raise Exception(f'contest id "{cid}" ERROR')
-
-  #   response = self.http_util.get(url=f'{self._base_url}contest/' + cid)
-  #   ret = Contest(oj=Codeforces.__name__, cid=cid)
-  #   if response is None or response.status_code != 200 or response.text is None:
-  #     raise Exception(f"Fetch Contest Error,cid={cid}")
-  #   print("get contest:" + cid)
-  #   self.parser.contest_parse(contest=ret, response=response.text)
-  #   threads = []
-  #   for pid in ret.problems.keys():
-  #     # self.get_problem(pid=cid + pid, problem=ret.problems[pid])
-  #     t = threading.Thread(target=self.get_problem, args=(cid + pid, ret.problems[pid]))
-  #     threads.append(t)
-  #     t.start()
-  #   for t in threads:
-  #     t.join()
-  #   return ret
-
-  # def get_problem(self, pid: str, problem: Problem = None) -> Problem:
-  #   result = re.match('^(\\d+)([A-Z]\\d?)$', pid)
-  #   if result is None:
-  #     raise Exception('problem id[' + pid + '] ERROR')
-  #   url = f'{self._base_url}contest/{result.group(1)}/problem/{result.group(2)}'
-  #   if problem is None:
-  #     problem = Problem(oj=Codeforces.__name__, pid=pid, url=url)
-  #   else:
-  #     problem.url = url
-  #   response = self.http_util.get(url=url)
-  #   if response is None or response.status_code != 200 or response.text is None:
-  #     raise Exception(f"Fetch Problem Error, pid={pid}")
-  #   self.parser.problem_parse(response=response.text)
-  #   return problem
   def submit_code(self, problem_url: str, language_id: str, code_path: str) -> bool:
     # https://codeforces.com/contest/1740/problem/G
-    result = re.match('^.*contest/(.*)/problem/(.*)$', problem_url)
-    assert result is not None
-    sid = result.group(1) + result.group(2)
-    return self.submit_code_by_sid(sid, language_id=language_id, code_path=code_path)
+    contest_id, problem_key = problem_url_parse(problem_url)
+    sid = contest_id + problem_key
+    return self.async_2_sync_session_wrap(lambda: self.async_submit_code(sid, language_id, code_path))
 
   # TODO move sid out as just Syntactic sugar
-  def submit_code_by_sid(self, sid: str, language_id: str, code_path: str) -> bool:
-    if not self.login_website():
+  async def async_submit_code(self, sid: str, language_id: str, code_path: str) -> bool:
+    if not await self.async_login_website():
       raise Exception('Login Failed')
-    print("Login ok")
+    contest_id, problem_key = pid2split(sid)
+    self.logger.debug(f'{contest_id},{problem_key}')
 
-    result = re.match('^(\\d+)([A-Z]\\d?)$', sid)
-    if result is None:
-      raise Exception("submit_code: WRONG sid[" + sid + "]")
+    submit_id, resp = await async_submit(http=self.http,
+                                         contest_id=contest_id,
+                                         level=problem_key,
+                                         file_path=code_path,
+                                         lang_id=language_id)
+    self.logger.debug(f'submit_id = {submit_id}')
+    return bool(submit_id)
 
-    try:
-      res = self.http_util.get(f'{self._base_url}contest/{result.group(1)}/submit')
-    except (ReadTimeout, ConnectTimeout) as e:
-      self.logger.error(f'Http Timeout[{type(e).__name__}]: {e.request.url}')
-      return False
-    except Exception as e:
-      self.logger.exception(e)
-      return False
-    soup = BeautifulSoup(res.text, 'lxml')
-    csrf_token = cast(bs4.Tag,soup.find(attrs={'name': 'X-Csrf-Token'})).get('content')
-    post_data = {
-        'csrf_token': csrf_token,
-        'ftaa': '',
-        'bfaa': '',
-        'action': 'submitSolutionFormSubmitted',
-        'contestId': result.group(1),
-        'submittedProblemIndex': result.group(2),
-        'programTypeId': language_id,
-        'source': open(code_path, 'rb').read(),
-        'tabSize': 0,
-        'sourceFile': '',
-    }
-    url = f'{self._base_url}contest/{result.group(1)}/submit?csrf_token={csrf_token}'
-    try:
-      res = self.http_util.post(url, data=post_data)
-      if res and res.status_code == 200:
-        return True
-    except (ReadTimeout, ConnectTimeout) as e:
-      self.logger.error(f'Http Timeout[{type(e).__name__}]: {e.request.url}')
-      return False
-    except Exception as e:
-      self.logger.exception(e)
-      return False
-    return False
+  async def async_get_result_yield(self, problem_url: str, time_gap: float = 2) -> AsyncIterator[SubmissionResult]:
+    contest_id, problem_key = problem_url_parse(problem_url)
 
-  def get_result_by_sid(self, sid: str) -> SubmissionResult:
-    # TODO more check
-    # TODO websocket
-    return self._get_result_by_url(f'{self._base_url}api/user.status?handle=' + self.account.account + '&count=1')
+    # return (end watch?, transform result)
+    def custom_handler(result: Any) -> Tuple[bool, SubmissionWSResult]:
+      parsed_data = transform_submission(result)
+      if parsed_data.msg != 'TESTING':
+        return True, parsed_data
+      return False, parsed_data
 
-  def get_result(self, problem_url: str) -> SubmissionResult:
-    # TODO more check
-    # TODO websocket
-    return self._get_result_by_url(f'{self._base_url}api/user.status?handle=' + self.account.account + '&count=1')
+    # TODO move more parse inside
+    def page_result_transform(res: SubmissionPageResult) -> SubmissionResult:
+      # logging.warn('verdict:' + res.verdict)
+      cur_status = SubmissionResult.Status.PENDING
+      if res.verdict.startswith('Running'):
+        cur_status = SubmissionResult.Status.RUNNING
+      elif res.verdict.startswith('Accepted'):
+        cur_status = SubmissionResult.Status.AC
+      elif res.verdict.startswith('Wrong answer'):
+        cur_status = SubmissionResult.Status.WA
+      else:
+        logging.error('NOT HANDLE PAGE:', res.verdict)
 
-  def get_result_by_quick_id(self, quick_id: str) -> SubmissionResult:
-    return self._get_result_by_url(quick_id)
+      return SubmissionResult(id=res.id,
+                              cur_status=cur_status,
+                              time_note=res.time_ms,
+                              mem_note=res.mem_bytes,
+                              url=res.url,
+                              msg_txt=res.verdict)
 
-  def _get_result_by_url(self, url: str) -> SubmissionResult:
-    self.logger.debug(url)
-    try:
-      response = self.http_util.get(url=url)
-    except (ReadTimeout, ConnectTimeout) as e:
-      self.logger.error(f'Http Timeout[{type(e).__name__}]: {e.request.url}')
-      raise Exception(f'get result Failed,url={url}')
-    except Exception as e:
-      self.logger.exception(e)
-      raise Exception(f'get result Failed,url={url}')
-    if response.status_code != 200 or response.text is None:
-      raise Exception(f'get result Failed,url={url}')
-    ret = self.parser.result_parse(response=response.text)
-    ret.quick_key = url
-    return ret
+    def ws_result_transform(res: SubmissionWSResult) -> SubmissionResult:
+      # logging.warn('res.msg:' + res.msg)
+      cur_status = SubmissionResult.Status.PENDING
+      if res.msg == 'TESTING':
+        cur_status = SubmissionResult.Status.RUNNING
+      elif res.msg == 'OK':
+        cur_status = SubmissionResult.Status.AC
+      else:
+        logging.error('NOT HANDLE WS:' + str(res.msg))
+
+      msg_txt = str(res.testcases)
+      if cur_status == SubmissionResult.Status.AC:
+        msg_txt = f'{res.passed}/{res.testcases}'
+
+      return SubmissionResult(
+          id=str(res.submit_id),
+          cur_status=cur_status,
+          time_note=str(res.ms),
+          mem_note=str(res.mem),
+          url=f'/contest/{res.contest_id}/submission/{res.submit_id}',
+          msg_txt=msg_txt,
+      )
+
+    # TODO visit page without ws first
+    results = await async_fetch_submission_page(http=self.http, problem_url=problem_url)
+    if len(results) > 0:
+      result = page_result_transform(results[0])
+      yield result
+      if result.cur_status not in [SubmissionResult.Status.PENDING, SubmissionResult.Status.RUNNING]:
+        return
+
+    # TODO add timeout for ws
+    async for wsresult in create_contest_ws_task_yield(http=self.http, contest_id=contest_id, ws_handler=custom_handler):
+      data = ws_result_transform(wsresult)
+      yield data
+      if data.cur_status not in [SubmissionResult.Status.PENDING, SubmissionResult.Status.RUNNING]:
+        return
+
+    results = await async_fetch_submission_page(http=self.http, problem_url=problem_url)
+    assert len(results) > 0
+    yield page_result_transform(results[0])
 
   def get_language(self) -> LangKV:
-    res = self.http_util.get(f'{self._base_url}problemset/submit')
-    ret: LangKV = LangKV()
-    if res.text:
-      soup = BeautifulSoup(res.text, 'lxml')
-      tags = soup.find('select', attrs={'name': 'programTypeId'})
-      if isinstance(tags,bs4.Tag):
-        for child in tags.find_all('option'):
-          ret[child.get('value')] = child.string
+    return self.async_2_sync_session_wrap(lambda: self.async_get_language())
+
+  async def async_get_language(self) -> LangKV:
+    await self.async_login_website()
+    res = await async_language(self.http)
+    ret: LangKV = {}
+    for item in res:
+      ret[item.value] = item.text
     return ret
-
-  def _assert_working(self):
-    if self.http_util.get(self._base_url).status_code != 200:
-      raise Exception(f'{self._base_url} not working')
-
-  @staticmethod
-  def accounthttp_utiluired() -> bool:
-    return False
 
   @staticmethod
   def support_contest() -> bool:
     return True
 
   def print_contest_list(self) -> bool:
-    self.login_website()
-    # when in contest, without complete=true, will redirect to running contest page
-    try:
-      url = f'{self._base_url}contests?complete=true'
-      resp = self.http_util.get(url)
-    except (ReadTimeout, ConnectTimeout) as e:
-      self.logger.error(f'Http Timeout[{type(e).__name__}]: {e.request.url}')
-      return False
-    except Exception as e:
-      self.logger.exception(e)
+    return self.async_2_sync_session_wrap(lambda: self.async_print_contest_list())
+
+  async def async_print_contest_list(self) -> bool:
+    await self.async_login_website()
+
+    result = await async_contest_list(http=self.http)
     from .contestList import printData
-    printData(resp.text)
+    printData(result)
     return True
 
-  def get_contest_meta(self, cid: str) -> ContestMeta:
-    self.login_website()
-    from .problemList import html2struct
-    url = f'{self._base_url}contest/{cid}'
-    problems = html2struct(self.http_util.get(url).text)
-    for item in problems:
-      item.contest_id = cid
-      item.url = os.path.join(self._base_url, 'contest', cid, 'problem', item.id)
+  def get_contest_meta(self, contest_id: str) -> ContestMeta:
+    return self.async_2_sync_session_wrap(lambda: self.async_get_contest_meta(contest_id=contest_id))
 
-    return ContestMeta(id=cid, url=url, problems=problems)
+  async def async_get_contest_meta(self, contest_id: str) -> ContestMeta:
+    await self.async_login_website()
+
+    result = await async_contest_meta(http=self.http, contest_id=contest_id)
+
+    def transform(problem: InnerProblemMeta) -> ProblemMeta:
+      return ProblemMeta(
+          id=problem.id,
+          url=problem.url,
+          name=problem.name,
+          passed=problem.passed,  # number of passed submission in contest
+          score=0,
+          status=E_STATUS(problem.status),  # ???? TODO
+          time_limit_msec=problem.time_limit_msec,  # ms
+          memory_limit_kb=problem.memory_limit_kb,  # mb
+          contest_id=problem.contest_id,
+      )
+
+    return ContestMeta(id=contest_id, url=result.url, problems=list(map(lambda o: transform(o), result.problems)))
+
+  def async_2_sync_session_wrap(self, fn):
+
+    async def task():
+      await self.http.open_session()
+      result = await fn()
+      await self.http.close_session()
+      return result
+
+    return asyncio.run(task())
 
   def print_friends_standing(self, cid: str) -> None:
-    if not self.login_website():
-      raise Exception('Login Failed')
-    from .standing import printData
-    url = f'{self._base_url}contest/{cid}/standings/friends/true'
-    try:
-      printData(self.http_util.get(url).text, title=f"Friends standing {url}", handle=self.account.account)
-    except (ReadTimeout, ConnectTimeout) as e:
-      self.logger.error(f'Http Timeout[{type(e).__name__}]: {e.request.url}')
-    except Exception as e:
-      self.logger.exception(e)
+    return self.async_2_sync_session_wrap(lambda: self.async_print_friends_standing(cid))
 
-  # wss://pubsub.codeforces.com/ws/s_44e079e878db3d6cd8130358e638715d84b9b7e2/s_0b4b2a8c82dc858a100c4b1bcb927492039a8efd?_=1639017481660&tag=&time=&eventid=
-  #
-  # channel: "s_0b4b2a8c82dc858a100c4b1bcb927492039a8efd"
-  # id: 28
-  # text: "{\"t\":\"s\",\"d\":[2673242382570391613,138492951,1613,1209361,\"TESTS\",null,\"OK\",61,61,31,0,124336641,\"21220\",\"09.12.2021 5:38:00\",\"09.12.2021 5:38:00\",2147483647,54,0]}"
+  async def async_print_friends_standing(self, cid: str) -> None:
+    result = await async_friends_standing(http=self.http, contest_id=cid)
+    from .standing import printData
+    printData(result, title=f"Friends standing {result.url}", handle=self.account.account)

@@ -1,5 +1,5 @@
-# type: ignore
 # TODO remove full file replace with new implement
+import typing
 from bs4 import element
 
 from oi_cli2.abstract.HtmlTagAbstract import HtmlTagAbstract
@@ -11,6 +11,7 @@ class HtmlTag(HtmlTagAbstract):
   def __init__(self, http_util: HttpUtil):
     super().__init__(http_util)
 
+  @typing.no_type_check
   def update_tag(self, tag, oj_prefix: str, update_style=None):
     """
         :param tag: 一个顶级tag，从这个tag递归遍历所有子tag，寻找需要修改url的节点
@@ -20,7 +21,9 @@ class HtmlTag(HtmlTagAbstract):
         """
     if type(tag) == element.Tag:
       for child in tag.descendants:
-        if type(child) == element.Tag and update_style:
+        if type(child) != element.Tag:
+          continue
+        if update_style:
           child['style'] = update_style
         if child.name == 'a' and child.get('href'):
           if not child.get('class'):

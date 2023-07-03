@@ -112,7 +112,7 @@ class TemplateManager:
     return True
 
   # set default if no platform there
-  def add_template(self, platform, alias, path, compilation, execute, uplang):
+  def add_template(self, platform, alias, path, compilation, execute, uplang) -> None:
     temps: List[Template] = self._get_template_list()
     if self.find_alias(temps, platform, alias) != -1:
       raise Exception('Duplicate alias')
