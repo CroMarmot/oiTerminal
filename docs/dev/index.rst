@@ -7,3 +7,4 @@ Developer
    :caption: Contents:
 
    doc
+   publish

@@ -3,8 +3,15 @@ Install
 
 .. _installation:
 
-Installation
-------------
+Installation From Pypi 
+----------------------
+
+.. code-block:: console
+
+    $ pip3 install yxr-oi-cli
+
+Installation From Github
+------------------------
 
 .. code-block:: console
 
