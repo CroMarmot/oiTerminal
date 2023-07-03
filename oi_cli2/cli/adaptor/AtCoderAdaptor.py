@@ -5,6 +5,8 @@ from rich.console import Console
 from rich.table import Table
 from rich.style import Style
 
+from oi_cli2.model.LangKV import LangKV
+
 from ...cli.constant import CIPHER_KEY
 from ...model.Account import Account
 from ...model.BaseOj import BaseOj
@@ -26,6 +28,7 @@ from ac_core.problem import parse_task
 from ac_core.submit import fetch_submit
 from ac_core.interfaces.HttpUtil import HttpRespInterface
 from ac_core.result import fetch_result, SubmissionResult as CORE_SUB_RES
+from ac_core.language import fetch_language
 
 console = Console(color_system='256', style=None)
 
@@ -177,6 +180,13 @@ class AtCoder(BaseOj):
           break
 
     console.print(table)
+
+  def get_language(self) -> LangKV:
+    results = fetch_language(self.http_util)
+    ret: LangKV = {}
+    for item in results:
+      ret[item.value] = item.text
+    return ret
 
 
 def AtcoderGen(account: Account, provider: Provider2) -> BaseOj:
