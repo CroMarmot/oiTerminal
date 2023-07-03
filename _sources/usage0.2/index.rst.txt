@@ -7,9 +7,10 @@ Most command has ``help`` command implememnt inside. You can use ``oi --help`` ,
    :maxdepth: 3
    :caption: Contents:
 
-   install
-   init
-   config
-   contest
-   test
-   submit
+   00_install
+   01_init
+   02_config
+   03_contest
+   04_test
+   05_submit
+   06_proxy

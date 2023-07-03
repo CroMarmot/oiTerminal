@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../genindex.html" /><link rel="search" title="Search" href="../../../../search.html" />
 
     <!-- Generated with Sphinx 5.0.0 and Furo 2023.03.27 -->
-        <title>oi_cli2.cli.adaptor.AtCoderAdaptor - yxr-oi-cli 0.2.1.1 documentation</title>
+        <title>oi_cli2.cli.adaptor.AtCoderAdaptor - yxr-oi-cli 0.2.2.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?digest=fad236701ea90a88636c2a8c73b44ae642ed2a53" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
@@ -122,7 +122,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../../index.html"><div class="brand">yxr-oi-cli 0.2.1.1 documentation</div></a>
+      <a href="../../../../index.html"><div class="brand">yxr-oi-cli 0.2.2.1 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -145,7 +145,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../../index.html">
   
   
-  <span class="sidebar-brand-text">yxr-oi-cli 0.2.1.1 documentation</span>
+  <span class="sidebar-brand-text">yxr-oi-cli 0.2.2.1 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -156,12 +156,13 @@
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../usage0.2/index.html">User</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../../usage0.2/install.html">Install</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../../usage0.2/init.html">Init</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../../usage0.2/config.html">Config</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../../usage0.2/contest.html">Contest</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../../usage0.2/test.html">Test Code</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../../usage0.2/submit.html">Submit Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../usage0.2/00_install.html">Install</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../usage0.2/01_init.html">Init</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../usage0.2/02_config.html">Config</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../usage0.2/03_contest.html">Contest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../usage0.2/04_test.html">Test Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../usage0.2/05_submit.html">Submit Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../usage0.2/06_proxy.html">Proxy</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../dev/index.html">Developer</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
@@ -231,6 +232,8 @@
 <span class="kn">from</span> <span class="nn">rich.table</span> <span class="kn">import</span> <span class="n">Table</span>
 <span class="kn">from</span> <span class="nn">rich.style</span> <span class="kn">import</span> <span class="n">Style</span>
 
+<span class="kn">from</span> <span class="nn">oi_cli2.model.LangKV</span> <span class="kn">import</span> <span class="n">LangKV</span>
+
 <span class="kn">from</span> <span class="nn">...cli.constant</span> <span class="kn">import</span> <span class="n">CIPHER_KEY</span>
 <span class="kn">from</span> <span class="nn">...model.Account</span> <span class="kn">import</span> <span class="n">Account</span>
 <span class="kn">from</span> <span class="nn">...model.BaseOj</span> <span class="kn">import</span> <span class="n">BaseOj</span>
@@ -252,6 +255,7 @@
 <span class="kn">from</span> <span class="nn">ac_core.submit</span> <span class="kn">import</span> <span class="n">fetch_submit</span>
 <span class="kn">from</span> <span class="nn">ac_core.interfaces.HttpUtil</span> <span class="kn">import</span> <span class="n">HttpRespInterface</span>
 <span class="kn">from</span> <span class="nn">ac_core.result</span> <span class="kn">import</span> <span class="n">fetch_result</span><span class="p">,</span> <span class="n">SubmissionResult</span> <span class="k">as</span> <span class="n">CORE_SUB_RES</span>
+<span class="kn">from</span> <span class="nn">ac_core.language</span> <span class="kn">import</span> <span class="n">fetch_language</span>
 
 <span class="n">console</span> <span class="o">=</span> <span class="n">Console</span><span class="p">(</span><span class="n">color_system</span><span class="o">=</span><span class="s1">&#39;256&#39;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 
@@ -402,7 +406,14 @@
         <span class="k">if</span> <span class="n">is_self</span><span class="p">:</span>
           <span class="k">break</span>
 
-    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">table</span><span class="p">)</span></div></div>
+    <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">table</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AtCoder.get_language"><a class="viewcode-back" href="../../../../oi_cli2.cli.adaptor.html#oi_cli2.cli.adaptor.AtCoderAdaptor.AtCoder.get_language">[docs]</a>  <span class="k">def</span> <span class="nf">get_language</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LangKV</span><span class="p">:</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">fetch_language</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">http_util</span><span class="p">)</span>
+    <span class="n">ret</span><span class="p">:</span> <span class="n">LangKV</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
+      <span class="n">ret</span><span class="p">[</span><span class="n">item</span><span class="o">.</span><span class="n">value</span><span class="p">]</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">text</span>
+    <span class="k">return</span> <span class="n">ret</span></div></div>
 
 
 <div class="viewcode-block" id="AtcoderGen"><a class="viewcode-back" href="../../../../oi_cli2.cli.adaptor.html#oi_cli2.cli.adaptor.AtCoderAdaptor.AtcoderGen">[docs]</a><span class="k">def</span> <span class="nf">AtcoderGen</span><span class="p">(</span><span class="n">account</span><span class="p">:</span> <span class="n">Account</span><span class="p">,</span> <span class="n">provider</span><span class="p">:</span> <span class="n">Provider2</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseOj</span><span class="p">:</span>

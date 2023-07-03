@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Test Code" href="test.html" /><link rel="prev" title="Config" href="config.html" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Test Code" href="04_test.html" /><link rel="prev" title="Config" href="02_config.html" />
 
     <!-- Generated with Sphinx 5.0.0 and Furo 2023.03.27 -->
-        <title>Contest - yxr-oi-cli 0.2.1.1 documentation</title>
+        <title>Contest - yxr-oi-cli 0.2.2.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=fad236701ea90a88636c2a8c73b44ae642ed2a53" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
@@ -123,7 +123,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand">yxr-oi-cli 0.2.1.1 documentation</div></a>
+      <a href="../index.html"><div class="brand">yxr-oi-cli 0.2.2.1 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -146,7 +146,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
   
   
-  <span class="sidebar-brand-text">yxr-oi-cli 0.2.1.1 documentation</span>
+  <span class="sidebar-brand-text">yxr-oi-cli 0.2.2.1 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -157,12 +157,13 @@
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">User</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="install.html">Install</a></li>
-<li class="toctree-l2"><a class="reference internal" href="init.html">Init</a></li>
-<li class="toctree-l2"><a class="reference internal" href="config.html">Config</a></li>
+<li class="toctree-l2"><a class="reference internal" href="00_install.html">Install</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01_init.html">Init</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_config.html">Config</a></li>
 <li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Contest</a></li>
-<li class="toctree-l2"><a class="reference internal" href="test.html">Test Code</a></li>
-<li class="toctree-l2"><a class="reference internal" href="submit.html">Submit Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_test.html">Test Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05_submit.html">Submit Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_proxy.html">Proxy</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../dev/index.html">Developer</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
@@ -232,6 +233,38 @@
 <p class="admonition-title">Note</p>
 <p>If you enable auto completion, you can just tap less letter by press more <code class="docutils literal notranslate"><span class="pre">Tab</span></code></p>
 </div>
+<section id="list">
+<h2>List<a class="headerlink" href="#list" title="Permalink to this heading">#</a></h2>
+<p>Example:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>oi<span class="w"> </span>contest<span class="w"> </span>list<span class="w"> </span>Codeforces
+<span class="go">[INFO]: Checking Log in</span>
+<span class="go">[INFO]: YeXiaoRain is Logged in Codeforces</span>
+<span class="go">                                               Current or upcoming contests</span>
+<span class="go">┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━┓</span>
+<span class="go">┃ Name                               ┃ Start             ┃ Length ┃ Before Start    ┃ Reg                          ┃ Id   ┃</span>
+<span class="go">┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━┩</span>
+<span class="go">│ Codeforces Round 882 (Div. 2)      │ Jul/06/2023 22:35 │ 02:00  │ 3 days, 4:39:11 │ Before registration 28:39:17 │ 1847 │</span>
+<span class="go">│ Codeforces Round 883 (Div. 3)      │ Jul/07/2023 22:35 │ 02:15  │ 4 days, 4:39:11 │ Before registration 28:39:15 │ 1846 │</span>
+<span class="go">│ Codeforces Round (Div. 1 + Div. 2) │ Jul/11/2023 22:35 │ 02:00  │ 8 days, 4:39:11 │ Before registration 04:39:15 │ 1844 │</span>
+<span class="go">└────────────────────────────────────┴───────────────────┴────────┴─────────────────┴──────────────────────────────┴──────┘</span>
+<span class="go">                                      History contests (Recent 10)</span>
+<span class="go">┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━┓</span>
+<span class="go">┃ Name                                                ┃ Start             ┃ Length ┃ Registered ┃ Id   ┃</span>
+<span class="go">┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━┩</span>
+<span class="go">│ Educational Codeforces Round 151 (Rated for Div. 2) │ Jun/29/2023 22:35 │ 02:00  │ 28370      │ 1845 │</span>
+<span class="go">│ CodeTON Round 5 (Div. 1 + Div. 2, Rated, Prizes!)   │ Jun/24/2023 22:05 │ 03:00  │ 26372      │ 1842 │</span>
+<span class="go">│ Codeforces Round 881 (Div. 3)                       │ Jun/20/2023 22:35 │ 02:15  │ 30978      │ 1843 │</span>
+<span class="go">│ Codeforces Round 880 (Div. 1)                       │ Jun/18/2023 22:35 │ 02:00  │ 1245       │ 1835 │</span>
+<span class="go">│ Codeforces Round 880 (Div. 2)                       │ Jun/18/2023 22:35 │ 02:00  │ 21917      │ 1836 │</span>
+<span class="go">│ Codeforces Round 879 (Div. 2)                       │ Jun/18/2023 16:05 │ 02:00  │ 20335      │ 1834 │</span>
+<span class="go">│ Educational Codeforces Round 150 (Rated for Div. 2) │ Jun/12/2023 22:35 │ 02:00  │ 26443      │ 1841 │</span>
+<span class="go">│ Codeforces Round 878 (Div. 3)                       │ Jun/06/2023 22:35 │ 02:15  │ 31544      │ 1840 │</span>
+<span class="go">│ Codeforces Round 877 (Div. 2)                       │ Jun/04/2023 22:45 │ 02:00  │ 31174      │ 1838 │</span>
+<span class="go">│ Codeforces Round 876 (Div. 2)                       │ Jun/03/2023 22:35 │ 02:00  │ 24780      │ 1839 │</span>
+<span class="go">└─────────────────────────────────────────────────────┴───────────────────┴────────┴────────────┴──────┘</span>
+</pre></div>
+</div>
+</section>
 <section id="fetch">
 <h2>Fetch<a class="headerlink" href="#fetch" title="Permalink to this heading">#</a></h2>
 <p>Example:</p>
@@ -304,6 +337,29 @@
 </pre></div>
 </div>
 </section>
+<section id="detail">
+<h2>Detail<a class="headerlink" href="#detail" title="Permalink to this heading">#</a></h2>
+<p>Example:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>oi<span class="w"> </span>contest<span class="w"> </span>detail<span class="w"> </span>Codeforces<span class="w"> </span><span class="m">1621</span>
+<span class="go">[INFO]: Checking Log in</span>
+<span class="go">[INFO]: YeXiaoRain is Logged in Codeforces</span>
+<span class="go">                                    Contest /contest/1621</span>
+<span class="go">┏━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━┳━━━━━━━━━┳━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━┓</span>
+<span class="go">┃ ID ┃ Name                             ┃ Time ┃ Memory  ┃ Passed ┃ Url                     ┃</span>
+<span class="go">┡━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━╇━━━━━━━━━╇━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━┩</span>
+<span class="go">│ A  │ Stable Arrangement of Rooks      │ 1.0s │ 256.0mb │ 22916  │ /contest/1621/problem/A │</span>
+<span class="go">│ B  │ Integers Shop                    │ 2.0s │ 256.0mb │ 12263  │ /contest/1621/problem/B │</span>
+<span class="go">│ C  │ Hidden Permutations              │ 1.0s │ 256.0mb │ 6372   │ /contest/1621/problem/C │</span>
+<span class="go">│ D  │ The Winter Hike                  │ 1.0s │ 256.0mb │ 3729   │ /contest/1621/problem/D │</span>
+<span class="go">│ E  │ New School                       │ 2.0s │ 256.0mb │ 1629   │ /contest/1621/problem/E │</span>
+<span class="go">│ F  │ Strange Instructions             │ 2.0s │ 256.0mb │ 490    │ /contest/1621/problem/F │</span>
+<span class="go">│ G  │ Weighted Increasing Subsequences │ 1.0s │ 256.0mb │ 523    │ /contest/1621/problem/G │</span>
+<span class="go">│ H  │ Trains and Airplanes             │ 4.0s │ 512.0mb │ 135    │ /contest/1621/problem/H │</span>
+<span class="go">│ I  │ Two Sequences                    │ 8.0s │ 256.0mb │ 92     │ /contest/1621/problem/I │</span>
+<span class="go">└────┴──────────────────────────────────┴──────┴─────────┴────────┴─────────────────────────┘</span>
+</pre></div>
+</div>
+</section>
 </section>
 
         </article>
@@ -311,7 +367,7 @@
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="test.html">
+          <a class="next-page" href="04_test.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
@@ -320,7 +376,7 @@
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="config.html">
+          <a class="prev-page" href="02_config.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
@@ -362,8 +418,10 @@
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">Contest</a><ul>
+<li><a class="reference internal" href="#list">List</a></li>
 <li><a class="reference internal" href="#fetch">Fetch</a></li>
 <li><a class="reference internal" href="#standing">Standing</a></li>
+<li><a class="reference internal" href="#detail">Detail</a></li>
 </ul>
 </li>
 </ul>

@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Contest" href="contest.html" /><link rel="prev" title="Init" href="init.html" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Init" href="01_init.html" /><link rel="prev" title="User" href="index.html" />
 
     <!-- Generated with Sphinx 5.0.0 and Furo 2023.03.27 -->
-        <title>Config - yxr-oi-cli 0.2.1.1 documentation</title>
+        <title>Install - yxr-oi-cli 0.2.2.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=fad236701ea90a88636c2a8c73b44ae642ed2a53" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
@@ -123,7 +123,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand">yxr-oi-cli 0.2.1.1 documentation</div></a>
+      <a href="../index.html"><div class="brand">yxr-oi-cli 0.2.2.1 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -146,7 +146,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
   
   
-  <span class="sidebar-brand-text">yxr-oi-cli 0.2.1.1 documentation</span>
+  <span class="sidebar-brand-text">yxr-oi-cli 0.2.2.1 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -157,12 +157,13 @@
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">User</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="install.html">Install</a></li>
-<li class="toctree-l2"><a class="reference internal" href="init.html">Init</a></li>
-<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Config</a></li>
-<li class="toctree-l2"><a class="reference internal" href="contest.html">Contest</a></li>
-<li class="toctree-l2"><a class="reference internal" href="test.html">Test Code</a></li>
-<li class="toctree-l2"><a class="reference internal" href="submit.html">Submit Code</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Install</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01_init.html">Init</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_config.html">Config</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_contest.html">Contest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_test.html">Test Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="05_submit.html">Submit Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_proxy.html">Proxy</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../dev/index.html">Developer</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
@@ -225,36 +226,33 @@
           </label>
         </div>
         <article role="main">
-          <section id="config">
-<h1>Config<a class="headerlink" href="#config" title="Permalink to this heading">#</a></h1>
-<section id="user">
-<h2>User<a class="headerlink" href="#user" title="Permalink to this heading">#</a></h2>
-<p>Config user for specific platform, supported CRUD, run <code class="docutils literal notranslate"><span class="pre">oi</span> <span class="pre">config</span> <span class="pre">account</span> <span class="pre">--help</span></code> for more details</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>oi<span class="w"> </span>config<span class="w"> </span>account<span class="w"> </span>new<span class="w"> </span>&lt;platform&gt;<span class="w"> </span>&lt;username&gt;
-</pre></div>
-</div>
-<p>Example:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>oi<span class="w"> </span>config<span class="w"> </span>account<span class="w"> </span>new<span class="w"> </span>Codeforces<span class="w"> </span>Cro-Marmot
+          <section id="install">
+<h1>Install<a class="headerlink" href="#install" title="Permalink to this heading">#</a></h1>
+<section id="install-from-pypi">
+<span id="installation"></span><h2>Install From Pypi<a class="headerlink" href="#install-from-pypi" title="Permalink to this heading">#</a></h2>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>pip3<span class="w"> </span>install<span class="w"> </span>yxr-oi-cli
 </pre></div>
 </div>
 </section>
-<section id="code-template">
-<h2>Code Template<a class="headerlink" href="#code-template" title="Permalink to this heading">#</a></h2>
-<p>Supported CURD, run <code class="docutils literal notranslate"><span class="pre">oi</span> <span class="pre">config</span> <span class="pre">template</span> <span class="pre">--help</span></code> for more details</p>
-<p>Example:</p>
-<p>Add Codeforces(GNU G++20 11.2.0 (64 bit, winlibs)) Local(C++20) template</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>oi<span class="w"> </span>config<span class="w"> </span>template<span class="w"> </span>new<span class="w"> </span>Codeforces<span class="w"> </span><span class="s2">&quot;C++20&quot;</span><span class="w"> </span><span class="s2">&quot;~/mycode/.oiTerminal/custom_template.cpp&quot;</span><span class="w"> </span><span class="s2">&quot;clang++ -o Main Main.cpp -std=gnu++20 -O2 -g -Wall -Wcomma -Wextra -fsanitize=integer,undefined,null,alignment&quot;</span><span class="w"> </span><span class="s2">&quot;./Main&quot;</span><span class="w"> </span><span class="m">73</span>
+<section id="install-from-github">
+<h2>Install From Github<a class="headerlink" href="#install-from-github" title="Permalink to this heading">#</a></h2>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/CroMarmot/oiTerminal<span class="w"> </span>-b<span class="w"> </span>He
+<span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>oiTerminal
+<span class="gp">$ </span>pip3<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
 </pre></div>
 </div>
-<p>Add AtCoder(C++ (GCC 9.2.1)) Local(C++17) two different mode</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>oi<span class="w"> </span>config<span class="w"> </span>template<span class="w"> </span>new<span class="w"> </span>AtCoder<span class="w"> </span><span class="s2">&quot;C++17-test&quot;</span><span class="w"> </span><span class="s2">&quot;~/mycode/.oiTerminal/atc_temp.cpp&quot;</span><span class="w"> </span><span class="s2">&quot;clang++ -o Main Main.cpp -std=gnu++17 -O2 -g -Wall -Wcomma -Wextra -fsanitize=integer,undefined,null,alignment&quot;</span><span class="w"> </span><span class="s2">&quot;./Main&quot;</span><span class="w"> </span><span class="m">4003</span>
-oi<span class="w"> </span>config<span class="w"> </span>template<span class="w"> </span>new<span class="w"> </span>AtCoder<span class="w"> </span><span class="s2">&quot;C++17-submit&quot;</span><span class="w"> </span><span class="s2">&quot;~/mycode/.oiTerminal/atc_temp.cpp&quot;</span><span class="w"> </span><span class="s2">&quot;clang++ -o Main Main.cpp -std=gnu++17 -O2 -g -Wall -Wcomma -Wextra&quot;</span><span class="w"> </span><span class="s2">&quot;./Main&quot;</span><span class="w"> </span><span class="m">4003</span>
+</section>
+<section id="enable-tab-auto-completion">
+<h2>Enable tab auto completion<a class="headerlink" href="#enable-tab-auto-completion" title="Permalink to this heading">#</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>_oi_completions<span class="o">()</span>
+<span class="o">{</span>
+<span class="w">  </span><span class="nv">keys</span><span class="o">=</span><span class="k">$(</span>/usr/bin/env<span class="w"> </span>oi<span class="w"> </span>completion<span class="w"> </span><span class="si">${</span><span class="nv">COMP_WORDS</span><span class="p">[@]:</span><span class="nv">0</span><span class="p">:</span><span class="nv">$COMP_CWORD</span><span class="si">}</span><span class="k">)</span>
+<span class="w">  </span><span class="nv">COMPREPLY</span><span class="o">=(</span><span class="k">$(</span><span class="nb">compgen</span><span class="w"> </span>-W<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$keys</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">COMP_WORDS</span><span class="p">[</span><span class="nv">$COMP_CWORD</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="k">)</span><span class="o">)</span>
+<span class="o">}</span>
+<span class="nb">complete</span><span class="w"> </span>-F<span class="w"> </span>_oi_completions<span class="w"> </span>oi
 </pre></div>
 </div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>About remote language id: <a class="reference external" href="https://github.com/CroMarmot/oiTerminal/blob/master/LANG.md">https://github.com/CroMarmot/oiTerminal/blob/master/LANG.md</a></p>
-</div>
+<p>You can add this in <code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code> for better experience</p>
 </section>
 </section>
 
@@ -263,23 +261,23 @@ oi<span class="w"> </span>config<span class="w"> </span>template<span class="w">
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="contest.html">
+          <a class="next-page" href="01_init.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Contest</div>
+                <div class="title">Init</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="init.html">
+          <a class="prev-page" href="index.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Init</div>
+                <div class="title">User</div>
                 
               </div>
             </a>
@@ -313,9 +311,10 @@ oi<span class="w"> </span>config<span class="w"> </span>template<span class="w">
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">Config</a><ul>
-<li><a class="reference internal" href="#user">User</a></li>
-<li><a class="reference internal" href="#code-template">Code Template</a></li>
+<li><a class="reference internal" href="#">Install</a><ul>
+<li><a class="reference internal" href="#install-from-pypi">Install From Pypi</a></li>
+<li><a class="reference internal" href="#install-from-github">Install From Github</a></li>
+<li><a class="reference internal" href="#enable-tab-auto-completion">Enable tab auto completion</a></li>
 </ul>
 </li>
 </ul>

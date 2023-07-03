@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Init" href="init.html" /><link rel="prev" title="User" href="index.html" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Proxy" href="06_proxy.html" /><link rel="prev" title="Test Code" href="04_test.html" />
 
     <!-- Generated with Sphinx 5.0.0 and Furo 2023.03.27 -->
-        <title>Install - yxr-oi-cli 0.2.1.1 documentation</title>
+        <title>Submit Code - yxr-oi-cli 0.2.2.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=fad236701ea90a88636c2a8c73b44ae642ed2a53" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
@@ -123,7 +123,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand">yxr-oi-cli 0.2.1.1 documentation</div></a>
+      <a href="../index.html"><div class="brand">yxr-oi-cli 0.2.2.1 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -146,7 +146,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
   
   
-  <span class="sidebar-brand-text">yxr-oi-cli 0.2.1.1 documentation</span>
+  <span class="sidebar-brand-text">yxr-oi-cli 0.2.2.1 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -157,12 +157,13 @@
   <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">User</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
-<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Install</a></li>
-<li class="toctree-l2"><a class="reference internal" href="init.html">Init</a></li>
-<li class="toctree-l2"><a class="reference internal" href="config.html">Config</a></li>
-<li class="toctree-l2"><a class="reference internal" href="contest.html">Contest</a></li>
-<li class="toctree-l2"><a class="reference internal" href="test.html">Test Code</a></li>
-<li class="toctree-l2"><a class="reference internal" href="submit.html">Submit Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="00_install.html">Install</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01_init.html">Init</a></li>
+<li class="toctree-l2"><a class="reference internal" href="02_config.html">Config</a></li>
+<li class="toctree-l2"><a class="reference internal" href="03_contest.html">Contest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="04_test.html">Test Code</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Submit Code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="06_proxy.html">Proxy</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../dev/index.html">Developer</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
@@ -225,33 +226,39 @@
           </label>
         </div>
         <article role="main">
-          <section id="install">
-<h1>Install<a class="headerlink" href="#install" title="Permalink to this heading">#</a></h1>
-<section id="install-from-pypi">
-<span id="installation"></span><h2>Install From Pypi<a class="headerlink" href="#install-from-pypi" title="Permalink to this heading">#</a></h2>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>pip3<span class="w"> </span>install<span class="w"> </span>yxr-oi-cli
+          <section id="submit-code">
+<h1>Submit Code<a class="headerlink" href="#submit-code" title="Permalink to this heading">#</a></h1>
+<p>The remote language used for submiting code is configured with <code class="docutils literal notranslate"><span class="pre">oi</span> <span class="pre">config</span> <span class="pre">template</span></code></p>
+<p>In your code folder where the state.json exist, (e.g. <code class="docutils literal notranslate"><span class="pre">/home/cromarmot/mycode/dist/AtCoder/abc300/G</span></code>)</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(~/mycode/dist/AtCoder/abc300/G)</span><span class="gp">$ </span>oi<span class="w"> </span>submit
+
+<span class="go">OJ          AtCoder</span>
+<span class="go">Account     cromarmot</span>
+<span class="go">Problem ID  abc300G</span>
+<span class="go">up_lang     4003</span>
+<span class="go">Submitted</span>
+<span class="go">Result ID   43222464</span>
+<span class="go">Status      AC</span>
+<span class="go">Time(s)     1.024</span>
+<span class="go">Memory(KB)  83988</span>
+<span class="go">Url         https://atcoder.jp/contests/abc300/submissions/me/status/json?sids[]=43222464</span>
 </pre></div>
 </div>
-</section>
-<section id="install-from-github">
-<h2>Install From Github<a class="headerlink" href="#install-from-github" title="Permalink to this heading">#</a></h2>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/CroMarmot/oiTerminal<span class="w"> </span>-b<span class="w"> </span>He
-<span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>oiTerminal
-<span class="gp">$ </span>pip3<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
+<section id="check-result">
+<h2>Check Result<a class="headerlink" href="#check-result" title="Permalink to this heading">#</a></h2>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>oi<span class="w"> </span>result
+<span class="go">OJ          AtCoder</span>
+<span class="go">Account     cromarmot</span>
+<span class="go">Problem ID  abc300G</span>
+<span class="go">up_lang     4003</span>
+<span class="go">Problem Url https://atcoder.jp/contests/abc300/tasks/abc300_g</span>
+<span class="go">Result ID   43222464</span>
+<span class="go">Status      AC</span>
+<span class="go">Time(s)     1.024</span>
+<span class="go">Memory(KB)  83988</span>
+<span class="go">Url         https://atcoder.jp/contests/abc300/submissions/me/status/json?sids[]=43222464</span>
 </pre></div>
 </div>
-</section>
-<section id="enable-tab-auto-completion">
-<h2>Enable tab auto completion<a class="headerlink" href="#enable-tab-auto-completion" title="Permalink to this heading">#</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>_oi_completions<span class="o">()</span>
-<span class="o">{</span>
-<span class="w">  </span><span class="nv">keys</span><span class="o">=</span><span class="k">$(</span>/usr/bin/env<span class="w"> </span>oi<span class="w"> </span>completion<span class="w"> </span><span class="si">${</span><span class="nv">COMP_WORDS</span><span class="p">[@]:</span><span class="nv">0</span><span class="p">:</span><span class="nv">$COMP_CWORD</span><span class="si">}</span><span class="k">)</span>
-<span class="w">  </span><span class="nv">COMPREPLY</span><span class="o">=(</span><span class="k">$(</span><span class="nb">compgen</span><span class="w"> </span>-W<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$keys</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">COMP_WORDS</span><span class="p">[</span><span class="nv">$COMP_CWORD</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="k">)</span><span class="o">)</span>
-<span class="o">}</span>
-<span class="nb">complete</span><span class="w"> </span>-F<span class="w"> </span>_oi_completions<span class="w"> </span>oi
-</pre></div>
-</div>
-<p>You can add this in <code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code> for better experience</p>
 </section>
 </section>
 
@@ -260,23 +267,23 @@
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="init.html">
+          <a class="next-page" href="06_proxy.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Init</div>
+                <div class="title">Proxy</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="index.html">
+          <a class="prev-page" href="04_test.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">User</div>
+                <div class="title">Test Code</div>
                 
               </div>
             </a>
@@ -310,10 +317,8 @@
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">Install</a><ul>
-<li><a class="reference internal" href="#install-from-pypi">Install From Pypi</a></li>
-<li><a class="reference internal" href="#install-from-github">Install From Github</a></li>
-<li><a class="reference internal" href="#enable-tab-auto-completion">Enable tab auto completion</a></li>
+<li><a class="reference internal" href="#">Submit Code</a><ul>
+<li><a class="reference internal" href="#check-result">Check Result</a></li>
 </ul>
 </li>
 </ul>
