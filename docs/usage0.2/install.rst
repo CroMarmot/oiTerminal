@@ -3,15 +3,15 @@ Install
 
 .. _installation:
 
-Installation From Pypi 
-----------------------
+Install From Pypi
+-----------------
 
 .. code-block:: console
 
     $ pip3 install yxr-oi-cli
 
-Installation From Github
-------------------------
+Install From Github
+-------------------
 
 .. code-block:: console
 
@@ -22,8 +22,13 @@ Installation From Github
 Enable tab auto completion
 --------------------------
 
-.. code-block:: console
+.. code-block:: bash
 
-    $ source ./auto-completion/ot-auto-completion.sh
+    _oi_completions()
+    {
+      keys=$(/usr/bin/env oi completion ${COMP_WORDS[@]:0:$COMP_CWORD})
+      COMPREPLY=($(compgen -W "$keys" "${COMP_WORDS[$COMP_CWORD]}"))
+    }
+    complete -F _oi_completions oi
 
-You can add this command in ``~/.bashrc`` for good better experience
+You can add this in ``~/.bashrc`` for better experience
