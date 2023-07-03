@@ -5,8 +5,7 @@ import logging
 import os
 import shutil
 import traceback
-from types import FunctionType
-from typing import List
+from typing import List, Callable
 import click
 from rich.console import Console
 from oi_cli2.cli.constant import DEFAULT, GREEN, IN_SUFFIX, OUT_SUFFIX, STATE_FILE, TEST_FOLDER
@@ -20,8 +19,8 @@ from oi_cli2.utils.template import TemplateManager
 console = Console(color_system='256', style=None)
 
 
-def tester(root_folder: str, test_files: List[str], testcase_folder: str, template: Template, diff_fn: FunctionType,
-           logger: logging.Logger):
+def tester(root_folder: str, test_files: List[str], testcase_folder: str, template: Template,
+           diff_fn: Callable[[str, str, str], None], logger: logging.Logger):
   logger.debug(f'{root_folder},{test_files},{testcase_folder}')
   # makefolder & mv code 2 folder
   os.makedirs(TEST_FOLDER, exist_ok=True)
@@ -56,7 +55,7 @@ def tester(root_folder: str, test_files: List[str], testcase_folder: str, templa
   os.chdir("../")
 
 
-def tst_main():
+def tst_main() -> bool:
   logger: logging.Logger = Provider2().get(DI_LOGGER)
   tm: TemplateManager = Provider2().get(DI_TEMPMAN)
 
@@ -84,10 +83,11 @@ def tst_main():
 
   # shutil.rmtree(TEST_FOLDER)
   logger.debug('test finished')
+  return True
 
 
 @click.command(name='test')
-def tst_command():
+def tst_command() -> None:
   try:
     logger: logging.Logger = Provider2().get(DI_LOGGER)
     tst_main()

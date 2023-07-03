@@ -1,13 +1,14 @@
+from typing import Any, Dict, cast
 import click
-from . import reg_list
+from .reg_list import reg_list
 
 # TODO inject account
 
-platformNames = list(map(lambda o: o[0], reg_list))
+platformNames = list(reg_list.keys())
 
 
-def platformKey():
-  res = {}
+def platformKey() -> Dict[str, Any]:
+  res: Dict[str, Any] = {}
   for k in platformNames:
     res[k] = {}
   return res
@@ -59,7 +60,7 @@ def completion_command(cmds):  # (oi, xxx, xxx)
   for i in range(1, len(cmds)):
     key = cmds[i]
     if key in ptr:
-      ptr = ptr[key]
+      ptr = cast(Dict[str, Any], ptr[key])
     else:
       print()
       return

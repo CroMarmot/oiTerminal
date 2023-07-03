@@ -1,7 +1,7 @@
 import asyncio
 import logging
 import os
-from typing import Any, Tuple
+from typing import Any, Tuple, AsyncIterator
 
 from requests.exceptions import ReadTimeout, ConnectTimeout
 
@@ -10,7 +10,7 @@ from oi_cli2.model.BaseOj import BaseOj
 from oi_cli2.model.ParseProblemResult import ParsedProblemResult
 from oi_cli2.model.LangKV import LangKV
 from oi_cli2.model.Account import Account
-from oi_cli2.model.ProblemMeta import ContestMeta, ProblemMeta
+from oi_cli2.model.ProblemMeta import ContestMeta, ProblemMeta, E_STATUS
 from oi_cli2.model.Result import SubmissionResult
 from oi_cli2.model.TestCase import TestCase
 # from oi_cli2.utils.async2sync import iter_over_async
@@ -114,6 +114,8 @@ class Codeforces(BaseOj):
     except Exception as e:
       self.logger.exception(e)
 
+    return False
+
   def _is_login(self) -> bool:
     return self.async_2_sync_session_wrap(lambda: self.async_is_login())
 
@@ -150,7 +152,7 @@ class Codeforces(BaseOj):
     self.logger.debug(f'submit_id = {submit_id}')
     return bool(submit_id)
 
-  async def async_get_result_yield(self, problem_url: str, time_gap: float = 2) -> SubmissionResult:
+  async def async_get_result_yield(self, problem_url: str, time_gap: float = 2) -> AsyncIterator[SubmissionResult]:
     contest_id, problem_key = problem_url_parse(problem_url)
 
     # return (end watch?, transform result)
@@ -195,10 +197,10 @@ class Codeforces(BaseOj):
         msg_txt = f'{res.passed}/{res.testcases}'
 
       return SubmissionResult(
-          id=res.submit_id,
+          id=str(res.submit_id),
           cur_status=cur_status,
-          time_note=res.ms,
-          mem_note=res.mem,
+          time_note=str(res.ms),
+          mem_note=str(res.mem),
           url=f'/contest/{res.contest_id}/submission/{res.submit_id}',
           msg_txt=msg_txt,
       )
@@ -212,8 +214,8 @@ class Codeforces(BaseOj):
         return
 
     # TODO add timeout for ws
-    async for result in create_contest_ws_task_yield(http=self.http, contest_id=contest_id, ws_handler=custom_handler):
-      data = ws_result_transform(result)
+    async for wsresult in create_contest_ws_task_yield(http=self.http, contest_id=contest_id, ws_handler=custom_handler):
+      data = ws_result_transform(wsresult)
       yield data
       if data.cur_status not in [SubmissionResult.Status.PENDING, SubmissionResult.Status.RUNNING]:
         return
@@ -263,7 +265,7 @@ class Codeforces(BaseOj):
           name=problem.name,
           passed=problem.passed,  # number of passed submission in contest
           score=0,
-          status=problem.status,  # ???? TODO
+          status=E_STATUS(problem.status),  # ???? TODO
           time_limit_msec=problem.time_limit_msec,  # ms
           memory_limit_kb=problem.memory_limit_kb,  # mb
           contest_id=problem.contest_id,

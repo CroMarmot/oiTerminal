@@ -15,7 +15,7 @@ console = Console(color_system='256', style=None)
 
 @click.command(name="lang")
 @click.argument('platform')
-def lang_command(platform):
+def lang_command(platform) -> None:
   logger: logging.Logger = Provider2().get(DI_LOGGER)
   am: AccountManager = Provider2().get(DI_ACCMAN)
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import click
-from . import reg_list
+from .reg_list import reg_list
 from oi_cli2.cli.adaptor.ojman import OJManager
 
 from oi_cli2.cli.config import config
@@ -28,7 +28,7 @@ def main(ctx={}):
   #   parser.print_help()
 
 
-for [key, fn] in reg_list:
+for [key, fn] in reg_list.items():
   OJManager.regOj(key, fn)
 
 main.add_command(init)

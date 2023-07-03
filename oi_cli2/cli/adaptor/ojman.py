@@ -20,6 +20,6 @@ class OJManager:
   @staticmethod
   def createOj(platform: str, account: Account, provider: Provider2) -> BaseOj:
     if platform in OJManager._ojFn:
-      return OJManager._ojFn[platform](account=account, provider=provider)
+      return OJManager._ojFn[platform](account, provider)
     else:
       raise Exception(f'Unknown Platform [{platform}]')

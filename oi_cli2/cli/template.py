@@ -47,7 +47,7 @@ def list_command(ctx, detail: bool):
 @click.argument('compile')
 @click.argument('execute')
 @click.argument('langid')
-def new(ctx, platform, name, path, compile, execute, langid):
+def new(ctx, platform, name, path, compile, execute, langid) -> None:
   """Create new template
 
   PLATFORM    Platform Name, (AtCoder,Codeforces)
@@ -71,7 +71,7 @@ def new(ctx, platform, name, path, compile, execute, langid):
 @click.pass_context
 @click.argument('platform')
 @click.argument('name')
-def delete(ctx, platform, name):
+def delete(ctx, platform, name) -> None:
   """Delete a specific template"""
   tm: TemplateManager = ctx.obj[DI_TEMPMAN]
   tm.delete_template(platform, name)
@@ -87,7 +87,7 @@ def delete(ctx, platform, name):
 @click.option('-e', '--execute', help='Change execute command')
 @click.option('-l', '--langid', help='Change upload language id')
 @click.option('-d', '--default', is_flag=True, help='Set as default template')
-def modify(ctx, platform, name, newname, path, compile, execute, langid, default):
+def modify(ctx, platform, name, newname, path, compile, execute, langid, default) -> None:
   """Update current template
 
   PLATFORM    Platform Name, (AtCoder,Codeforces)

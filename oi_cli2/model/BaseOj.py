@@ -1,4 +1,5 @@
-from typing import Any, Union
+from typing import Any, Union, AsyncIterator
+
 from oi_cli2.model.LangKV import LangKV
 from oi_cli2.model.ParseProblemResult import ParsedProblemResult
 from oi_cli2.model.ProblemMeta import ContestMeta, ProblemMeta
@@ -34,8 +35,9 @@ class BaseOj(object):
   def submit_code(self, problem_url: str, language_id: str, code_path: str) -> Union[bool, Any]:
     assert (False)
 
-  async def async_get_result_yield(self, problem_url: str, time_gap: float = 1) -> SubmissionResult:
-    assert (False)
+  async def async_get_result_yield(self, problem_url: str, time_gap: float = 1) -> AsyncIterator[SubmissionResult]:
+    raise NotImplementedError
+    yield 0
 
   def get_language(self) -> LangKV:
     assert (False)

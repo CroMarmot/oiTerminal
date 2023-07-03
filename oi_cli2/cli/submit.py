@@ -53,7 +53,7 @@ async def async_watch_result(oj: BaseOj, problem_url: str) -> SubmissionResult:
       async for result in oj.async_get_result_yield(problem_url, time_gap=FETCH_RESULT_INTERVAL):
         live.update(generate_submission_table(result), refresh=True)
   except Exception as e:
-    logging.ERROR(e)
+    logging.exception(e)
   await oj.deinit()
   return result
 
@@ -86,7 +86,7 @@ def submit_parser() -> Tuple[str, str, str, Account, str, str]:
 
 
 @click.command(name="submit")
-def submit_command():
+def submit_command() -> None:
   try:
     logger: logging.Logger = Provider2().get(DI_LOGGER)
     platform, sid, up_lang, account, code_path, problem_url = submit_parser()
@@ -117,7 +117,7 @@ def submit_command():
 
 
 @click.command(name="result")
-def result_command():
+def result_command() -> None:
   logger: logging.Logger = Provider2().get(DI_LOGGER)
   platform, sid, up_lang, account, code_path, problem_url = submit_parser()
   table = Table().grid()

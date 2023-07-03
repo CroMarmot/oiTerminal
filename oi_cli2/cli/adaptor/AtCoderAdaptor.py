@@ -1,24 +1,24 @@
 import logging
 import time
-from typing import List
+from typing import List, AsyncIterator
 from rich.console import Console
 from rich.table import Table
 from rich.style import Style
 
-from oi_cli2.cli.constant import CIPHER_KEY
-from oi_cli2.model.Account import Account
-from oi_cli2.model.BaseOj import BaseOj
-from oi_cli2.model.ParseProblemResult import ParsedProblemResult
-from oi_cli2.model.ProblemMeta import ContestMeta, ProblemMeta
-from oi_cli2.model.Result import SubmissionResult
-from oi_cli2.model.TestCase import TestCase
-from oi_cli2.utils.HtmlTag import HtmlTag
-from oi_cli2.utils.HttpUtil import HttpUtil
-from oi_cli2.utils.HttpUtilCookiesHelper import HttpUtilCookiesHelper
-from oi_cli2.utils.Provider2 import Provider2
-from oi_cli2.utils.enc import AESCipher
-from oi_cli2.abstract.HtmlTagAbstract import HtmlTagAbstract
-from oi_cli2.core.DI import DI_ACCMAN, DI_HTTP, DI_LOGGER, DI_PROVIDER
+from ...cli.constant import CIPHER_KEY
+from ...model.Account import Account
+from ...model.BaseOj import BaseOj
+from ...model.ParseProblemResult import ParsedProblemResult
+from ...model.ProblemMeta import ContestMeta, ProblemMeta
+from ...model.Result import SubmissionResult
+from ...model.TestCase import TestCase
+from ...utils.HtmlTag import HtmlTag
+from ...utils.HttpUtil import HttpUtil
+from ...utils.HttpUtilCookiesHelper import HttpUtilCookiesHelper
+from ...utils.Provider2 import Provider2
+from ...utils.enc import AESCipher
+from ...abstract.HtmlTagAbstract import HtmlTagAbstract
+from ...core.DI import DI_ACCMAN, DI_HTTP, DI_LOGGER, DI_PROVIDER
 
 from ac_core.auth import fetch_login, is_logged_in
 from ac_core.contest import fetch_tasks_meta, ParserProblemResult, fetch_standing
@@ -136,7 +136,7 @@ class AtCoder(BaseOj):
                         lang_id=language_id,
                         source_code=open(code_path, 'r').read())
 
-  async def async_get_result_yield(self, problem_url: str, time_gap: float = 1) -> SubmissionResult:
+  async def async_get_result_yield(self, problem_url: str, time_gap: float = 1) -> AsyncIterator[SubmissionResult]:
     while True:
       res = transform_Result(fetch_result(self.http_util, problem_url))
       yield res
@@ -182,8 +182,5 @@ class AtCoder(BaseOj):
 def AtcoderGen(account: Account, provider: Provider2) -> BaseOj:
   http_util = provider.get(DI_HTTP)
   logger = provider.get(DI_LOGGER)
-  oj: BaseOj = AtCoder(http_util=http_util,
-                       logger=logger,
-                       account=account,
-                       html_tag=HtmlTag(http_util))
+  oj: BaseOj = AtCoder(http_util=http_util, logger=logger, account=account, html_tag=HtmlTag(http_util))
   return oj

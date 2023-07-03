@@ -18,4 +18,4 @@ sphinx-autobuild
 furo
 myst-parser
 yxr-atcoder-core==0.0.3.3
-yxr-codeforces-core==0.0.2
+yxr-codeforces-core==0.0.2.1

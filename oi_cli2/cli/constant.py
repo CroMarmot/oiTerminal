@@ -1,6 +1,4 @@
 # COLOR
-import os
-
 RED = "\x1b[31m"
 DEFAULT = "\x1b[39m"
 GREEN = "\x1b[32m"

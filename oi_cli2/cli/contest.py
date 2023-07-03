@@ -201,11 +201,11 @@ def contest():
 @contest.command()
 @click.argument('platform')
 @click.argument('contestid')
-def fetch(platform, contestid):
+def fetch(platform, contestid) -> None:
   asyncio.run(async_fetch(platform, contestid))
 
 
-async def async_fetch(platform, contestid):
+async def async_fetch(platform, contestid) -> None:
   """Fetch a contest(problems and testcases)
 
   PLATFORM    e.g. AtCoder, Codeforces
@@ -266,7 +266,7 @@ def list_command(platform: str):
 @contest.command()
 @click.argument('platform')
 @click.argument('contestid')
-def detail(platform, contestid):
+def detail(platform, contestid) -> None:
   """Display problem set and your submit status of a specific contest"
 
   PLATFORM    e.g. AtCoder, Codeforces
@@ -314,7 +314,7 @@ def detail(platform, contestid):
 @contest.command()
 @click.argument('platform')
 @click.argument('contestid')
-def standing(platform, contestid):
+def standing(platform, contestid) -> None:
   """Display your friends standing of a specific contest"
 
   PLATFORM    e.g. AtCoder, Codeforces
