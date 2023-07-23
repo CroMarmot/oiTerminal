@@ -162,16 +162,22 @@ class Codeforces(BaseOj):
         return True, parsed_data
       return False, parsed_data
 
-    # TODO move more parse inside
+    # TODO move more parse inside codeforces-core ? cf是出错中断形式,状态+数量
     def page_result_transform(res: SubmissionPageResult) -> SubmissionResult:
       # logging.warn('verdict:' + res.verdict)
       cur_status = SubmissionResult.Status.PENDING
       if res.verdict.startswith('Running'):
         cur_status = SubmissionResult.Status.RUNNING
+      elif res.verdict.startswith('In queue'):
+        cur_status = SubmissionResult.Status.RUNNING
       elif res.verdict.startswith('Accepted'):
+        cur_status = SubmissionResult.Status.AC
+      elif res.verdict.startswith('Pretests passed'):
         cur_status = SubmissionResult.Status.AC
       elif res.verdict.startswith('Wrong answer'):
         cur_status = SubmissionResult.Status.WA
+      elif res.verdict.startswith('Runtime error'): # Runtime error on pretest 2
+        cur_status = SubmissionResult.Status.RE
       else:
         logging.error('NOT HANDLE PAGE:', res.verdict)
 
@@ -182,6 +188,7 @@ class Codeforces(BaseOj):
                               url=res.url,
                               msg_txt=res.verdict)
 
+    # TODO move more parse inside codeforces-core ?
     def ws_result_transform(res: SubmissionWSResult) -> SubmissionResult:
       # logging.warn('res.msg:' + res.msg)
       cur_status = SubmissionResult.Status.PENDING
@@ -189,6 +196,8 @@ class Codeforces(BaseOj):
         cur_status = SubmissionResult.Status.RUNNING
       elif res.msg == 'OK':
         cur_status = SubmissionResult.Status.AC
+      elif res.msg == 'WRONG_ANSWER':
+        cur_status = SubmissionResult.Status.WA
       else:
         logging.error('NOT HANDLE WS:' + str(res.msg))
 
