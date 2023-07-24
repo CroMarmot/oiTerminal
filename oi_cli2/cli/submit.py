@@ -29,6 +29,7 @@ def generate_submission_table(res: SubmissionResult) -> Table:
   table = Table().grid()
   table.add_column(min_width=12)
   table.add_column()
+  table.add_row("Source", "web page")
   table.add_row("Result ID", f"{res.id}")
   # "[red]ERROR" if value < 50 else "[green]SUCCESS"
   table.add_row("Status", Text.from_ansi(f"{status_string(res)}"))
@@ -53,7 +54,8 @@ async def async_watch_result(oj: BaseOj, problem_url: str) -> SubmissionResult:
       async for result in oj.async_get_result_yield(problem_url, time_gap=FETCH_RESULT_INTERVAL):
         live.update(generate_submission_table(result), refresh=True)
   except Exception as e:
-    logging.exception(e)
+    logger: logging.Logger = Provider2().get(DI_LOGGER)
+    logger.exception(e)
   await oj.deinit()
   return result
 

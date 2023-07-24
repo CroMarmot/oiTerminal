@@ -164,7 +164,7 @@ class Codeforces(BaseOj):
 
     # TODO move more parse inside codeforces-core ? cf是出错中断形式,状态+数量
     def page_result_transform(res: SubmissionPageResult) -> SubmissionResult:
-      # logging.warn('verdict:' + res.verdict)
+      self.logger.debug('page res:'+str(res))
       cur_status = SubmissionResult.Status.PENDING
       if res.verdict.startswith('Running'):
         cur_status = SubmissionResult.Status.RUNNING
@@ -179,7 +179,7 @@ class Codeforces(BaseOj):
       elif res.verdict.startswith('Runtime error'): # Runtime error on pretest 2
         cur_status = SubmissionResult.Status.RE
       else:
-        logging.error('NOT HANDLE PAGE:', res.verdict)
+        self.logger.error('NOT HANDLE PAGE:'+str(res.verdict))
 
       return SubmissionResult(id=res.id,
                               cur_status=cur_status,
@@ -190,7 +190,7 @@ class Codeforces(BaseOj):
 
     # TODO move more parse inside codeforces-core ?
     def ws_result_transform(res: SubmissionWSResult) -> SubmissionResult:
-      # logging.warn('res.msg:' + res.msg)
+      self.logger.debug('ws res:'+str(res))
       cur_status = SubmissionResult.Status.PENDING
       if res.msg == 'TESTING':
         cur_status = SubmissionResult.Status.RUNNING
@@ -199,7 +199,7 @@ class Codeforces(BaseOj):
       elif res.msg == 'WRONG_ANSWER':
         cur_status = SubmissionResult.Status.WA
       else:
-        logging.error('NOT HANDLE WS:' + str(res.msg))
+        self.logger.error('NOT HANDLE WS:' + str(res.msg))
 
       msg_txt = str(res.testcases)
       if cur_status == SubmissionResult.Status.AC:
@@ -221,6 +221,8 @@ class Codeforces(BaseOj):
       yield result
       if result.cur_status not in [SubmissionResult.Status.PENDING, SubmissionResult.Status.RUNNING]:
         return
+
+    self.logger.debug('after page result, enter ws result')
 
     # TODO add timeout for ws
     async for wsresult in create_contest_ws_task_yield(http=self.http, contest_id=contest_id, ws_handler=custom_handler):
