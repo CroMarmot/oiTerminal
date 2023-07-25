@@ -4,6 +4,8 @@ import traceback
 
 from oi_cli2.utils.Singleton import Singleton
 
+from oi_cli2.cli.constant import APP_NAME
+
 
 @Singleton
 class LogConfig:
@@ -29,7 +31,8 @@ def getLogger(logger_path):
     print(e)
     traceback.print_exc()
 
-  logger = logging.getLogger(__name__)
+  # 调用库的 logging 名是 {APP_NAME}.xxx
+  logger = logging.getLogger(APP_NAME)
   # basic level shoud not larger than handler
   logger.setLevel(logging.DEBUG)
   # remove default handler
@@ -37,7 +40,7 @@ def getLogger(logger_path):
 
   # file
   fh = logging.FileHandler(logger_path)
-  fileformatter = logging.Formatter('[%(asctime)s %(levelname)s %(filename)s %(funcName)s %(lineno)d]: %(message)s')
+  fileformatter = logging.Formatter('[%(asctime)s %(name)s %(levelname)s %(filename)s %(funcName)s %(lineno)d]: %(message)s')
   fh.setFormatter(fileformatter)
   fh.setLevel(logging.DEBUG)
   logger.addHandler(fh)

@@ -14,8 +14,8 @@ class SubmissionResult:
   url: str = ''  # print for user
   quick_key: str = ''  # for refetch result
   state_note: str = '0'
-  time_note: str = '0/0'
-  mem_note: str = '0/0'
+  time_note: str = ''
+  mem_note: str = ''
   msg_txt: str = ''
 
 

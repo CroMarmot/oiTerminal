@@ -20,6 +20,8 @@ USER_CONFIG_FILE = '_userConfig.json'
 COOKIES_FILE = '_cookies.json'
 ACCT_CONFIG_FILE = '_acctConfig.json'  # TODO split config json
 TEMP_CONFIG_FILE = '_tempConfig.json'
+# LOG
+APP_NAME='oiTerminal'
 
 IN_SUFFIX = 'in.'
 OUT_SUFFIX = 'out.'

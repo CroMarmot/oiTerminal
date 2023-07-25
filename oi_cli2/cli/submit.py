@@ -29,12 +29,11 @@ def generate_submission_table(res: SubmissionResult) -> Table:
   table = Table().grid()
   table.add_column(min_width=12)
   table.add_column()
-  table.add_row("Source", "web page")
   table.add_row("Result ID", f"{res.id}")
   # "[red]ERROR" if value < 50 else "[green]SUCCESS"
   table.add_row("Status", Text.from_ansi(f"{status_string(res)}"))
-  table.add_row("Time(s)", f"{res.time_note}")
-  table.add_row("Memory(KB)", f"{res.mem_note}")
+  table.add_row("Time", f"{res.time_note}")
+  table.add_row("Memory", f"{res.mem_note}")
   if res.msg_txt:
     table.add_row("MSG", f"{res.msg_txt}")
   if res.url:

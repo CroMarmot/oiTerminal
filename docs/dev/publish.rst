@@ -7,6 +7,7 @@ config `~/.pypirc` follow https://packaging.python.org/en/latest/specifications/
 
 .. code-block::
 
+  pip install .[dev]
   rm -rf dist/
   python -m build
   twine check dist/*

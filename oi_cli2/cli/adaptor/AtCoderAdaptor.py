@@ -65,8 +65,8 @@ def transform_Result(res: CORE_SUB_RES) -> SubmissionResult:
       quick_key=res.url,  # for refetch result
       url=res.url,  # TODO change to webpage url
       state_note=str(res.score),
-      time_note=str(res.time_cost_ms / 1000),
-      mem_note=str(res.mem_cost_kb),
+      time_note=str(res.time_cost_ms / 1000) + ' ms',
+      mem_note=str(res.mem_cost_kb) + ' kb',
       msg_txt=res.msg_txt,
   )
 
