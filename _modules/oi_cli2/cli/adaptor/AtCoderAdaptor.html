@@ -292,8 +292,8 @@
       <span class="n">quick_key</span><span class="o">=</span><span class="n">res</span><span class="o">.</span><span class="n">url</span><span class="p">,</span>  <span class="c1"># for refetch result</span>
       <span class="n">url</span><span class="o">=</span><span class="n">res</span><span class="o">.</span><span class="n">url</span><span class="p">,</span>  <span class="c1"># TODO change to webpage url</span>
       <span class="n">state_note</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">score</span><span class="p">),</span>
-      <span class="n">time_note</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">time_cost_ms</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">),</span>
-      <span class="n">mem_note</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">mem_cost_kb</span><span class="p">),</span>
+      <span class="n">time_note</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">time_cost_ms</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39; ms&#39;</span><span class="p">,</span>
+      <span class="n">mem_note</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">mem_cost_kb</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39; kb&#39;</span><span class="p">,</span>
       <span class="n">msg_txt</span><span class="o">=</span><span class="n">res</span><span class="o">.</span><span class="n">msg_txt</span><span class="p">,</span>
   <span class="p">)</span></div>
 

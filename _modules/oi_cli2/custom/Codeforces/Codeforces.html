@@ -232,7 +232,7 @@
 
 <span class="kn">from</span> <span class="nn">requests.exceptions</span> <span class="kn">import</span> <span class="n">ReadTimeout</span><span class="p">,</span> <span class="n">ConnectTimeout</span>
 
-<span class="kn">from</span> <span class="nn">oi_cli2.cli.constant</span> <span class="kn">import</span> <span class="n">CIPHER_KEY</span><span class="p">,</span> <span class="n">GREEN</span><span class="p">,</span> <span class="n">DEFAULT</span>
+<span class="kn">from</span> <span class="nn">oi_cli2.cli.constant</span> <span class="kn">import</span> <span class="n">APP_NAME</span><span class="p">,</span> <span class="n">CIPHER_KEY</span><span class="p">,</span> <span class="n">GREEN</span><span class="p">,</span> <span class="n">DEFAULT</span>
 <span class="kn">from</span> <span class="nn">oi_cli2.model.BaseOj</span> <span class="kn">import</span> <span class="n">BaseOj</span>
 <span class="kn">from</span> <span class="nn">oi_cli2.model.ParseProblemResult</span> <span class="kn">import</span> <span class="n">ParsedProblemResult</span>
 <span class="kn">from</span> <span class="nn">oi_cli2.model.LangKV</span> <span class="kn">import</span> <span class="n">LangKV</span>
@@ -265,6 +265,7 @@
     <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="p">:</span> <span class="n">logging</span><span class="o">.</span><span class="n">Logger</span> <span class="o">=</span> <span class="n">logger</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">account</span><span class="p">:</span> <span class="n">Account</span> <span class="o">=</span> <span class="n">account</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">http</span> <span class="o">=</span> <span class="n">http_util</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">api_sub_logger</span><span class="p">:</span><span class="n">logging</span><span class="o">.</span><span class="n">Logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">APP_NAME</span><span class="si">}</span><span class="s1">.yxr-cf-core&#39;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Codeforces.init"><a class="viewcode-back" href="../../../../oi_cli2.custom.Codeforces.html#oi_cli2.custom.Codeforces.Codeforces.Codeforces.init">[docs]</a>  <span class="k">async</span> <span class="k">def</span> <span class="nf">init</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">http</span><span class="o">.</span><span class="n">open_session</span><span class="p">()</span></div>
@@ -375,7 +376,8 @@
                                          <span class="n">contest_id</span><span class="o">=</span><span class="n">contest_id</span><span class="p">,</span>
                                          <span class="n">level</span><span class="o">=</span><span class="n">problem_key</span><span class="p">,</span>
                                          <span class="n">file_path</span><span class="o">=</span><span class="n">code_path</span><span class="p">,</span>
-                                         <span class="n">lang_id</span><span class="o">=</span><span class="n">language_id</span><span class="p">)</span>
+                                         <span class="n">lang_id</span><span class="o">=</span><span class="n">language_id</span><span class="p">,</span>
+                                         <span class="n">logger</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">api_sub_logger</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;submit_id = </span><span class="si">{</span><span class="n">submit_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">submit_id</span><span class="p">)</span></div>
 
@@ -387,11 +389,13 @@
       <span class="n">parsed_data</span> <span class="o">=</span> <span class="n">transform_submission</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
       <span class="k">if</span> <span class="n">parsed_data</span><span class="o">.</span><span class="n">msg</span> <span class="o">!=</span> <span class="s1">&#39;TESTING&#39;</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="n">parsed_data</span>
+
+
       <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="n">parsed_data</span>
 
     <span class="c1"># TODO move more parse inside codeforces-core ? cf是出错中断形式,状态+数量</span>
     <span class="k">def</span> <span class="nf">page_result_transform</span><span class="p">(</span><span class="n">res</span><span class="p">:</span> <span class="n">SubmissionPageResult</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SubmissionResult</span><span class="p">:</span>
-      <span class="c1"># logging.warn(&#39;verdict:&#39; + res.verdict)</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;page res:&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">res</span><span class="p">))</span>
       <span class="n">cur_status</span> <span class="o">=</span> <span class="n">SubmissionResult</span><span class="o">.</span><span class="n">Status</span><span class="o">.</span><span class="n">PENDING</span>
       <span class="k">if</span> <span class="n">res</span><span class="o">.</span><span class="n">verdict</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;Running&#39;</span><span class="p">):</span>
         <span class="n">cur_status</span> <span class="o">=</span> <span class="n">SubmissionResult</span><span class="o">.</span><span class="n">Status</span><span class="o">.</span><span class="n">RUNNING</span>
@@ -403,21 +407,28 @@
         <span class="n">cur_status</span> <span class="o">=</span> <span class="n">SubmissionResult</span><span class="o">.</span><span class="n">Status</span><span class="o">.</span><span class="n">AC</span>
       <span class="k">elif</span> <span class="n">res</span><span class="o">.</span><span class="n">verdict</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;Wrong answer&#39;</span><span class="p">):</span>
         <span class="n">cur_status</span> <span class="o">=</span> <span class="n">SubmissionResult</span><span class="o">.</span><span class="n">Status</span><span class="o">.</span><span class="n">WA</span>
+      <span class="k">elif</span> <span class="n">res</span><span class="o">.</span><span class="n">verdict</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;Time limit exceeded&#39;</span><span class="p">):</span>
+        <span class="n">cur_status</span> <span class="o">=</span> <span class="n">SubmissionResult</span><span class="o">.</span><span class="n">Status</span><span class="o">.</span><span class="n">TLE</span>
       <span class="k">elif</span> <span class="n">res</span><span class="o">.</span><span class="n">verdict</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;Runtime error&#39;</span><span class="p">):</span> <span class="c1"># Runtime error on pretest 2</span>
         <span class="n">cur_status</span> <span class="o">=</span> <span class="n">SubmissionResult</span><span class="o">.</span><span class="n">Status</span><span class="o">.</span><span class="n">RE</span>
       <span class="k">else</span><span class="p">:</span>
-        <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;NOT HANDLE PAGE:&#39;</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">verdict</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;NOT HANDLE PAGE:&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">verdict</span><span class="p">))</span>
+
+      <span class="k">if</span> <span class="n">res</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">):</span>
+        <span class="n">res</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://codeforces.com&#39;</span> <span class="o">+</span> <span class="n">res</span><span class="o">.</span><span class="n">url</span>
 
       <span class="k">return</span> <span class="n">SubmissionResult</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">res</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
                               <span class="n">cur_status</span><span class="o">=</span><span class="n">cur_status</span><span class="p">,</span>
-                              <span class="n">time_note</span><span class="o">=</span><span class="n">res</span><span class="o">.</span><span class="n">time_ms</span><span class="p">,</span>
-                              <span class="n">mem_note</span><span class="o">=</span><span class="n">res</span><span class="o">.</span><span class="n">mem_bytes</span><span class="p">,</span>
+                              <span class="n">time_note</span><span class="o">=</span><span class="n">res</span><span class="o">.</span><span class="n">time_ms</span> <span class="o">+</span> <span class="s1">&#39; ms&#39;</span><span class="p">,</span>
+                              <span class="n">mem_note</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">mem_bytes</span><span class="p">)</span><span class="o">/</span><span class="mi">1000</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39; kb&#39;</span><span class="p">,</span>
                               <span class="n">url</span><span class="o">=</span><span class="n">res</span><span class="o">.</span><span class="n">url</span><span class="p">,</span>
                               <span class="n">msg_txt</span><span class="o">=</span><span class="n">res</span><span class="o">.</span><span class="n">verdict</span><span class="p">)</span>
 
+
+
+
     <span class="c1"># TODO move more parse inside codeforces-core ?</span>
     <span class="k">def</span> <span class="nf">ws_result_transform</span><span class="p">(</span><span class="n">res</span><span class="p">:</span> <span class="n">SubmissionWSResult</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SubmissionResult</span><span class="p">:</span>
-      <span class="c1"># logging.warn(&#39;res.msg:&#39; + res.msg)</span>
       <span class="n">cur_status</span> <span class="o">=</span> <span class="n">SubmissionResult</span><span class="o">.</span><span class="n">Status</span><span class="o">.</span><span class="n">PENDING</span>
       <span class="k">if</span> <span class="n">res</span><span class="o">.</span><span class="n">msg</span> <span class="o">==</span> <span class="s1">&#39;TESTING&#39;</span><span class="p">:</span>
         <span class="n">cur_status</span> <span class="o">=</span> <span class="n">SubmissionResult</span><span class="o">.</span><span class="n">Status</span><span class="o">.</span><span class="n">RUNNING</span>
@@ -426,31 +437,41 @@
       <span class="k">elif</span> <span class="n">res</span><span class="o">.</span><span class="n">msg</span> <span class="o">==</span> <span class="s1">&#39;WRONG_ANSWER&#39;</span><span class="p">:</span>
         <span class="n">cur_status</span> <span class="o">=</span> <span class="n">SubmissionResult</span><span class="o">.</span><span class="n">Status</span><span class="o">.</span><span class="n">WA</span>
       <span class="k">else</span><span class="p">:</span>
-        <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;NOT HANDLE WS:&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">msg</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;NOT HANDLE WS:&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">msg</span><span class="p">))</span>
 
       <span class="n">msg_txt</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">testcases</span><span class="p">)</span>
-      <span class="k">if</span> <span class="n">cur_status</span> <span class="o">==</span> <span class="n">SubmissionResult</span><span class="o">.</span><span class="n">Status</span><span class="o">.</span><span class="n">AC</span><span class="p">:</span>
+      <span class="k">if</span> <span class="n">cur_status</span> <span class="ow">in</span> <span class="p">[</span><span class="n">SubmissionResult</span><span class="o">.</span><span class="n">Status</span><span class="o">.</span><span class="n">AC</span><span class="p">,</span> <span class="n">SubmissionResult</span><span class="o">.</span><span class="n">Status</span><span class="o">.</span><span class="n">WA</span><span class="p">]:</span>
         <span class="n">msg_txt</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">res</span><span class="o">.</span><span class="n">passed</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">res</span><span class="o">.</span><span class="n">testcases</span><span class="si">}</span><span class="s1">&#39;</span>
 
       <span class="k">return</span> <span class="n">SubmissionResult</span><span class="p">(</span>
           <span class="nb">id</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">submit_id</span><span class="p">),</span>
           <span class="n">cur_status</span><span class="o">=</span><span class="n">cur_status</span><span class="p">,</span>
-          <span class="n">time_note</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">ms</span><span class="p">),</span>
-          <span class="n">mem_note</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">mem</span><span class="p">),</span>
-          <span class="n">url</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;/contest/</span><span class="si">{</span><span class="n">res</span><span class="o">.</span><span class="n">contest_id</span><span class="si">}</span><span class="s1">/submission/</span><span class="si">{</span><span class="n">res</span><span class="o">.</span><span class="n">submit_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
+          <span class="n">time_note</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">ms</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39; ms&#39;</span><span class="p">,</span>
+          <span class="n">mem_note</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">mem</span><span class="p">)</span><span class="o">/</span><span class="mi">1000</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39; kb&#39;</span><span class="p">,</span>
+          <span class="n">url</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;https://codeforces.com/contest/</span><span class="si">{</span><span class="n">res</span><span class="o">.</span><span class="n">contest_id</span><span class="si">}</span><span class="s1">/submission/</span><span class="si">{</span><span class="n">res</span><span class="o">.</span><span class="n">submit_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
           <span class="n">msg_txt</span><span class="o">=</span><span class="n">msg_txt</span><span class="p">,</span>
       <span class="p">)</span>
 
     <span class="c1"># TODO visit page without ws first</span>
-    <span class="n">results</span> <span class="o">=</span> <span class="k">await</span> <span class="n">async_fetch_submission_page</span><span class="p">(</span><span class="n">http</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">http</span><span class="p">,</span> <span class="n">problem_url</span><span class="o">=</span><span class="n">problem_url</span><span class="p">)</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="k">await</span> <span class="n">async_fetch_submission_page</span><span class="p">(</span><span class="n">http</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">http</span><span class="p">,</span> <span class="n">problem_url</span><span class="o">=</span><span class="n">problem_url</span><span class="p">,</span><span class="n">logger</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">api_sub_logger</span><span class="p">)</span>
+    <span class="n">fix_submit_id</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
       <span class="n">result</span> <span class="o">=</span> <span class="n">page_result_transform</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+      <span class="n">fix_submit_id</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">id</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;fix submit_id = </span><span class="si">{</span><span class="n">fix_submit_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">);</span>
       <span class="k">yield</span> <span class="n">result</span>
       <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">cur_status</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="n">SubmissionResult</span><span class="o">.</span><span class="n">Status</span><span class="o">.</span><span class="n">PENDING</span><span class="p">,</span> <span class="n">SubmissionResult</span><span class="o">.</span><span class="n">Status</span><span class="o">.</span><span class="n">RUNNING</span><span class="p">]:</span>
         <span class="k">return</span>
 
+    <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;after page result, enter ws result&#39;</span><span class="p">)</span>
+
     <span class="c1"># TODO add timeout for ws</span>
-    <span class="k">async</span> <span class="k">for</span> <span class="n">wsresult</span> <span class="ow">in</span> <span class="n">create_contest_ws_task_yield</span><span class="p">(</span><span class="n">http</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">http</span><span class="p">,</span> <span class="n">contest_id</span><span class="o">=</span><span class="n">contest_id</span><span class="p">,</span> <span class="n">ws_handler</span><span class="o">=</span><span class="n">custom_handler</span><span class="p">):</span>
+    <span class="c1"># TODO 可能有别人的? pc/cc?</span>
+    <span class="k">async</span> <span class="k">for</span> <span class="n">wsresult</span> <span class="ow">in</span> <span class="n">create_contest_ws_task_yield</span><span class="p">(</span><span class="n">http</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">http</span><span class="p">,</span> <span class="n">contest_id</span><span class="o">=</span><span class="n">contest_id</span><span class="p">,</span> <span class="n">ws_handler</span><span class="o">=</span><span class="n">custom_handler</span><span class="p">,</span><span class="n">logger</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">api_sub_logger</span><span class="p">):</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;ws res:&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">wsresult</span><span class="p">))</span>
+      <span class="k">if</span> <span class="n">fix_submit_id</span> <span class="ow">and</span> <span class="n">wsresult</span><span class="o">.</span><span class="n">submit_id</span> <span class="o">!=</span> <span class="n">fix_submit_id</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;[skip]fixed id not match! continue&#39;</span><span class="p">)</span>
+        <span class="k">continue</span>
       <span class="n">data</span> <span class="o">=</span> <span class="n">ws_result_transform</span><span class="p">(</span><span class="n">wsresult</span><span class="p">)</span>
       <span class="k">yield</span> <span class="n">data</span>
       <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">cur_status</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="n">SubmissionResult</span><span class="o">.</span><span class="n">Status</span><span class="o">.</span><span class="n">PENDING</span><span class="p">,</span> <span class="n">SubmissionResult</span><span class="o">.</span><span class="n">Status</span><span class="o">.</span><span class="n">RUNNING</span><span class="p">]:</span>
