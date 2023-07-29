@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../genindex.html" /><link rel="search" title="Search" href="../../../../search.html" />
 
     <!-- Generated with Sphinx 5.0.0 and Furo 2023.03.27 -->
-        <title>oi_cli2.custom.Codeforces.Codeforces - yxr-oi-cli 0.2.2.2 documentation</title>
+        <title>oi_cli2.custom.Codeforces.Codeforces - yxr-oi-cli 0.2.2.4 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?digest=fad236701ea90a88636c2a8c73b44ae642ed2a53" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
@@ -122,7 +122,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../../index.html"><div class="brand">yxr-oi-cli 0.2.2.2 documentation</div></a>
+      <a href="../../../../index.html"><div class="brand">yxr-oi-cli 0.2.2.4 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -145,7 +145,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../../index.html">
   
   
-  <span class="sidebar-brand-text">yxr-oi-cli 0.2.2.2 documentation</span>
+  <span class="sidebar-brand-text">yxr-oi-cli 0.2.2.4 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -384,14 +384,6 @@
 <div class="viewcode-block" id="Codeforces.async_get_result_yield"><a class="viewcode-back" href="../../../../oi_cli2.custom.Codeforces.html#oi_cli2.custom.Codeforces.Codeforces.Codeforces.async_get_result_yield">[docs]</a>  <span class="k">async</span> <span class="k">def</span> <span class="nf">async_get_result_yield</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">problem_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">time_gap</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AsyncIterator</span><span class="p">[</span><span class="n">SubmissionResult</span><span class="p">]:</span>
     <span class="n">contest_id</span><span class="p">,</span> <span class="n">problem_key</span> <span class="o">=</span> <span class="n">problem_url_parse</span><span class="p">(</span><span class="n">problem_url</span><span class="p">)</span>
 
-    <span class="c1"># return (end watch?, transform result)</span>
-    <span class="k">def</span> <span class="nf">custom_handler</span><span class="p">(</span><span class="n">result</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">SubmissionWSResult</span><span class="p">]:</span>
-      <span class="n">parsed_data</span> <span class="o">=</span> <span class="n">transform_submission</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
-      <span class="k">if</span> <span class="n">parsed_data</span><span class="o">.</span><span class="n">msg</span> <span class="o">!=</span> <span class="s1">&#39;TESTING&#39;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="n">parsed_data</span>
-
-
-      <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="n">parsed_data</span>
 
     <span class="c1"># TODO move more parse inside codeforces-core ? cf是出错中断形式,状态+数量</span>
     <span class="k">def</span> <span class="nf">page_result_transform</span><span class="p">(</span><span class="n">res</span><span class="p">:</span> <span class="n">SubmissionPageResult</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SubmissionResult</span><span class="p">:</span>
@@ -464,6 +456,15 @@
         <span class="k">return</span>
 
     <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;after page result, enter ws result&#39;</span><span class="p">)</span>
+
+    <span class="c1"># return (end watch?, transform result)</span>
+    <span class="k">def</span> <span class="nf">custom_handler</span><span class="p">(</span><span class="n">result</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">SubmissionWSResult</span><span class="p">]:</span>
+      <span class="n">parsed_data</span> <span class="o">=</span> <span class="n">transform_submission</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+      <span class="k">if</span> <span class="n">fix_submit_id</span> <span class="ow">and</span> <span class="n">fix_submit_id</span> <span class="o">!=</span> <span class="n">parsed_data</span><span class="o">.</span><span class="n">contest_id</span><span class="p">:</span> <span class="c1"># submit id not match, dont end watch ws</span>
+        <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="n">parsed_data</span>
+      <span class="k">if</span> <span class="n">parsed_data</span><span class="o">.</span><span class="n">msg</span> <span class="o">!=</span> <span class="s1">&#39;TESTING&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="n">parsed_data</span>
+      <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="n">parsed_data</span>
 
     <span class="c1"># TODO add timeout for ws</span>
     <span class="c1"># TODO 可能有别人的? pc/cc?</span>
