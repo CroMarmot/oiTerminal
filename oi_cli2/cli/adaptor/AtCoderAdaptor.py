@@ -23,7 +23,7 @@ from ...abstract.HtmlTagAbstract import HtmlTagAbstract
 from ...core.DI import DI_ACCMAN, DI_HTTP, DI_LOGGER, DI_PROVIDER
 
 from ac_core.auth import fetch_login, is_logged_in
-from ac_core.contest import fetch_tasks_meta, ParserProblemResult, fetch_standing
+from ac_core.contest import fetch_tasks_meta, ParserProblemResult, fetch_standing, fetch_list
 from ac_core.problem import parse_task
 from ac_core.submit import fetch_submit
 from ac_core.interfaces.HttpUtil import HttpRespInterface
@@ -187,6 +187,13 @@ class AtCoder(BaseOj):
     for item in results:
       ret[item.value] = item.text
     return ret
+
+  def print_contest_list(self) -> bool:
+    # self.login_website()
+    result = fetch_list(self.http_util)
+    from .AtCoder_printList import printData
+    printData(result)
+    return True
 
 
 def AtcoderGen(account: Account, provider: Provider2) -> BaseOj:

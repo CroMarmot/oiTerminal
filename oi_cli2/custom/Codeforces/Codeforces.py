@@ -38,7 +38,7 @@ class Codeforces(BaseOj):
     self.logger: logging.Logger = logger
     self.account: Account = account
     self.http = http_util
-    self.api_sub_logger:logging.Logger = logging.getLogger(f'{APP_NAME}.yxr-cf-core')
+    self.api_sub_logger: logging.Logger = logging.getLogger(f'{APP_NAME}.yxr-cf-core')
 
   async def init(self) -> None:
     await self.http.open_session()
@@ -157,10 +157,9 @@ class Codeforces(BaseOj):
   async def async_get_result_yield(self, problem_url: str, time_gap: float = 2) -> AsyncIterator[SubmissionResult]:
     contest_id, problem_key = problem_url_parse(problem_url)
 
-
     # TODO move more parse inside codeforces-core ? cf是出错中断形式,状态+数量
     def page_result_transform(res: SubmissionPageResult) -> SubmissionResult:
-      self.logger.debug('page res:'+str(res))
+      self.logger.debug('page res:' + str(res))
       cur_status = SubmissionResult.Status.PENDING
       if res.verdict.startswith('Running'):
         cur_status = SubmissionResult.Status.RUNNING
@@ -174,10 +173,10 @@ class Codeforces(BaseOj):
         cur_status = SubmissionResult.Status.WA
       elif res.verdict.startswith('Time limit exceeded'):
         cur_status = SubmissionResult.Status.TLE
-      elif res.verdict.startswith('Runtime error'): # Runtime error on pretest 2
+      elif res.verdict.startswith('Runtime error'):  # Runtime error on pretest 2
         cur_status = SubmissionResult.Status.RE
       else:
-        self.logger.error('NOT HANDLE PAGE:'+str(res.verdict))
+        self.logger.error('NOT HANDLE PAGE:' + str(res.verdict))
 
       if res.url.startswith('/'):
         res.url = 'https://codeforces.com' + res.url
@@ -185,12 +184,9 @@ class Codeforces(BaseOj):
       return SubmissionResult(id=res.id,
                               cur_status=cur_status,
                               time_note=res.time_ms + ' ms',
-                              mem_note=str(int(res.mem_bytes)/1000) + ' kb',
+                              mem_note=str(int(res.mem_bytes) / 1000) + ' kb',
                               url=res.url,
                               msg_txt=res.verdict)
-
-
-
 
     # TODO move more parse inside codeforces-core ?
     def ws_result_transform(res: SubmissionWSResult) -> SubmissionResult:
@@ -212,18 +208,18 @@ class Codeforces(BaseOj):
           id=str(res.submit_id),
           cur_status=cur_status,
           time_note=str(res.ms) + ' ms',
-          mem_note=str(int(res.mem)/1000) + ' kb',
+          mem_note=str(int(res.mem) / 1000) + ' kb',
           url=f'https://codeforces.com/contest/{res.contest_id}/submission/{res.submit_id}',
           msg_txt=msg_txt,
       )
 
     # TODO visit page without ws first
-    results = await async_fetch_submission_page(http=self.http, problem_url=problem_url,logger=self.api_sub_logger)
+    results = await async_fetch_submission_page(http=self.http, problem_url=problem_url, logger=self.api_sub_logger)
     fix_submit_id = ''
     if len(results) > 0:
       result = page_result_transform(results[0])
       fix_submit_id = result.id
-      self.logger.debug(f"fix submit_id = {fix_submit_id}");
+      self.logger.debug(f"fix submit_id = {fix_submit_id}")
       yield result
       if result.cur_status not in [SubmissionResult.Status.PENDING, SubmissionResult.Status.RUNNING]:
         return
@@ -233,7 +229,7 @@ class Codeforces(BaseOj):
     # return (end watch?, transform result)
     def custom_handler(result: Any) -> Tuple[bool, SubmissionWSResult]:
       parsed_data = transform_submission(result)
-      if fix_submit_id and fix_submit_id != parsed_data.contest_id: # submit id not match, dont end watch ws
+      if fix_submit_id and fix_submit_id != parsed_data.contest_id:  # submit id not match, dont end watch ws
         return False, parsed_data
       if parsed_data.msg != 'TESTING':
         return True, parsed_data
@@ -241,8 +237,11 @@ class Codeforces(BaseOj):
 
     # TODO add timeout for ws
     # TODO 可能有别人的? pc/cc?
-    async for wsresult in create_contest_ws_task_yield(http=self.http, contest_id=contest_id, ws_handler=custom_handler,logger=self.api_sub_logger):
-      self.logger.debug('ws res:'+str(wsresult))
+    async for wsresult in create_contest_ws_task_yield(http=self.http,
+                                                       contest_id=contest_id,
+                                                       ws_handler=custom_handler,
+                                                       logger=self.api_sub_logger):
+      self.logger.debug('ws res:' + str(wsresult))
       if fix_submit_id and wsresult.submit_id != fix_submit_id:
         self.logger.debug('[skip]fixed id not match! continue')
         continue

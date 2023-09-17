@@ -14,7 +14,7 @@ dependencies = [
   "pycryptodome >= 3.13.0",
   "click >= 8.1.3",
   "rich >= 11.0.0",
-  "yxr-atcoder-core == 0.0.3.3",
+  "yxr-atcoder-core == 0.0.3.4",
   "yxr-codeforces-core == 0.0.2.2",
 ]
 readme = "README.md"

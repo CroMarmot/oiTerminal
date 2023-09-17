@@ -40,7 +40,8 @@ def getLogger(logger_path):
 
   # file
   fh = logging.FileHandler(logger_path)
-  fileformatter = logging.Formatter('[%(asctime)s %(name)s %(levelname)s %(filename)s %(funcName)s %(lineno)d]: %(message)s')
+  fileformatter = logging.Formatter(
+      '[%(asctime)s %(name)s %(levelname)s %(filename)s %(funcName)s %(lineno)d]: %(message)s')
   fh.setFormatter(fileformatter)
   fh.setLevel(logging.DEBUG)
   logger.addHandler(fh)
