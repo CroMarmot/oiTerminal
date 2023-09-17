@@ -9,6 +9,18 @@ from ac_core.contest import ContestListPage
 timeFmt = "%b/%d/%Y %H:%M"
 
 
+def min2str(min: int) -> str:
+
+  # prefix0
+  _ = lambda v: f'0{v}'[-2:]
+
+  if min <= 60:
+    return _(min)
+  if min <= 24 * 60:
+    return f'{_(min//60)}:{_(min%60)}'
+  return f'{min//60//24} day {_((min//60)%24)}:{_(min%60)}'
+
+
 def full_url(url: str) -> str:
   return ('https://atcoder.jp' + url) if url.startswith('/') else url
 
@@ -24,7 +36,7 @@ def printData(cl: ContestListPage):
   # table.add_column("Writers", style="magenta")
   table.add_column("Start")
   table.add_column("Before Start")
-  table.add_column("Length(min)")
+  table.add_column("Length")
   table.add_column("url", style="magenta")
 
   for item in cur:
@@ -37,7 +49,7 @@ def printData(cl: ContestListPage):
         # Jan/27/2022 17:35 tds[2].get_text().strip(),
         startTime.strftime(timeFmt),
         str(timedelta(days=timediff.days, seconds=timediff.seconds)) if timediff.days >= 0 else 'Started',
-        str(item.duration),  # tds[3].get_text().strip(),
+        min2str(item.duration),  # tds[3].get_text().strip(),
         full_url(item.url),  # tds[5].get_text().strip(),
     )
 
@@ -48,7 +60,7 @@ def printData(cl: ContestListPage):
   table.add_column("Name", style="cyan", no_wrap=False)
   # table.add_column("Writers", style="magenta")
   table.add_column("Start")
-  table.add_column("Length(min)")
+  table.add_column("Length")
   table.add_column("url", style="magenta")
 
   for i in range(min(10, len(his))):
@@ -59,7 +71,7 @@ def printData(cl: ContestListPage):
         # https://strftime.org/
         # Jan/27/2022 17:35 tds[2].get_text().strip(),
         datetime.fromtimestamp(item.start_timestamp).strftime(timeFmt),
-        str(item.duration),  # tds[3].get_text().strip(),
+        min2str(item.duration),  # tds[3].get_text().strip(),
         full_url(item.url),  # tds[5].get_text().strip(),
     )
 
