@@ -10,7 +10,6 @@ Subpackages
    oi_cli2.abstract
    oi_cli2.cli
    oi_cli2.core
-   oi_cli2.custom
    oi_cli2.model
    oi_cli2.utils
 

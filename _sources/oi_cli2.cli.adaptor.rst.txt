@@ -1,6 +1,14 @@
 oi\_cli2.cli.adaptor package
 ============================
 
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   oi_cli2.cli.adaptor.Codeforces
+
 Submodules
 ----------
 
@@ -12,10 +20,10 @@ oi\_cli2.cli.adaptor.AtCoderAdaptor module
    :undoc-members:
    :show-inheritance:
 
-oi\_cli2.cli.adaptor.CodeforcesAdaptor module
----------------------------------------------
+oi\_cli2.cli.adaptor.AtCoder\_printList module
+----------------------------------------------
 
-.. automodule:: oi_cli2.cli.adaptor.CodeforcesAdaptor
+.. automodule:: oi_cli2.cli.adaptor.AtCoder_printList
    :members:
    :undoc-members:
    :show-inheritance:

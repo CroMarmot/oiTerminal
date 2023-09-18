@@ -1,0 +1,45 @@
+oi\_cli2.cli.adaptor.Codeforces package
+=======================================
+
+Submodules
+----------
+
+oi\_cli2.cli.adaptor.Codeforces.Codeforces module
+-------------------------------------------------
+
+.. automodule:: oi_cli2.cli.adaptor.Codeforces.Codeforces
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+oi\_cli2.cli.adaptor.Codeforces.CodeforcesAdaptor module
+--------------------------------------------------------
+
+.. automodule:: oi_cli2.cli.adaptor.Codeforces.CodeforcesAdaptor
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+oi\_cli2.cli.adaptor.Codeforces.contestList module
+--------------------------------------------------
+
+.. automodule:: oi_cli2.cli.adaptor.Codeforces.contestList
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+oi\_cli2.cli.adaptor.Codeforces.standing module
+-----------------------------------------------
+
+.. automodule:: oi_cli2.cli.adaptor.Codeforces.standing
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: oi_cli2.cli.adaptor.Codeforces
+   :members:
+   :undoc-members:
+   :show-inheritance:
