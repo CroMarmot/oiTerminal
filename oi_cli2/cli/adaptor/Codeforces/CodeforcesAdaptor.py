@@ -6,7 +6,7 @@ from oi_cli2.utils.configFolder import ConfigFolder
 
 
 def CodeforcesGen(account: Account, provider: Provider2) -> BaseOj:
-  from oi_cli2.custom.Codeforces.Codeforces import Codeforces
+  from oi_cli2.cli.adaptor.Codeforces.Codeforces import Codeforces
   from codeforces_core.httphelper import HttpHelper
   config_folder: ConfigFolder = provider.get(DI_CFG)
   cookie_jar_path = config_folder.get_config_file_path(account.platform + '_' + account.account + '_cookies')

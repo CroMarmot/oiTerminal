@@ -21,12 +21,18 @@ def printData(cl: ContestList):
   table.add_column("Start")
   table.add_column("Length")
   table.add_column("Before Start")
-  table.add_column("Reg")
+  table.add_column("Registered")
   table.add_column("Id", style="magenta")
 
   for item in cur:
     startTime = datetime.fromtimestamp(item.start)
     timediff = startTime - datetime.now()
+    if not item.participants:  # 未开放注册
+      bgcolor = None
+    elif item.registered:  # 已注册
+      bgcolor = 'dark_green'
+    else:  # 开放注册,未注册
+      bgcolor = 'grey30'
     table.add_row(
         item.title,
         # item["writers"],  # tds[1].get_text().strip(),
@@ -37,8 +43,7 @@ def printData(cl: ContestList):
         str(timedelta(days=timediff.days, seconds=timediff.seconds)) if timediff.days >= 0 else 'Started',
         item.participants,  # tds[5].get_text().strip(),
         str(item.id),  # tds[5].get_text().strip(),
-        style=Style(bgcolor=None if item.participants.startswith("Before") else (
-            "dark_green" if item.participants.startswith("Registered") else "grey30")))
+        style=Style(bgcolor=bgcolor))
 
   console.print(table)
 

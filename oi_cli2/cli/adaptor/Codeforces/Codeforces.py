@@ -128,7 +128,8 @@ class Codeforces(BaseOj):
     return self.async_2_sync_session_wrap(lambda: self.async_reg_contest(contest_id))
 
   async def async_reg_contest(self, contest_id: str) -> bool:
-
+    if not await self.async_login_website():
+      raise Exception('Login Failed')
     result = await async_register(http=self.http, contest_id=contest_id)
     return result.msg == RegisterResultMsg.AlreadyRegistered or result.msg == RegisterResultMsg.HaveBeenRegistered
 
@@ -179,7 +180,7 @@ class Codeforces(BaseOj):
         self.logger.error('NOT HANDLE PAGE:' + str(res.verdict))
 
       if res.url.startswith('/'):
-        res.url = 'https://codeforces.com' + res.url
+        res.url = self._base_url[:-1] + res.url
 
       return SubmissionResult(id=res.id,
                               cur_status=cur_status,
@@ -209,7 +210,7 @@ class Codeforces(BaseOj):
           cur_status=cur_status,
           time_note=str(res.ms) + ' ms',
           mem_note=str(int(res.mem) / 1000) + ' kb',
-          url=f'https://codeforces.com/contest/{res.contest_id}/submission/{res.submit_id}',
+          url=f'{self._base_url}contest/{res.contest_id}/submission/{res.submit_id}',
           msg_txt=msg_txt,
       )
 
@@ -320,3 +321,6 @@ class Codeforces(BaseOj):
     result = await async_friends_standing(http=self.http, contest_id=cid)
     from .standing import printData
     printData(result, title=f"Friends standing {result.url}", handle=self.account.account)
+
+  def cid2url(self, cid: str) -> str:
+    return f'{self._base_url}contests/{cid}'

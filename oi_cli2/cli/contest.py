@@ -4,6 +4,8 @@ from enum import Enum
 import json
 import logging
 import os
+import subprocess
+import sys
 import threading
 import time
 from requests.exceptions import ReadTimeout, ConnectTimeout
@@ -333,3 +335,51 @@ def standing(platform, contestid) -> None:
     raise e
 
   oj.print_friends_standing(cid=contestid)
+
+
+@contest.command()
+@click.argument('platform')
+@click.argument('contestid')
+def open(platform, contestid) -> None:
+
+  def open_url_with_default_browser(url: str) -> None:
+    if sys.platform == 'win32':
+      os.startfile(url)
+    elif sys.platform == 'darwin':
+      subprocess.Popen(['open', url])
+    else:
+      try:
+        subprocess.Popen(['xdg-open', url])
+      except OSError:
+        print("Please open a browser on: " + url)
+
+  logger: logging.Logger = Provider2().get(DI_LOGGER)
+  am: AccountManager = Provider2().get(DI_ACCMAN)
+
+  try:
+    oj: BaseOj = OJManager.createOj(platform=platform,
+                                    account=am.get_default_account(platform=platform),
+                                    provider=Provider2())
+  except Exception as e:
+    logger.exception(e)
+    raise e
+
+  open_url_with_default_browser(oj.cid2url(contestid))
+
+
+@contest.command()
+@click.argument('platform')
+@click.argument('contestid')
+def reg(platform, contestid) -> None:
+  logger: logging.Logger = Provider2().get(DI_LOGGER)
+  am: AccountManager = Provider2().get(DI_ACCMAN)
+
+  try:
+    oj: BaseOj = OJManager.createOj(platform=platform,
+                                    account=am.get_default_account(platform=platform),
+                                    provider=Provider2())
+  except Exception as e:
+    logger.exception(e)
+    raise e
+
+  oj.reg_contest(contestid)

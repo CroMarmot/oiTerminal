@@ -4,7 +4,7 @@ from tests.mock.MockAioHttp import MockAioHttp
 from oi_cli2.model.ParseProblemResult import ParsedProblemResult
 from oi_cli2.model.TestCase import TestCase
 from oi_cli2.model.BaseOj import BaseOj
-from oi_cli2.custom.Codeforces.Codeforces import Codeforces
+from oi_cli2.cli.adaptor.Codeforces.Codeforces import Codeforces
 from oi_cli2.model.Account import Account
 
 host = 'https://codeforces.com'

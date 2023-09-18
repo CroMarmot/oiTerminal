@@ -61,3 +61,6 @@ class BaseOj(object):
   @staticmethod
   def support_contest():
     assert (False)
+
+  def cid2url(self, cid: str) -> str:
+    assert (False)

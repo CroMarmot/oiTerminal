@@ -10,7 +10,7 @@ class OJUtil(object):
   def __init__(self):
     self.short2class = {}
 
-    from oi_cli2.custom.Codeforces.Codeforces import Codeforces
+    from oi_cli2.cli.adaptor.Codeforces import Codeforces
     self.reg(Codeforces)
     # TODO atcoder
 

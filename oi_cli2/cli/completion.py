@@ -42,6 +42,8 @@ cliAccept = {
         "detail": platformKey(),
         "standing": platformKey(),
         "fetch": platformKey(),
+        "open": platformKey(),
+        "reg": platformKey(),
     },
     "lang": platformKey(),
     "test": {},

@@ -195,6 +195,9 @@ class AtCoder(BaseOj):
     printData(result)
     return True
 
+  def cid2url(self, cid: str) -> str:
+    return f'{self._base_url}contests/{cid}'
+
 
 def AtcoderGen(account: Account, provider: Provider2) -> BaseOj:
   http_util = provider.get(DI_HTTP)
