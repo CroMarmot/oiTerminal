@@ -337,10 +337,10 @@ def standing(platform, contestid) -> None:
   oj.print_friends_standing(cid=contestid)
 
 
-@contest.command()
+@contest.command(name='open')
 @click.argument('platform')
 @click.argument('contestid')
-def open(platform, contestid) -> None:
+def open_browser(platform, contestid) -> None:
 
   def open_url_with_default_browser(url: str) -> None:
     if sys.platform == 'win32':
