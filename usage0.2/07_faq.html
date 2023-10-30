@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Config" href="02_config.html" /><link rel="prev" title="Install" href="00_install.html" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Developer" href="../dev/index.html" /><link rel="prev" title="Proxy" href="06_proxy.html" />
 
     <!-- Generated with Sphinx 5.0.0 and Furo 2023.03.27 -->
-        <title>Init - yxr-oi-cli 0.2.2.7 documentation</title>
+        <title>FAQ - yxr-oi-cli 0.2.2.7 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=fad236701ea90a88636c2a8c73b44ae642ed2a53" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
@@ -134,7 +134,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -158,13 +158,13 @@
 <ul class="current">
 <li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">User</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="00_install.html">Install</a></li>
-<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Init</a></li>
+<li class="toctree-l2"><a class="reference internal" href="01_init.html">Init</a></li>
 <li class="toctree-l2"><a class="reference internal" href="02_config.html">Config</a></li>
 <li class="toctree-l2"><a class="reference internal" href="03_contest.html">Contest</a></li>
 <li class="toctree-l2"><a class="reference internal" href="04_test.html">Test Code</a></li>
 <li class="toctree-l2"><a class="reference internal" href="05_submit.html">Submit Code</a></li>
 <li class="toctree-l2"><a class="reference internal" href="06_proxy.html">Proxy</a></li>
-<li class="toctree-l2"><a class="reference internal" href="07_faq.html">FAQ</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">FAQ</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../dev/index.html">Developer</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
@@ -220,25 +220,47 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
         </div>
         <article role="main">
-          <section id="init">
-<h1>Init<a class="headerlink" href="#init" title="Permalink to this heading">#</a></h1>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>&lt;your<span class="w"> </span>code<span class="w"> </span>root<span class="w"> </span>folder&gt;
-oi<span class="w"> </span>init
+          <section id="faq">
+<h1>FAQ<a class="headerlink" href="#faq" title="Permalink to this heading">#</a></h1>
+<section id="no-successful-submit">
+<h2>No successful submit<a class="headerlink" href="#no-successful-submit" title="Permalink to this heading">#</a></h2>
+<p>[TODO add auto checker]</p>
+<p>What happens:</p>
+<p><code class="docutils literal notranslate"><span class="pre">oi</span> <span class="pre">submit</span></code> command shows <code class="docutils literal notranslate"><span class="pre">submitted</span></code> but not really submitted</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">YYYY</span><span class="o">-</span><span class="n">MM</span><span class="o">-</span><span class="n">DD</span> <span class="n">HH</span><span class="p">:</span><span class="n">mm</span><span class="p">:</span><span class="n">SS</span><span class="p">,</span><span class="mi">894</span> <span class="n">oiTerminal</span> <span class="n">ERROR</span> <span class="n">submit</span><span class="o">.</span><span class="n">py</span> <span class="n">async_watch_result</span> <span class="mi">57</span><span class="p">]:</span>
+<span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
+  <span class="n">File</span> <span class="s2">&quot;.../oi_cli2/cli/submit.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">53</span><span class="p">,</span> <span class="ow">in</span> <span class="n">async_watch_result</span>
+    <span class="k">async</span> <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">oj</span><span class="o">.</span><span class="n">async_get_result_yield</span><span class="p">(</span><span class="n">problem_url</span><span class="p">,</span> <span class="n">time_gap</span><span class="o">=</span><span class="n">FETCH_RESULT_INTERVAL</span><span class="p">):</span>
+  <span class="n">File</span> <span class="s2">&quot;.../oi_cli2/cli/adaptor/AtCoderAdaptor.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">144</span><span class="p">,</span> <span class="ow">in</span> <span class="n">async_get_result_yield</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">transform_Result</span><span class="p">(</span><span class="n">fetch_result</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">http_util</span><span class="p">,</span> <span class="n">problem_url</span><span class="p">))</span>
+  <span class="n">File</span> <span class="s2">&quot;.../yxr-atcoder-core/ac_core/result.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">165</span><span class="p">,</span> <span class="ow">in</span> <span class="n">fetch_result</span>
+    <span class="n">json_url</span> <span class="o">=</span> <span class="n">_parse_json_url</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+  <span class="n">File</span> <span class="s2">&quot;.../yxr-atcoder-core/ac_core/result.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">135</span><span class="p">,</span> <span class="ow">in</span> <span class="n">_parse_json_url</span>
+    <span class="k">assert</span> <span class="n">r</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>  <span class="c1"># no submission</span>
+<span class="ne">AssertionError</span>
 </pre></div>
 </div>
-<p>This command will create <code class="docutils literal notranslate"><span class="pre">.oiTerminal</span></code> folder below your folder</p>
-<p>Example:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>~/mycode
-<span class="nb">cd</span><span class="w"> </span>~/mycode
-oi<span class="w"> </span>init
+<p>Possible solution:</p>
+<p>the platform’s <code class="docutils literal notranslate"><span class="pre">language</span> <span class="pre">id</span></code> might change</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># check with command</span>
+oi<span class="w"> </span>lang<span class="w"> </span>AtCoder
+oi<span class="w"> </span>lang<span class="w"> </span>Codeforces
+oi<span class="w"> </span>config<span class="w"> </span>template<span class="w"> </span>list<span class="w"> </span>--detail
+<span class="c1"># modify with</span>
+oi<span class="w"> </span>config<span class="w"> </span>template<span class="w"> </span>modify<span class="w"> </span>AtCoder<span class="w"> </span>&lt;your<span class="w"> </span>template<span class="w"> </span>name&gt;<span class="w"> </span>--langid<span class="w"> </span>&lt;new<span class="w"> </span>language<span class="w"> </span>id&gt;
+<span class="c1"># example</span>
+oi<span class="w"> </span>config<span class="w"> </span>template<span class="w"> </span>modify<span class="w"> </span>AtCoder<span class="w"> </span>C++17-test<span class="w"> </span>--langid<span class="w"> </span><span class="m">5003</span>
+<span class="c1"># check your `state.json in` your code folder like `/dist/AtCoder/abc309/Ex` [TODO remove langid from state.json]</span>
+sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;s/4003/5003/g&#39;</span><span class="w"> </span>state.json
 </pre></div>
 </div>
+</section>
 </section>
 
         </article>
@@ -246,23 +268,23 @@ oi<span class="w"> </span>init
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="02_config.html">
+          <a class="next-page" href="../dev/index.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Config</div>
+                <div class="title">Developer</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="00_install.html">
+          <a class="prev-page" href="06_proxy.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Install</div>
+                <div class="title">Proxy</div>
                 
               </div>
             </a>
@@ -284,8 +306,27 @@ oi<span class="w"> </span>init
         
       </footer>
     </div>
-    <aside class="toc-drawer no-toc">
+    <aside class="toc-drawer">
       
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">FAQ</a><ul>
+<li><a class="reference internal" href="#no-successful-submit">No successful submit</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
       
       
     </aside>

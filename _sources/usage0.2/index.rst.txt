@@ -14,3 +14,4 @@ Most command has ``help`` command implememnt inside. You can use ``oi --help`` ,
    04_test
    05_submit
    06_proxy
+   07_faq
