@@ -37,8 +37,8 @@ Add AtCoder(C++ (GCC 9.2.1)) Local(C++17) two different mode
 
 .. code-block:: bash
 
-    oi config template new AtCoder "C++17-test" "~/mycode/.oiTerminal/atc_temp.cpp" "clang++ -o Main Main.cpp -std=gnu++17 -O2 -g -Wall -Wcomma -Wextra -fsanitize=integer,undefined,null,alignment" "./Main" 4003
-    oi config template new AtCoder "C++17-submit" "~/mycode/.oiTerminal/atc_temp.cpp" "clang++ -o Main Main.cpp -std=gnu++17 -O2 -g -Wall -Wcomma -Wextra" "./Main" 4003
+    oi config template new AtCoder "C++17-test" "~/mycode/.oiTerminal/atc_temp.cpp" "clang++ -o Main Main.cpp -std=gnu++17 -O2 -g -Wall -Wcomma -Wextra -fsanitize=integer,undefined,null,alignment" "./Main" 5001
+    oi config template new AtCoder "C++17-submit" "~/mycode/.oiTerminal/atc_temp.cpp" "clang++ -o Main Main.cpp -std=gnu++17 -O2 -g -Wall -Wcomma -Wextra" "./Main" 5001
 
 
 Remote language id
