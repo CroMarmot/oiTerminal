@@ -255,9 +255,10 @@ oi<span class="w"> </span>config<span class="w"> </span>template<span class="w">
 <span class="c1"># modify with</span>
 oi<span class="w"> </span>config<span class="w"> </span>template<span class="w"> </span>modify<span class="w"> </span>AtCoder<span class="w"> </span>&lt;your<span class="w"> </span>template<span class="w"> </span>name&gt;<span class="w"> </span>--langid<span class="w"> </span>&lt;new<span class="w"> </span>language<span class="w"> </span>id&gt;
 <span class="c1"># example</span>
-oi<span class="w"> </span>config<span class="w"> </span>template<span class="w"> </span>modify<span class="w"> </span>AtCoder<span class="w"> </span>C++17-test<span class="w"> </span>--langid<span class="w"> </span><span class="m">5003</span>
-<span class="c1"># check your `state.json in` your code folder like `/dist/AtCoder/abc309/Ex` [TODO remove langid from state.json]</span>
-sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;s/4003/5003/g&#39;</span><span class="w"> </span>state.json
+oi<span class="w"> </span>config<span class="w"> </span>template<span class="w"> </span>modify<span class="w"> </span>AtCoder<span class="w"> </span>C++17-test<span class="w"> </span>--langid<span class="w"> </span><span class="m">5001</span>
+<span class="c1"># check `up_lang` in your `state.json in` code folder like `/dist/AtCoder/abc309/Ex/state.json`</span>
+<span class="c1"># [TODO remove `up_lang` field from `state.json`]</span>
+sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;s/4003/5001/g&#39;</span><span class="w"> </span>state.json
 </pre></div>
 </div>
 </section>

@@ -38,6 +38,7 @@ the platform's ``language id`` might change
     # modify with
     oi config template modify AtCoder <your template name> --langid <new language id>
     # example
-    oi config template modify AtCoder C++17-test --langid 5003
-    # check your `state.json in` your code folder like `/dist/AtCoder/abc309/Ex` [TODO remove langid from state.json]
-    sed -i 's/4003/5003/g' state.json
+    oi config template modify AtCoder C++17-test --langid 5001
+    # check `up_lang` in your `state.json in` code folder like `/dist/AtCoder/abc309/Ex/state.json`
+    # [TODO remove `up_lang` field from `state.json`]
+    sed -i 's/4003/5001/g' state.json
