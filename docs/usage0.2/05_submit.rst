@@ -25,7 +25,7 @@ Check Result
 
 .. code-block:: console
 
-    $ oi result
+    (~/mycode/dist/AtCoder/abc300/G)$ oi result
     OJ          AtCoder                                          
     Account     cromarmot                                        
     Problem ID  abc300G                                          
