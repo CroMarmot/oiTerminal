@@ -7,6 +7,7 @@ config `~/.pypirc` follow https://packaging.python.org/en/latest/specifications/
 
 .. code-block::
 
+  # update oi_cli2/__init__.py
   pip install .[dev]
   rm -rf dist/
   python -m build

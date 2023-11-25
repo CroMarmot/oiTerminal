@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="oiTerminal" href="../modules.html" /><link rel="prev" title="Doc" href="doc.html" />
 
     <!-- Generated with Sphinx 5.0.0 and Furo 2023.03.27 -->
-        <title>Publish - yxr-oi-cli 0.2.2.7 documentation</title>
+        <title>Publish - yxr-oi-cli 0.2.2.8 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=fad236701ea90a88636c2a8c73b44ae642ed2a53" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
@@ -123,7 +123,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand">yxr-oi-cli 0.2.2.7 documentation</div></a>
+      <a href="../index.html"><div class="brand">yxr-oi-cli 0.2.2.8 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -146,7 +146,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
   
   
-  <span class="sidebar-brand-text">yxr-oi-cli 0.2.2.7 documentation</span>
+  <span class="sidebar-brand-text">yxr-oi-cli 0.2.2.8 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -229,7 +229,8 @@
           <section id="publish">
 <h1>Publish<a class="headerlink" href="#publish" title="Permalink to this heading">#</a></h1>
 <p>config <cite>~/.pypirc</cite> follow <a class="reference external" href="https://packaging.python.org/en/latest/specifications/pypirc/">https://packaging.python.org/en/latest/specifications/pypirc/</a></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">.</span><span class="p">[</span><span class="n">dev</span><span class="p">]</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># update oi_cli2/__init__.py</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="o">.</span><span class="p">[</span><span class="n">dev</span><span class="p">]</span>
 <span class="n">rm</span> <span class="o">-</span><span class="n">rf</span> <span class="n">dist</span><span class="o">/</span>
 <span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">build</span>
 <span class="n">twine</span> <span class="n">check</span> <span class="n">dist</span><span class="o">/*</span>
