@@ -243,8 +243,8 @@ class Codeforces(BaseOj):
                                                        ws_handler=custom_handler,
                                                        logger=self.api_sub_logger):
       self.logger.debug('ws res:' + str(wsresult))
-      if fix_submit_id and wsresult.submit_id != fix_submit_id:
-        self.logger.debug('[skip]fixed id not match! continue')
+      if fix_submit_id and str(wsresult.submit_id) != fix_submit_id:
+        self.logger.debug(f'[skip]fixed id not match! continue, fixed[{fix_submit_id}], ws[{wsresult.submit_id}]]')
         continue
       data = ws_result_transform(wsresult)
       yield data
