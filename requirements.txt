@@ -1,7 +1,7 @@
 beautifulsoup4==4.10.0
 types-beautifulsoup4
 lxml==4.9.1
-pycryptodome==3.13.0
+pycryptodome==3.19.1
 requests
 types-requests
 coverage==6.2
