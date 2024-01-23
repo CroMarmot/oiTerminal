@@ -28,7 +28,7 @@ copyright = '2023, Cro-Marmot'
 author = 'Cro-Marmot'
 
 # The full version, including alpha/beta/rc tags
-from oi_cli2 import __version__
+from oi_cli2.__version__ import __version__
 release = __version__
 
 

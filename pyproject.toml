@@ -43,7 +43,7 @@ include = ["oi_cli2"]
 exclude = ["tests", "docs", "build", "venv"]
 
 [tool.hatch.version]
-path = "oi_cli2/__init__.py"
+path = "oi_cli2/__version__.py"
 
 [tool.pytest.ini_options]
 minversion = "6.0"
