@@ -46,7 +46,7 @@ cliAccept = {
         "reg": platformKey(),
     },
     "lang": platformKey(),
-    "test": {},
+    "test": {}, # TODO 换成基于click的自动化补全工具
     "submit": {},
     "result": {},
 }

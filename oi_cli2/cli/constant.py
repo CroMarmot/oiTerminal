@@ -23,8 +23,8 @@ TEMP_CONFIG_FILE = '_tempConfig.json'
 # LOG
 APP_NAME = 'oiTerminal'
 
-IN_SUFFIX = 'in.'
-OUT_SUFFIX = 'out.'
+IN_PREFIX = 'in.'
+OUT_PREFIX = 'out.'
 
 # CONFIG
 FETCH_RESULT_INTERVAL = 2

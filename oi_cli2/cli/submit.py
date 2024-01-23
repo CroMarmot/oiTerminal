@@ -88,8 +88,8 @@ def submit_parser() -> Tuple[str, str, str, Account, str, str]:
 
 @click.command(name="submit")
 def submit_command() -> None:
+  logger: logging.Logger = Provider2().get(DI_LOGGER)
   try:
-    logger: logging.Logger = Provider2().get(DI_LOGGER)
     platform, sid, up_lang, account, code_path, problem_url = submit_parser()
 
     table = Table().grid()

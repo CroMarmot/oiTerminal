@@ -8,7 +8,7 @@ from oi_cli2.cli.contest import contest
 from oi_cli2.cli.init import init
 from oi_cli2.cli.submit import submit_command, result_command
 from oi_cli2.cli.lang import lang_command
-from oi_cli2.cli.test import tst_command
+from oi_cli2.cli.t3st import t3st_command
 from oi_cli2.cli.completion import completion_command
 
 
@@ -34,7 +34,7 @@ for [key, fn] in reg_list.items():
 main.add_command(init)
 main.add_command(config)
 main.add_command(contest)
-main.add_command(tst_command)
+main.add_command(t3st_command)
 main.add_command(submit_command)
 main.add_command(result_command)
 main.add_command(lang_command)

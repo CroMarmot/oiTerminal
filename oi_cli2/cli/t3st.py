@@ -12,11 +12,11 @@ import time
 from typing import List, Callable
 import click
 from rich.console import Console
+from rich.table import Table
 from oi_cli2.cli.constant import (
-    DEFAULT,
-    GREEN,
-    IN_SUFFIX,
-    OUT_SUFFIX,
+    APP_NAME,
+    IN_PREFIX,
+    OUT_PREFIX,
     STATE_FILE,
     TEST_FOLDER,
 )
@@ -29,55 +29,59 @@ from oi_cli2.utils.template import TemplateManager
 
 console = Console(color_system="256", style=None)
 
+applogger: logging.Logger = Provider2().get(DI_LOGGER)
+logger = logging.getLogger(APP_NAME + ".tester")
+
 
 def tester(
-    root_folder: str,
+    in_out_list: list[tuple[str, str]],
+    work_folder: str,
     test_files: List[str],
-    testcase_folder: str,
     template: Template,
     diff_fn: Callable[[str, str, str], None],
-    logger: logging.Logger,
 ):
-    # TODO, 这里似乎传入参数也是 abspath, 两个folder 似乎有点冗余, 还有test_folder
-    logger.debug(f"{root_folder},{test_files},{testcase_folder}")
-    # makefolder & mv code 2 folder
-    os.makedirs(TEST_FOLDER, exist_ok=True)
-    for source_file_name in test_files:
-        if not os.path.exists(source_file_name):
-            raise FileNotFoundError(f"'{source_file_name}' not found!")
-        shutil.copy(source_file_name, os.path.join(TEST_FOLDER, source_file_name))
-    # compile
-    os.chdir(TEST_FOLDER)
-    logger.info("Start compiling.")
+    """
+    all path is abspath
 
-    # TODO 非系统命令diff, 改为 自己实现函数/注入式/支持交互
+    - copy code into work_folder
+    - run compilation command
+    - run binary with std_in and user output into work_folder
+    - compare std_out with user_out
+    """
+    print()
+    # makefolder & mv code 2 folder
+    for code_path in test_files:
+        fname = os.path.split(code_path)[-1]
+        if not os.path.exists(code_path):
+            raise FileNotFoundError(f"'{code_path}' not found!")
+        shutil.copy(code_path, os.path.join(work_folder, fname))
+    # compile
+    os.chdir(work_folder)
+    logger.info(f"Tester folder: {work_folder}")
+    logger.info("Start compiling.")
+    logger.info(f"Run [{template.compilation}]")
     if os.system(template.compilation) != 0:
         logger.error("Complete Failed.")
         return
     logger.info("Successful compilation.")
-
-    logger.debug(
-        "In Exist:" + os.path.join(root_folder, testcase_folder, f"{IN_SUFFIX}{0}")
-    )
-
     # run  "" not better than 'time' in bash but worse is better :-)
-    i = 0
     # TODO 指定测试后缀
-    while os.path.isfile(os.path.join(root_folder, testcase_folder, f"{IN_SUFFIX}{i}")):
-        std_in_file = os.path.join(root_folder, testcase_folder, f"{IN_SUFFIX}{i}")
-        std_out_file = os.path.join(root_folder, testcase_folder, f"{OUT_SUFFIX}{i}")
-        user_out_file = os.path.join(root_folder, TEST_FOLDER, f"{OUT_SUFFIX}{i}")
+    for std_in_file, std_out_file in in_out_list:
+        user_out_file = os.path.join(work_folder, os.path.split(std_out_file)[-1])
         start_time = datetime.datetime.now()
         # command = f'"{template.execute}" < "{std_in_file}" > "{user_out_file}"'
         # logger.debug(command)
         # os.system(command)
         try:
             args = shlex.split(template.execute)
+            logger.info(f"Execute: [{args}]")
+            logger.debug(f"in: [{std_in_file}]")
+            logger.debug(f"out: [{user_out_file}]")
             # 使用subprocess运行二进制程序
             process = subprocess.Popen(
                 args,
                 stdin=open(std_in_file),
-                stdout=open(user_out_file, 'w'),
+                stdout=open(user_out_file, "w"),
                 stderr=subprocess.PIPE,
                 text=True,
             )
@@ -93,7 +97,7 @@ def tester(
                 virtual_memory_size = virtual_memory_info.vms
                 virtual_memory_size_mb = round(virtual_memory_size / 1024 / 1024, 2)
                 # print( f"Virtual Memory Size of the binary program: {virtual_memory_size_mb} MB ")
-                time.sleep(.1)  # 暂停一秒钟，可根据需要调整
+                time.sleep(0.1)  # 暂停一秒钟，可根据需要调整
 
             # 等待程序执行完成
             stdout, stderr = process.communicate()  # stdout is None (to the file)
@@ -107,22 +111,31 @@ def tester(
             return None
 
         end_time = datetime.datetime.now()
-        print(f"TestCase {i}")
-        # TODO COMPARE TIME
-        print(
-            f"\tTime spend: {GREEN}{(end_time - start_time).total_seconds()}s{DEFAULT}"
-        )
-        if virtual_memory_size_mb != 0:
-            print(f"\tVM spend: {GREEN}{virtual_memory_size_mb}MB{DEFAULT}")
-        diff_fn(std_in_file, std_out_file, user_out_file)
 
-        i += 1
+        table = Table().grid()
+        table.add_column(min_width=20)
+        table.add_column()
+        table.add_row(
+            "TestCase",
+            f"{os.path.split(std_in_file)[-1]} => {os.path.split(std_out_file)[-1]}",
+        )
+        table.add_row(
+            "Time spend",
+            f"[green]{(end_time - start_time).total_seconds()} s[/green]",
+        )
+        # TODO COMPARE TIME
+        if virtual_memory_size_mb != 0:
+            table.add_row(
+                "Virtual Memory", f"[green]{virtual_memory_size_mb} MB[/green]"
+            )
+        console.print(table)
+        diff_fn(std_in_file, std_out_file, user_out_file)
 
     os.chdir("../")
 
 
-def tst_main() -> bool:
-    logger: logging.Logger = Provider2().get(DI_LOGGER)
+# t3st is test, don't trigger pytest
+def t3st_main(in_out_list: list[tuple[str, str]]) -> bool:
     tm: TemplateManager = Provider2().get(DI_TEMPMAN)
 
     # get language config
@@ -142,13 +155,36 @@ def tst_main() -> bool:
         return False
 
     source_file_name = os.path.basename(template.path)
+
+    if len(in_out_list) == 0:
+        testcase_folder = os.path.abspath(".")
+        assert IN_PREFIX != OUT_PREFIX
+        files = set(os.listdir(os.path.join(testcase_folder)))
+        for filename in files:
+            if filename.startswith(IN_PREFIX):
+                out_name = OUT_PREFIX + filename[len(IN_PREFIX) :]
+                if out_name in files:
+                    in_out_list.append(
+                        (
+                            os.path.join(testcase_folder, filename),
+                            os.path.join(testcase_folder, out_name),
+                        )
+                    )
+                else:
+                    logger.warn(
+                        f"[red]Input file found <{filename}>, output file not found.[/red]"
+                    )
+                    console.print(
+                        f"[red]Input file found <{filename}>, output file not found.[/red]"
+                    )
+
+    os.makedirs(TEST_FOLDER, exist_ok=True)
     tester(
-        root_folder=os.path.abspath("."),
-        test_files=[source_file_name],
-        testcase_folder=os.path.abspath("."),
+        in_out_list=in_out_list,
+        work_folder=os.path.abspath(TEST_FOLDER),
+        test_files=[os.path.abspath(source_file_name)],
         template=template,
         diff_fn=diff_result_fn,
-        logger=logger,
     )
 
     # shutil.rmtree(TEST_FOLDER)
@@ -157,10 +193,17 @@ def tst_main() -> bool:
 
 
 @click.command(name="test")
-def tst_command() -> None:
+@click.option("-i", "--input", default="")
+@click.option("-o", "--output", default="")
+def t3st_command(input: str, output: str) -> None:
     try:
-        logger: logging.Logger = Provider2().get(DI_LOGGER)
-        tst_main()
+        if (input != "") == (output != ""):
+            if input != "":
+                t3st_main([(os.path.abspath(input), os.path.abspath(output))])
+            else:
+                t3st_main([])
+        else:
+            console.print("[red] input and output should be both provided[/red]")
     except KeyboardInterrupt:
         logger.info("Interrupt by user")
     except Exception:
