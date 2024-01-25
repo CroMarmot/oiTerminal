@@ -108,18 +108,18 @@ oi\_cli2.cli.submit module
    :undoc-members:
    :show-inheritance:
 
-oi\_cli2.cli.template module
-----------------------------
+oi\_cli2.cli.t3st module
+------------------------
 
-.. automodule:: oi_cli2.cli.template
+.. automodule:: oi_cli2.cli.t3st
    :members:
    :undoc-members:
    :show-inheritance:
 
-oi\_cli2.cli.test module
-------------------------
+oi\_cli2.cli.template module
+----------------------------
 
-.. automodule:: oi_cli2.cli.test
+.. automodule:: oi_cli2.cli.template
    :members:
    :undoc-members:
    :show-inheritance:

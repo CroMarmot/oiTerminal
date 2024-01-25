@@ -12,6 +12,7 @@ config `~/.pypirc` follow https://packaging.python.org/en/latest/specifications/
   rm -rf dist/
   python -m build
   twine check dist/*
+  tar -tvf dist/yxr_oi_cli-*.tar.gz
   # upload to test server
   twine upload --repository testpypi dist/*
   pip install --index-url https://test.pypi.org/simple/ --no-deps yxr-oi-cli==<VERSION>

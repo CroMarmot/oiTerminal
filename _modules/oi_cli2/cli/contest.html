@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
     <!-- Generated with Sphinx 5.0.0 and Furo 2023.03.27 -->
-        <title>oi_cli2.cli.contest - yxr-oi-cli 0.2.2.9 documentation</title>
+        <title>oi_cli2.cli.contest - yxr-oi-cli 0.2.2.11 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?digest=fad236701ea90a88636c2a8c73b44ae642ed2a53" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
@@ -122,7 +122,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../index.html"><div class="brand">yxr-oi-cli 0.2.2.9 documentation</div></a>
+      <a href="../../../index.html"><div class="brand">yxr-oi-cli 0.2.2.11 documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -145,7 +145,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../index.html">
   
   
-  <span class="sidebar-brand-text">yxr-oi-cli 0.2.2.9 documentation</span>
+  <span class="sidebar-brand-text">yxr-oi-cli 0.2.2.11 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -236,14 +236,15 @@
 <span class="kn">import</span> <span class="nn">threading</span>
 <span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">from</span> <span class="nn">requests.exceptions</span> <span class="kn">import</span> <span class="n">ReadTimeout</span><span class="p">,</span> <span class="n">ConnectTimeout</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">List</span>
 <span class="kn">import</span> <span class="nn">click</span>
 <span class="kn">from</span> <span class="nn">rich.live</span> <span class="kn">import</span> <span class="n">Live</span>
 <span class="kn">from</span> <span class="nn">rich.table</span> <span class="kn">import</span> <span class="n">Table</span>
 <span class="kn">from</span> <span class="nn">rich.style</span> <span class="kn">import</span> <span class="n">Style</span>
 <span class="kn">from</span> <span class="nn">rich.console</span> <span class="kn">import</span> <span class="n">Console</span>
 <span class="kn">from</span> <span class="nn">oi_cli2.cli.adaptor.ojman</span> <span class="kn">import</span> <span class="n">OJManager</span>
-<span class="kn">from</span> <span class="nn">oi_cli2.core.DI</span> <span class="kn">import</span> <span class="n">DI_ACCMAN</span><span class="p">,</span> <span class="n">DI_CFG</span><span class="p">,</span> <span class="n">DI_LOGGER</span><span class="p">,</span> <span class="n">DI_TEMPMAN</span>
+<span class="kn">from</span> <span class="nn">oi_cli2.cli.constant</span> <span class="kn">import</span> <span class="n">APP_NAME</span>
+<span class="kn">from</span> <span class="nn">oi_cli2.core.DI</span> <span class="kn">import</span> <span class="n">DI_ACCMAN</span><span class="p">,</span> <span class="n">DI_CFG</span><span class="p">,</span> <span class="n">DI_TEMPMAN</span>
 
 <span class="kn">from</span> <span class="nn">oi_cli2.model.BaseOj</span> <span class="kn">import</span> <span class="n">BaseOj</span>
 <span class="kn">from</span> <span class="nn">oi_cli2.model.FolderState</span> <span class="kn">import</span> <span class="n">FolderState</span>
@@ -259,7 +260,7 @@
 <span class="kn">from</span> <span class="nn">oi_cli2.utils.template</span> <span class="kn">import</span> <span class="n">TemplateManager</span>
 
 <span class="n">console</span> <span class="o">=</span> <span class="n">Console</span><span class="p">(</span><span class="n">color_system</span><span class="o">=</span><span class="s1">&#39;256&#39;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">APP_NAME</span><span class="o">+</span><span class="s1">&#39;.contest&#39;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="VisitStatus"><a class="viewcode-back" href="../../../oi_cli2.cli.html#oi_cli2.cli.contest.VisitStatus">[docs]</a><span class="k">class</span> <span class="nc">VisitStatus</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
   <span class="n">BEFORE</span> <span class="o">=</span> <span class="mi">1</span>
@@ -284,7 +285,7 @@
 
 
 <div class="viewcode-block" id="generate_table"><a class="viewcode-back" href="../../../oi_cli2.cli.html#oi_cli2.cli.contest.generate_table">[docs]</a><span class="k">def</span> <span class="nf">generate_table</span><span class="p">(</span><span class="n">result</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">:</span>
-<span class="w">  </span><span class="sd">&quot;&quot;&quot;Make a new table.&quot;&quot;&quot;</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;Generate new table.&quot;&quot;&quot;</span>
   <span class="n">table</span> <span class="o">=</span> <span class="n">Table</span><span class="p">()</span>
   <span class="n">table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="s2">&quot;Problem&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
   <span class="n">table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="s2">&quot;Fetched&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
@@ -300,9 +301,9 @@
 
 
 <span class="c1"># TODO support by problem id</span>
-<div class="viewcode-block" id="create_problem"><a class="viewcode-back" href="../../../oi_cli2.cli.html#oi_cli2.cli.contest.create_problem">[docs]</a><span class="k">async</span> <span class="k">def</span> <span class="nf">create_problem</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">pm</span><span class="p">:</span> <span class="n">ProblemMeta</span><span class="p">,</span> <span class="n">contest_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">template</span><span class="p">,</span> <span class="n">oj</span><span class="p">:</span> <span class="n">BaseOj</span><span class="p">):</span>
-  <span class="n">logger</span><span class="p">:</span> <span class="n">logging</span><span class="o">.</span><span class="n">Logger</span> <span class="o">=</span> <span class="n">Provider2</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">DI_LOGGER</span><span class="p">)</span>
+<div class="viewcode-block" id="create_problem"><a class="viewcode-back" href="../../../oi_cli2.cli.html#oi_cli2.cli.contest.create_problem">[docs]</a><span class="k">async</span> <span class="k">def</span> <span class="nf">create_problem</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">pm</span><span class="p">:</span> <span class="n">ProblemMeta</span><span class="p">,</span> <span class="n">contest_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">template</span><span class="p">,</span> <span class="n">oj</span><span class="p">:</span> <span class="n">BaseOj</span><span class="p">,</span> <span class="n">updater</span><span class="p">:</span><span class="n">Callable</span><span class="p">[[],</span><span class="kc">None</span><span class="p">]):</span>
   <span class="n">config_folder</span><span class="p">:</span> <span class="n">ConfigFolder</span> <span class="o">=</span> <span class="n">Provider2</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">DI_CFG</span><span class="p">)</span>
+  <span class="c1"># TODO remove retry, should provided by sesssion</span>
   <span class="n">timeOutRetry</span> <span class="o">=</span> <span class="mi">3</span>
   <span class="k">while</span> <span class="n">timeOutRetry</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
     <span class="k">try</span><span class="p">:</span>
@@ -310,6 +311,8 @@
       <span class="n">problem_id</span> <span class="o">=</span> <span class="n">contest_id</span> <span class="o">+</span> <span class="n">pm</span><span class="o">.</span><span class="n">id</span>
       <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">oj</span><span class="o">.</span><span class="n">async_problem</span><span class="p">(</span><span class="n">pm</span><span class="p">)</span>
       <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">VisitStatus</span><span class="o">.</span><span class="n">SUCCESS</span>
+      <span class="n">updater</span><span class="p">()</span>
+
       <span class="n">test_cases</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">TestCase</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">test_cases</span>
       <span class="n">directory</span> <span class="o">=</span> <span class="n">config_folder</span><span class="o">.</span><span class="n">get_file_path</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;dist&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">oj</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">contest_id</span><span class="p">,</span> <span class="n">pm</span><span class="o">.</span><span class="n">id</span><span class="p">))</span>
 
@@ -338,11 +341,13 @@
         <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">folder_state</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">,</span> <span class="n">statejson</span><span class="p">)</span>
         <span class="n">statejson</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
       <span class="n">data</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+      <span class="n">updater</span><span class="p">()</span>
       <span class="k">return</span> <span class="kc">True</span>
     <span class="k">except</span> <span class="p">(</span><span class="n">ReadTimeout</span><span class="p">,</span> <span class="n">ConnectTimeout</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
       <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Http Timeout[</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">]: </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">url</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
       <span class="k">if</span> <span class="n">timeOutRetry</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">VisitStatus</span><span class="o">.</span><span class="n">TIMEOUT</span>
+        <span class="n">updater</span><span class="p">()</span>
         <span class="k">return</span> <span class="kc">False</span>
       <span class="n">timeOutRetry</span> <span class="o">-=</span> <span class="mi">1</span>
       <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
@@ -350,12 +355,12 @@
       <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
       <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
       <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">VisitStatus</span><span class="o">.</span><span class="n">FAILED</span>
+      <span class="n">updater</span><span class="p">()</span>
       <span class="k">return</span> <span class="kc">False</span>
   <span class="k">return</span> <span class="kc">False</span></div>
 
 
 <div class="viewcode-block" id="createDir"><a class="viewcode-back" href="../../../oi_cli2.cli.html#oi_cli2.cli.contest.createDir">[docs]</a><span class="k">async</span> <span class="k">def</span> <span class="nf">createDir</span><span class="p">(</span><span class="n">oj</span><span class="p">:</span> <span class="n">BaseOj</span><span class="p">,</span> <span class="n">contest_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">problems</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ProblemMeta</span><span class="p">]):</span>
-  <span class="n">logger</span><span class="p">:</span> <span class="n">logging</span><span class="o">.</span><span class="n">Logger</span> <span class="o">=</span> <span class="n">Provider2</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">DI_LOGGER</span><span class="p">)</span>
   <span class="n">config_folder</span><span class="p">:</span> <span class="n">ConfigFolder</span> <span class="o">=</span> <span class="n">Provider2</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">DI_CFG</span><span class="p">)</span>
   <span class="n">template_manager</span><span class="p">:</span> <span class="n">TemplateManager</span> <span class="o">=</span> <span class="n">Provider2</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">DI_TEMPMAN</span><span class="p">)</span>
   <span class="n">template</span> <span class="o">=</span> <span class="n">template_manager</span><span class="o">.</span><span class="n">get_platform_default</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">oj</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
@@ -364,6 +369,7 @@
     <span class="k">return</span> <span class="kc">None</span>
 
   <span class="k">async</span> <span class="k">def</span> <span class="nf">sync_oj</span><span class="p">():</span>  <span class="c1"># use thread</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;sync oj&quot;</span><span class="p">)</span>
     <span class="c1"># ID, Fetched, success</span>
     <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">problems</span><span class="p">:</span>
@@ -376,40 +382,28 @@
       <span class="n">loop</span><span class="o">.</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">create_problem</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">))</span>
       <span class="n">loop</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
-    <span class="n">tasks</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">problems</span><span class="p">)):</span>
-      <span class="n">task</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">between_callback</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">problems</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">contest_id</span><span class="p">,</span> <span class="n">template</span><span class="p">,</span> <span class="n">oj</span><span class="p">))</span>
-      <span class="n">tasks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>
-      <span class="n">task</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
-
     <span class="k">with</span> <span class="n">Live</span><span class="p">(</span><span class="n">generate_table</span><span class="p">(</span><span class="n">result</span><span class="p">),</span> <span class="n">auto_refresh</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="k">as</span> <span class="n">live</span><span class="p">:</span>
-      <span class="k">while</span> <span class="ow">not</span> <span class="n">all_visit</span><span class="p">(</span><span class="n">result</span><span class="p">):</span>
-        <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.05</span><span class="p">)</span>  <span class="c1"># time.sleep 会卡住</span>
-        <span class="n">live</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">generate_table</span><span class="p">(</span><span class="n">result</span><span class="p">),</span> <span class="n">refresh</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tasks</span><span class="p">:</span>  <span class="c1"># wait all task finished</span>
-      <span class="n">t</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
-
-    <span class="n">live</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">generate_table</span><span class="p">(</span><span class="n">result</span><span class="p">),</span> <span class="n">refresh</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
+      <span class="n">tasks</span> <span class="o">=</span> <span class="p">[]</span>
+      <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">problems</span><span class="p">)):</span>
+        <span class="n">task</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">between_callback</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">problems</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">contest_id</span><span class="p">,</span> <span class="n">template</span><span class="p">,</span> <span class="n">oj</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span><span class="n">live</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">generate_table</span><span class="p">(</span><span class="n">result</span><span class="p">),</span><span class="n">refresh</span><span class="o">=</span><span class="kc">True</span><span class="p">)))</span>
+        <span class="n">tasks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>
+        <span class="n">task</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+      <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tasks</span><span class="p">:</span>  <span class="c1"># wait all task finished</span>
+        <span class="n">t</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">config_folder</span><span class="o">.</span><span class="n">get_file_path</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;dist&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">oj</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">contest_id</span><span class="p">))</span>
 
   <span class="k">async</span> <span class="k">def</span> <span class="nf">async_oj</span><span class="p">():</span>  <span class="c1"># use async/await</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;async oj&quot;</span><span class="p">)</span>
     <span class="c1"># ID, Fetched, success</span>
     <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">problems</span><span class="p">:</span>
       <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">v</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">VisitStatus</span><span class="o">.</span><span class="n">BEFORE</span><span class="p">,</span> <span class="kc">False</span><span class="p">])</span>
 
-    <span class="n">tasks</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">problems</span><span class="p">)):</span>
-      <span class="n">tasks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">asyncio</span><span class="o">.</span><span class="n">create_task</span><span class="p">(</span><span class="n">create_problem</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">problems</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">contest_id</span><span class="p">,</span> <span class="n">template</span><span class="p">,</span> <span class="n">oj</span><span class="p">)))</span>
-
     <span class="k">with</span> <span class="n">Live</span><span class="p">(</span><span class="n">generate_table</span><span class="p">(</span><span class="n">result</span><span class="p">),</span> <span class="n">auto_refresh</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="k">as</span> <span class="n">live</span><span class="p">:</span>
-      <span class="k">while</span> <span class="ow">not</span> <span class="n">all_visit</span><span class="p">(</span><span class="n">result</span><span class="p">):</span>
-        <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.05</span><span class="p">)</span>  <span class="c1"># time.sleep 会卡住</span>
-        <span class="n">live</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">generate_table</span><span class="p">(</span><span class="n">result</span><span class="p">),</span> <span class="n">refresh</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-    <span class="n">asyncio</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="o">*</span><span class="n">tasks</span><span class="p">)</span>  <span class="c1"># wait all task finished</span>
+      <span class="n">tasks</span> <span class="o">=</span> <span class="p">[]</span>
+      <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">problems</span><span class="p">)):</span>
+        <span class="n">tasks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">create_problem</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">problems</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">contest_id</span><span class="p">,</span> <span class="n">template</span><span class="p">,</span> <span class="n">oj</span><span class="p">,</span><span class="k">lambda</span><span class="p">:</span><span class="n">live</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">generate_table</span><span class="p">(</span><span class="n">result</span><span class="p">),</span><span class="n">refresh</span><span class="o">=</span><span class="kc">True</span><span class="p">)))</span>
+      <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="o">*</span><span class="n">tasks</span><span class="p">)</span>  <span class="c1"># wait all task finished</span>
 
     <span class="n">live</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">generate_table</span><span class="p">(</span><span class="n">result</span><span class="p">),</span> <span class="n">refresh</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">config_folder</span><span class="o">.</span><span class="n">get_file_path</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;dist&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">oj</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">contest_id</span><span class="p">))</span>
@@ -441,7 +435,6 @@
 
 <span class="sd">  CONTESTID   The id in the url, e.g. Codeforces(1122),AtCoder(abc230)</span>
 <span class="sd">  &quot;&quot;&quot;</span>
-  <span class="n">logger</span><span class="p">:</span> <span class="n">logging</span><span class="o">.</span><span class="n">Logger</span> <span class="o">=</span> <span class="n">Provider2</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">DI_LOGGER</span><span class="p">)</span>
   <span class="n">am</span><span class="p">:</span> <span class="n">AccountManager</span> <span class="o">=</span> <span class="n">Provider2</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">DI_ACCMAN</span><span class="p">)</span>
 
   <span class="k">try</span><span class="p">:</span>
@@ -478,7 +471,6 @@
 
 <span class="sd">  PLATFORM    e.g. AtCoder, Codeforces</span>
 <span class="sd">  &quot;&quot;&quot;</span>
-  <span class="n">logger</span><span class="p">:</span> <span class="n">logging</span><span class="o">.</span><span class="n">Logger</span> <span class="o">=</span> <span class="n">Provider2</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">DI_LOGGER</span><span class="p">)</span>
   <span class="n">am</span><span class="p">:</span> <span class="n">AccountManager</span> <span class="o">=</span> <span class="n">Provider2</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">DI_ACCMAN</span><span class="p">)</span>
 
   <span class="k">try</span><span class="p">:</span>
@@ -502,7 +494,6 @@
 
 <span class="sd">  CONTESTID   The id in the url, e.g. Codeforces(1122),AtCoder(abc230)</span>
 <span class="sd">  &quot;&quot;&quot;</span>
-  <span class="n">logger</span><span class="p">:</span> <span class="n">logging</span><span class="o">.</span><span class="n">Logger</span> <span class="o">=</span> <span class="n">Provider2</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">DI_LOGGER</span><span class="p">)</span>
   <span class="n">am</span><span class="p">:</span> <span class="n">AccountManager</span> <span class="o">=</span> <span class="n">Provider2</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">DI_ACCMAN</span><span class="p">)</span>
 
   <span class="k">try</span><span class="p">:</span>
@@ -550,7 +541,6 @@
 
 <span class="sd">  CONTESTID   The id in the url, e.g. Codeforces(1122),AtCoder(abc230)</span>
 <span class="sd">  &quot;&quot;&quot;</span>
-  <span class="n">logger</span><span class="p">:</span> <span class="n">logging</span><span class="o">.</span><span class="n">Logger</span> <span class="o">=</span> <span class="n">Provider2</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">DI_LOGGER</span><span class="p">)</span>
   <span class="n">am</span><span class="p">:</span> <span class="n">AccountManager</span> <span class="o">=</span> <span class="n">Provider2</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">DI_ACCMAN</span><span class="p">)</span>
 
   <span class="k">try</span><span class="p">:</span>
@@ -580,7 +570,6 @@
       <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Please open a browser on: &quot;</span> <span class="o">+</span> <span class="n">url</span><span class="p">)</span>
 
-  <span class="n">logger</span><span class="p">:</span> <span class="n">logging</span><span class="o">.</span><span class="n">Logger</span> <span class="o">=</span> <span class="n">Provider2</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">DI_LOGGER</span><span class="p">)</span>
   <span class="n">am</span><span class="p">:</span> <span class="n">AccountManager</span> <span class="o">=</span> <span class="n">Provider2</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">DI_ACCMAN</span><span class="p">)</span>
 
   <span class="k">try</span><span class="p">:</span>
@@ -598,7 +587,6 @@
 <span class="nd">@click</span><span class="o">.</span><span class="n">argument</span><span class="p">(</span><span class="s1">&#39;platform&#39;</span><span class="p">)</span>
 <span class="nd">@click</span><span class="o">.</span><span class="n">argument</span><span class="p">(</span><span class="s1">&#39;contestid&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">reg</span><span class="p">(</span><span class="n">platform</span><span class="p">,</span> <span class="n">contestid</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-  <span class="n">logger</span><span class="p">:</span> <span class="n">logging</span><span class="o">.</span><span class="n">Logger</span> <span class="o">=</span> <span class="n">Provider2</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">DI_LOGGER</span><span class="p">)</span>
   <span class="n">am</span><span class="p">:</span> <span class="n">AccountManager</span> <span class="o">=</span> <span class="n">Provider2</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">DI_ACCMAN</span><span class="p">)</span>
 
   <span class="k">try</span><span class="p">:</span>
