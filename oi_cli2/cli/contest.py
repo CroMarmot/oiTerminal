@@ -9,14 +9,15 @@ import sys
 import threading
 import time
 from requests.exceptions import ReadTimeout, ConnectTimeout
-from typing import List
+from typing import Callable, List
 import click
 from rich.live import Live
 from rich.table import Table
 from rich.style import Style
 from rich.console import Console
 from oi_cli2.cli.adaptor.ojman import OJManager
-from oi_cli2.core.DI import DI_ACCMAN, DI_CFG, DI_LOGGER, DI_TEMPMAN
+from oi_cli2.cli.constant import APP_NAME
+from oi_cli2.core.DI import DI_ACCMAN, DI_CFG, DI_TEMPMAN
 
 from oi_cli2.model.BaseOj import BaseOj
 from oi_cli2.model.FolderState import FolderState
@@ -32,7 +33,7 @@ from oi_cli2.utils.configFolder import ConfigFolder
 from oi_cli2.utils.template import TemplateManager
 
 console = Console(color_system='256', style=None)
-
+logger = logging.getLogger(APP_NAME+'.contest')
 
 class VisitStatus(Enum):
   BEFORE = 1
@@ -57,7 +58,7 @@ def all_visit(result) -> bool:
 
 
 def generate_table(result) -> Table:
-  """Make a new table."""
+  """Generate new table."""
   table = Table()
   table.add_column("Problem", width=10)
   table.add_column("Fetched", width=10)
@@ -73,9 +74,9 @@ def generate_table(result) -> Table:
 
 
 # TODO support by problem id
-async def create_problem(data, pm: ProblemMeta, contest_id: str, template, oj: BaseOj):
-  logger: logging.Logger = Provider2().get(DI_LOGGER)
+async def create_problem(data, pm: ProblemMeta, contest_id: str, template, oj: BaseOj, updater:Callable[[],None]):
   config_folder: ConfigFolder = Provider2().get(DI_CFG)
+  # TODO remove retry, should provided by sesssion
   timeOutRetry = 3
   while timeOutRetry >= 0:
     try:
@@ -83,6 +84,8 @@ async def create_problem(data, pm: ProblemMeta, contest_id: str, template, oj: B
       problem_id = contest_id + pm.id
       result = await oj.async_problem(pm)
       data[1] = VisitStatus.SUCCESS
+      updater()
+
       test_cases: List[TestCase] = result.test_cases
       directory = config_folder.get_file_path(os.path.join('dist', type(oj).__name__, contest_id, pm.id))
 
@@ -111,11 +114,13 @@ async def create_problem(data, pm: ProblemMeta, contest_id: str, template, oj: B
         json.dump(folder_state.__dict__, statejson)
         statejson.close()
       data[2] = True
+      updater()
       return True
     except (ReadTimeout, ConnectTimeout) as e:
       logger.info(f'Http Timeout[{type(e).__name__}]: {e.request.url}')
       if timeOutRetry == 0:
         data[1] = VisitStatus.TIMEOUT
+        updater()
         return False
       timeOutRetry -= 1
       time.sleep(0.5)
@@ -123,12 +128,12 @@ async def create_problem(data, pm: ProblemMeta, contest_id: str, template, oj: B
       logger.exception(type(e).__name__)
       logger.exception(e)
       data[1] = VisitStatus.FAILED
+      updater()
       return False
   return False
 
 
 async def createDir(oj: BaseOj, contest_id: str, problems: List[ProblemMeta]):
-  logger: logging.Logger = Provider2().get(DI_LOGGER)
   config_folder: ConfigFolder = Provider2().get(DI_CFG)
   template_manager: TemplateManager = Provider2().get(DI_TEMPMAN)
   template = template_manager.get_platform_default(type(oj).__name__)
@@ -137,6 +142,7 @@ async def createDir(oj: BaseOj, contest_id: str, problems: List[ProblemMeta]):
     return None
 
   async def sync_oj():  # use thread
+    logger.info("sync oj")
     # ID, Fetched, success
     result = []
     for v in problems:
@@ -149,40 +155,28 @@ async def createDir(oj: BaseOj, contest_id: str, problems: List[ProblemMeta]):
       loop.run_until_complete(create_problem(*args))
       loop.close()
 
-    tasks = []
-    for i in range(len(problems)):
-      task = threading.Thread(target=between_callback, args=(result[i], problems[i], contest_id, template, oj))
-      tasks.append(task)
-      task.start()
-
     with Live(generate_table(result), auto_refresh=False) as live:
-      while not all_visit(result):
-        await asyncio.sleep(0.05)  # time.sleep 会卡住
-        live.update(generate_table(result), refresh=True)
-
-    for t in tasks:  # wait all task finished
-      t.join()
-
-    live.update(generate_table(result), refresh=True)
-
+      tasks = []
+      for i in range(len(problems)):
+        task = threading.Thread(target=between_callback, args=(result[i], problems[i], contest_id, template, oj, lambda:live.update(generate_table(result),refresh=True)))
+        tasks.append(task)
+        task.start()
+      for t in tasks:  # wait all task finished
+        t.join()
     return config_folder.get_file_path(os.path.join('dist', type(oj).__name__, contest_id))
 
   async def async_oj():  # use async/await
+    logger.info("async oj")
     # ID, Fetched, success
     result = []
     for v in problems:
       result.append([v.id, VisitStatus.BEFORE, False])
 
-    tasks = []
-    for i in range(len(problems)):
-      tasks.append(asyncio.create_task(create_problem(result[i], problems[i], contest_id, template, oj)))
-
     with Live(generate_table(result), auto_refresh=False) as live:
-      while not all_visit(result):
-        await asyncio.sleep(0.05)  # time.sleep 会卡住
-        live.update(generate_table(result), refresh=True)
-
-    asyncio.gather(*tasks)  # wait all task finished
+      tasks = []
+      for i in range(len(problems)):
+        tasks.append(create_problem(result[i], problems[i], contest_id, template, oj,lambda:live.update(generate_table(result),refresh=True)))
+      await asyncio.gather(*tasks)  # wait all task finished
 
     live.update(generate_table(result), refresh=True)
     return config_folder.get_file_path(os.path.join('dist', type(oj).__name__, contest_id))
@@ -214,7 +208,6 @@ async def async_fetch(platform, contestid) -> None:
 
   CONTESTID   The id in the url, e.g. Codeforces(1122),AtCoder(abc230)
   """
-  logger: logging.Logger = Provider2().get(DI_LOGGER)
   am: AccountManager = Provider2().get(DI_ACCMAN)
 
   try:
@@ -251,7 +244,6 @@ def list_command(platform: str):
 
   PLATFORM    e.g. AtCoder, Codeforces
   """
-  logger: logging.Logger = Provider2().get(DI_LOGGER)
   am: AccountManager = Provider2().get(DI_ACCMAN)
 
   try:
@@ -275,7 +267,6 @@ def detail(platform, contestid) -> None:
 
   CONTESTID   The id in the url, e.g. Codeforces(1122),AtCoder(abc230)
   """
-  logger: logging.Logger = Provider2().get(DI_LOGGER)
   am: AccountManager = Provider2().get(DI_ACCMAN)
 
   try:
@@ -323,7 +314,6 @@ def standing(platform, contestid) -> None:
 
   CONTESTID   The id in the url, e.g. Codeforces(1122),AtCoder(abc230)
   """
-  logger: logging.Logger = Provider2().get(DI_LOGGER)
   am: AccountManager = Provider2().get(DI_ACCMAN)
 
   try:
@@ -353,7 +343,6 @@ def open_browser(platform, contestid) -> None:
       except OSError:
         print("Please open a browser on: " + url)
 
-  logger: logging.Logger = Provider2().get(DI_LOGGER)
   am: AccountManager = Provider2().get(DI_ACCMAN)
 
   try:
@@ -371,7 +360,6 @@ def open_browser(platform, contestid) -> None:
 @click.argument('platform')
 @click.argument('contestid')
 def reg(platform, contestid) -> None:
-  logger: logging.Logger = Provider2().get(DI_LOGGER)
   am: AccountManager = Provider2().get(DI_ACCMAN)
 
   try:

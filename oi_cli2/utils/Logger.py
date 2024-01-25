@@ -1,5 +1,6 @@
 import logging
 import os
+import sys
 import traceback
 
 from oi_cli2.utils.Singleton import Singleton
@@ -14,6 +15,12 @@ class LogConfig:
     self.env = os.getenv('OITERMINAL_ENV')
     if self.env is None:
       self.env = 'production'  # default
+    elif self.env == 'dev':
+      pass
+    elif self.env == 'production':
+      pass
+    else:
+      print(f'Unrecognized configuration: OITERMINAL_ENV={self.env}',file=sys.stderr)
 
   def is_production(self):
     return self.env == 'production'
@@ -52,5 +59,6 @@ def getLogger(logger_path):
   sh.setFormatter(streamformatter)
   sh.setLevel(logging.INFO if LogConfig().is_production() else logging.DEBUG)
   logger.addHandler(sh)
+  logger.debug("OiTerminal root logger inited.")
 
   return logger

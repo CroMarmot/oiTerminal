@@ -23,6 +23,15 @@ class ProblemMeta:
   memory_limit_kb: int = 0  # mb
   contest_id: str = ''
 
+  def __repr__(self) -> str:
+    res = ''
+    res += '{'
+    for key in self.__dict__:
+      res += f'[{key}:{self.__dict__[key]}]'
+    res += '}'
+    return res
+    
+
 
 @dataclass
 class ContestMeta:
