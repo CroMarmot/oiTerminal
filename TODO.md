@@ -11,3 +11,4 @@
 - [ ] webbrowser support aes codeforces
 - [ ] Test with debug / product
 - [ ] 增加事件 通知(插件支持)
+- [ ] 需要捕获 并重新输出 编译 和 运行时的stderr
