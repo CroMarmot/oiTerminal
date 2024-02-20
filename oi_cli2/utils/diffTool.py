@@ -12,15 +12,19 @@ def diff_result_fn(std_in_file: str, std_out_file: str, user_out_file: str) -> N
   diff = os.system(f"{diff_cmd} {std_out_file} {user_out_file}")
   if diff != 0:
     print(RED)
-    print("==============================================================================")
+    print(f"{'':=^100}")
     with open(std_in_file,'r') as f:
       lines = f.readlines()
       for line in lines[:100]:
-        print(line,end='')
+        if len(line) > 1000:
+            print(line.strip()[:1000]+' ...and more') #  line 里 有'\n'
+        else:
+            print(line.strip()) #  line 里 有'\n'
       if len(lines) > 100:
         print("...more")
     # os.system(f"cat {std_in_file}")
     print("\n-  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  - -")
     os.system(f"{show_diff_cmd} {std_out_file} {user_out_file}")
-    print("\n==============================================================================")
+    print("")
+    print(f"{'':=^100}")
     print(DEFAULT)
