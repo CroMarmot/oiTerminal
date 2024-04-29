@@ -49,6 +49,7 @@ def transform_Result(res: CORE_SUB_RES) -> SubmissionResult:
       CORE_SUB_RES.Status.INIT: SubmissionResult.Status.PENDING,
       CORE_SUB_RES.Status.RE: SubmissionResult.Status.RE,
       CORE_SUB_RES.Status.TLE: SubmissionResult.Status.TLE,
+      CORE_SUB_RES.Status.MLE: SubmissionResult.Status.MLE,
       CORE_SUB_RES.Status.WA: SubmissionResult.Status.WA,
       CORE_SUB_RES.Status.CE: SubmissionResult.Status.CE,
   }

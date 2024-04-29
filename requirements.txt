@@ -16,5 +16,5 @@ mypy
 sphinx
 furo
 myst-parser
-yxr-atcoder-core==0.0.3.3
-yxr-codeforces-core==0.0.2.1
+yxr-atcoder-core==0.0.3.5
+yxr-codeforces-core==0.0.2.4
