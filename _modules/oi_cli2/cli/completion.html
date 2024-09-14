@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
     <!-- Generated with Sphinx 5.0.0 and Furo 2023.03.27 -->
-        <title>oi_cli2.model.TestCase - yxr-oi-cli 0.2.2.16 documentation</title>
+        <title>oi_cli2.cli.completion - yxr-oi-cli 0.2.2.16 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?digest=fad236701ea90a88636c2a8c73b44ae642ed2a53" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
@@ -224,14 +224,78 @@
           </label>
         </div>
         <article role="main">
-          <h1>Source code for oi_cli2.model.TestCase</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+          <h1>Source code for oi_cli2.cli.completion</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">cast</span>
+<span class="kn">import</span> <span class="nn">click</span>
+<span class="kn">from</span> <span class="nn">.reg_list</span> <span class="kn">import</span> <span class="n">reg_list</span>
+
+<span class="c1"># TODO inject account</span>
+
+<span class="n">platformNames</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">reg_list</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
 
 
-<div class="viewcode-block" id="TestCase"><a class="viewcode-back" href="../../../oi_cli2.model.html#oi_cli2.model.TestCase.TestCase">[docs]</a><span class="nd">@dataclass</span>
-<span class="k">class</span> <span class="nc">TestCase</span><span class="p">:</span>
-  <span class="n">in_data</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
-  <span class="n">out_data</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span></div>
+<div class="viewcode-block" id="platformKey"><a class="viewcode-back" href="../../../oi_cli2.cli.html#oi_cli2.cli.completion.platformKey">[docs]</a><span class="k">def</span> <span class="nf">platformKey</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+  <span class="n">res</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+  <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">platformNames</span><span class="p">:</span>
+    <span class="n">res</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+  <span class="k">return</span> <span class="n">res</span></div>
+
+
+<span class="n">platformKeys</span> <span class="o">=</span> <span class="n">platformKey</span><span class="p">()</span>
+
+<span class="c1"># TODO auto generate by click</span>
+<span class="n">cliAccept</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;init&quot;</span><span class="p">:</span> <span class="p">{},</span>
+    <span class="s2">&quot;config&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;account&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;list&quot;</span><span class="p">:</span> <span class="p">{},</span>
+            <span class="s2">&quot;new&quot;</span><span class="p">:</span> <span class="n">platformKey</span><span class="p">(),</span>
+            <span class="s2">&quot;modify&quot;</span><span class="p">:</span> <span class="n">platformKey</span><span class="p">(),</span>
+            <span class="s2">&quot;delete&quot;</span><span class="p">:</span> <span class="n">platformKey</span><span class="p">(),</span>
+            <span class="s2">&quot;test&quot;</span><span class="p">:</span> <span class="n">platformKey</span><span class="p">(),</span>  <span class="c1"># TODO test login</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;template&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;list&quot;</span><span class="p">:</span> <span class="p">{},</span>
+            <span class="s2">&quot;new&quot;</span><span class="p">:</span> <span class="n">platformKey</span><span class="p">(),</span>
+            <span class="s2">&quot;modify&quot;</span><span class="p">:</span> <span class="n">platformKey</span><span class="p">(),</span>
+            <span class="s2">&quot;delete&quot;</span><span class="p">:</span> <span class="n">platformKey</span><span class="p">(),</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="c1"># &quot;problem&quot;: {</span>
+    <span class="c1">#     &quot;fetch&quot;: platformKey()</span>
+    <span class="c1"># },</span>
+    <span class="s2">&quot;contest&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;list&quot;</span><span class="p">:</span> <span class="n">platformKey</span><span class="p">(),</span>
+        <span class="s2">&quot;detail&quot;</span><span class="p">:</span> <span class="n">platformKey</span><span class="p">(),</span>
+        <span class="s2">&quot;standing&quot;</span><span class="p">:</span> <span class="n">platformKey</span><span class="p">(),</span>
+        <span class="s2">&quot;fetch&quot;</span><span class="p">:</span> <span class="n">platformKey</span><span class="p">(),</span>
+        <span class="s2">&quot;open&quot;</span><span class="p">:</span> <span class="n">platformKey</span><span class="p">(),</span>
+        <span class="s2">&quot;reg&quot;</span><span class="p">:</span> <span class="n">platformKey</span><span class="p">(),</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;lang&quot;</span><span class="p">:</span> <span class="n">platformKey</span><span class="p">(),</span>
+    <span class="s2">&quot;test&quot;</span><span class="p">:</span> <span class="p">{},</span> <span class="c1"># TODO 换成基于click的自动化补全工具</span>
+    <span class="s2">&quot;submit&quot;</span><span class="p">:</span> <span class="p">{},</span>
+    <span class="s2">&quot;result&quot;</span><span class="p">:</span> <span class="p">{},</span>
+<span class="p">}</span>
+
+
+<span class="nd">@click</span><span class="o">.</span><span class="n">command</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;completion&quot;</span><span class="p">)</span>
+<span class="nd">@click</span><span class="o">.</span><span class="n">argument</span><span class="p">(</span><span class="s1">&#39;cmds&#39;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># unlimited args</span>
+<span class="k">def</span> <span class="nf">completion_command</span><span class="p">(</span><span class="n">cmds</span><span class="p">):</span>  <span class="c1"># (oi, xxx, xxx)</span>
+  <span class="c1"># Debug</span>
+  <span class="c1"># with open(&#39;/tmp/out&#39;,&#39;a+&#39;) as f:</span>
+  <span class="c1">#   f.write(str(cmds))</span>
+  <span class="n">ptr</span> <span class="o">=</span> <span class="n">cliAccept</span>
+  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">cmds</span><span class="p">)):</span>
+    <span class="n">key</span> <span class="o">=</span> <span class="n">cmds</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">ptr</span><span class="p">:</span>
+      <span class="n">ptr</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">ptr</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="nb">print</span><span class="p">()</span>
+      <span class="k">return</span>
+  <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">ptr</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+  <span class="nb">print</span><span class="p">()</span>
 </pre></div>
         </article>
       </div>

@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../genindex.html" /><link rel="search" title="Search" href="../../../../search.html" />
 
     <!-- Generated with Sphinx 5.0.0 and Furo 2023.03.27 -->
-        <title>oi_cli2.cli.adaptor.ojman - yxr-oi-cli 0.2.2.16 documentation</title>
+        <title>oi_cli2.cli.adaptor.AtCoder_printList - yxr-oi-cli 0.2.2.16 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?digest=fad236701ea90a88636c2a8c73b44ae642ed2a53" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
@@ -224,32 +224,85 @@
           </label>
         </div>
         <article role="main">
-          <h1>Source code for oi_cli2.cli.adaptor.ojman</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span>
-<span class="kn">from</span> <span class="nn">oi_cli2.model.Account</span> <span class="kn">import</span> <span class="n">Account</span>
-<span class="kn">from</span> <span class="nn">oi_cli2.model.BaseOj</span> <span class="kn">import</span> <span class="n">BaseOj</span>
-<span class="kn">from</span> <span class="nn">oi_cli2.utils.Provider2</span> <span class="kn">import</span> <span class="n">Provider2</span>
+          <h1>Source code for oi_cli2.cli.adaptor.AtCoder_printList</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+<span class="c1"># from tests.mock.MockHttpUtil import MockHttpUtil</span>
+<span class="kn">from</span> <span class="nn">rich.console</span> <span class="kn">import</span> <span class="n">Console</span>
+<span class="kn">from</span> <span class="nn">rich.table</span> <span class="kn">import</span> <span class="n">Table</span>
+<span class="kn">from</span> <span class="nn">rich.style</span> <span class="kn">import</span> <span class="n">Style</span>
 
-<span class="n">T_OJFn</span> <span class="o">=</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Account</span><span class="p">,</span> <span class="n">Provider2</span><span class="p">],</span> <span class="n">BaseOj</span><span class="p">]</span>
+<span class="kn">from</span> <span class="nn">ac_core.contest</span> <span class="kn">import</span> <span class="n">ContestListPage</span>
+
+<span class="n">timeFmt</span> <span class="o">=</span> <span class="s2">&quot;%b/</span><span class="si">%d</span><span class="s2">/%Y %H:%M&quot;</span>
 
 
-<div class="viewcode-block" id="OJManager"><a class="viewcode-back" href="../../../../oi_cli2.cli.adaptor.html#oi_cli2.cli.adaptor.ojman.OJManager">[docs]</a><span class="k">class</span> <span class="nc">OJManager</span><span class="p">:</span>
-  <span class="n">_ojFn</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">T_OJFn</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
-  <span class="c1"># _ojObj: Dict[str, BaseOj] = {}</span>
+<div class="viewcode-block" id="min2str"><a class="viewcode-back" href="../../../../oi_cli2.cli.adaptor.html#oi_cli2.cli.adaptor.AtCoder_printList.min2str">[docs]</a><span class="k">def</span> <span class="nf">min2str</span><span class="p">(</span><span class="nb">min</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 
-<div class="viewcode-block" id="OJManager.regOj"><a class="viewcode-back" href="../../../../oi_cli2.cli.adaptor.html#oi_cli2.cli.adaptor.ojman.OJManager.regOj">[docs]</a>  <span class="nd">@staticmethod</span>
-  <span class="k">def</span> <span class="nf">regOj</span><span class="p">(</span><span class="n">platform</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">fn</span><span class="p">:</span> <span class="n">T_OJFn</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-    <span class="k">if</span> <span class="n">platform</span> <span class="ow">in</span> <span class="n">OJManager</span><span class="o">.</span><span class="n">_ojFn</span><span class="p">:</span>
-      <span class="k">return</span> <span class="kc">False</span>
-    <span class="n">OJManager</span><span class="o">.</span><span class="n">_ojFn</span><span class="p">[</span><span class="n">platform</span><span class="p">]</span> <span class="o">=</span> <span class="n">fn</span>
-    <span class="k">return</span> <span class="kc">True</span></div>
+  <span class="c1"># prefix0</span>
+  <span class="n">_</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;0</span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">:]</span>
 
-<div class="viewcode-block" id="OJManager.createOj"><a class="viewcode-back" href="../../../../oi_cli2.cli.adaptor.html#oi_cli2.cli.adaptor.ojman.OJManager.createOj">[docs]</a>  <span class="nd">@staticmethod</span>
-  <span class="k">def</span> <span class="nf">createOj</span><span class="p">(</span><span class="n">platform</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">account</span><span class="p">:</span> <span class="n">Account</span><span class="p">,</span> <span class="n">provider</span><span class="p">:</span> <span class="n">Provider2</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseOj</span><span class="p">:</span>
-    <span class="k">if</span> <span class="n">platform</span> <span class="ow">in</span> <span class="n">OJManager</span><span class="o">.</span><span class="n">_ojFn</span><span class="p">:</span>
-      <span class="k">return</span> <span class="n">OJManager</span><span class="o">.</span><span class="n">_ojFn</span><span class="p">[</span><span class="n">platform</span><span class="p">](</span><span class="n">account</span><span class="p">,</span> <span class="n">provider</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-      <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Unknown Platform [</span><span class="si">{</span><span class="n">platform</span><span class="si">}</span><span class="s1">]&#39;</span><span class="p">)</span></div></div>
+  <span class="k">if</span> <span class="nb">min</span> <span class="o">&lt;=</span> <span class="mi">60</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">_</span><span class="p">(</span><span class="nb">min</span><span class="p">)</span>
+  <span class="k">if</span> <span class="nb">min</span> <span class="o">&lt;=</span> <span class="mi">24</span> <span class="o">*</span> <span class="mi">60</span><span class="p">:</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">_</span><span class="p">(</span><span class="nb">min</span><span class="o">//</span><span class="mi">60</span><span class="p">)</span><span class="si">}</span><span class="s1">:</span><span class="si">{</span><span class="n">_</span><span class="p">(</span><span class="nb">min</span><span class="o">%</span><span class="mi">60</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span>
+  <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="nb">min</span><span class="o">//</span><span class="mi">60</span><span class="o">//</span><span class="mi">24</span><span class="si">}</span><span class="s1"> day </span><span class="si">{</span><span class="n">_</span><span class="p">((</span><span class="nb">min</span><span class="o">//</span><span class="mi">60</span><span class="p">)</span><span class="o">%</span><span class="mi">24</span><span class="p">)</span><span class="si">}</span><span class="s1">:</span><span class="si">{</span><span class="n">_</span><span class="p">(</span><span class="nb">min</span><span class="o">%</span><span class="mi">60</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span></div>
+
+
+<div class="viewcode-block" id="full_url"><a class="viewcode-back" href="../../../../oi_cli2.cli.adaptor.html#oi_cli2.cli.adaptor.AtCoder_printList.full_url">[docs]</a><span class="k">def</span> <span class="nf">full_url</span><span class="p">(</span><span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+  <span class="k">return</span> <span class="p">(</span><span class="s1">&#39;https://atcoder.jp&#39;</span> <span class="o">+</span> <span class="n">url</span><span class="p">)</span> <span class="k">if</span> <span class="n">url</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="n">url</span></div>
+
+
+<div class="viewcode-block" id="printData"><a class="viewcode-back" href="../../../../oi_cli2.cli.adaptor.html#oi_cli2.cli.adaptor.AtCoder_printList.printData">[docs]</a><span class="k">def</span> <span class="nf">printData</span><span class="p">(</span><span class="n">cl</span><span class="p">:</span> <span class="n">ContestListPage</span><span class="p">):</span>
+  <span class="c1"># print(html)</span>
+  <span class="n">cur</span> <span class="o">=</span> <span class="n">cl</span><span class="o">.</span><span class="n">up_comming</span>
+  <span class="n">his</span> <span class="o">=</span> <span class="n">cl</span><span class="o">.</span><span class="n">recent</span>
+  <span class="n">console</span> <span class="o">=</span> <span class="n">Console</span><span class="p">()</span>
+
+  <span class="n">table</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;Upcoming&quot;</span><span class="p">)</span>
+  <span class="n">table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="s2">&quot;Name&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;cyan&quot;</span><span class="p">,</span> <span class="n">no_wrap</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+  <span class="c1"># table.add_column(&quot;Writers&quot;, style=&quot;magenta&quot;)</span>
+  <span class="n">table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="s2">&quot;Start&quot;</span><span class="p">)</span>
+  <span class="n">table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="s2">&quot;Before Start&quot;</span><span class="p">)</span>
+  <span class="n">table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="s2">&quot;Length&quot;</span><span class="p">)</span>
+  <span class="n">table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="s2">&quot;url&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;magenta&quot;</span><span class="p">)</span>
+
+  <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">cur</span><span class="p">:</span>
+    <span class="n">startTime</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">start_timestamp</span><span class="p">)</span>
+    <span class="n">timediff</span> <span class="o">=</span> <span class="n">startTime</span> <span class="o">-</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+    <span class="n">table</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span>
+        <span class="n">item</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+        <span class="c1"># item[&quot;writers&quot;],  # tds[1].get_text().strip(),</span>
+        <span class="c1"># https://strftime.org/</span>
+        <span class="c1"># Jan/27/2022 17:35 tds[2].get_text().strip(),</span>
+        <span class="n">startTime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">timeFmt</span><span class="p">),</span>
+        <span class="nb">str</span><span class="p">(</span><span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="n">timediff</span><span class="o">.</span><span class="n">days</span><span class="p">,</span> <span class="n">seconds</span><span class="o">=</span><span class="n">timediff</span><span class="o">.</span><span class="n">seconds</span><span class="p">))</span> <span class="k">if</span> <span class="n">timediff</span><span class="o">.</span><span class="n">days</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="k">else</span> <span class="s1">&#39;Started&#39;</span><span class="p">,</span>
+        <span class="n">min2str</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">duration</span><span class="p">),</span>  <span class="c1"># tds[3].get_text().strip(),</span>
+        <span class="n">full_url</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">url</span><span class="p">),</span>  <span class="c1"># tds[5].get_text().strip(),</span>
+    <span class="p">)</span>
+
+  <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
+
+  <span class="c1"># history</span>
+  <span class="n">table</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;History contests (Recent 10)&quot;</span><span class="p">)</span>
+  <span class="n">table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="s2">&quot;Name&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;cyan&quot;</span><span class="p">,</span> <span class="n">no_wrap</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+  <span class="c1"># table.add_column(&quot;Writers&quot;, style=&quot;magenta&quot;)</span>
+  <span class="n">table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="s2">&quot;Start&quot;</span><span class="p">)</span>
+  <span class="n">table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="s2">&quot;Length&quot;</span><span class="p">)</span>
+  <span class="n">table</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="s2">&quot;url&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;magenta&quot;</span><span class="p">)</span>
+
+  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">his</span><span class="p">))):</span>
+    <span class="n">item</span> <span class="o">=</span> <span class="n">his</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">table</span><span class="o">.</span><span class="n">add_row</span><span class="p">(</span>
+        <span class="n">item</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>  <span class="c1"># tds[0].get_text().strip(),</span>
+        <span class="c1"># item[&quot;writers&quot;],  # tds[1].get_text().strip(),</span>
+        <span class="c1"># https://strftime.org/</span>
+        <span class="c1"># Jan/27/2022 17:35 tds[2].get_text().strip(),</span>
+        <span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">start_timestamp</span><span class="p">)</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">timeFmt</span><span class="p">),</span>
+        <span class="n">min2str</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">duration</span><span class="p">),</span>  <span class="c1"># tds[3].get_text().strip(),</span>
+        <span class="n">full_url</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">url</span><span class="p">),</span>  <span class="c1"># tds[5].get_text().strip(),</span>
+    <span class="p">)</span>
+
+  <span class="n">console</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">table</span><span class="p">)</span></div>
 </pre></div>
         </article>
       </div>
